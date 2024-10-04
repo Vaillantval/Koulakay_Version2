@@ -1,0 +1,66 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Next Generation IT Academy</title>
+    <meta charset="utf-8">
+    <style>
+      .footer {
+          background-color: #f2f2f2;
+          padding: 20px;
+          text-align: center;
+      }
+      .footer img {
+          max-width: 100%;
+          height: auto;
+      }
+      .footer a {
+          color: #666;
+          text-decoration: none;
+      }
+      .footer a:hover {
+          color: #222;
+      }
+      .footer p {
+          margin: 0;
+          font-size: 14px;
+      }
+      .footer .icons {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 10px;
+      }
+      .footer .icons a {
+          margin: 0 10px;
+      }
+  </style>
+  </head>
+  <body>
+    <div>
+      <p style="text-align:center ;"><img src="https://{{current_site.domain}}{% static 'logo/Jhonny-01-.png' %}" alt="Next Generation IT Academy" style="width:200px; height:69px; "></p>
+
+      <h4>Dear {{manager.first_name}},</h4>
+      <p>We inform you that we have a new user who has registered on our website. The user's details are as follow:</p>
+      <p>First Name: {{user.first_name}}</p>
+      <p>Last Name: {{user.last_name}}</p>
+      <p>Email address: {{user.email}}</p>
+      <p>Phone: {{user.phone_number}}</p>
+      <p>Address: {{user.address}}, {{user.city}}, {{user.country}}</p>
+      <br>
+      <p>Best regards,</p>
+      <p>Next Generation IT Academy</p>
+
+    </div>
+    <div class="footer">
+      <div class="icons">
+        <a href="https://www.instagram.com/netxgenerationitacademy/"><img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-instagram-new-circle-512.png" alt="Instagram" style="width:25px;height:25px;"></a>
+        <a href="https://www.facebook.com/netxgenerationitacademy"><img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-facebook-circle-512.png" alt="Facebook" style="width:25px;height:25px;"></a>
+        <a href="https://www.linkedin.com/company/netxgenerationitacademy"><img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-linkedin-circle-512.png" alt="LinkedIn"style="width:25px;height:25px;" ></a>
+      </div>
+      <p><img src="https://{{current_site.domain}}{% static 'logo/Jhonny-01-.png' %}" alt="Next Generation IT Academy" style="width:200px; height:69px; "></p>
+      <p>Next Generation IT Academy<br>1234 Main Street<br>Anytown, USA 12345<br><a href="tel:+1234567890">123-456-7890</a></p>
+    </div>
+  </body>
+</html>

@@ -12,10 +12,10 @@ def generate_superuser(apps, schema_editor):
 
     user = get_user_model()
     
-    if not user.objects.filter(username=USERNAME).exists():
+    if not user.objects.filter(email=USERNAME).exists():
         logger.info("Creating new superuser")
         admin = user.objects.create_superuser(
-           username=USERNAME, password=PASSWORD, 
+           email=USERNAME, password=PASSWORD, 
         )
         admin.save()
     else:

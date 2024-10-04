@@ -405,8 +405,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "config/static",
 ]
 
-ADMIN_USER=os.getenv("ADMIN_USER","koulakay")
-ADMIN_PASSWORD=os.getenv("ADMIN_PASSWORD","admin12345koula^3Dr$#5")
+ADMIN_USER=os.getenv("ADMIN_USER","admin@koulakay.ht")
+ADMIN_PASSWORD=os.getenv("ADMIN_PASSWORD","admin12345")
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
