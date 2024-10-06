@@ -347,6 +347,10 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION=True
 
 AUTH_USER_MODEL = 'accounts.User'
 
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE=True
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
 ACCOUNT_FORMS = {
     'add_email': 'allauth.account.forms.AddEmailForm',
     'change_password': 'allauth.account.forms.ChangePasswordForm',
