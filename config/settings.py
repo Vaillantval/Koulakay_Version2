@@ -77,6 +77,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'import_export',
+    'pages',
+    'courses',
  
     # "anymail",
 
