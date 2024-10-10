@@ -431,5 +431,7 @@ EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
 #     "MAILJET_API_KEY": os.getenv('MAILJET_API_KEY','14bc4be8813fb712bcf5871ec6664225'),
 #     "MAILJET_SECRET_KEY":os.getenv('MAILJET_SECRET_KEY','17bd4d39407fb21719b674f187d591c2'),
 # }
-
+THINKIFIC = {
+    'AUTH_TOKEN':os.getenv('THINKIFIC_SECRET_KEY','test'),
+} 
 DEFAULT_FROM_EMAIL = ""
