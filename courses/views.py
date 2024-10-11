@@ -21,6 +21,6 @@ def course_enrollment(request,user_id,course_id):
             'activated_at':activated_at,
             'expiry_date':expiry_date
         })
-        Enrollment.objects.update_or_create(user_id=User.objects.get(pk=user_id),activated_at=activated_at)
+        Enrollment.objects.update_or_create(user_id=User.objects.get(pk=user_id),course_id=course_id,activated_at=activated_at,expiry_date=expiry_date)
 
     return redirect('courses')
