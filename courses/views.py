@@ -6,13 +6,15 @@ from .models import Enrollment
 from accounts.models import User
 from django.utils import timezone
 from datetime import timedelta
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def courses(request):
     # courses = thinkific.courses.list()
     return render(request,'pages/courses.html')
 
+@login_required
 def course_enrollment(request,user_id,course_id):
-    if request.method == 'POST':
+    if request.method == 'GET':
         activated_at=timezone.now()
         expiry_date=(timezone.now() + timedelta(days=30)) 
         thinkific.enrollments.create_enrollment({
