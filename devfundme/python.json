@@ -1,6 +1,6 @@
 {
     "deploy": {
-        "module": "config.wsgi:application",
+        "module": "config.wsgi:application", 
         "managetasks": [
             "collectstatic --no-input",
             "migrate --no-input"
