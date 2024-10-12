@@ -7,6 +7,7 @@ from accounts.models import User
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def courses(request):
     # courses = thinkific.courses.list()

@@ -1,20 +1,18 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
 
 <!-- Home -->
 
-	<div class="home">
-		<div class="home_background_container prlx_parent">
-			<div class="home_background prlx" 
-			style="background-image:url({% static 'images/slider_background.jpg' %})"
-			></div>
-		</div>
-		<div class="home_content">
-			<h1>Courses</h1>
-		</div>
+<div class="home">
+	<div class="home_background_container prlx_parent">
+		<div class="home_background prlx" style="background-image:url({% static 'images/courses_background.jpg' %})"></div>
 	</div>
+	<div class="home_content">
+		<h1>Courses</h1>
+	</div>
+</div>
 
 	<!-- Popular -->
 
