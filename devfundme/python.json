@@ -1,0 +1,9 @@
+{
+    "deploy": {
+        "module": "config.wsgi:application",
+        "managetasks": [
+            "collectstatic --no-input",
+            "migrate --no-input"
+        ]
+    }
+}
