@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_responsive.css' %}">
+{% endblock %}
+
 {% block content %}
 {% load static %}
-
 
 <!-- Home -->
 
