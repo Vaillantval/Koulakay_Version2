@@ -45,7 +45,7 @@
 
 </div>
 
-<div class="hero_boxes">
+{% comment %} <div class="hero_boxes">
     <div class="hero_boxes_inner">
         <div class="container">
             <div class="row">
@@ -83,7 +83,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> {% endcomment %}
 
 <!-- Popular -->
 
@@ -134,9 +134,9 @@
 
                 <div class="register_section d-flex flex-column align-items-center justify-content-center">
                     <div class="register_content text-center">
-                        <h1 class="register_title">Register now and get a discount <span>50%</span> discount until 1 January</h1>
+                        <h1 class="register_title">Register now!</h1>
                         <p class="register_text">In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempo.</p>
-                        <div class="button button_1 register_button mx-auto trans_200"><a href="#">register now</a></div>
+                        <div class="button button_1 register_button mx-auto trans_200"><a href="{% url 'account_signup' %}">register now</a></div>
                     </div>
                 </div>
 
@@ -166,7 +166,7 @@
 
 <!-- Services -->
 
-<div class="services page_section">
+{% comment %} <div class="services page_section">
     
     <div class="container">
         <div class="row">
@@ -229,11 +229,11 @@
 
         </div>
     </div>
-</div>
+</div> {% endcomment %}
 
 <!-- Testimonials -->
 
-<div class="testimonials page_section">
+{% comment %} <div class="testimonials page_section">
     <!-- <div class="testimonials_background" style="background-image:url({% static 'images/testimonials_background.jpg' %})"></div> -->
     <div class="testimonials_background_container prlx_parent">
         <div class="testimonials_background prlx" style="background-image:url({% static 'images/testimonials_background.jpg' %})"></div>
@@ -308,11 +308,11 @@
         </div>
 
     </div>
-</div>
+</div> {% endcomment %}
 
 <!-- Events -->
 
-<div class="events page_section">
+{% comment %} <div class="events page_section">
     <div class="container">
         
         <div class="row">
@@ -418,5 +418,5 @@
         </div>
             
     </div>
-</div>
+</div> {% endcomment %}
 {% endblock content %}

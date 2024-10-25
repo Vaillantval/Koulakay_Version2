@@ -1505,3 +1505,244 @@ input:last-of-type
 {
 	margin-right: 0px;
 }
+
+/* General button styling */
+.btn {
+    display: inline-block;
+    height: 40px;
+    border-radius: 0;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: none !important; /* Removes Bootstrap default shadow */
+    outline: none !important; /* Removes default outline */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+/* Success button customization */
+.btn-success,
+.btn-success:focus,
+.btn-success:active,
+.btn-success:focus:active {
+    background-color: black !important;
+    color: white !important;
+    border: 2px solid black !important;
+    box-shadow: none !important;
+}
+.btn-success:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+}
+
+/* Primary button customization */
+.btn-primary,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:focus:active {
+    background-color: orange !important;
+    color: white !important;
+    border: 2px solid orange !important;
+    box-shadow: none !important;
+}
+.btn-primary:hover {
+    background-color: white;
+    color: orange;
+    border-color: orange;
+}
+
+/* Warning button customization */
+.btn-warning,
+.btn-warning:focus,
+.btn-warning:active,
+.btn-warning:focus:active {
+    background-color: #FF8C00 !important;
+    color: white !important;
+    border: 2px solid #FF8C00 !important;
+    box-shadow: none !important;
+}
+.btn-warning:hover {
+    background-color: white;
+    color: #FF8C00;
+    border-color: #FF8C00;
+}
+
+/* Secondary button customization */
+.btn-secondary,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary:focus:active {
+    background-color: #D3D3D3 !important;
+    color: black !important;
+    border: 2px solid #D3D3D3 !important;
+    box-shadow: none !important;
+}
+.btn-secondary:hover {
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+
+/* Danger button customization */
+.btn-danger,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger:focus:active {
+    background-color: red !important;
+    color: white !important;
+    border: 2px solid red !important;
+    box-shadow: none !important;
+}
+.btn-danger:hover {
+    background-color: white;
+    color: red;
+    border-color: red;
+}
+
+/* General button styling for outline variants */
+.btn-outline {
+    display: inline-block;
+    height: 40px;
+    border-radius: 0;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Success outline button customization */
+.btn-outline-success,
+.btn-outline-success:focus,
+.btn-outline-success:active,
+.btn-outline-success:focus:active {
+    background-color: transparent !important;
+    color: black !important;
+    border: 2px solid black !important;
+    box-shadow: none !important;
+}
+.btn-outline-success:hover {
+    background-color: black !important;
+    color: white !important;
+}
+
+/* Primary outline button customization */
+.btn-outline-primary,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-outline-primary:focus:active {
+    background-color: transparent !important;
+    color: orange !important;
+    border: 2px solid orange !important;
+    box-shadow: none !important;
+}
+.btn-outline-primary:hover {
+    background-color: orange !important;
+    color: white !important;
+}
+
+/* Warning outline button customization */
+.btn-outline-warning,
+.btn-outline-warning:focus,
+.btn-outline-warning:active,
+.btn-outline-warning:focus:active {
+    background-color: transparent !important;
+    color: #FF8C00 !important;
+    border: 2px solid #FF8C00 !important;
+    box-shadow: none !important;
+}
+.btn-outline-warning:hover {
+    background-color: #FF8C00 !important;
+    color: white !important;
+}
+
+/* Secondary outline button customization */
+.btn-outline-secondary,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active,
+.btn-outline-secondary:focus:active {
+    background-color: transparent !important;
+    color: #D3D3D3 !important;
+    border: 2px solid #D3D3D3 !important;
+    box-shadow: none !important;
+}
+.btn-outline-secondary:hover {
+    background-color: #D3D3D3 !important;
+    color: black !important;
+}
+
+/* Danger outline button customization */
+.btn-outline-danger,
+.btn-outline-danger:focus,
+.btn-outline-danger:active,
+.btn-outline-danger:focus:active {
+    background-color: transparent !important;
+    color: red !important;
+    border: 2px solid red !important;
+    box-shadow: none !important;
+}
+.btn-outline-danger:hover {
+    background-color: red !important;
+    color: white !important;
+}
+
+/* Styles généraux pour tous les types d'entrées */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="file"],
+input[type="date"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="time"],
+input[type="color"],
+textarea,
+select {
+    display: inline-block;
+    width: 100%; /* Prend toute la largeur par défaut */
+    padding: 10px; /* Ajuster pour plus d’espace */
+    border-radius: 0; /* Coins carrés */
+    border: 1px solid #dedede; /* Bordure noire */
+    background-color: #f8f9fa; /* Couleur de fond claire */
+    color: #333; /* Couleur du texte */
+    font-weight: bold;
+    box-shadow: none; /* Supprime l’ombre par défaut */
+    outline: none;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* Effet au survol */
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="number"]:hover,
+input[type="file"]:hover,
+input[type="date"]:hover,
+input[type="tel"]:hover,
+input[type="url"]:hover,
+input[type="search"]:hover,
+input[type="time"]:hover,
+input[type="color"]:hover,
+textarea:hover,
+select:hover {
+    background-color: #e0e0e0; /* Fond légèrement plus foncé au survol */
+}
+
+/* Effet au focus */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus,
+input[type="date"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="time"]:focus,
+input[type="color"]:focus,
+textarea:focus,
+select:focus {
+    border-color: orange; /* Couleur de bordure en orange lorsqu'il est en focus */
+    background-color: #ffffff; /* Fond blanc au focus */
+}

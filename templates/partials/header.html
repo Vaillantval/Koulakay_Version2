@@ -1,10 +1,12 @@
+{% load static %}
 <header class="header d-flex flex-row">
     <div class="header_content d-flex flex-row align-items-center">
         <!-- Logo -->
         <div class="logo_container">
             <div class="logo">
-                <img src="images/logo.png" alt="">
-                <span>course</span>
+                <img  class="d-none d-md-block" src="{% static 'logo/koulakay.png' %}" alt="" style="height:30px">
+                <img  class="d-md-none" src="{% static 'logo/koulaka.png' %}" alt="" style="height:30px">
+                {% comment %} <span>course</span> {% endcomment %}
             </div>
         </div>
 
@@ -23,8 +25,18 @@
         </nav>
     </div>
     <div class="header_side d-flex flex-row justify-content-center align-items-center">
-        <i class="fas fa-phone text-white"></i>
-        <span>+43 4566 7788 2457</span>
+        {% comment %} <i class="fas fa-phone text-white"></i>
+        <span>+43 4566 7788 2457</span> {% endcomment %}
+        
+        {% if user.is_authenticated %}
+            <!-- Button trigger modal -->
+            <a type="button" class="btn" data-toggle="modal" data-target="#staticBackdrop">
+                <span><i class="fa fa-user-circle text-white"></i> {{user}}</span>
+            </a>
+        {% else %}
+            <a class="btn btn-outline-success mr-1" href="{% url 'account_login' %}">login</a>
+            <a class="btn btn-success" href="{% url 'account_signup' %}">register now</a>
+        {% endif %}
     </div>
 
     <!-- Hamburger -->
@@ -54,6 +66,10 @@
                 <li class="main_nav_item"><a href="{% url 'contact' %}">contact</a></li>
             </ul>
 
+            <!-- Button trigger modal -->
+            <a type="button" class="btn btn-outline-success mt-4" data-toggle="modal" data-target="#staticBackdrop">
+                <span><i class="fa fa-user-circle text-white"></i> {{user}}</span>
+            </a>
             <!-- Menu Social -->
             
             <div class="menu_social_container menu_mm">
@@ -71,4 +87,24 @@
 
     </div>
 
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">User Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <a class="btn btn-outline-danger" href="{% url 'account_logout' %}">logout</a>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+    </div>
 </div>
