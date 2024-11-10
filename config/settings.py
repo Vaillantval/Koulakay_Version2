@@ -48,6 +48,7 @@ ALLOWED_HOSTS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS=[
+    'https://koulakay.devfundme.online'
     
 ]
 
@@ -337,7 +338,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SOCIALACCOUNT_QUERY_EMAIL = True
 
-ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
@@ -432,6 +433,6 @@ EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
 #     "MAILJET_SECRET_KEY":os.getenv('MAILJET_SECRET_KEY','17bd4d39407fb21719b674f187d591c2'),
 # }
 THINKIFIC = {
-    'AUTH_TOKEN':os.getenv('THINKIFIC_SECRET_KEY','test'),
+    'AUTH_TOKEN':os.getenv('THINKIFIC_SECRET_KEY','c1699f4b4498b1c1fefd7b86604f9e68'),
 } 
 DEFAULT_FROM_EMAIL = ""
