@@ -99,24 +99,42 @@
 
         <div class="row course_boxes">
             {% for c in courses %}
-            <!-- Popular Course Item -->
-            <div class="col-lg-4 course_box">
-                <div class="card">
-                    <img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="https://unsplash.com/@kellybrito">
-                    <div class="card-body text-center">
-                        <div class="card-title"><a>A complete guide to design</a></div>
-                        <div class="card-text">Adobe Guide, Layes, Smart Objects etc...</div>
-                    </div>
-                    <div class="price_box d-flex flex-row align-items-center">
-                        <div class="course_author_image">
-                            <img src="{% static 'images/author.jpg' %}" alt="https://unsplash.com/@mehdizadeh">
-                        </div>
-                        <div class="course_author_name">Michael Smith, <span>Author</span></div>
-                        <div class="course_price d-flex flex-column align-items-center justify-content-center"><span>$29</span></div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+				<!-- Popular Course Item -->
+				<div class="col-lg-4 course_box">
+					<div class="card">
+						<img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="https://unsplash.com/@kellybrito">
+						<form method='POST' action="{% url "course_enrollment" c.id %}">
+							{% csrf_token %}
+						<div class="card-body text-center">
+							<div class="card-title">{{c.name}}</div>
+							<div class="card-text">{{c.description |truncatechars:40}}</div>
+						</div>
+						<div class="price_box d-flex flex-row align-items-center">
+							<div class="course_author_image">
+								<img src="{% static 'images/author.jpg' %}" alt="https://unsplash.com/@mehdizadeh">
+							</div>
+							{% if c.enroll %}
+							<div class="course_author_name">  <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{c.slug}}/texts/">See course</a></div>
+							<div class="course_author_name">
+								<a type="button" class="btn btn-outline-success mr-2" data-toggle="modal" data-target="#course_detail">
+									details
+								</a>
+							</div>
+							{% else %}
+							<div class="course_author_name">  <button class="btn btn-success" type="submit">Enroll</button></div>
+							<div class="course_author_name">
+								<a type="button" class="btn btn-outline-success mr-2" data-toggle="modal" data-target="#course_detail{{c.pk}}">
+									details
+								</a>
+							</div>
+							{% endif %}
+							<div class="course_price d-flex flex-column align-items-center justify-content-center"><span>$29</span></div>
+						</div>
+					</form>
+					</div>
+				</div>
+				{% include "partials/course_details.html" %}
+				{% endfor %}
         </div>
     </div>		
 </div>
@@ -136,7 +154,11 @@
                     <div class="register_content text-center">
                         <h1 class="register_title">Register now!</h1>
                         <p class="register_text">In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempo.</p>
+                        {% if user.is_authenticated %}
+                        {% else %}
                         <div class="button button_1 register_button mx-auto trans_200"><a href="{% url 'account_signup' %}">register now</a></div>
+                        
+                        {% endif %}
                     </div>
                 </div>
 
