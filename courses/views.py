@@ -35,7 +35,8 @@ def generate_paylink(request, transaction:Transaction):
     protocol = request.scheme
    
     amount = transaction.price
-    return_url = protocol + "://"+ domain + "/payment/confirm/"
+    return_url = protocol + "://"+ domain
+    webhooks_url=protocol + "://"+ domain + "/payment/confirm/"
     auth_token = "970bce3247a398006c10152d6ffc51d55eb4be88"  # Replace with your token management logic
 
     meta_data=transaction.meta_data
@@ -45,6 +46,7 @@ def generate_paylink(request, transaction:Transaction):
         "amount": amount,
         "note": transaction.meta_data['course']['course_name'],
         "return_url": return_url,
+        "webhooks_url":webhooks_url,
         "meta_data": meta_data,
     }
 

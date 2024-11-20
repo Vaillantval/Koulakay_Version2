@@ -29,7 +29,6 @@ def confirm(request):
                 transaction = Transaction.objects.get(transaction_number=transaction_number)
                 try:
                     transaction = Transaction.objects.get(transaction_number=transaction_number)
-                    print(transaction)
                 except:
                     return HttpResponseNotFound()
 
