@@ -20,7 +20,10 @@ from django.http import JsonResponse
 
 @csrf_exempt
 def confirm(request):
+    print("yes")
     if request.method == 'POST':
+        print("yes")
+        payload = json.loads(request.body)
         try:
             # Parse the incoming JSON payload
             payload = json.loads(request.body)
