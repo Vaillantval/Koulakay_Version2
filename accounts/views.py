@@ -9,7 +9,6 @@ class MySignupView(SignupView):
         plain_password = form.cleaned_data.get('password1')
         response = super().form_valid(form)
         
-
         thinkific.users.create_user({
             'email':self.user.email,
             'first_name':self.user.first_name,

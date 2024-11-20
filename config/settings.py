@@ -81,7 +81,7 @@ INSTALLED_APPS = [
     'import_export',
     'pages',
     'courses',
- 
+    'payment',
     # "anymail",
 
     # Optional -- requires install using `django-allauth[socialaccount]`.
