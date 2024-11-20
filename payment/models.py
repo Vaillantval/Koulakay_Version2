@@ -46,7 +46,7 @@ class Transaction(models.Model):
         EUR = 'EUR', _("EUR")
         GBP = 'GBP', _("GBP")
 
-    transaction_number = models.CharField(_('transaction number'),help_text='Ex:MPT0001',max_length=10,default=None,unique=True)
+    transaction_number = models.CharField(_('transaction number'),help_text='Ex:MPT0001',max_length=255,default=None,unique=True)
 
     price = models.DecimalField(_('price'),help_text=_('Ex: 1000'),max_length=255,max_digits=11,decimal_places=2,blank=False,default=1000)
     currency = models.CharField(_('currency'),max_length=25,choices=Currencies.choices,default=Currencies.USD,blank=False)
