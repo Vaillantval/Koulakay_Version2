@@ -36,7 +36,7 @@ def confirm(request):
                 try:
 
                     user     = get_user_model().objects.get(id=transaction.meta_data["user"]["id"])
-                    course_id = transaction.meta_data['courses']["course_id"]
+                    course_id = transaction.meta_data['course']["course_id"]
                     thinkific_user_id = transaction.meta_data['user']["thinkific_user_id"]
                     activated_at = timezone.now()
                     expiry_date = (timezone.now() + timedelta(days=30))
