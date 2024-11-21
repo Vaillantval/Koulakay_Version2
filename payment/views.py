@@ -26,7 +26,7 @@ def confirm(request):
         try:
             # Parse the incoming JSON payload
             payload = json.loads(request.body)
-            transaction_number=payload.get('transaction_number')
+            transaction_number=payload.get('paylink')['meta_data']['transaction_number']
             if transaction_number is not None:
                 try:
                     transaction = Transaction.objects.get(transaction_number=transaction_number)
@@ -58,7 +58,11 @@ def confirm(request):
                 transaction.status = Transaction.Status.COMPLETE
                 transaction.save()
 
-                return redirect("courses")
+                return JsonResponse({'success': True, 'error': 'Transaction save successfully'}, status=200)
+            
+            else:
+                return JsonResponse({'success': False, 'error': 'Transaction not found'}, status=404)
+            
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Invalid JSON payload'}, status=400)
 
