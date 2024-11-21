@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.http import HttpResponseNotFound 
+from django.http import HttpResponseNotFound ,HttpResponseNotAllowed
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -20,16 +20,14 @@ from django.http import JsonResponse
 
 @csrf_exempt
 def confirm(request):
-    print("yes")
+   
     if request.method == 'POST':
-        print("yes")
-        payload = json.loads(request.body)
+
         try:
             # Parse the incoming JSON payload
             payload = json.loads(request.body)
             transaction_number=payload.get('transaction_number')
             if transaction_number is not None:
-                transaction = Transaction.objects.get(transaction_number=transaction_number)
                 try:
                     transaction = Transaction.objects.get(transaction_number=transaction_number)
                 except:
@@ -66,4 +64,4 @@ def confirm(request):
 
 
     else:
-        return HttpResponseNotFound()
+        return HttpResponseNotAllowed(['POST'])
