@@ -20,7 +20,7 @@ def confirm(request):
         try:
             # Parse the incoming JSON payload
             payload = json.loads(request.body)
-            transaction_number=payload.get('paylink').get('meta_data').get('transaction_number')
+            transaction_number=payload.get('meta_data').get('transaction_number')
             
             if transaction_number is not None:
                 try:
