@@ -48,15 +48,17 @@ def confirm(request):
                     'expiry_date':expiry_date.isoformat()
                     })
                 
-                    enrollment=Enrollment.objects.create(user=user, thinkific_user_id=thinkific_user_id,course_id=course_id,activated_at=activated_at,expiry_date=expiry_date)
+                    enrollment,created=Enrollment.objects.update_or_create(user=user, thinkific_user_id=thinkific_user_id,course_id=course_id,activated_at=activated_at,expiry_date=expiry_date)
 
                     Payment.objects.create(user=user,enrollment=enrollment,transaction=transaction)
+
+                    transaction.status = Transaction.Status.COMPLETE
+                    transaction.save()
 
                 except get_user_model().DoesNotExist:
                     return HttpResponseNotFound()
                 
-                transaction.status = Transaction.Status.COMPLETE
-                transaction.save()
+               
 
                 return JsonResponse({'success': True, 'error': 'Transaction save successfully'}, status=200)
             
