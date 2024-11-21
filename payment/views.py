@@ -21,7 +21,7 @@ def confirm(request):
             # Parse the incoming JSON payload
             payload = json.loads(request.body)
             transaction_number=payload.get('paylink').get('meta_data').get('transaction_number')
-            print(transaction_number)
+            
             if transaction_number is not None:
                 try:
                     transaction = Transaction.objects.get(transaction_number=transaction_number)
@@ -30,7 +30,7 @@ def confirm(request):
 
                 try:
 
-                    user     = get_user_model().objects.get(id=transaction.meta_data.get("user").get("id"))
+                    user     = get_user_model().objects.get(pk=transaction.meta_data.get("user").get("id"))
                     course_id = transaction.meta_data.get('course').get("course_id")
                     thinkific_user_id = transaction.meta_data.get('user').get("thinkific_user_id")
                     activated_at = timezone.now()
