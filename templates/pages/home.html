@@ -45,7 +45,7 @@
 
 </div>
 
- <div class="hero_boxes">
+ {% comment %} <div class="hero_boxes">
     <div class="hero_boxes_inner">
         <div class="container">
             <div class="row">
@@ -65,28 +65,20 @@
                         <img src="{% static 'images/books.svg' %}" class="svg" alt="">
                         <div class="hero_box_content">
                             <h2 class="hero_box_title">Our Library</h2>
-                            <a href="courses.html" class="hero_box_link">view more</a>
+                            <a href="{% url "courses" %}" class="hero_box_link">view more</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 hero_box_col">
-                    <div class="hero_box d-flex flex-row align-items-center justify-content-start">
-                        <img src="{% static 'images/professor.svg' %}" class="svg" alt="">
-                        <div class="hero_box_content">
-                            <h2 class="hero_box_title">Our Teachers</h2>
-                            <a href="teachers.html" class="hero_box_link">view more</a>
-                        </div>
-                    </div>
-                </div>
+               
 
             </div>
         </div>
     </div>
-</div> 
+</div>  {% endcomment %}
 
 <!-- Popular -->
-<div class="popular page_section">
+<div class="popular mt-4">
     <div class="container">
         <div class="row">
             <div class="col">
@@ -136,14 +128,14 @@
 							{% if c.enroll %}
 							<div class="course_author_name">  <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{c.slug}}/texts/">See course</a></div>
 							<div class="course_author_name">
-								<a type="button" class="btn btn-outline-success mr-2" data-toggle="modal" data-target="#course_detail">
+								<a  href="{% url "course_details" c.id %}" class="btn btn-outline-success mr-2">
 									details
 								</a>
 							</div>
 							{% else %}
 							<div class="course_author_name">  <button class="btn btn-success" type="submit">Enroll</button></div>
 							<div class="course_author_name">
-								<a type="button" class="btn btn-outline-success mr-2" data-toggle="modal" data-target="#course_detail{{c.pk}}">
+								<a  href="{% url "course_details" c.id %}" class="btn btn-outline-success mr-2">
 									details
 								</a>
 							</div>
@@ -153,7 +145,7 @@
 					</form>
 					</div>
 				</div>
-				{% include "partials/course_details.html" %}
+				
 				{% endfor %}
         </div>
     </div>		
@@ -232,7 +224,7 @@
                     <img src="{% static 'images/exam.svg' %}" alt="">
                 </div>
                 <h3>Programmes de certification personnalisés</h3>
-                <p>2.Obtenez des certificats reconnus qui valident vos compétences et vos réalisations, renforçant ainsi votre profil professionnel et académique.</p>
+                <p>Obtenez des certificats reconnus qui valident vos compétences et vos réalisations, renforçant ainsi votre profil professionnel et académique.</p>
             </div>
 
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
@@ -240,7 +232,7 @@
                     <img src="{% static 'images/books.svg' %}" alt="">
                 </div>
                 <h3>Formation continue pour professionnels</h3>
-                <p>3.Des programmes spécialisés conçus pour répondre aux besoins des professionnels et des diplômés universitaires cherchant à progresser dans leur carrière ou à changer de domaine.</p>
+                <p>Des programmes spécialisés conçus pour répondre aux besoins des professionnels et des diplômés universitaires cherchant à progresser dans leur carrière ou à changer de domaine.</p>
             </div>
 
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">

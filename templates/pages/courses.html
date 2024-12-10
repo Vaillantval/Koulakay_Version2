@@ -50,14 +50,14 @@
 							{% if c.enroll %}
 							<div class="course_author_name">  <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{c.slug}}/texts/">See course</a></div>
 							<div class="course_author_name">
-								<a type="button" class="btn btn-outline-success mr-2" data-toggle="modal" data-target="#course_detail">
+								<a  href="{% url "course_details" c.id %}" class="btn btn-outline-success mr-2">
 									details
 								</a>
 							</div>
 							{% else %}
 							<div class="course_author_name">  <button class="btn btn-success" type="submit">Enroll</button></div>
 							<div class="course_author_name">
-								<a type="button" class="btn btn-outline-success mr-2" data-toggle="modal" data-target="#course_detail{{c.pk}}">
+								<a type="button"  href="{% url "course_details" c.id %}"  class="btn btn-outline-success mr-2">
 									details
 								</a>
 							</div>

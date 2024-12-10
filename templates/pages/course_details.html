@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_responsive.css' %}">
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="home">
+	<div class="home_background_container prlx_parent">
+		<div class="home_background prlx" style="background-image:url({% static 'images/courses_background.jpg' %})"></div>
+	</div>
+	<div class="home_content">
+		<h1>Details</h1>
+	</div>
+</div>
+<div class="container mt-4 mb-4">
+    <div class="col-12 text-center mb-4"><h1>{{course.name}}</div>
+    <div class="row">
+       
+        <div class="col-md-6 col-lg-4  col-12">
+            <img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="https://unsplash.com/@kellybrito" width="250">
+            <div class="col-12 text-center mb-5">
+                <h3> Instructeur: {{instructor.first_name}}  {{instructor.last_name}}<h3>
+           
+        </div>
+        </div>
+        <div class="col-md-8 col-lg-8 col-12">
+            <h1>Description</h1>
+            {{course.description}}
+            <form method='POST' action="{% url "course_enrollment" course.id %}">
+            <div class="mt-5">  <button class="btn btn-success" type="submit">Enroll</button></div>
+        </form>
+        </div>
+        
+    </div>
+
+</div>
+
+
+{% endblock %}
