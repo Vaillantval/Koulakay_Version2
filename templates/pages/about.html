@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_responsive.css' %}">
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!-- Home -->
+
+<div class="home">
+	<div class="home_background_container prlx_parent">
+		<div class="home_background prlx" style="background-image:url({% static 'images/courses_background.jpg' %})"></div>
+	</div>
+	<div class="home_content">
+		<h1>A propos</h1>
+	</div>
+</div>
+
+<!-- Popular -->
+<div class="popular page_section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="section_title text-center">
+                    <h1>Notre mission</h1>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <p><strong>
+                Notre mission chez KouLakay est de rendre l'éducation de qualité accessible à tous, en permettant à chacun de réaliser son plein potentiel. Nous sommes dédiés à la création d'une expérience d'apprentissage transformative en proposant des ressources éducatives engageantes, culturellement pertinentes et pratiques.
+                En combinant innovation, inclusion et collaboration, KouLakay vise à combler les lacunes éducatives, à promouvoir l'apprentissage tout au long de la vie, et à fournir aux apprenants les connaissances et les compétences nécessaires pour prospérer dans un monde en constante évolution. Par des partenariats avec des éducateurs, des institutions et des communautés, nous nous engageons à façonner un avenir où l'éducation est un droit, non un privilège.            </strong>
+            </p>
+        </div>
+        <hr>
+        <div class="row ">
+            <div class="col">
+                <div class="section_title text-center">
+                    <h1>Notre vision</h1>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <p class="fs-2"><strong>
+                Notre vision chez KouLakay est de devenir la plateforme de référence pour une éducation inclusive et accessible à travers le monde. Nous aspirons à transformer la manière d'apprendre en créant une connexion fluide entre des ressources éducatives de qualité, une technologie innovante et une communauté d'apprentissage solidaire.
+                Nous imaginons un avenir où chaque individu, quel que soit son parcours ou sa localisation, a l'opportunité de libérer son potentiel grâce à l'éducation. En favorisant une culture de partage des connaissances et d'autonomisation, KouLakay souhaite contribuer à un monde plus équitable, porté par des apprenants informés, compétents et inspirés.
+               </strong>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="services ">
+    
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="section_title text-center">
+                    <h1>Nos valeurs fondamentales</h1>
+                    <p>Chez KouLakay, nos valeurs fondamentales définissent qui nous sommes et guident toutes nos actions. Ces principes façonnent notre engagement envers les apprenants, les éducateurs et les communautés</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row services_row">
+
+            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                <div class="icon_container d-flex flex-column justify-content-end">
+                    <img src="{% static 'images/earth-globe.svg' %}" alt="">
+                </div>
+                <h3>Accessibilité </h3>
+                <p>Nous croyons que l'éducation est un droit, non un privilège. Nous nous engageons à éliminer les obstacles à l'apprentissage en proposant des ressources éducatives accessibles et inclusives.</p>
+            </div>
+            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                <div class="icon_container d-flex flex-column justify-content-end">
+                    <img src="{% static 'images/earth-globe.svg' %}" alt="">
+                </div>
+                <h3>Innovation  </h3>
+                <p>2.En exploitant des technologies de pointe, nous nous efforçons de créer des expériences d'apprentissage dynamiques, engageantes et efficaces qui inspirent la croissance et l'adaptabilité dans un monde en constante évolution.</p>
+            </div>
+            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                <div class="icon_container d-flex flex-column justify-content-end">
+                    <img src="{% static 'images/earth-globe.svg' %}" alt="">
+                </div>
+                <h3>Collaboration  </h3>
+                <p>Nous valorisons les partenariats et l'engagement communautaire, travaillant main dans la main avec des éducateurs, des institutions et des parties prenantes pour co-créer des opportunités éducatives percutantes.</p>
+            </div>
+            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                <div class="icon_container d-flex flex-column justify-content-end">
+                    <img src="{% static 'images/earth-globe.svg' %}" alt="">
+                </div>
+                <h3>Pertinence culturelle</h3>
+                <p>Respectant et célébrant la culture haïtienne, nous développons des contenus qui résonnent avec la réalité de nos apprenants, favorisant la fierté et le lien à travers la langue et le contexte.</p>
+            </div>
+            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                <div class="icon_container d-flex flex-column justify-content-end">
+                    <img src="{% static 'images/earth-globe.svg' %}" alt="">
+                </div>
+                <h3>Autonomisation  </h3>
+                <p>Nous nous consacrons à équiper les individus des connaissances et des compétences nécessaires pour libérer leur potentiel, atteindre leurs objectifs et contribuer de manière significative à la société.</p>
+            </div>
+            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                <div class="icon_container d-flex flex-column justify-content-end">
+                    <img src="{% static 'images/earth-globe.svg' %}" alt="">
+                </div>
+                <h3>Excellence  </h3>
+                <p>Notre engagement envers la qualité nous pousse à fournir des ressources et des expériences d'apprentissage exceptionnelles qui répondent aux normes les plus élevées d'intégrité éducative.</p>
+            </div>
+            <div class="col-lg-12 d-flex flex-column align-items-center justify-content-center ">
+            <div class="col-lg-4 service_item text-left ">
+                <div class="icon_container d-flex flex-column justify-content-end">
+                    <img src="{% static 'images/earth-globe.svg' %}" alt="">
+                </div>
+                <h3>Durabilité   </h3>
+                <p>7.Nous visons à créer un impact durable en promouvant l'apprentissage tout au long de la vie et en bâtissant un modèle pérenne pour le développement éducatif.</p>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
