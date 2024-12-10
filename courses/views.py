@@ -1,18 +1,15 @@
 from django.shortcuts import render, redirect
-from thinkific import Thinkific
+from .monkey_patch.patch_thinkific import ThinkificExtend
 from django.conf import settings
 from .models import Enrollment
-from accounts.models import User
-from django.utils import timezone
-from datetime import timedelta
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-thinkific = Thinkific(settings.THINKIFIC['AUTH_TOKEN'],settings.THINKIFIC['SITE_ID'])
+thinkific = ThinkificExtend(settings.THINKIFIC['AUTH_TOKEN'],settings.THINKIFIC['SITE_ID'])
 from payment.models import Transaction
-from django.db.models import Q
 from django.contrib.sites.shortcuts import get_current_site
 import requests
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 
 # Create your views here.
 def courses(request):
@@ -111,3 +108,11 @@ def search_course(request):
             list_found.append(c)
 
     return render(request,'pages/search_courses.html',{'courses':list_found,'q':q})
+
+
+def course_details(request,course_id):
+    course = thinkific.courses.retrieve_course(id=course_id)
+  
+    instructor = thinkific.instructors.retrieve_instructor(id=course['instructor_id'])
+   
+    return render(request,'pages/course_details.html',{'course':course,'instructor':instructor})
