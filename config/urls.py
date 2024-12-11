@@ -18,10 +18,25 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
+from django.conf.urls.static import static
+from django.conf.urls.i18n import i18n_patterns
+
+admin.autodiscover()
+
+from  django.contrib.sitemaps.views import sitemap
+
 urlpatterns = [
+    path("sitemap.xml", sitemap, name="sitemap-xml"),
+]
+
+urlpatterns += i18n_patterns(
     path('', include('pages.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('payment/', include('payment.urls')),
     path('courses/', include('courses.urls')),
-]
+    
+    # prefix_default_language=False
+)
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,7 @@
 {% load static %}
+{% load i18n %}
+{% load i18n_urls %}
+{% load dfm_tags %}
 <header class="header d-flex flex-row">
     <div class="header_content d-flex flex-row align-items-center">
         <!-- Logo -->
@@ -27,7 +30,7 @@
     <div class="header_side d-flex flex-row justify-content-center align-items-center">
         {% comment %} <i class="fas fa-phone text-white"></i>
         <span>+43 4566 7788 2457</span> {% endcomment %}
-        
+        <div class="d-flex flex-row justify-content-center align-items-center">
         {% if user.is_authenticated %}
             <!-- Button trigger modal -->
             <a type="button" class="btn" data-toggle="modal" data-target="#staticBackdrop">
@@ -37,6 +40,30 @@
             <a class="btn btn-outline-success mr-1" href="{% url 'account_login' %}">login</a>
             <a class="btn btn-success" href="{% url 'account_signup' %}">register now</a>
         {% endif %}
+        </div>
+
+        <!-- Language Dropdown -->
+        <div class="dropdown">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+            <a id="languagesDropdown" class="nav-link dropdown-toggle text-white d-flex flex-row justify-content-center align-items-center" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-globe"></i>
+                <span>{{ LANGUAGE_CODE|capfirst }}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right m-auto mt-md-3 mt-3 px-1 py-1"
+                 style="max-width: 300px; background-color:#DFF2FF;">
+                {% for language in languages %}
+                    <a class="dropdown-item {% if language.code == LANGUAGE_CODE %} text-white {% endif %}"
+                       {% if language.code == LANGUAGE_CODE %}
+                       style="background-color:#27285C; border-radius: 5px; overflow: hidden;" {% endif %}
+                       href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
+                        {{ language.name_local }} ({{ language.code }})
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
     <!-- Hamburger -->
@@ -81,8 +108,6 @@
                     <li class="menu_social_item menu_mm"><a href="#"><i class="fab fa-twitter"></i></a></li>
                 </ul>
             </div>
-
-            <div class="menu_copyright menu_mm">Colorlib All rights reserved</div>
         </div>
 
     </div>
