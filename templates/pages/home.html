@@ -184,7 +184,7 @@
                     <div class="search_background" style="background-image:url({% static 'images/search_background.jpg' %});"></div>
                     <div class="search_content text-center">
                         <h1 class="search_title">Search for your course</h1>
-                        <form id="search_form" class="search_form" action="{% url "search_course" %}">
+                        <form id="search_form" class="search_form" action="{% url "courses" %}">
                             <input id="search_form_name" class="input_field search_form_name" name="q" type="text" placeholder="Course Name" required="required" data-error="Course name is required.">
                             <button id="search_submit_button" type="submit" class="search_submit_button trans_200" value="Submit">search course</button>
                         </form>
