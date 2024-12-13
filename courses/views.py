@@ -14,6 +14,8 @@ from django.http import JsonResponse
 # Create your views here.
 def courses(request):
     courses = thinkific.courses.list()
+    category = thinkific.collections.list_collections()
+    category_items = category['items']
     courses_items = courses['items']
     paginator = Paginator(courses_items, 5)  # Show 25 contacts per page.
     page_number = request.GET.get("page")
@@ -24,8 +26,34 @@ def courses(request):
             e = Enrollment.objects.filter(user=request.user.pk,course_id=c['id'])
             if e :
                 c['enroll']=True
+   
+    if request.method == "POST":
+        
+        q = request.POST.get('q',None)
+        product_ids=request.POST.get('products',None)
+        list_found = []
+        if product_ids:
+            id_list = product_ids.strip("[]").split(", ")
 
-    return render(request,'pages/courses.html',{'courses':page_obj})
+            # Convert the IDs from strings to integers
+            id_list = [int(id) for id in id_list]
+            
+            courses_items = courses['items']
+            matched_items = [item for item in courses_items if 'product_id' in item and item['product_id'] in id_list]
+            return render(request,'pages/courses.html',{'courses':matched_items,'category_items':category_items})
+        
+        if q == None:
+            return render(request,'pages/courses.html',{'category_items':category_items})
+        
+        for c in courses_items:
+
+            if q in c['name']:
+                q = c['name']
+                list_found.append(c)
+
+        return render(request,'pages/courses.html',{'courses':list_found,'category_items':category_items,'q':q})
+    
+    return render(request,'pages/courses.html',{'courses':page_obj,'category_items':category_items})
 
 def generate_paylink(request, transaction:Transaction):
     domain = get_current_site(request).domain
@@ -92,22 +120,7 @@ def course_enrollment(request,course_id):
     return redirect('courses')
 
 
-def search_course(request):
-    q = request.GET.get('q',None)
-    courses = thinkific.courses.list()
-    list_found =[]
-    courses_items = courses['items']
-    
-    if q == None:
-        return render(request,'pages/search_courses.html')
-    
-    for c in courses_items:
 
-        if q in c['name']:
-            q = c['name']
-            list_found.append(c)
-
-    return render(request,'pages/search_courses.html',{'courses':list_found,'q':q})
 
 
 def course_details(request,course_id):

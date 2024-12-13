@@ -30,8 +30,39 @@
 					</div>
 				</div>
 			</div>
-
+			<div class="row">
+				<div class="col text-center">
+					<div class="newsletter_form_container mx-auto">
+						<form method="POST" action="{% url "courses" %}">
+							{% csrf_token %}
+							<div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-center">
+								<input id="newsletter_email" class="newsletter_email" type="text" name="q" placeholder="Course's Name" required value="{{q}}" data-error="Valid email is required.">
+								<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">Search</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 mt-2">
+				<ul class="list-group">
+					<div class="row d-flex justify-content-center">
+						<form method="POST" action="{% url "courses" %}">
+							{% csrf_token %}
+					{% for c in category_items %}
+					
+					<li class="list-group-item m-2">
+						<button id="newsletter_submit" name="products" value="{{c.product_ids}}" type="submit" class="newsletter_submit_btn trans_300" value="Submit">
+							{{c.name}}
+						</button>
+						</li>
+				
+					{% endfor %}
+					</div>
+				</form>
+			  </ul>
+			</div>
 			<div class="row course_boxes">
+				
 				{% for c in courses %}
 				<!-- Popular Course Item -->
 				<div class="col-lg-4 course_box">
