@@ -34,7 +34,7 @@
         {% if user.is_authenticated %}
             <!-- Button trigger modal -->
             <a type="button" class="btn" data-toggle="modal" data-target="#staticBackdrop">
-                <span><i class="fa fa-user-circle text-white"></i> {{user}}</span>
+                <span><i class="fa fa-user-circle text-white"></i> {{user|truncatechars:9}}</span>
             </a>
         {% else %}
             <a class="btn btn-outline-success mr-1" href="{% url 'account_login' %}">login</a>
