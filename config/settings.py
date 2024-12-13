@@ -209,6 +209,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -433,7 +434,7 @@ EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
 #     "MAILJET_SECRET_KEY":os.getenv('MAILJET_SECRET_KEY','17bd4d39407fb21719b674f187d591c2'),
 # }
 THINKIFIC = {
-    'AUTH_TOKEN':os.getenv('THINKIFIC_SECRET_KEY','demo'),
-    'SITE_ID':os.getenv('SITE_ID','demo')
+    'AUTH_TOKEN':os.getenv('THINKIFIC_SECRET_KEY','c1699f4b4498b1c1fefd7b86604f9e68'),
+    'SITE_ID':os.getenv('SITE_ID','max-s-site-7ef4')
 } 
 DEFAULT_FROM_EMAIL = ""
