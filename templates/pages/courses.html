@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block head %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/courses_styles.css' %}">
@@ -15,97 +16,99 @@
 		<div class="home_background prlx" style="background-image:url({% static 'images/courses_background.jpg' %})"></div>
 	</div>
 	<div class="home_content">
-		<h1>Courses</h1>
+		<h1>{% trans "Courses" %}</h1>
 	</div>
 </div>
 
-	<!-- Popular -->
+<!-- Popular -->
+<div class="popular page_section">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="section_title text-center">
+					<h1>{% trans "Popular Courses" %}</h1>
+				</div>
+			</div>
+		</div>
 
-	<div class="popular page_section">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title text-center">
-						<h1>Popular Courses</h1>
-					</div>
+		<!-- Search Form -->
+		<div class="row">
+			<div class="col text-center">
+				<div class="newsletter_form_container mx-auto">
+					<form method="POST" action="{% url 'courses' %}">
+						{% csrf_token %}
+						<div class="newsletter_form d-flex flex-md-row flex-column align-items-center justify-content-center">
+							<input id="newsletter_email" class="newsletter_email" type="text" name="q" placeholder="{% trans "Course's Name" %}" required value="{{ q }}">
+							<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300">{% trans "Search" %}</button>
+						</div>
+					</form>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col text-center">
-					<div class="newsletter_form_container mx-auto">
-						<form method="POST" action="{% url "courses" %}">
-							{% csrf_token %}
-							<div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-center">
-								<input id="newsletter_email" class="newsletter_email" type="text" name="q" placeholder="Course's Name" required value="{{q}}" data-error="Valid email is required.">
-								<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">Search</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="col-12 mt-2">
-				<ul class="list-group">
-					<div class="row d-flex justify-content-center">
-						<form method="POST" action="{% url "courses" %}">
-							{% csrf_token %}
-					{% for c in category_items %}
-					
-					<li class="list-group-item m-2">
-						<button id="newsletter_submit" name="products" value="{{c.product_ids}}" type="submit" class="newsletter_submit_btn trans_300" value="Submit">
-							{{c.name}}
-						</button>
+		</div>
+
+		<!-- Category Filter -->
+		<div class="col-12 mt-2">
+			<ul class="list-group">
+				<div class="row d-flex justify-content-center">
+					<form method="POST" action="{% url 'courses' %}">
+						{% csrf_token %}
+						{% for c in category_items %}
+						<li class="list-group-item m-2">
+							<button name="products" value="{{ c.product_ids }}" type="submit" class="btn btn-outline-primary">
+								{{ c.name }}
+							</button>
 						</li>
-				
+					{% endfor %}
 					{% endfor %}
 					</div>
-				</form>
-			  </ul>
-			</div>
+						{% endfor %}
+					</div>
+					</form>
+				</div>
+			</ul>
+		</div>
+
+		<!-- Course List -->
+			<div class="row course_boxes">
 			<div class="row course_boxes">
 				
-				{% for c in courses %}
-				<!-- Popular Course Item -->
-				<div class="col-lg-4 course_box">
-					<div class="card">
-						<img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="https://unsplash.com/@kellybrito">
-						<form method='POST' action="{% url "course_enrollment" c.id %}">
-							{% csrf_token %}
+		<div class="row course_boxes">
+				
+			{% for c in courses %}
+			<!-- Course Item -->
+			<div class="col-lg-4 course_box">
+				<div class="card">
+					<img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="{% trans "Course Image" %}">
+					<form method="POST" action="{% url 'course_enrollment' c.id %}">
+						{% csrf_token %}
 						<div class="card-body text-center">
-							<div class="card-title">{{c.name}}</div>
-							<div class="card-text">{{c.description |truncatechars:40}}</div>
+							<div class="card-title">{{ c.name }}</div>
+							<div class="card-text">{{ c.description|truncatechars:40 }}</div>
 						</div>
 						<div class="price_box d-flex flex-row align-items-center">
 							<div class="course_author_image">
-								<img src="{% static 'images/author.jpg' %}" alt="https://unsplash.com/@mehdizadeh">
+								<img src="{% static 'images/author.jpg' %}" alt="{% trans "Author" %}">
 							</div>
-							{% if c.enroll %}
-							<div class="course_author_name">  <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{c.slug}}/texts/">See course</a></div>
 							<div class="course_author_name">
-								<a  href="{% url "course_details" c.id %}" class="btn btn-outline-success mr-2">
-									details
-								</a>
+								{% if c.enroll %}
+								<a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{ c.slug }}/texts/">{% trans "See course" %}</a>
+								<a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2">{% trans "Details" %}</a>
+								{% else %}
+								<button class="btn btn-success" type="submit">{% trans "Enroll" %}</button>
+								<a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2">{% trans "Details" %}</a>
+								{% endif %}
 							</div>
-							{% else %}
-							<div class="course_author_name">  <button class="btn btn-success" type="submit">Enroll</button></div>
-							<div class="course_author_name">
-								<a type="button"  href="{% url "course_details" c.id %}"  class="btn btn-outline-success mr-2">
-									details
-								</a>
+							<div class="course_price d-flex flex-column align-items-center justify-content-center">
+								<span>$29</span>
 							</div>
-							{% endif %}
-							<div class="course_price d-flex flex-column align-items-center justify-content-center"><span>$29</span></div>
 						</div>
 					</form>
-					</div>
 				</div>
-				{% include "partials/course_details.html" %}
-				{% endfor %}
 			</div>
-		</div>		
-	</div>
+			{% include "partials/course_details.html" %}
+			{% endfor %}
+		</div>
+	</div>		
+</div>
 
-
-
-
-  
 {% endblock content %}

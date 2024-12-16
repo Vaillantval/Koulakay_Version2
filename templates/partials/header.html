@@ -7,9 +7,8 @@
         <!-- Logo -->
         <div class="logo_container">
             <div class="logo">
-                <img  class="d-none d-md-block" src="{% static 'logo/koulakay.png' %}" alt="" style="height:30px">
-                <img  class="d-md-none" src="{% static 'logo/koulaka.png' %}" alt="" style="height:30px">
-                {% comment %} <span>course</span> {% endcomment %}
+                <img class="d-none d-md-block" src="{% static 'logo/koulakay.png' %}" alt="{% trans 'Logo de Koulakay' %}" style="height:30px">
+                <img class="d-md-none" src="{% static 'logo/koulaka.png' %}" alt="{% trans 'Logo de Koulakay mobile' %}" style="height:30px">
             </div>
         </div>
 
@@ -17,29 +16,25 @@
         <nav class="main_nav_container">
             <div class="main_nav">
                 <ul class="main_nav_list">
-                    <li class="main_nav_item"><a href="{% url 'home' %}">Accueil</a></li>
-                    <li class="main_nav_item"><a href="{% url "about" %}">A propos</a></li> 
-                    <li class="main_nav_item"><a href="{% url 'courses' %}">Cours</a></li>
-                    <!-- <li class="main_nav_item"><a href="elements.html">elements</a></li> -->
-                    <!-- <li class="main_nav_item"><a href="news.html">news</a></li> -->
-                    <li class="main_nav_item"><a href="{% url 'contact' %}">Contact</a></li>
+                    <li class="main_nav_item"><a href="{% url 'home' %}">{% trans 'Accueil' %}</a></li>
+                    <li class="main_nav_item"><a href="{% url 'about' %}">{% trans 'À propos' %}</a></li>
+                    <li class="main_nav_item"><a href="{% url 'courses' %}">{% trans 'Cours' %}</a></li>
+                    <li class="main_nav_item"><a href="{% url 'contact' %}">{% trans 'Contact' %}</a></li>
                 </ul>
             </div>
         </nav>
     </div>
     <div class="header_side d-flex flex-row justify-content-center align-items-center">
-        {% comment %} <i class="fas fa-phone text-white"></i>
-        <span>+43 4566 7788 2457</span> {% endcomment %}
         <div class="d-flex flex-row justify-content-center align-items-center">
-        {% if user.is_authenticated %}
-            <!-- Button trigger modal -->
-            <a type="button" class="btn" data-toggle="modal" data-target="#staticBackdrop">
-                <span><i class="fa fa-user-circle text-white"></i> {{user|truncatechars:9}}</span>
-            </a>
-        {% else %}
-            <a class="btn btn-outline-success mr-1" href="{% url 'account_login' %}">login</a>
-            <a class="btn btn-success" href="{% url 'account_signup' %}">register now</a>
-        {% endif %}
+            {% if user.is_authenticated %}
+                <!-- Button trigger modal -->
+                <a type="button" class="btn" data-toggle="modal" data-target="#staticBackdrop">
+                    <span><i class="fa fa-user-circle text-white"></i> {{ user|truncatechars:9 }}</span>
+                </a>
+            {% else %}
+                <a class="btn btn-outline-success mr-1" href="{% url 'account_login' %}">{% trans 'Connexion' %}</a>
+                <a class="btn btn-success" href="{% url 'account_signup' %}">{% trans 'Inscrivez-vous' %}</a>
+            {% endif %}
         </div>
 
         <!-- Language Dropdown -->
@@ -48,17 +43,17 @@
             {% get_available_languages as LANGUAGES %}
             {% get_language_info_list for LANGUAGES as languages %}
             <a id="languagesDropdown" class="nav-link dropdown-toggle text-white d-flex flex-row justify-content-center align-items-center" role="button"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-globe"></i>
                 <span>{{ LANGUAGE_CODE|capfirst }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right m-auto mt-md-3 mt-3 px-1 py-1"
-                 style="max-width: 300px; background-color:#DFF2FF;">
+                style="max-width: 300px; background-color:#f4f4f4;">
                 {% for language in languages %}
-                    <a class="dropdown-item {% if language.code == LANGUAGE_CODE %} text-white {% endif %}"
-                       {% if language.code == LANGUAGE_CODE %}
-                       style="background-color:#27285C; border-radius: 5px; overflow: hidden;" {% endif %}
-                       href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
+                    <a class="dropdown-item {% if language.code == LANGUAGE_CODE %} text-dark {% endif %}"
+                    {% if language.code == LANGUAGE_CODE %}
+                    style="background-color:orange; border-radius: 5px; overflow: hidden;" {% endif %}
+                    href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
                         {{ language.name_local }} ({{ language.code }})
                     </a>
                 {% endfor %}
@@ -70,12 +65,10 @@
     <div class="hamburger_container">
         <i class="fas fa-bars trans_200"></i>
     </div>
-
 </header>
 
 <!-- Menu -->
 <div class="menu_container menu_mm">
-
     <!-- Menu Close Button -->
     <div class="menu_close_container">
         <div class="menu_close"></div>
@@ -85,20 +78,46 @@
     <div class="menu_inner menu_mm">
         <div class="menu menu_mm">
             <ul class="menu_list menu_mm">
-                <li class="main_nav_item"><a href="{% url 'home' %}">Accueil</a></li>
-              <li class="main_nav_item"><a href="{% url "about" %}">A propos</a></li> 
-                <li class="main_nav_item"><a href="{% url 'courses' %}">Cours</a></li>
-                <!-- <li class="main_nav_item"><a href="elements.html">elements</a></li> -->
-                <!-- <li class="main_nav_item"><a href="news.html">news</a></li> -->
-                <li class="main_nav_item"><a href="{% url 'contact' %}">Contact</a></li>
+                <li class="main_nav_item"><a href="{% url 'home' %}">{% trans 'Accueil' %}</a></li>
+                <li class="main_nav_item"><a href="{% url 'about' %}">{% trans 'À propos' %}</a></li>
+                <li class="main_nav_item"><a href="{% url 'courses' %}">{% trans 'Cours' %}</a></li>
+                <li class="main_nav_item"><a href="{% url 'contact' %}">{% trans 'Contact' %}</a></li>
             </ul>
 
-            <!-- Button trigger modal -->
-            <a type="button" class="btn btn-outline-success mt-4" data-toggle="modal" data-target="#staticBackdrop">
-                <span><i class="fa fa-user-circle text-white"></i> {{user}}</span>
-            </a>
-            <!-- Menu Social -->
+            {% if user.is_authenticated %}
+                <!-- Button trigger modal -->
+                <a type="button" class="btn btn-outline-success mt-4" data-toggle="modal" data-target="#staticBackdrop">
+                    <span><i class="fa fa-user-circle text-white"></i> {{ user }}</span>
+                </a>
+            {% else %}
+                <a class="btn btn-outline-success mt-4" href="{% url 'account_login' %}">{% trans 'Connexion' %}</a>
+            {% endif %}
+
+            <!-- Language Dropdown -->
+            <div class="dropdown">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                <a id="languagesDropdown" class="nav-link dropdown-toggle text-dark d-flex flex-row justify-content-center align-items-center" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-globe"></i>
+                    <span>{% trans 'Language' %}</span> |
+                    <span>{{ LANGUAGE_CODE|capfirst }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right m-auto mt-md-3 mt-3 px-1 py-1"
+                    style="max-width: 300px; background-color:#f4f4f4;">
+                    {% for language in languages %}
+                        <a class="dropdown-item {% if language.code == LANGUAGE_CODE %} text-dark {% endif %}"
+                        {% if language.code == LANGUAGE_CODE %}
+                        style="background-color:orange; border-radius: 5px; overflow: hidden;" {% endif %}
+                        href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
+                            {{ language.name_local }} ({{ language.code }})
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
             
+            <!-- Menu Social -->
             <div class="menu_social_container menu_mm">
                 <ul class="menu_social menu_mm">
                     <li class="menu_social_item menu_mm"><a href="#"><i class="fab fa-pinterest"></i></a></li>
@@ -109,29 +128,26 @@
                 </ul>
             </div>
         </div>
-
     </div>
-
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">User Info</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{% trans 'Informations utilisateur' %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Fermer' %}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a class="btn btn-outline-danger" href="{% url 'account_logout' %}">{% trans 'Déconnexion' %}</a>
+                <a class="btn btn-outline-success" href="https://max-s-site-7ef4.thinkific.com">{% trans 'Profil de cours' %}</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Fermer' %}</button>
+            </div>
         </div>
-        <div class="modal-body">
-            <a class="btn btn-outline-danger" href="{% url 'account_logout' %}">logout</a>
-
-            <a class="btn btn-outline-success" href="https://max-s-site-7ef4.thinkific.com">Course Profile</a>
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-    </div>
     </div>
 </div>

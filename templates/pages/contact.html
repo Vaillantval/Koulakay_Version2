@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block head %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/contact_styles.css' %}">
@@ -14,7 +16,7 @@
 			<div class="home_background prlx" style="background-image:url({% static 'images/contact_background.jpg' %})"></div>
 		</div>
 		<div class="home_content">
-			<h1>Contact</h1>
+			<h1>{% trans "Contact" %}</h1>
 		</div>
 	</div>
 
@@ -27,14 +29,14 @@
 					
 					<!-- Contact Form -->
 					<div class="contact_form">
-						<div class="contact_title">Get in touch</div>
+						<div class="contact_title">{% trans "Get in touch" %}</div>
 
 						<div class="contact_form_container">
 							<form action="post">
-								<input id="contact_form_name" class="input_field contact_form_name" type="text" placeholder="Name" required="required" data-error="Name is required.">
-								<input id="contact_form_email" class="input_field contact_form_email" type="email" placeholder="E-mail" required="required" data-error="Valid email is required.">
-								<textarea id="contact_form_message" class="text_field contact_form_message" name="message" placeholder="Message" required="required" data-error="Please, write us a message."></textarea>
-								<button id="contact_send_btn" type="button" class="contact_send_btn trans_200" value="Submit">send message</button>
+								<input id="contact_form_name" class="input_field contact_form_name" type="text" placeholder="{% trans 'Name' %}" required="required" data-error="{% trans 'Name is required.' %}">
+								<input id="contact_form_email" class="input_field contact_form_email" type="email" placeholder="{% trans 'E-mail' %}" required="required" data-error="{% trans 'Valid email is required.' %}">
+								<textarea id="contact_form_message" class="text_field contact_form_message" name="message" placeholder="{% trans 'Message' %}" required="required" data-error="{% trans 'Please, write us a message.' %}"></textarea>
+								<button id="contact_send_btn" type="button" class="contact_send_btn trans_200" value="Submit">{% trans "Send message" %}</button>
 							</form>
 						</div>
 					</div>
@@ -43,8 +45,12 @@
 
 				<div class="col-lg-4">
 					<div class="about">
-						<div class="about_title">Join Courses</div>
-						<p class="about_text">In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus facilisis ultricies. Etiam eu purus nec eros varius luctus.</p>
+						<div class="about_title">{% trans "Join Courses" %}</div>
+						<p class="about_text">
+							{% blocktrans %}
+							In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus facilisis ultricies. Etiam eu purus nec eros varius luctus.
+							{% endblocktrans %}
+						</p>
 
 						<div class="contact_info">
 							<ul>
@@ -52,18 +58,19 @@
 									<div class="contact_info_icon">
 										<img src="images/placeholder.svg" alt="https://www.flaticon.com/authors/lucy-g">
 									</div>
-									Blvd Libertad, 34 m05200 Arévalo
+									{% trans "Blvd Libertad, 34 m05200 Arévalo" %}
 								</li>
 								<li class="contact_info_item">
 									<div class="contact_info_icon">
 										<img src="images/smartphone.svg" alt="https://www.flaticon.com/authors/lucy-g">
 									</div>
-									0034 37483 2445 322
+									{% trans "0034 37483 2445 322" %}
 								</li>
 								<li class="contact_info_item">
 									<div class="contact_info_icon">
 										<img src="images/envelope.svg" alt="https://www.flaticon.com/authors/lucy-g">
-									</div>hello@company.com
+									</div>
+									{% trans "hello@company.com" %}
 								</li>
 							</ul>
 						</div>

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+{% load i18n %}
 <div class="home">
 
     <!-- Hero Slider -->
@@ -12,7 +13,9 @@
                 <div class="hero_slide_background" style="background-image:url({% static 'images/slider_background.jpg' %})"></div>
                 <div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
                     <div class="hero_slide_content text-center">
-                        <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">Get your <span>Education</span> today!</h1>
+                        <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">
+                            {% blocktrans %}Get your <span>Education</span> today!{% endblocktrans %}
+                        </h1>
                     </div>
                 </div>
             </div>
@@ -22,7 +25,9 @@
                 <div class="hero_slide_background" style="background-image:url({% static 'images/slider_background.jpg' %})"></div>
                 <div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
                     <div class="hero_slide_content text-center">
-                        <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">Get your <span>Education</span> today!</h1>
+                        <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">
+                            {% blocktrans %}Get your <span>Education</span> today!{% endblocktrans %}
+                        </h1>
                     </div>
                 </div>
             </div>
@@ -32,50 +37,20 @@
                 <div class="hero_slide_background" style="background-image:url({% static 'images/slider_background.jpg' %})"></div>
                 <div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
                     <div class="hero_slide_content text-center">
-                        <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">Get your <span>Education</span> today!</h1>
+                        <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">
+                            {% blocktrans %}Get your <span>Education</span> today!{% endblocktrans %}
+                        </h1>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <div class="hero_slider_left hero_slider_nav trans_200"><span class="trans_200">prev</span></div>
-        <div class="hero_slider_right hero_slider_nav trans_200"><span class="trans_200">next</span></div>
+        <div class="hero_slider_left hero_slider_nav trans_200"><span class="trans_200">{% trans "prev" %}</span></div>
+        <div class="hero_slider_right hero_slider_nav trans_200"><span class="trans_200">{% trans "next" %}</span></div>
     </div>
 
 </div>
-
- {% comment %} <div class="hero_boxes">
-    <div class="hero_boxes_inner">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-lg-4 hero_box_col">
-                    <div class="hero_box d-flex flex-row align-items-center justify-content-start">
-                        <img src="{% static 'images/earth-globe.svg' %}" class="svg" alt="">
-                        <div class="hero_box_content">
-                            <h2 class="hero_box_title">Online Courses</h2>
-                            <a href="{% url "courses" %}" class="hero_box_link">view more</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 hero_box_col">
-                    <div class="hero_box d-flex flex-row align-items-center justify-content-start">
-                        <img src="{% static 'images/books.svg' %}" class="svg" alt="">
-                        <div class="hero_box_content">
-                            <h2 class="hero_box_title">Our Library</h2>
-                            <a href="{% url "courses" %}" class="hero_box_link">view more</a>
-                        </div>
-                    </div>
-                </div>
-
-               
-
-            </div>
-        </div>
-    </div>
-</div>  {% endcomment %}
 
 <!-- Popular -->
 <div class="popular mt-4">
@@ -83,17 +58,21 @@
         <div class="row">
             <div class="col">
                 <div class="section_title text-center">
-                    <h1>Qui sommes-nous ?</h1>
+                    <h1>{% trans "Qui sommes-nous ?" %}</h1>
                 </div>
             </div>
         </div>
         <div class="text-center">
             <p><strong>
-                KouLakay est une plateforme éducative novatrice conçue pour démocratiser l'accès à une éducation de qualité pour les élèves, les professionnels et les apprenants tout au long de la vie. Ancré dans la conviction que le savoir est une force, KouLakay propose des contenus interactifs et culturellement pertinents adaptés aux besoins d'un public diversifié.
-                Notre mission est de combler le fossé des ressources éducatives en offrant des cours de haute qualité pour favoriser l'apprentissage et le développement des compétences. En exploitant la technologie, nous visons à créer un environnement d'apprentissage inclusif et dynamique, accessible à tous, quel que soit l'emplacement ou le contexte.
-                Chez KouLakay, nous collaborons avec des éducateurs, des institutions et des leaders de l'industrie pour garantir que nos contenus soient percutants, pratiques et alignés avec les besoins du monde réel. Que vous soyez lycéen, diplômé universitaire ou professionnel à la recherche d'une formation continue, KouLakay est là pour accompagner votre réussite.
-            </strong>
-            </p>
+                {% blocktrans %}
+                KouLakay est une plateforme éducative novatrice conçue pour démocratiser l'accès à une éducation de qualité pour les élèves, les professionnels et les apprenants tout au long de la vie. 
+                Ancré dans la conviction que le savoir est une force, KouLakay propose des contenus interactifs et culturellement pertinents adaptés aux besoins d'un public diversifié.
+                Notre mission est de combler le fossé des ressources éducatives en offrant des cours de haute qualité pour favoriser l'apprentissage et le développement des compétences. 
+                En exploitant la technologie, nous visons à créer un environnement d'apprentissage inclusif et dynamique, accessible à tous, quel que soit l'emplacement ou le contexte.
+                Chez KouLakay, nous collaborons avec des éducateurs, des institutions et des leaders de l'industrie pour garantir que nos contenus soient percutants, pratiques et alignés avec les besoins du monde réel. 
+                Que vous soyez lycéen, diplômé universitaire ou professionnel à la recherche d'une formation continue, KouLakay est là pour accompagner votre réussite.
+                {% endblocktrans %}
+            </strong></p>
         </div>
     </div>
 </div>
@@ -104,182 +83,215 @@
         <div class="row">
             <div class="col">
                 <div class="section_title text-center">
-                    <h1>Popular Courses</h1>
+                    <h1>{% trans "Popular Courses" %}</h1>
                 </div>
             </div>
         </div>
-
         <div class="row course_boxes">
             {% for c in courses %}
-				<!-- Popular Course Item -->
-				<div class="col-lg-4 course_box">
-					<div class="card">
-						<img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="https://unsplash.com/@kellybrito">
-						<form method='POST' action="{% url "course_enrollment" c.id %}">
-							{% csrf_token %}
-						<div class="card-body text-center">
-							<div class="card-title">{{c.name}}</div>
-							<div class="card-text">{{c.description |truncatechars:40}}</div>
-						</div>
-						<div class="price_box d-flex flex-row align-items-center">
-							<div class="course_author_image">
-								<img src="{% static 'images/author.jpg' %}" alt="https://unsplash.com/@mehdizadeh">
-							</div>
-							{% if c.enroll %}
-							<div class="course_author_name">  <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{c.slug}}/texts/">See course</a></div>
-							<div class="course_author_name">
-								<a  href="{% url "course_details" c.id %}" class="btn btn-outline-success mr-2">
-									details
-								</a>
-							</div>
-							{% else %}
-							<div class="course_author_name">  <button class="btn btn-success" type="submit">Enroll</button></div>
-							<div class="course_author_name">
-								<a  href="{% url "course_details" c.id %}" class="btn btn-outline-success mr-2">
-									details
-								</a>
-							</div>
-							{% endif %}
-							<div class="course_price d-flex flex-column align-items-center justify-content-center"><span>$29</span></div>
-						</div>
-					</form>
-					</div>
-				</div>
-				
-				{% endfor %}
+                <div class="col-lg-4 course_box">
+                    <div class="card">
+                        <img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="{% trans 'Course image' %}">
+                        <form method='POST' action="{% url 'course_enrollment' c.id %}">
+                            {% csrf_token %}
+                            <div class="card-body text-center">
+                                <div class="card-title">{{ c.name }}</div>
+                                <div class="card-text">{{ c.description|truncatechars:40 }}</div>
+                            </div>
+                            <div class="price_box d-flex flex-row align-items-center">
+                                <div class="course_author_image">
+                                    <img src="{% static 'images/author.jpg' %}" alt="{% trans 'Author image' %}">
+                                </div>
+                                {% if c.enroll %}
+                                <div class="course_author_name">
+                                    <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{ c.slug }}/texts/">{% trans "See course" %}</a>
+                                </div>
+                                {% else %}
+                                <div class="course_author_name">
+                                    <button class="btn btn-success" type="submit">{% trans "Enroll" %}</button>
+                                </div>
+                                {% endif %}
+                                <div class="course_price d-flex flex-column align-items-center justify-content-center">
+                                    <span>${{ c.price }}</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>		
 </div>
 
 <!-- Register -->
 
+<!-- Register -->
 <div class="register">
-
     <div class="container-fluid">
-        
         <div class="row row-eq-height">
             <div class="col-lg-6 nopadding">
-                
-                <!-- Register -->
-
                 <div class="register_section d-flex flex-column align-items-center justify-content-center">
                     <div class="register_content text-center">
-                        <h1 class="register_title">Register now!</h1>
-                        <p class="register_text">In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempo.</p>
-                        {% if user.is_authenticated %}
-                        {% else %}
-                        <div class="button button_1 register_button mx-auto trans_200"><a href="{% url 'account_signup' %}">register now</a></div>
-                        
+                        <h1 class="register_title">{% trans "Register now!" %}</h1>
+                        <p class="register_text">
+                            {% blocktrans %}
+                            Join now to access quality courses that transform your learning experience.
+                            {% endblocktrans %}
+                        </p>
+                        {% if not user.is_authenticated %}
+                        <div class="button button_1 register_button mx-auto trans_200">
+                            <a href="{% url 'account_signup' %}">{% trans "Register now" %}</a>
+                        </div>
                         {% endif %}
                     </div>
                 </div>
-
             </div>
-
             <div class="col-lg-6 nopadding">
-                
-                <!-- Search -->
-
                 <div class="search_section d-flex flex-column align-items-center justify-content-center">
                     <div class="search_background" style="background-image:url({% static 'images/search_background.jpg' %});"></div>
                     <div class="search_content text-center">
-                        <h1 class="search_title">Search for your course</h1>
-                        <form id="search_form" class="search_form" action="{% url "courses" %}">
-                            <input id="search_form_name" class="input_field search_form_name" name="q" type="text" placeholder="Course Name" required="required" data-error="Course name is required.">
-                            <button id="search_submit_button" type="submit" class="search_submit_button trans_200" value="Submit">search course</button>
+                        <h1 class="search_title">{% trans "Search for your course" %}</h1>
+                        <form id="search_form" class="search_form" action="{% url 'courses' %}">
+                            <input id="search_form_name" class="input_field search_form_name" name="q" type="text" placeholder="{% trans 'Course Name' %}" required="required">
+                            <button id="search_submit_button" type="submit" class="search_submit_button trans_200" value="Submit">{% trans "Search course" %}</button>
                         </form>
                     </div> 
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-
 <!-- Services -->
 
- <div class="services page_section">
-    
+<div class="services page_section">
     <div class="container">
         <div class="row">
             <div class="col">
                 <div class="section_title text-center">
-                    <h1>Nos Services</h1>
+                    <h1>{% trans "Nos Services" %}</h1>
                 </div>
             </div>
         </div>
 
         <div class="row services_row">
 
+            <!-- Service 1 -->
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
                 <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/earth-globe.svg' %}" alt="">
+                    <img src="{% static 'images/earth-globe.svg' %}" alt="{% trans 'Icône d\'un globe terrestre' %}">
                 </div>
-                <h3>Cours en ligne interactifs</h3>
-                <p>Des cours de haute qualité en créole haïtien et dans d'autres langues, adaptés aux élèves, professionnels et apprenants tout au long de la vie. Ils incluent des vidéos engageantes, des quiz et des activités pratiques.</p>
+                <h3>{% trans "Cours en ligne interactifs" %}</h3>
+                <p>
+                    {% blocktrans %}
+                    Des cours de haute qualité en créole haïtien et dans d'autres langues, adaptés aux élèves,
+                    professionnels et apprenants tout au long de la vie. Ils incluent des vidéos engageantes, des quiz
+                    et des activités pratiques.
+                    {% endblocktrans %}
+                </p>
             </div>
 
+            <!-- Service 2 -->
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
                 <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/exam.svg' %}" alt="">
+                    <img src="{% static 'images/exam.svg' %}" alt="{% trans 'Icône d\'examen' %}">
                 </div>
-                <h3>Programmes de certification personnalisés</h3>
-                <p>Obtenez des certificats reconnus qui valident vos compétences et vos réalisations, renforçant ainsi votre profil professionnel et académique.</p>
+                <h3>{% trans "Programmes de certification personnalisés" %}</h3>
+                <p>
+                    {% blocktrans %}
+                    Obtenez des certificats reconnus qui valident vos compétences et vos réalisations, renforçant ainsi
+                    votre profil professionnel et académique.
+                    {% endblocktrans %}
+                </p>
             </div>
 
+            <!-- Service 3 -->
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
                 <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/books.svg' %}" alt="">
+                    <img src="{% static 'images/books.svg' %}" alt="{% trans 'Icône de livres' %}">
                 </div>
-                <h3>Formation continue pour professionnels</h3>
-                <p>Des programmes spécialisés conçus pour répondre aux besoins des professionnels et des diplômés universitaires cherchant à progresser dans leur carrière ou à changer de domaine.</p>
+                <h3>{% trans "Formation continue pour professionnels" %}</h3>
+                <p>
+                    {% blocktrans %}
+                    Des programmes spécialisés conçus pour répondre aux besoins des professionnels et des diplômés
+                    universitaires cherchant à progresser dans leur carrière ou à changer de domaine.
+                    {% endblocktrans %}
+                </p>
             </div>
 
+            <!-- Service 4 -->
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
                 <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/professor.svg' %}" alt="">
+                    <img src="{% static 'images/professor.svg' %}" alt="{% trans 'Icône de professeur' %}">
                 </div>
-                <h3>Solutions de formation B2B</h3>
-                <p>Modules d'apprentissage sur mesure pour les entreprises, axés sur le développement des compétences, la cohésion d'équipe et la croissance organisationnelle.</p>
+                <h3>{% trans "Solutions de formation B2B" %}</h3>
+                <p>
+                    {% blocktrans %}
+                    Modules d'apprentissage sur mesure pour les entreprises, axés sur le développement des compétences,
+                    la cohésion d'équipe et la croissance organisationnelle.
+                    {% endblocktrans %}
+                </p>
             </div>
 
+            <!-- Service 5 -->
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
                 <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/blackboard.svg' %}" alt="">
+                    <img src="{% static 'images/blackboard.svg' %}" alt="{% trans 'Icône de tableau noir' %}">
                 </div>
-                <h3>Soutien aux éducateurs</h3>
-                <p>Des outils, ressources et formations pour aider les enseignants à perfectionner leurs compétences pédagogiques et à intégrer la technologie dans leurs pratiques éducatives.</p>
+                <h3>{% trans "Soutien aux éducateurs" %}</h3>
+                <p>
+                    {% blocktrans %}
+                    Des outils, ressources et formations pour aider les enseignants à perfectionner leurs compétences
+                    pédagogiques et à intégrer la technologie dans leurs pratiques éducatives.
+                    {% endblocktrans %}
+                </p>
             </div>
 
+            <!-- Service 6 -->
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
                 <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/mortarboard.svg' %}" alt="">
+                    <img src="{% static 'images/mortarboard.svg' %}" alt="{% trans 'Icône de mortier et planche' %}">
                 </div>
-                <h3>Évaluation et validation des compétences</h3>
-                <p>Options d'évaluation sécurisées, en ligne et hybrides, pour valider les résultats d'apprentissage et les compétences, avec des points de service accrédités pour des évaluations en présentiel.</p>
+                <h3>{% trans "Évaluation et validation des compétences" %}</h3>
+                <p>
+                    {% blocktrans %}
+                    Options d'évaluation sécurisées, en ligne et hybrides, pour valider les résultats d'apprentissage et
+                    les compétences, avec des points de service accrédités pour des évaluations en présentiel.
+                    {% endblocktrans %}
+                </p>
             </div>
 
+            <!-- Service 7 -->
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
                 <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/mortarboard.svg' %}" alt="">
+                    <img src="{% static 'images/mortarboard.svg' %}" alt="{% trans 'Icône d\'engagement communautaire' %}">
                 </div>
-                <h3>Activités d'engagement communautaire</h3>
-                <p>Programmes récréatifs et pratiques, tels que des tournois d'échecs en ligne, des initiatives sportives et des ateliers agricoles, conçus pour compléter l'apprentissage formel.</p>
+                <h3>{% trans "Activités d'engagement communautaire" %}</h3>
+                <p>
+                    {% blocktrans %}
+                    Programmes récréatifs et pratiques, tels que des tournois d'échecs en ligne, des initiatives
+                    sportives et des ateliers agricoles, conçus pour compléter l'apprentissage formel.
+                    {% endblocktrans %}
+                </p>
             </div>
 
+            <!-- Service 8 -->
             <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
                 <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/mortarboard.svg' %}" alt="">
+                    <img src="{% static 'images/mortarboard.svg' %}" alt="{% trans 'Icône de partenariat' %}">
                 </div>
-                <h3>Partenariats de développement de contenu</h3>
-                <p>Collaborez avec nous pour créer et publier des contenus éducatifs culturellement pertinents et percutants.</p>
+                <h3>{% trans "Partenariats de développement de contenu" %}</h3>
+                <p>
+                    {% blocktrans %}
+                    Collaborez avec nous pour créer et publier des contenus éducatifs culturellement pertinents et
+                    percutants.
+                    {% endblocktrans %}
+                </p>
             </div>
         </div>
     </div>
-</div> 
+</div>
 
 <!-- Testimonials -->
-
 <div class="testimonials page_section">
     <!-- <div class="testimonials_background" style="background-image:url({% static 'images/testimonials_background.jpg' %})"></div> -->
     <div class="testimonials_background_container prlx_parent">
@@ -290,7 +302,7 @@
         <div class="row">
             <div class="col">
                 <div class="section_title text-center">
-                    <h1>Témoignages</h1>
+                    <h1>{% trans "Témoignages" %}</h1>
                 </div>
             </div>
         </div>
@@ -307,71 +319,17 @@
                         <div class="owl-item">
                             <div class="testimonials_item text-center">
                                 <div class="quote">“</div>
-                                <p class="testimonials_text">KouLakay a transformé mon parcours éducatif. Les cours sont faciles à suivre, et apprendre en créole haïtien rend l'expérience tellement plus accessible. Je me sens enfin connecté à des ressources éducatives de qualité qui répondent à mes besoins.</p>
+                                <p class="testimonials_text">
+                                    {% blocktrans %}
+                                    KouLakay a transformé mon parcours éducatif. Les cours sont faciles à suivre, et apprendre en créole haïtien rend l'expérience tellement plus accessible. Je me sens enfin connecté à des ressources éducatives de qualité qui répondent à mes besoins.
+                                    {% endblocktrans %}
+                                </p>
                                 <div class="testimonial_user">
                                     <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user.jpg' %}" alt="">
+                                        <img src="{% static 'images/testimonials_user.jpg' %}" alt="{% trans 'Image de l\'utilisateur' %}">
                                     </div>
-                                    <div class="testimonial_name">Marie J. </div>
-                                    <div class="testimonial_title">Lycéenne</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Testimonials Item -->
-                        <div class="owl-item">
-                            <div class="testimonials_item text-center">
-                                <div class="quote">“</div>
-                                <p class="testimonials_text">Les programmes de formation continue de KouLakay sont incroyablement utiles. Les compétences pratiques que j'ai acquises ont renforcé ma confiance et m'ont permis de progresser dans ma carrière.</p>
-                                <div class="testimonial_user">
-                                    <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user.jpg' %}" alt="">
-                                    </div>
-                                    <div class="testimonial_name">Jean P.</div>
-                                    <div class="testimonial_title">Analyste d'affaires</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Testimonials Item -->
-                        <div class="owl-item">
-                            <div class="testimonials_item text-center">
-                                <div class="quote">“</div>
-                                <p class="testimonials_text">Notre organisation a collaboré avec KouLakay pour former nos employés, et les résultats ont été exceptionnels. Les cours sur mesure et les certifications ont permis à notre équipe d'améliorer ses compétences et de travailler plus efficacement.</p>
-                                <div class="testimonial_user">
-                                    <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user.jpg' %}" alt="">
-                                    </div>
-                                    <div class="testimonial_name">Sophie L.</div>
-                                    <div class="testimonial_title">Responsable RH</div>
-                                </div>
-                            </div>
-                        </div>
-                         <!-- Testimonials Item -->
-                        <div class="owl-item">
-                            <div class="testimonials_item text-center">
-                                <div class="quote">“</div>
-                                <p class="testimonials_text">Je recommande vivement KouLakay pour sa flexibilité. J'ai pu apprendre à mon rythme, et les certificats obtenus ont apporté une vraie valeur ajoutée à mon CV.</p>
-                                <div class="testimonial_user">
-                                    <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user.jpg' %}" alt="">
-                                    </div>
-                                    <div class="testimonial_name">Claudine M.</div>
-                                    <div class="testimonial_title">Diplômée récente</div>
-                                </div>
-                            </div>
-                        </div>
-                         <!-- Testimonials Item -->
-                        <div class="owl-item">
-                            <div class="testimonials_item text-center">
-                                <div class="quote">“</div>
-                                <p class="testimonials_text">Les solutions de formation B2B proposées par KouLakay ont parfaitement répondu aux besoins de notre organisation. L'intégration d'exercices pratiques et d'activités d'équipe a rendu le processus d'apprentissage engageant et efficace.</p>
-                                <div class="testimonial_user">
-                                    <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user.jpg' %}" alt="">
-                                    </div>
-                                    <div class="testimonial_name">Pierre A.</div>
-                                    <div class="testimonial_title">PDG</div>
+                                    <div class="testimonial_name">{% trans "Marie J." %}</div>
+                                    <div class="testimonial_title">{% trans "Lycéenne" %}</div>
                                 </div>
                             </div>
                         </div>
@@ -384,114 +342,4 @@
 
     </div>
 </div>
-
-<!-- Events -->
-
-{% comment %} <div class="events page_section">
-    <div class="container">
-        
-        <div class="row">
-            <div class="col">
-                <div class="section_title text-center">
-                    <h1>Upcoming Events</h1>
-                </div>
-            </div>
-        </div>
-        
-        <div class="event_items">
-
-            <!-- Event Item -->
-            <div class="row event_item">
-                <div class="col">
-                    <div class="row d-flex flex-row align-items-end">
-
-                        <div class="col-lg-2 order-lg-1 order-2">
-                            <div class="event_date d-flex flex-column align-items-center justify-content-center">
-                                <div class="event_day">07</div>
-                                <div class="event_month">January</div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 order-lg-2 order-3">
-                            <div class="event_content">
-                                <div class="event_name"><a class="trans_200" href="#">Student Festival</a></div>
-                                <div class="event_location">Grand Central Park</div>
-                                <p>In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor.</p>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 order-lg-3 order-1">
-                            <div class="event_image">
-                                <img src="{% static 'images/event_1.jpg' %}" alt="https://unsplash.com/@theunsteady5">
-                            </div>
-                        </div>
-
-                    </div>	
-                </div>
-            </div>
-
-            <!-- Event Item -->
-            <div class="row event_item">
-                <div class="col">
-                    <div class="row d-flex flex-row align-items-end">
-
-                        <div class="col-lg-2 order-lg-1 order-2">
-                            <div class="event_date d-flex flex-column align-items-center justify-content-center">
-                                <div class="event_day">07</div>
-                                <div class="event_month">January</div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 order-lg-2 order-3">
-                            <div class="event_content">
-                                <div class="event_name"><a class="trans_200" href="#">Open day in the Univesrsity campus</a></div>
-                                <div class="event_location">Grand Central Park</div>
-                                <p>In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor.</p>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 order-lg-3 order-1">
-                            <div class="event_image">
-                                <img src="{% static 'images/event_2.jpg' %}" alt="https://unsplash.com/@claybanks1989">
-                            </div>
-                        </div>
-
-                    </div>	
-                </div>
-            </div>
-
-            <!-- Event Item -->
-            <div class="row event_item">
-                <div class="col">
-                    <div class="row d-flex flex-row align-items-end">
-
-                        <div class="col-lg-2 order-lg-1 order-2">
-                            <div class="event_date d-flex flex-column align-items-center justify-content-center">
-                                <div class="event_day">07</div>
-                                <div class="event_month">January</div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 order-lg-2 order-3">
-                            <div class="event_content">
-                                <div class="event_name"><a class="trans_200" href="#">Student Graduation Ceremony</a></div>
-                                <div class="event_location">Grand Central Park</div>
-                                <p>In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor.</p>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 order-lg-3 order-1">
-                            <div class="event_image">
-                                <img src="{% static 'images/event_3.jpg' %}" alt="https://unsplash.com/@juanmramosjr">
-                            </div>
-                        </div>
-
-                    </div>	
-                </div>
-            </div>
-
-        </div>
-            
-    </div>
-</div> {% endcomment %}
 {% endblock content %}

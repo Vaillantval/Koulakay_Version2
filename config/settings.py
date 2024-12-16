@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from django.utils.translation import gettext_lazy as _
 
+from django.conf.locale import LANG_INFO
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -379,12 +381,21 @@ LOGIN_URL = '/accounts/login/'
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
+LANG_INFO.update({
+    'ht': {
+        'bidi': False,  # Indique que la langue se lit de gauche à droite
+        'code': 'ht',
+        'name': 'Haitian Creole',
+        'name_local': 'Kreyòl Ayisyen',
+    }
+})
 
 # Specify the list of languages you want to support
 LANGUAGES = [
     ('en', _('English')),
-    ('es', _('Spanish')),
-    ('fr', _('French')),
+    ('fr', _('Français')),
+    ('es', _('Español')),
+    ('ht', _('Kreyòl Ayisyen')),
     # Add more languages as needed
 ]
 

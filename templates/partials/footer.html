@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <footer class="footer">
     <div class="container">
         
@@ -8,7 +9,7 @@
             <div class="row">
                 <div class="col">
                     <div class="section_title text-center">
-                        <h1>Subscribe to newsletter</h1>
+                        <h1>{% trans 'Subscribe to newsletter' %} </h1>
                     </div>
                 </div>
             </div>
@@ -19,7 +20,7 @@
                         <form action="post">
                             <div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-center">
                                 <input id="newsletter_email" class="newsletter_email" type="email" placeholder="Email Address" required="required" data-error="Valid email is required.">
-                                <button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">Subscribe</button>
+                                <button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">{% trans 'Subscribe' %} </button>
                             </div>
                         </form>
                     </div>
@@ -44,42 +45,31 @@
                         </div>
                     </div>
 
-                    <p class="footer_about_text">In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum, tempor lacus.</p>
+                    <p class="footer_about_text">
+                        {% blocktrans %}
+                            In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum, tempor lacus.
+                        {% endblocktrans %}
+                    </p>
 
                 </div>
 
                 <!-- Footer Column - Menu -->
 
                 <div class="col-lg-4 footer_col">
-                    <div class="footer_column_title">Menu</div>
+                    <div class="footer_column_title">{% trans 'Menu' %} </div>
                     <div class="footer_column_content">
                         <ul>
-                            <li class="footer_list_item"><a href="#">Home</a></li>
-                            <li class="footer_list_item"><a href="courses.html">Courses</a></li>
-                            <li class="footer_list_item"><a href="contact.html">Contact</a></li>
+                            <li class="footer_list_item"><a href="#">{% trans 'Home' %} </a></li>
+                            <li class="footer_list_item"><a href="courses.html">{% trans 'Courses' %} </a></li>
+                            <li class="footer_list_item"><a href="contact.html">{% trans 'Contact' %} </a></li>
                         </ul>
                     </div>
                 </div>
 
-                {% comment %} <!-- Footer Column - Usefull Links -->
-
-                <div class="col-lg-3 footer_col">
-                    <div class="footer_column_title">Usefull Links</div>
-                    <div class="footer_column_content">
-                        <ul>
-                            <li class="footer_list_item"><a href="#">Testimonials</a></li>
-                            <li class="footer_list_item"><a href="#">FAQ</a></li>
-                            <li class="footer_list_item"><a href="#">Community</a></li>
-                            <li class="footer_list_item"><a href="#">Campus Pictures</a></li>
-                            <li class="footer_list_item"><a href="#">Tuitions</a></li>
-                        </ul>
-                    </div>
-                </div> {% endcomment %}
-
                 <!-- Footer Column - Contact -->
 
                 <div class="col-lg-4 footer_col">
-                    <div class="footer_column_title">Contact</div>
+                    <div class="footer_column_title">{% trans 'Contact' %} </div>
                     <div class="footer_column_content">
                         <ul>
                             <li class="footer_contact_item">
@@ -111,7 +101,7 @@
         <div class="footer_bar d-flex flex-column flex-sm-row align-items-center">
             <div class="footer_copyright">
                 <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+                {% trans 'Copyright' %}  &copy;<script>document.write(new Date().getFullYear());</script>{% trans 'All rights reserved' %} 
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
             </div>
             <div class="footer_social ml-sm-auto">
