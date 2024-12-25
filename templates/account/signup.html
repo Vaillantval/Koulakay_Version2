@@ -4,7 +4,7 @@
 
 {% load crispy_forms_tags %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_title %}{% trans "Inscription" %}{% endblock %}
 
 {% block content %}
 <style>
@@ -12,9 +12,9 @@
     color:white;
   }
 </style>
-<h1>{% trans "Sign Up" %}</h1>
+<h1>{% trans "S'inscrire" %}</h1>
 
-<p>{% blocktrans %}Already have an account? Then please <a class="orange" href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+<p>{% blocktrans %}Vous avez déjà un compte ? Dans ce cas, veuillez <a class="orange" href="{{ login_url }}">vous connecter</a>.{% endblocktrans %}</p>
 
 <form class="signup col-12 business pb-2" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
@@ -35,7 +35,7 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button class="btn btn-success" type="submit">{% trans "Sign Up" %}</button>
+  <button class="btn btn-success" type="submit">{% trans "S'inscrire" %}</button>
 </form>
 
 {% endblock %}

@@ -399,7 +399,7 @@ LANGUAGES = [
     # Add more languages as needed
 ]
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'fr'
 
 USE_I18N = True
 

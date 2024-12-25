@@ -3,12 +3,12 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}{% trans "E-mail Addresses" %}{% endblock %}
+{% block head_title %}{% trans "Adresses e-mail" %}{% endblock %}
 
 {% block content %}
-    <h1>{% trans "E-mail Addresses" %}</h1>
+    <h1>{% trans "Adresses e-mail" %}</h1>
 {% if user.emailaddress_set.all %}
-<p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
+<p>{% trans 'Les adresses e-mail suivantes sont associées à votre compte :' %}</p>
 
 <form action="{% url 'account_email' %}" class="email_list" method="post">
 {% csrf_token %}
@@ -22,36 +22,36 @@
 
 {{ emailaddress.email }}
     {% if emailaddress.verified %}
-    <span class="verified">{% trans "Verified" %}</span>
+    <span class="verified">{% trans "Vérifié" %}</span>
     {% else %}
-    <span class="unverified">{% trans "Unverified" %}</span>
+    <span class="unverified">{% trans "Non vérifié" %}</span>
     {% endif %}
-      {% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}
+      {% if emailaddress.primary %}<span class="primary">{% trans "Principal" %}</span>{% endif %}
 </label>
 </div>
   {% endfor %}
 
 <div class="buttonHolder">
-      <button class="secondaryAction btn btn-success" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button>
-      <button class="secondaryAction btn btn-success" type="submit" name="action_send" >{% trans 'Re-send' %}</button>
-      <button class="primaryAction btn btn-danger" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
+      <button class="secondaryAction btn btn-success" type="submit" name="action_primary" >{% trans 'Définir comme principal' %}</button>
+      <button class="secondaryAction btn btn-success" type="submit" name="action_send" >{% trans 'Renvoyer' %}</button>
+      <button class="primaryAction btn btn-danger" type="submit" name="action_remove" >{% trans 'Supprimer' %}</button>
 </div>
 
 </fieldset>
 </form>
 
 {% else %}
-<p><strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}</p>
+<p><strong>{% trans 'Avertissement :'%}</strong> {% trans "Vous n'avez actuellement aucune adresse e-mail configurée. Vous devriez vraiment ajouter une adresse e-mail afin de pouvoir recevoir des notifications, réinitialiser votre mot de passe, etc." %}</p>
 
 {% endif %}
 
   {% if can_add_email %}
-    <h2>{% trans "Add E-mail Address" %}</h2>
+    <h2>{% trans "Ajouter une adresse e-mail" %}</h2>
 
     <form method="post" action="{% url 'account_email' %}" class="add_email col-12 business">
         {% csrf_token %}
         {{ form|crispy }}
-        <button class="btn btn-secondary" name="action_add" type="submit">{% trans "Add E-mail" %}</button>
+        <button class="btn btn-secondary" name="action_add" type="submit">{% trans "Ajouter une e-mail" %}</button>
     </form>
   {% endif %}
 
@@ -61,7 +61,7 @@
 {% block extra_body %}
 <script type="text/javascript">
 (function() {
-  var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
+  var message = "{% trans 'Voulez-vous vraiment supprimer l’adresse e-mail sélectionnée ?' %}";
   var actions = document.getElementsByName('action_remove');
   if (actions.length) {
     actions[0].addEventListener("click", function(e) {

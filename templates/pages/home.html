@@ -35,7 +35,7 @@
                 <div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
                     <div class="hero_slide_content text-center">
                         <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">
-                            {% blocktrans %}Get your <span>Education</span> today!{% endblocktrans %}
+                            {% blocktrans %}Obtenez <span>Votre Éducation</span> aujourd'hui !{% endblocktrans %}
                         </h1>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
                     <div class="hero_slide_content text-center">
                         <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">
-                            {% blocktrans %}Get your <span>Education</span> today!{% endblocktrans %}
+                            {% blocktrans %}Obtenez <span>Votre Éducation</span> aujourd'hui !{% endblocktrans %}
                         </h1>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                 <div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
                     <div class="hero_slide_content text-center">
                         <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">
-                            {% blocktrans %}Get your <span>Education</span> today!{% endblocktrans %}
+                            {% blocktrans %}Obtenez <span>Votre Éducation</span> aujourd'hui !{% endblocktrans %}
                         </h1>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
         <div class="row">
             <div class="col">
                 <div class="section_title text-center">
-                    <h1>{% trans "Popular Courses" %}</h1>
+                    <h1>{% trans "Cours populaires" %}</h1>
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
             {% for c in courses %}
                 <div class="col-lg-4 course_box">
                     <div class="card">
-                        <img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="{% trans 'Course image' %}">
+                        <img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="{% trans 'Image du cours' %}">
                         <form method='POST' action="{% url 'course_enrollment' c.id %}">
                             {% csrf_token %}
                             <div class="card-body text-center">
@@ -134,15 +134,15 @@
                             </div>
                             <div class="price_box d-flex flex-row align-items-center">
                                 <div class="course_author_image">
-                                    <img src="{% static 'images/author.jpg' %}" alt="{% trans 'Author image' %}">
+                                    <img src="{% static 'images/author.jpg' %}" alt="{% trans "Image de l'auteur" %}">
                                 </div>
                                 {% if c.enroll %}
                                 <div class="course_author_name">
-                                    <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{ c.slug }}/texts/">{% trans "See course" %}</a>
+                                    <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{ c.slug }}/texts/">{% trans "Voir le cours" %}</a>
                                 </div>
                                 {% else %}
                                 <div class="course_author_name">
-                                    <button class="btn btn-success" type="submit">{% trans "Enroll" %}</button>
+                                    <button class="btn btn-success" type="submit">{% trans "S'inscrire" %}</button>
                                 </div>
                                 {% endif %}
                                 <div class="course_price d-flex flex-column align-items-center justify-content-center">
@@ -166,15 +166,15 @@
             <div class="col-lg-6 nopadding">
                 <div class="register_section d-flex flex-column align-items-center justify-content-center">
                     <div class="register_content text-center">
-                        <h1 class="register_title">{% trans "Register now!" %}</h1>
+                        <h1 class="register_title">{% trans "Inscrivez-vous maintenant !" %}</h1>
                         <p class="register_text">
                             {% blocktrans %}
-                            Join now to access quality courses that transform your learning experience.
+                                Rejoignez-nous maintenant pour accéder à des cours de qualité qui transformeront votre expérience d'apprentissage.
                             {% endblocktrans %}
                         </p>
                         {% if not user.is_authenticated %}
                         <div class="button button_1 register_button mx-auto trans_200">
-                            <a href="{% url 'account_signup' %}">{% trans "Register now" %}</a>
+                            <a href="{% url 'account_signup' %}">{% trans "Inscrivez-vous maintenant" %}</a>
                         </div>
                         {% endif %}
                     </div>
@@ -184,10 +184,10 @@
                 <div class="search_section d-flex flex-column align-items-center justify-content-center">
                     <div class="search_background" style="background-image:url({% static 'images/search_background.jpg' %});"></div>
                     <div class="search_content text-center">
-                        <h1 class="search_title">{% trans "Search for your course" %}</h1>
+                        <h1 class="search_title">{% trans "Recherchez votre cours" %}</h1>
                         <form id="search_form" class="search_form" action="{% url 'courses' %}">
-                            <input id="search_form_name" class="input_field search_form_name" name="q" type="text" placeholder="{% trans 'Course Name' %}" required="required">
-                            <button id="search_submit_button" type="submit" class="search_submit_button trans_200" value="Submit">{% trans "Search course" %}</button>
+                            <input id="search_form_name" class="input_field search_form_name" name="q" type="text" placeholder="{% trans 'Nom du cours' %}" required="required">
+                            <button id="search_submit_button" type="submit" class="search_submit_button trans_200" value="Submit">{% trans "Rechercher cours" %}</button>
                         </form>
                     </div> 
                 </div>
@@ -362,7 +362,7 @@
                                     <div class="testimonial_image mx-auto">
                                         <img src="{% static 'images/testimonials_user.jpg' %}" alt="{% trans 'Image de l\'utilisateur' %}">
                                     </div>
-                                    <div class="testimonial_name">{% trans "Marie J." %}</div>
+                                    <div class="testimonial_name">Marie J.</div>
                                     <div class="testimonial_title">{% trans "Lycéenne" %}</div>
                                 </div>
                             </div>

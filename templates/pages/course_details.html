@@ -15,7 +15,7 @@
 		<div class="home_background prlx" style="background-image:url({% static 'images/courses_background.jpg' %})"></div>
 	</div>
 	<div class="home_content">
-		<h1>{% trans "Details" %}</h1>
+		<h1>{% trans "Détails" %}</h1>
 	</div>
 </div>
 
@@ -26,7 +26,7 @@
         <div class="col-md-6 col-lg-4 col-12">
             <img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="https://unsplash.com/@kellybrito" width="250">
             <div class="col-12 text-center mb-5">
-                <h3>{% trans "Instructor:" %} {{ instructor.first_name }} {{ instructor.last_name }}</h3>
+                <h3>{% trans "Instructeur :" %} {{ instructor.first_name }} {{ instructor.last_name }}</h3>
             </div>
         </div>
         
@@ -36,7 +36,7 @@
             <form method="POST" action="{% url 'course_enrollment' course.id %}">
                 {% csrf_token %}
                 <div class="mt-5">
-                    <button class="btn btn-success" type="submit">{% trans "Enroll" %}</button>
+                    <button class="btn btn-success" type="submit">{% trans "S'inscrire" %}</button>
                 </div>
             </form>
         </div>

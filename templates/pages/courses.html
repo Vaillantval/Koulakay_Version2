@@ -16,7 +16,7 @@
 		<div class="home_background prlx" style="background-image:url({% static 'images/courses_background.jpg' %})"></div>
 	</div>
 	<div class="home_content">
-		<h1>{% trans "Courses" %}</h1>
+		<h1>{% trans "Cours" %}</h1>
 	</div>
 </div>
 
@@ -26,7 +26,7 @@
 		<div class="row">
 			<div class="col">
 				<div class="section_title text-center">
-					<h1>{% trans "Popular Courses" %}</h1>
+					<h1>{% trans "Cours populaires" %}</h1>
 				</div>
 			</div>
 		</div>
@@ -38,8 +38,8 @@
 					<form method="POST" action="{% url 'courses' %}">
 						{% csrf_token %}
 						<div class="newsletter_form d-flex flex-md-row flex-column align-items-center justify-content-center">
-							<input id="newsletter_email" class="newsletter_email" type="text" name="q" placeholder="{% trans "Course's Name" %}" required value="{{ q }}">
-							<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300">{% trans "Search" %}</button>
+							<input id="newsletter_email" class="newsletter_email" type="text" name="q" placeholder="{% trans "Nom du cours" %}" required value="{{ q }}">
+							<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300">{% trans "Rechercher" %}</button>
 						</div>
 					</form>
 				</div>
@@ -78,7 +78,7 @@
 			<!-- Course Item -->
 			<div class="col-lg-4 course_box">
 				<div class="card">
-					<img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="{% trans "Course Image" %}">
+					<img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="{% trans "Image du cours" %}">
 					<form method="POST" action="{% url 'course_enrollment' c.id %}">
 						{% csrf_token %}
 						<div class="card-body text-center">
@@ -87,15 +87,15 @@
 						</div>
 						<div class="price_box d-flex flex-row align-items-center">
 							<div class="course_author_image">
-								<img src="{% static 'images/author.jpg' %}" alt="{% trans "Author" %}">
+								<img src="{% static 'images/author.jpg' %}" alt="{% trans "Auteur" %}">
 							</div>
 							<div class="course_author_name">
 								{% if c.enroll %}
-								<a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{ c.slug }}/texts/">{% trans "See course" %}</a>
-								<a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2">{% trans "Details" %}</a>
+								<a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{ c.slug }}/texts/">{% trans "Voir le cours" %}</a>
+								<a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2">{% trans "Détails" %}</a>
 								{% else %}
-								<button class="btn btn-success" type="submit">{% trans "Enroll" %}</button>
-								<a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2">{% trans "Details" %}</a>
+								<button class="btn btn-success" type="submit">{% trans "S'inscrire" %}</button>
+								<a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2">{% trans "Détails" %}</a>
 								{% endif %}
 							</div>
 							<div class="course_price d-flex flex-column align-items-center justify-content-center">

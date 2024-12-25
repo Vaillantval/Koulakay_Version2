@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-11 20:51+0000\n"
+"POT-Creation-Date: 2024-12-25 23:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
 #: accounts/managers.py:15
 msgid "The Email must be set"
 msgstr ""
@@ -34,16 +33,20 @@ msgstr ""
 msgid "email address"
 msgstr ""
 
-#: config/settings.py:384
+#: config/settings.py:395
 msgid "English"
 msgstr ""
 
-#: config/settings.py:385
-msgid "Spanish"
+#: config/settings.py:396
+msgid "Français"
 msgstr ""
 
-#: config/settings.py:386
-msgid "French"
+#: config/settings.py:397
+msgid "Español"
+msgstr ""
+
+#: config/settings.py:398
+msgid "Kreyòl Ayisyen"
 msgstr ""
 
 #: payment/models.py:39
@@ -108,57 +111,58 @@ msgid "This account is inactive."
 msgstr ""
 
 #: templates/account/email.html:6 templates/account/email.html:9
-msgid "E-mail Addresses"
+msgid "Adresses e-mail"
 msgstr ""
 
 #: templates/account/email.html:11
-msgid "The following e-mail addresses are associated with your account:"
+msgid "Les adresses e-mail suivantes sont associées à votre compte :"
 msgstr ""
 
 #: templates/account/email.html:25
-msgid "Verified"
+msgid "Vérifié"
 msgstr ""
 
 #: templates/account/email.html:27
-msgid "Unverified"
+msgid "Non vérifié"
 msgstr ""
 
 #: templates/account/email.html:29
-msgid "Primary"
+msgid "Principal"
 msgstr ""
 
 #: templates/account/email.html:35
-msgid "Make Primary"
+msgid "Définir comme principal"
 msgstr ""
 
 #: templates/account/email.html:36
-msgid "Re-send"
+msgid "Renvoyer"
 msgstr ""
 
 #: templates/account/email.html:37
-msgid "Remove"
+msgid "Supprimer"
 msgstr ""
 
 #: templates/account/email.html:44
-msgid "Warning:"
+msgid "Avertissement :"
 msgstr ""
 
 #: templates/account/email.html:44
 msgid ""
-"You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"Vous n'avez actuellement aucune adresse e-mail configurée. Vous devriez "
+"vraiment ajouter une adresse e-mail afin de pouvoir recevoir des "
+"notifications, réinitialiser votre mot de passe, etc."
 msgstr ""
 
 #: templates/account/email.html:49
-msgid "Add E-mail Address"
+msgid "Ajouter une adresse e-mail"
 msgstr ""
 
 #: templates/account/email.html:54
-msgid "Add E-mail"
+msgid "Ajouter une e-mail"
 msgstr ""
 
 #: templates/account/email.html:64
-msgid "Do you really want to remove the selected e-mail address?"
+msgid "Voulez-vous vraiment supprimer l’adresse e-mail sélectionnée ?"
 msgstr ""
 
 #: templates/account/email/account_already_exists_message.html:4
@@ -276,42 +280,44 @@ msgid ""
 msgstr ""
 
 #: templates/account/login.html:7 templates/account/login.html:11
-#: templates/account/login.html:44
-msgid "Sign In"
+#: templates/account/login.html:43
+msgid "Se connecter"
 msgstr ""
 
 #: templates/account/login.html:16
 #, python-format
 msgid ""
-"Please sign in with one\n"
-"of your existing third party accounts. Or, <a style=\"color: #f15922;\" "
-"href=\"%(signup_url)s\"> sign up</a>\n"
-"for a %(site_name)s account and sign in below:"
+"Veuillez vous connecter avec l'un de vos comptes tiers existants. Ou, <a "
+"style=\"color: #f15922;\" href=\"%(signup_url)s\">inscrivez-vous</a>\n"
+"pour un compte %(site_name)s et connectez-vous ci-dessous:"
 msgstr ""
 
-#: templates/account/login.html:26
-#: venv/lib/python3.12/site-packages/django/utils/text.py:323
-msgid "or"
+#: templates/account/login.html:25
+msgid "ou"
 msgstr ""
 
-#: templates/account/login.html:33
+#: templates/account/login.html:32
 #, python-format
 msgid ""
-"If you have not created an account yet, then please\n"
-"<a class=\"orange\" href=\"%(signup_url)s\">sign up</a> first."
+"Si vous n'avez pas encore créé de compte, veuillez\n"
+"<a class=\"orange\" href=\"%(signup_url)s\">vous inscrire</a> d'abord."
 msgstr ""
 
-#: templates/account/login.html:43 templates/account/password_change.html:15
-msgid "Forgot Password?"
+#: templates/account/login.html:42 templates/account/password_change.html:15
+msgid "Mot de passe oublié ?"
 msgstr ""
 
 #: templates/account/logout.html:5 templates/account/logout.html:8
-#: templates/account/logout.html:17
-msgid "Sign Out"
+#: templates/partials/header.html:149
+msgid "Déconnexion"
 msgstr ""
 
 #: templates/account/logout.html:10
-msgid "Are you sure you want to sign out?"
+msgid "Êtes-vous sûr de vouloir vous déconnecter ?"
+msgstr ""
+
+#: templates/account/logout.html:17
+msgid "Se déconnecter"
 msgstr ""
 
 #: templates/account/messages/cannot_delete_primary_email.txt:2
@@ -362,39 +368,48 @@ msgstr ""
 #: templates/account/password_change.html:6
 #: templates/account/password_change.html:9
 #: templates/account/password_change.html:14
-#: templates/account/password_reset_from_key.html:6
-#: templates/account/password_reset_from_key.html:9
-#: templates/account/password_reset_from_key_done.html:4
-#: templates/account/password_reset_from_key_done.html:7
-#: templates/account/profile.html:21
-msgid "Change Password"
+msgid "Changer le mot de passe"
 msgstr ""
 
 #: templates/account/password_reset.html:7
 #: templates/account/password_reset.html:11
-#: templates/account/password_reset_done.html:6
-#: templates/account/password_reset_done.html:9
-msgid "Password Reset"
+msgid "Réinitialisation du mot de passe"
 msgstr ""
 
 #: templates/account/password_reset.html:16
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Vous avez oublié votre mot de passe ? Entrez votre adresse e-mail ci-"
+"dessous, et nous vous enverrons un e-mail pour vous permettre de le "
+"réinitialiser."
 msgstr ""
 
 #: templates/account/password_reset.html:21
-msgid "Reset My Password"
+msgid "Réinitialiser mon mot de passe"
 msgstr ""
 
 #: templates/account/password_reset.html:24
-msgid "Please contact us if you have any trouble resetting your password."
+msgid ""
+"Veuillez nous contacter si vous avez des difficultés à réinitialiser votre "
+"mot de passe."
+msgstr ""
+
+#: templates/account/password_reset_done.html:6
+#: templates/account/password_reset_done.html:9
+msgid "Password Reset"
 msgstr ""
 
 #: templates/account/password_reset_done.html:15
 msgid ""
 "We have sent you an e-mail. If you have not received it please check your "
 "spam folder. Otherwise contact us if you do not receive it in a few minutes."
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:6
+#: templates/account/password_reset_from_key.html:9
+#: templates/account/password_reset_from_key_done.html:4
+#: templates/account/password_reset_from_key_done.html:7
+#: templates/account/profile.html:21
+msgid "Change Password"
 msgstr ""
 
 #: templates/account/password_reset_from_key.html:9
@@ -435,18 +450,20 @@ msgid "Change Email"
 msgstr ""
 
 #: templates/account/signup.html:7
-msgid "Signup"
+msgid "Inscription"
 msgstr ""
 
 #: templates/account/signup.html:15 templates/account/signup.html:38
-msgid "Sign Up"
+#: templates/pages/course_details.html:39 templates/pages/courses.html:103
+#: templates/pages/home.html:145
+msgid "S'inscrire"
 msgstr ""
 
 #: templates/account/signup.html:17
 #, python-format
 msgid ""
-"Already have an account? Then please <a class=\"orange\" "
-"href=\"%(login_url)s\">sign in</a>."
+"Vous avez déjà un compte ? Dans ce cas, veuillez <a class=\"orange\" "
+"href=\"%(login_url)s\">vous connecter</a>."
 msgstr ""
 
 #: templates/account/signup_closed.html:5
@@ -505,1217 +522,524 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
-msgid "Messages"
+#: templates/pages/about.html:20 templates/partials/header.html:24
+#: templates/partials/header.html:86
+msgid "À propos"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/contrib/sitemaps/apps.py:8
-msgid "Site Maps"
+#: templates/pages/about.html:30
+msgid "Notre mission"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/contrib/staticfiles/apps.py:9
-msgid "Static Files"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/contrib/syndication/apps.py:7
-msgid "Syndication"
-msgstr ""
-
-#. Translators: String used to replace omitted page numbers in elided page
-#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
-#: venv/lib/python3.12/site-packages/django/core/paginator.py:30
-msgid "…"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/paginator.py:32
-msgid "That page number is not an integer"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/paginator.py:33
-msgid "That page number is less than 1"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/paginator.py:34
-msgid "That page contains no results"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:22
-msgid "Enter a valid value."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:104
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:760
-msgid "Enter a valid URL."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:165
-msgid "Enter a valid integer."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:176
-msgid "Enter a valid email address."
-msgstr ""
-
-#. Translators: "letters" means latin letters: a-z and A-Z.
-#: venv/lib/python3.12/site-packages/django/core/validators.py:259
+#: templates/pages/about.html:36
 msgid ""
-"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+"\n"
+"                Notre mission chez KouLakay est de rendre l'éducation de "
+"qualité accessible à tous, en permettant à chacun de réaliser son plein "
+"potentiel. Nous sommes dédiés à la création d'une expérience d'apprentissage "
+"transformative en proposant des ressources éducatives engageantes, "
+"culturellement pertinentes et pratiques.\n"
+"                En combinant innovation, inclusion et collaboration, "
+"KouLakay vise à combler les lacunes éducatives, à promouvoir l'apprentissage "
+"tout au long de la vie, et à fournir aux apprenants les connaissances et les "
+"compétences nécessaires pour prospérer dans un monde en constante évolution. "
+"Par des partenariats avec des éducateurs, des institutions et des "
+"communautés, nous nous engageons à façonner un avenir où l'éducation est un "
+"droit, non un privilège.\n"
+"                "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/core/validators.py:267
+#: templates/pages/about.html:46
+msgid "Notre vision"
+msgstr ""
+
+#: templates/pages/about.html:52
 msgid ""
-"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
-"hyphens."
+"\n"
+"                Notre vision chez KouLakay est de devenir la plateforme de "
+"référence pour une éducation inclusive et accessible à travers le monde. "
+"Nous aspirons à transformer la manière d'apprendre en créant une connexion "
+"fluide entre des ressources éducatives de qualité, une technologie innovante "
+"et une communauté d'apprentissage solidaire.\n"
+"                "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/core/validators.py:279
-#: venv/lib/python3.12/site-packages/django/core/validators.py:306
-msgid "Enter a valid IPv4 address."
+#: templates/pages/about.html:65
+msgid "Nos valeurs fondamentales"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/core/validators.py:286
-#: venv/lib/python3.12/site-packages/django/core/validators.py:307
-msgid "Enter a valid IPv6 address."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:298
-#: venv/lib/python3.12/site-packages/django/core/validators.py:305
-msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:341
-msgid "Enter only digits separated by commas."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:347
-#, python-format
-msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:382
-#, python-format
-msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:391
-#, python-format
-msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:400
-#, python-format
-msgid "Ensure this value is a multiple of step size %(limit_value)s."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:407
-#, python-format
+#: templates/pages/about.html:66
 msgid ""
-"Ensure this value is a multiple of step size %(limit_value)s, starting from "
-"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+"Chez KouLakay, nos valeurs fondamentales définissent qui nous sommes et "
+"guident toutes nos actions. Ces principes façonnent notre engagement envers "
+"les apprenants, les éducateurs et les communautés."
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/core/validators.py:439
-#, python-format
+#: templates/pages/about.html:77
+msgid "Accessibilité"
+msgstr ""
+
+#: templates/pages/about.html:78
 msgid ""
-"Ensure this value has at least %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at least %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
+"Nous croyons que l'éducation est un droit, non un privilège. Nous nous "
+"engageons à éliminer les obstacles à l'apprentissage en proposant des "
+"ressources éducatives accessibles et inclusives."
+msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/core/validators.py:457
-#, python-format
+#: templates/pages/about.html:84
+msgid "Innovation"
+msgstr ""
+
+#: templates/pages/about.html:85
 msgid ""
-"Ensure this value has at most %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at most %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:480
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:355
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:394
-msgid "Enter a number."
+"En exploitant des technologies de pointe, nous nous efforçons de créer des "
+"expériences d'apprentissage dynamiques, engageantes et efficaces qui "
+"inspirent la croissance et l'adaptabilité dans un monde en constante "
+"évolution."
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/core/validators.py:482
-#, python-format
-msgid "Ensure that there are no more than %(max)s digit in total."
-msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
+#: templates/pages/about.html:91
+msgid "Collaboration"
+msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/core/validators.py:487
-#, python-format
-msgid "Ensure that there are no more than %(max)s decimal place."
-msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/core/validators.py:492
-#, python-format
+#: templates/pages/about.html:92
 msgid ""
-"Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural ""
-"Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] ""
-msgstr[1] ""
+"Nous valorisons les partenariats et l'engagement communautaire, travaillant "
+"main dans la main avec des éducateurs, des institutions et des parties "
+"prenantes pour co-créer des opportunités éducatives percutantes."
+msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/core/validators.py:563
-#, python-format
+#: templates/pages/about.html:98
+msgid "Pertinence culturelle"
+msgstr ""
+
+#: templates/pages/about.html:99
 msgid ""
-"File extension “%(extension)s” is not allowed. Allowed extensions are: "
-"%(allowed_extensions)s."
+"Respectant et célébrant la culture haïtienne, nous développons des contenus "
+"qui résonnent avec la réalité de nos apprenants, favorisant la fierté et le "
+"lien à travers la langue et le contexte."
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/core/validators.py:624
-msgid "Null characters are not allowed."
+#: templates/pages/about.html:105
+msgid "Autonomisation"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/base.py:1477
-#: venv/lib/python3.12/site-packages/django/forms/models.py:906
-msgid "and"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/base.py:1479
-#, python-format
-msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/constraints.py:20
-#, python-format
-msgid "Constraint “%(name)s” is violated."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:133
-#, python-format
-msgid "Value %(value)r is not a valid choice."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:134
-msgid "This field cannot be null."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:135
-msgid "This field cannot be blank."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:136
-#, python-format
-msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
-
-#. Translators: The 'lookup_type' is one of 'date', 'year' or
-#. 'month'. Eg: "Title must be unique for pub_date year"
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:140
-#, python-format
+#: templates/pages/about.html:106
 msgid ""
-"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+"Nous nous consacrons à équiper les individus des connaissances et des "
+"compétences nécessaires pour libérer leur potentiel, atteindre leurs "
+"objectifs et contribuer de manière significative à la société."
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:179
-#, python-format
-msgid "Field of type: %(field_type)s"
+#: templates/pages/about.html:112
+msgid "Excellence"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1155
-#, python-format
-msgid "“%(value)s” value must be either True or False."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1156
-#, python-format
-msgid "“%(value)s” value must be either True, False, or None."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1158
-msgid "Boolean (Either True or False)"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1208
-#, python-format
-msgid "String (up to %(max_length)s)"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1210
-msgid "String (unlimited)"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1314
-msgid "Comma-separated integers"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1415
-#, python-format
+#: templates/pages/about.html:113
 msgid ""
-"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
-"format."
+"Notre engagement envers la qualité nous pousse à fournir des ressources et "
+"des expériences d'apprentissage exceptionnelles qui répondent aux normes les "
+"plus élevées d'intégrité éducative."
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1419
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1554
-#, python-format
+#: templates/pages/about.html:120
+msgid "Durabilité"
+msgstr ""
+
+#: templates/pages/about.html:121
 msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
-"date."
+"Nous visons à créer un impact durable en promouvant l'apprentissage tout au "
+"long de la vie et en bâtissant un modèle pérenne pour le développement "
+"éducatif."
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1423
-msgid "Date (without time)"
+#: templates/pages/contact.html:19 templates/partials/footer.html:65
+#: templates/partials/footer.html:73 templates/partials/header.html:26
+#: templates/partials/header.html:88
+msgid "Contact"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1550
-#, python-format
+#: templates/pages/contact.html:32
+msgid "Contactez-nous"
+msgstr ""
+
+#: templates/pages/contact.html:36
+msgid "Nom"
+msgstr ""
+
+#: templates/pages/contact.html:36
+msgid "Le nom est requis."
+msgstr ""
+
+#: templates/pages/contact.html:37
+msgid "E-mail"
+msgstr ""
+
+#: templates/pages/contact.html:37
+msgid "Un email valide est requis."
+msgstr ""
+
+#: templates/pages/contact.html:38
+msgid "Message"
+msgstr ""
+
+#: templates/pages/contact.html:38
+msgid "Veuillez écrire un message."
+msgstr ""
+
+#: templates/pages/contact.html:39
+msgid "Envoyer le message"
+msgstr ""
+
+#: templates/pages/contact.html:48
+msgid "Rejoindre les Cours"
+msgstr ""
+
+#: templates/pages/contact.html:50
 msgid ""
-"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
-"uuuuuu]][TZ] format."
+"\n"
+"\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum nulla, "
+"vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor "
+"fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus "
+"facilisis ultricies. Etiam eu purus nec eros varius luctus.\n"
+"\t\t\t\t\t\t\t"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1558
-#, python-format
+#: templates/pages/course_details.html:18 templates/pages/courses.html:101
+#: templates/pages/courses.html:104
+msgid "Détails"
+msgstr ""
+
+#: templates/pages/course_details.html:29
+msgid "Instructeur :"
+msgstr ""
+
+#: templates/pages/course_details.html:34
+msgid "Description"
+msgstr ""
+
+#: templates/pages/courses.html:19 templates/partials/footer.html:64
+#: templates/partials/header.html:25 templates/partials/header.html:87
+msgid "Cours"
+msgstr ""
+
+#: templates/pages/courses.html:29 templates/pages/home.html:120
+msgid "Cours populaires"
+msgstr ""
+
+#: templates/pages/courses.html:41 templates/pages/home.html:189
+msgid "Nom du cours"
+msgstr ""
+
+#: templates/pages/courses.html:42
+msgid "Rechercher"
+msgstr ""
+
+#: templates/pages/courses.html:87 templates/pages/home.html:128
+msgid "Image du cours"
+msgstr ""
+
+#: templates/pages/courses.html:96
+msgid "Auteur"
+msgstr ""
+
+#: templates/pages/courses.html:100 templates/pages/home.html:141
+msgid "Voir le cours"
+msgstr ""
+
+#: templates/pages/home.html:38 templates/pages/home.html:50
+#: templates/pages/home.html:62
+msgid "Obtenez <span>Votre Éducation</span> aujourd'hui !"
+msgstr ""
+
+#: templates/pages/home.html:95
+msgid "Qui sommes-nous ?"
+msgstr ""
+
+#: templates/pages/home.html:101
 msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
-"[TZ]) but it is an invalid date/time."
+"\n"
+"                KouLakay est une plateforme éducative novatrice conçue pour "
+"démocratiser l'accès à une éducation de qualité pour les élèves, les "
+"professionnels et les apprenants tout au long de la vie. \n"
+"                Ancré dans la conviction que le savoir est une force, "
+"KouLakay propose des contenus interactifs et culturellement pertinents "
+"adaptés aux besoins d'un public diversifié.\n"
+"                Notre mission est de combler le fossé des ressources "
+"éducatives en offrant des cours de haute qualité pour favoriser "
+"l'apprentissage et le développement des compétences. \n"
+"                En exploitant la technologie, nous visons à créer un "
+"environnement d'apprentissage inclusif et dynamique, accessible à tous, quel "
+"que soit l'emplacement ou le contexte.\n"
+"                Chez KouLakay, nous collaborons avec des éducateurs, des "
+"institutions et des leaders de l'industrie pour garantir que nos contenus "
+"soient percutants, pratiques et alignés avec les besoins du monde réel. \n"
+"                Que vous soyez lycéen, diplômé universitaire ou "
+"professionnel à la recherche d'une formation continue, KouLakay est là pour "
+"accompagner votre réussite.\n"
+"                "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1563
-msgid "Date (with time)"
+#: templates/pages/home.html:137
+msgid "Image de l'auteur"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1690
-#, python-format
-msgid "“%(value)s” value must be a decimal number."
+#: templates/pages/home.html:169
+msgid "Inscrivez-vous maintenant !"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1692
-msgid "Decimal number"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1853
-#, python-format
+#: templates/pages/home.html:171
 msgid ""
-"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
-"uuuuuu] format."
+"\n"
+"                                Rejoignez-nous maintenant pour accéder à des "
+"cours de qualité qui transformeront votre expérience d'apprentissage.\n"
+"                            "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1857
-msgid "Duration"
+#: templates/pages/home.html:177
+msgid "Inscrivez-vous maintenant"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1909
-msgid "Email address"
+#: templates/pages/home.html:187
+msgid "Recherchez votre cours"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1934
-msgid "File path"
+#: templates/pages/home.html:190
+msgid "Rechercher cours"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2012
-#, python-format
-msgid "“%(value)s” value must be a float."
+#: templates/pages/home.html:205
+msgid "Nos Services"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2014
-msgid "Floating point number"
+#: templates/pages/home.html:215 templates/pages/home.html:230
+#: templates/pages/home.html:300
+msgid "Icône d\\"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2054
-#, python-format
-msgid "“%(value)s” value must be an integer."
+#: templates/pages/home.html:217
+msgid "Cours en ligne interactifs"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2056
-msgid "Integer"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2152
-msgid "Big (8 byte) integer"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2169
-msgid "Small integer"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2177
-msgid "IPv4 address"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2208
-msgid "IP address"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2301
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2302
-#, python-format
-msgid "“%(value)s” value must be either None, True or False."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2304
-msgid "Boolean (Either True, False or None)"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2355
-msgid "Positive big integer"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2370
-msgid "Positive integer"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2385
-msgid "Positive small integer"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2401
-#, python-format
-msgid "Slug (up to %(max_length)s)"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2437
-msgid "Text"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2512
-#, python-format
+#: templates/pages/home.html:219
 msgid ""
-"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
-"format."
+"\n"
+"                    Des cours de haute qualité en créole haïtien et dans "
+"d'autres langues, adaptés aux élèves,\n"
+"                    professionnels et apprenants tout au long de la vie. Ils "
+"incluent des vidéos engageantes, des quiz\n"
+"                    et des activités pratiques.\n"
+"                    "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2516
-#, python-format
+#: templates/pages/home.html:232
+msgid "Programmes de certification personnalisés"
+msgstr ""
+
+#: templates/pages/home.html:234
 msgid ""
-"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
-"invalid time."
+"\n"
+"                    Obtenez des certificats reconnus qui valident vos "
+"compétences et vos réalisations, renforçant ainsi\n"
+"                    votre profil professionnel et académique.\n"
+"                    "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2520
-msgid "Time"
+#: templates/pages/home.html:244
+msgid "Icône de livres"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2628
-msgid "URL"
+#: templates/pages/home.html:246
+msgid "Formation continue pour professionnels"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2652
-msgid "Raw binary data"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2717
-#, python-format
-msgid "“%(value)s” is not a valid UUID."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2719
-msgid "Universally unique identifier"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/files.py:232
-msgid "File"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/files.py:393
-msgid "Image"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/json.py:26
-msgid "A JSON object"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/json.py:28
-msgid "Value must be valid JSON."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:939
-#, python-format
-msgid "%(model)s instance with %(field)s %(value)r does not exist."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:941
-msgid "Foreign Key (type determined by related field)"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1235
-msgid "One-to-one relationship"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1292
-#, python-format
-msgid "%(from)s-%(to)s relationship"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1294
-#, python-format
-msgid "%(from)s-%(to)s relationships"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1342
-msgid "Many-to-many relationship"
-msgstr ""
-
-#. Translators: If found as last label character, these punctuation
-#. characters will prevent the default label_suffix to be appended to the label
-#: venv/lib/python3.12/site-packages/django/forms/boundfield.py:185
-msgid ":?.!"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:95
-msgid "This field is required."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:304
-msgid "Enter a whole number."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:475
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:1252
-msgid "Enter a valid date."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:498
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:1253
-msgid "Enter a valid time."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:525
-msgid "Enter a valid date/time."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:559
-msgid "Enter a valid duration."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:560
-#, python-brace-format
-msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:629
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:630
-msgid "No file was submitted."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:631
-msgid "The submitted file is empty."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:633
-#, python-format
-msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:638
-msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:702
+#: templates/pages/home.html:248
 msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
+"\n"
+"                    Des programmes spécialisés conçus pour répondre aux "
+"besoins des professionnels et des diplômés\n"
+"                    universitaires cherchant à progresser dans leur carrière "
+"ou à changer de domaine.\n"
+"                    "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:874
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:960
-#: venv/lib/python3.12/site-packages/django/forms/models.py:1585
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
+#: templates/pages/home.html:258
+msgid "Icône de professeur"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:962
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:1081
-#: venv/lib/python3.12/site-packages/django/forms/models.py:1583
-msgid "Enter a list of values."
+#: templates/pages/home.html:260
+msgid "Solutions de formation B2B"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:1082
-msgid "Enter a complete value."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:1321
-msgid "Enter a valid UUID."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/fields.py:1351
-msgid "Enter a valid JSON."
-msgstr ""
-
-#. Translators: This is the default suffix added to form field labels
-#: venv/lib/python3.12/site-packages/django/forms/forms.py:94
-msgid ":"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/forms.py:231
-#, python-format
-msgid "(Hidden field %(name)s) %(error)s"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/formsets.py:61
-#, python-format
+#: templates/pages/home.html:262
 msgid ""
-"ManagementForm data is missing or has been tampered with. Missing fields: "
-"%(field_names)s. You may need to file a bug report if the issue persists."
+"\n"
+"                    Modules d'apprentissage sur mesure pour les entreprises, "
+"axés sur le développement des compétences,\n"
+"                    la cohésion d'équipe et la croissance "
+"organisationnelle.\n"
+"                    "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/formsets.py:65
-#, python-format
-msgid "Please submit at most %(num)d form."
-msgid_plural "Please submit at most %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/forms/formsets.py:70
-#, python-format
-msgid "Please submit at least %(num)d form."
-msgid_plural "Please submit at least %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/forms/formsets.py:484
-#: venv/lib/python3.12/site-packages/django/forms/formsets.py:491
-msgid "Order"
+#: templates/pages/home.html:272
+msgid "Icône de tableau noir"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
-msgid "Delete"
+#: templates/pages/home.html:274
+msgid "Soutien aux éducateurs"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/models.py:899
-#, python-format
-msgid "Please correct the duplicate data for %(field)s."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/models.py:904
-#, python-format
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/models.py:911
-#, python-format
+#: templates/pages/home.html:276
 msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
+"\n"
+"                    Des outils, ressources et formations pour aider les "
+"enseignants à perfectionner leurs compétences\n"
+"                    pédagogiques et à intégrer la technologie dans leurs "
+"pratiques éducatives.\n"
+"                    "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/models.py:920
-msgid "Please correct the duplicate values below."
+#: templates/pages/home.html:286
+msgid "Icône de mortier et planche"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/models.py:1357
-msgid "The inline value did not match the parent instance."
+#: templates/pages/home.html:288
+msgid "Évaluation et validation des compétences"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/models.py:1448
-msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/models.py:1587
-#, python-format
-msgid "“%(pk)s” is not a valid value."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/utils.py:227
-#, python-format
+#: templates/pages/home.html:290
 msgid ""
-"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
-"may be ambiguous or it may not exist."
+"\n"
+"                    Options d'évaluation sécurisées, en ligne et hybrides, "
+"pour valider les résultats d'apprentissage et\n"
+"                    les compétences, avec des points de service accrédités "
+"pour des évaluations en présentiel.\n"
+"                    "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/widgets.py:461
-msgid "Clear"
+#: templates/pages/home.html:302
+msgid "Activités d'engagement communautaire"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/forms/widgets.py:462
-msgid "Currently"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/widgets.py:463
-msgid "Change"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/widgets.py:800
-msgid "Unknown"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/widgets.py:801
-msgid "Yes"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/forms/widgets.py:802
-msgid "No"
-msgstr ""
-
-#. Translators: Please do not add spaces around commas.
-#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:876
-msgid "yes,no,maybe"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:906
-#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:923
-#, python-format
-msgid "%(size)d byte"
-msgid_plural "%(size)d bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:925
-#, python-format
-msgid "%s KB"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:927
-#, python-format
-msgid "%s MB"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:929
-#, python-format
-msgid "%s GB"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:931
-#, python-format
-msgid "%s TB"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:933
-#, python-format
-msgid "%s PB"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:74
-msgid "p.m."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:75
-msgid "a.m."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:80
-msgid "PM"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:81
-msgid "AM"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:153
-msgid "midnight"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:155
-msgid "noon"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:7
-msgid "Monday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:8
-msgid "Tuesday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:9
-msgid "Wednesday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:10
-msgid "Thursday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:11
-msgid "Friday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:12
-msgid "Saturday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:13
-msgid "Sunday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:16
-msgid "Mon"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:17
-msgid "Tue"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:18
-msgid "Wed"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:19
-msgid "Thu"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:20
-msgid "Fri"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:21
-msgid "Sat"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:22
-msgid "Sun"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:25
-msgid "January"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:26
-msgid "February"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:27
-msgid "March"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:28
-msgid "April"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:29
-msgid "May"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:30
-msgid "June"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:31
-msgid "July"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:32
-msgid "August"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:33
-msgid "September"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:34
-msgid "October"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:35
-msgid "November"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:36
-msgid "December"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:39
-msgid "jan"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:40
-msgid "feb"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:41
-msgid "mar"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:42
-msgid "apr"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:43
-msgid "may"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:44
-msgid "jun"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:45
-msgid "jul"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:46
-msgid "aug"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:47
-msgid "sep"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:48
-msgid "oct"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:49
-msgid "nov"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:50
-msgid "dec"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:53
-msgctxt "abbrev. month"
-msgid "Jan."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:54
-msgctxt "abbrev. month"
-msgid "Feb."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:55
-msgctxt "abbrev. month"
-msgid "March"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:56
-msgctxt "abbrev. month"
-msgid "April"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:57
-msgctxt "abbrev. month"
-msgid "May"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:58
-msgctxt "abbrev. month"
-msgid "June"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:59
-msgctxt "abbrev. month"
-msgid "July"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:60
-msgctxt "abbrev. month"
-msgid "Aug."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:61
-msgctxt "abbrev. month"
-msgid "Sept."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:62
-msgctxt "abbrev. month"
-msgid "Oct."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:63
-msgctxt "abbrev. month"
-msgid "Nov."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:64
-msgctxt "abbrev. month"
-msgid "Dec."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:67
-msgctxt "alt. month"
-msgid "January"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:68
-msgctxt "alt. month"
-msgid "February"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:69
-msgctxt "alt. month"
-msgid "March"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:70
-msgctxt "alt. month"
-msgid "April"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:71
-msgctxt "alt. month"
-msgid "May"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:72
-msgctxt "alt. month"
-msgid "June"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:73
-msgctxt "alt. month"
-msgid "July"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:74
-msgctxt "alt. month"
-msgid "August"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:75
-msgctxt "alt. month"
-msgid "September"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:76
-msgctxt "alt. month"
-msgid "October"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:77
-msgctxt "alt. month"
-msgid "November"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:78
-msgctxt "alt. month"
-msgid "December"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/ipv6.py:8
-msgid "This is not a valid IPv6 address."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/text.py:123
-#, python-format
-msgctxt "String to return when truncating text"
-msgid "%(truncated_text)s…"
-msgstr ""
-
-#. Translators: This string is used as a separator between list elements
-#: venv/lib/python3.12/site-packages/django/utils/text.py:342
-#: venv/lib/python3.12/site-packages/django/utils/timesince.py:135
-msgid ", "
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/timesince.py:8
-#, python-format
-msgid "%(num)d year"
-msgid_plural "%(num)d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/utils/timesince.py:9
-#, python-format
-msgid "%(num)d month"
-msgid_plural "%(num)d months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/utils/timesince.py:10
-#, python-format
-msgid "%(num)d week"
-msgid_plural "%(num)d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/utils/timesince.py:11
-#, python-format
-msgid "%(num)d day"
-msgid_plural "%(num)d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/utils/timesince.py:12
-#, python-format
-msgid "%(num)d hour"
-msgid_plural "%(num)d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/utils/timesince.py:13
-#, python-format
-msgid "%(num)d minute"
-msgid_plural "%(num)d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.12/site-packages/django/views/csrf.py:29
-msgid "Forbidden"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/csrf.py:30
-msgid "CSRF verification failed. Request aborted."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/csrf.py:34
+#: templates/pages/home.html:304
 msgid ""
-"You are seeing this message because this HTTPS site requires a “Referer "
-"header” to be sent by your web browser, but none was sent. This header is "
-"required for security reasons, to ensure that your browser is not being "
-"hijacked by third parties."
+"\n"
+"                    Programmes récréatifs et pratiques, tels que des "
+"tournois d'échecs en ligne, des initiatives\n"
+"                    sportives et des ateliers agricoles, conçus pour "
+"compléter l'apprentissage formel.\n"
+"                    "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/csrf.py:40
+#: templates/pages/home.html:314
+msgid "Icône de partenariat"
+msgstr ""
+
+#: templates/pages/home.html:316
+msgid "Partenariats de développement de contenu"
+msgstr ""
+
+#: templates/pages/home.html:318
 msgid ""
-"If you have configured your browser to disable “Referer” headers, please re-"
-"enable them, at least for this site, or for HTTPS connections, or for “same-"
-"origin” requests."
+"\n"
+"                    Collaborez avec nous pour créer et publier des contenus "
+"éducatifs culturellement pertinents et\n"
+"                    percutants.\n"
+"                    "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/csrf.py:45
+#: templates/pages/home.html:339
+msgid "Témoignages"
+msgstr ""
+
+#: templates/pages/home.html:357
 msgid ""
-"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
-"including the “Referrer-Policy: no-referrer” header, please remove them. The "
-"CSRF protection requires the “Referer” header to do strict referer checking. "
-"If you’re concerned about privacy, use alternatives like <a "
-"rel=\"noreferrer\" …> for links to third-party sites."
+"\n"
+"                                    KouLakay a transformé mon parcours "
+"éducatif. Les cours sont faciles à suivre, et apprendre en créole haïtien "
+"rend l'expérience tellement plus accessible. Je me sens enfin connecté à des "
+"ressources éducatives de qualité qui répondent à mes besoins.\n"
+"                                    "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/csrf.py:54
+#: templates/pages/home.html:363
+msgid "Image de l\\"
+msgstr ""
+
+#: templates/pages/home.html:366
+msgid "Lycéenne"
+msgstr ""
+
+#: templates/partials/course_details.html:7
+msgid "Course Details"
+msgstr ""
+
+#: templates/partials/course_details.html:18
+msgid "Close"
+msgstr ""
+
+#: templates/partials/footer.html:12
+msgid "Abonnez-vous à la newsletter"
+msgstr ""
+
+#: templates/partials/footer.html:23
+msgid "S'abonner"
+msgstr ""
+
+#: templates/partials/footer.html:50
 msgid ""
-"You are seeing this message because this site requires a CSRF cookie when "
-"submitting forms. This cookie is required for security reasons, to ensure "
-"that your browser is not being hijacked by third parties."
+"\n"
+"                            In aliquam, augue a gravida rutrum, ante nisl "
+"fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
+"finibus tortor fermentum, tempor lacus.\n"
+"                        "
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/csrf.py:60
-msgid ""
-"If you have configured your browser to disable cookies, please re-enable "
-"them, at least for this site, or for “same-origin” requests."
+#: templates/partials/footer.html:60
+msgid "Menu"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/csrf.py:66
-msgid "More information is available with DEBUG=True."
+#: templates/partials/footer.html:63 templates/partials/header.html:23
+#: templates/partials/header.html:85
+msgid "Accueil"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:44
-msgid "No year specified"
+#: templates/partials/footer.html:105
+msgid "Copyright"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:64
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:115
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:214
-msgid "Date out of range"
+#: templates/partials/footer.html:105
+msgid "Tous droits réservés"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:94
-msgid "No month specified"
+#: templates/partials/header.html:11
+msgid "Logo de Koulakay"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:147
-msgid "No day specified"
+#: templates/partials/header.html:14
+msgid "Logo de Koulakay mobile"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:194
-msgid "No week specified"
+#: templates/partials/header.html:39 templates/partials/header.html:97
+msgid "Connexion"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:349
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:380
-#, python-format
-msgid "No %(verbose_name_plural)s available"
+#: templates/partials/header.html:40
+msgid "Inscrivez-vous"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:652
-#, python-format
-msgid ""
-"Future %(verbose_name_plural)s not available because %(class_name)s."
-"allow_future is False."
+#: templates/partials/header.html:108
+msgid "Language"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:692
-#, python-format
-msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+#: templates/partials/header.html:143
+msgid "Informations utilisateur"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/detail.py:56
-#, python-format
-msgid "No %(verbose_name)s found matching the query"
+#: templates/partials/header.html:144 templates/partials/header.html:153
+msgid "Fermer"
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/views/generic/list.py:70
-msgid "Page is not “last”, nor can it be converted to an int."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/generic/list.py:77
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/generic/list.py:169
-#, python-format
-msgid "Empty list and “%(class_name)s.allow_empty” is False."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/static.py:49
-msgid "Directory indexes are not allowed here."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/static.py:51
-#, python-format
-msgid "“%(path)s” does not exist"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/static.py:68
-#: venv/lib/python3.12/site-packages/django/views/templates/directory_index.html:8
-#: venv/lib/python3.12/site-packages/django/views/templates/directory_index.html:11
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:7
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:220
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:206
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:221
-#, python-format
-msgid ""
-"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" "
-"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
-"configured any URLs."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:229
-msgid "Django Documentation"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:230
-msgid "Topics, references, &amp; how-to’s"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:238
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:239
-msgid "Get started with Django"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:247
-msgid "Django Community"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
-msgid "Connect, get help, or contribute"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django_utils/templates/django_utils/admin/dropdown_filter.html:10
-#, python-format
-msgid " By %(filter_title)s "
+#: templates/partials/header.html:150
+msgid "Profil de cours"
 msgstr ""
