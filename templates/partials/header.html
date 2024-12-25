@@ -7,8 +7,12 @@
         <!-- Logo -->
         <div class="logo_container">
             <div class="logo">
-                <img class="d-none d-md-block" src="{% static 'logo/koulakay.png' %}" alt="{% trans 'Logo de Koulakay' %}" style="height:30px">
-                <img class="d-md-none" src="{% static 'logo/koulaka.png' %}" alt="{% trans 'Logo de Koulakay mobile' %}" style="height:30px">
+                <a class="d-none d-md-block" href="{% url 'home' %}">
+                    <img class="d-none d-md-block" src="{% static 'logo/koulakay.png' %}" alt="{% trans 'Logo de Koulakay' %}" style="height:30px">
+                </a>
+                <a class="d-md-none" href="{% url 'home' %}">
+                    <img class="d-md-none" src="{% static 'logo/koulaka.png' %}" alt="{% trans 'Logo de Koulakay mobile' %}" style="height:30px">
+                </a>
             </div>
         </div>
 

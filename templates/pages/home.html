@@ -3,6 +3,46 @@
 {% load static %}
 {% load i18n %}
 <div class="home">
+    <style>
+        {% comment %} .slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slider img {
+            width: 100%;
+            height: auto;
+        } {% endcomment %}
+
+        .fa-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 27px;
+            color: white;
+            {% comment %} background: rgba(0, 0, 0, 0.5); {% endcomment %}
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .fa-left {
+            left: 5px;
+        }
+
+        .fa-right {
+            right: 5px;
+        }
+    </style>
 
     <!-- Hero Slider -->
     <div class="hero_slider_container">
@@ -46,8 +86,21 @@
 
         </div>
 
-        <div class="hero_slider_left hero_slider_nav trans_200"><span class="trans_200">{% trans "prev" %}</span></div>
-        <div class="hero_slider_right hero_slider_nav trans_200"><span class="trans_200">{% trans "next" %}</span></div>
+        <div class="hero_slider_left hero_slider_nav trans_200">
+            <span class="trans_200">
+                <div class="fa-button fa-left">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+            </span>
+        </div>
+        <div class="hero_slider_right hero_slider_nav trans_200">
+            <span class="trans_200">
+                <div class="fa-button fa-right">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </span>
+        </div>
+
     </div>
 
 </div>

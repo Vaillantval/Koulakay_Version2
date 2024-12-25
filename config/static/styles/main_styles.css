@@ -735,7 +735,7 @@ section
 	transform: translateY(calc(-50% + 30px));
 	width: 58px;
 	height: 40px;
-	background: #FFFFFF;
+	/* background: #FFFFFF; */
 	z-index: 9;
 	cursor: pointer;
 }
