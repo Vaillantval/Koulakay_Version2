@@ -53,24 +53,24 @@
 					<form method="POST" action="{% url 'courses' %}">
 						{% csrf_token %}
 						{% for c in category_items %}
-						<li class="list-group-item m-2">
-							<button name="products" value="{{ c.product_ids }}" type="submit" class="btn btn-outline-primary">
-								{{ c.name }}
-							</button>
-						</li>
-					{% endfor %}
-					{% endfor %}
-					</div>
+							<li class="list-group-item m-2">
+								<button name="products" value="{{ c.product_ids }}" type="submit" class="btn btn-outline-primary">
+									{{ c.name }}
+								</button>
+							</li>
 						{% endfor %}
-					</div>
+					{% comment %} {% endfor %} {% endcomment %}
+					{% comment %} </div> {% endcomment %}
+						{% comment %} {% endfor %} {% endcomment %}
+					{% comment %} </div> {% endcomment %}
 					</form>
 				</div>
 			</ul>
 		</div>
 
 		<!-- Course List -->
-			<div class="row course_boxes">
-			<div class="row course_boxes">
+			{% comment %} <div class="row course_boxes"> {% endcomment %}
+			{% comment %} <div class="row course_boxes"> {% endcomment %}
 				
 		<div class="row course_boxes">
 				

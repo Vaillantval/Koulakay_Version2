@@ -278,7 +278,7 @@ section
 	-o-transform: translateX(-50%);
 	transform: translateX(-50%);
 	width: 1318px;
-	height: 104px;
+	height: 75px;
 	background: #FFFFFF;
 	z-index: 10;
 	-webkit-transition: all 200ms ease;
@@ -380,7 +380,7 @@ section
 
 .header_side
 {
-	width: 279px;
+	width: 400px;
 	height: 100%;
 	background: #ffb606;
 }
@@ -664,7 +664,7 @@ section
 	-ms-transform: translateX(-50%);
 	-o-transform: translateX(-50%);
 	transform: translateX(-50%);
-	background: #ffb606;
+	background: rgba(255, 182, 6, 0.76);
 	padding-top: 24px;
 	padding-bottom: 18px;
 	padding-left: 39px;

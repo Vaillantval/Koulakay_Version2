@@ -664,7 +664,7 @@ section
 	-ms-transform: translateX(-50%);
 	-o-transform: translateX(-50%);
 	transform: translateX(-50%);
-	background: #ffb606;
+	background: rgba(255, 182, 6, 0.76);
 	padding-top: 24px;
 	padding-bottom: 18px;
 	padding-left: 39px;

@@ -289,7 +289,7 @@ section
 	-o-transform: translateX(-50%);
 	transform: translateX(-50%);
 	width: 1318px;
-	height: 104px;
+	height: 75px;
 	background: #FFFFFF;
 	z-index: 10;
 	-webkit-transition: all 200ms ease;
@@ -391,7 +391,7 @@ section
 
 .header_side
 {
-	width: 279px;
+	width: 400px;
 	height: 100%;
 	background: #ffb606;
 }
@@ -693,7 +693,7 @@ section
 }
 .hero_slide_content h1 span
 {
-	background: #ffb606;
+	background: rgba(255, 182, 6, 0.76);
 	padding-left: 13px;
 	padding-right: 13px;
 	margin-left: -12px;
@@ -734,7 +734,7 @@ section
 	-o-transform: translateY(-50%);
 	transform: translateY(calc(-50% + 30px));
 	width: 58px;
-	height: 58px;
+	height: 40px;
 	background: #FFFFFF;
 	z-index: 9;
 	cursor: pointer;

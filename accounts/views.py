@@ -2,6 +2,7 @@ from django.shortcuts import render
 from allauth.account.views import SignupView
 from django.conf import settings
 from thinkific import Thinkific
+
 thinkific = Thinkific(settings.THINKIFIC['AUTH_TOKEN'],settings.THINKIFIC['SITE_ID'])
 class MySignupView(SignupView):
 
