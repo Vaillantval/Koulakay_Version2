@@ -1098,6 +1098,64 @@ msgstr ""
 "                                    KouLakay has transformed my educational journey. The courses are easy to follow, and learning in Haitian Creole makes the experience so much more accessible. I finally feel connected to quality educational resources that meet my needs.\n"
 "                                    "
 
+#: templates/pages/home.html:375
+msgid ""
+"\n"
+"                                    Les programmes de formation continue de KouLakay sont incroyablement utiles. Les compétences pratiques que j'ai acquises ont renforcé ma confiance et m'ont permis de progresser dans ma carrière.\n"
+"                                    "
+msgstr ""
+"\n"
+"                                    The continuing education programs at KouLakay are incredibly useful. The practical skills I acquired boosted my confidence and allowed me to advance in my career.\n"
+"                                    "
+
+#: templates/pages/home.html:394
+msgid ""
+"\n"
+"                                    Notre organisation a collaboré avec KouLakay pour former nos employés, et les résultats ont été exceptionnels. Les cours sur mesure et les certifications ont permis à notre équipe d'améliorer ses compétences et de travailler plus efficacement.\n"
+"                                    "
+msgstr ""
+"\n"
+"                                    Our organization partnered with KouLakay to train our employees, and the results were exceptional. The tailored courses and certifications enabled our team to enhance their skills and work more efficiently.\n"
+"                                    "
+
+#: templates/pages/home.html:413
+msgid ""
+"\n"
+"                                    Je recommande vivement KouLakay pour sa flexibilité. J'ai pu apprendre à mon rythme, et les certificats obtenus ont apporté une vraie valeur ajoutée à mon CV.\n"
+"                                    "
+msgstr ""
+"\n"
+"                                    I highly recommend KouLakay for its flexibility. I was able to learn at my own pace, and the certificates I earned added real value to my resume.\n"
+"                                    "
+
+#: templates/pages/home.html:432
+msgid ""
+"\n"
+"                                    Les solutions de formation B2B proposées par KouLakay ont parfaitement répondu aux besoins de notre organisation. L'intégration d'exercices pratiques et d'activités d'équipe a rendu le processus d'apprentissage engageant et efficace.\n"
+"                                    "
+msgstr ""
+"\n"
+"                                    The B2B training solutions offered by KouLakay perfectly met the needs of our organization. The integration of practical exercises and team activities made the learning process engaging and effective.\n"
+"                                    "
+#: templates/pages/home.html:384
+msgid "Analyste d'affaires"
+msgstr "Business Analyst"
+
+#: templates/pages/home.html:403
+msgid "Responsable RH"
+msgstr "HR Manager"
+
+
+#: templates/pages/home.html:422
+msgid "Diplômée récente"
+msgstr "Recent Graduate"
+
+
+#: templates/pages/home.html:441
+msgid "PDG"
+msgstr "CEO"
+
+
 #: templates/pages/home.html:363
 msgid "Image de l\\"
 msgstr "Image of the\\"
