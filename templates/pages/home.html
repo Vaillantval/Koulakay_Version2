@@ -136,15 +136,18 @@
                                 <div class="course_author_image">
                                     <img src="{% static 'images/author.jpg' %}" alt="{% trans "Image de l'auteur" %}">
                                 </div>
+                                <div class="course_author_name">
                                 {% if c.enroll %}
-                                <div class="course_author_name">
+                                
                                     <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{ c.slug }}/texts/">{% trans "Voir le cours" %}</a>
-                                </div>
+                                
                                 {% else %}
-                                <div class="course_author_name">
+                             
                                     <button class="btn btn-success" type="submit">{% trans "S'inscrire" %}</button>
-                                </div>
+                                
                                 {% endif %}
+                                <a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2 ">{% trans "Détails" %}</a>
+                            </div>
                                 <div class="course_price d-flex flex-column align-items-center justify-content-center">
                                     <span>${{ c.price }}</span>
                                 </div>
