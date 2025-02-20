@@ -7,11 +7,11 @@
         <!-- Logo -->
         <div class="logo_container">
             <div class="logo">
-                <a class="d-none d-md-block" href="{% url 'home' %}">
-                    <img class="d-none d-md-block" src="{% static 'logo/koulakay.png' %}" alt="{% trans 'Logo de Koulakay' %}" style="height:30px">
+                <a class="" href="{% url 'home' %}">
+                    <img class="" src="{% static 'logo/koulakay.png' %}" alt="{% trans 'Logo de Koulakay' %}" style="height:40px;width:auto">
                 </a>
                 <a class="d-md-none" href="{% url 'home' %}">
-                    <img class="d-md-none" src="{% static 'logo/koulaka.png' %}" alt="{% trans 'Logo de Koulakay mobile' %}" style="height:30px">
+                    {% comment %} <img class="d-md-none" src="{% static 'logo/koulaka.png' %}" alt="{% trans 'Logo de Koulakay mobile' %}" style="height:30px"> {% endcomment %}
                 </a>
             </div>
         </div>
@@ -48,7 +48,11 @@
             {% get_language_info_list for LANGUAGES as languages %}
             <a id="languagesDropdown" class="nav-link dropdown-toggle text-white d-flex flex-row justify-content-center align-items-center" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-globe"></i>
+            <img 
+            class="pe-1"
+            src="{% static 'images/flags/'|add:LANGUAGE_CODE|add:'.png' %}" 
+            height="15px;"
+          >
                 <span>{{ LANGUAGE_CODE|capfirst }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right m-auto mt-md-3 mt-3 px-1 py-1"
@@ -58,6 +62,11 @@
                     {% if language.code == LANGUAGE_CODE %}
                     style="background-color:orange; border-radius: 5px; overflow: hidden;" {% endif %}
                     href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
+                    <img 
+                    class="pe-1"
+                    src="{% static 'images/flags/'|add:language.code|add:'.png' %}" 
+                    height="15px;"
+                  >
                         {{ language.name_local }} ({{ language.code }})
                     </a>
                 {% endfor %}
@@ -104,7 +113,11 @@
                 {% get_language_info_list for LANGUAGES as languages %}
                 <a id="languagesDropdown" class="nav-link dropdown-toggle text-dark d-flex flex-row justify-content-center align-items-center" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-globe"></i>
+                <img 
+                class="pe-1"
+                src="{% static 'images/flags/'|add:LANGUAGE_CODE|add:'.png' %}" 
+                height="15px;"
+              >
                     <span>{% trans 'Language' %}</span> |
                     <span>{{ LANGUAGE_CODE|capfirst }}</span>
                 </a>
@@ -115,6 +128,11 @@
                         {% if language.code == LANGUAGE_CODE %}
                         style="background-color:orange; border-radius: 5px; overflow: hidden;" {% endif %}
                         href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
+                        <img 
+                        class="pe-1"
+                        src="{% static 'images/flags/'|add:language.code|add:'.png' %}" 
+                        height="15px;"
+                      >
                             {{ language.name_local }} ({{ language.code }})
                         </a>
                     {% endfor %}
