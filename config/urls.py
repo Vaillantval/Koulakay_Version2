@@ -21,12 +21,18 @@ from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 
+from pages.views import redirect_to_default_language
+
 admin.autodiscover()
 
 from  django.contrib.sitemaps.views import sitemap
 
 urlpatterns = [
     path("sitemap.xml", sitemap, name="sitemap-xml"),
+]
+
+urlpatterns += [
+    path('', redirect_to_default_language),
 ]
 
 urlpatterns += i18n_patterns(
