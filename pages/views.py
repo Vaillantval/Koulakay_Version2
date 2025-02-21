@@ -23,3 +23,6 @@ def contact(request):
 
 def about(request):
     return render(request,'pages/about.html')
+
+def success_page(request):
+    return render(request,'pages/success.html')

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_responsive.css' %}">
+{% endblock %}
+{% block content %}
+
+{% load static %}
+{% load i18n %}
+
+<div class="home">
+    <div class="home_background_container prlx_parent">
+        <div class="home_background prlx" style="background-image:url({% static 'images/background_1.JPG' %})"></div>
+    </div>
+    <div class="home_content">
+        <h1>{% trans "Payment Successfull " %}</h1>
+    </div>
+</div>
+<!-- Popular -->
+<div class="popular page_section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="section_title text-center">
+                    <h1>{% trans "Notre mission" %}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <p><strong>
+                {% blocktrans %}
+                Notre mission chez KouLakay est de rendre l'éducation de qualité accessible à tous, en permettant à chacun de réaliser son plein potentiel. Nous sommes dédiés à la création d'une expérience d'apprentissage transformative en proposant des ressources éducatives engageantes, culturellement pertinentes et pratiques.
+                En combinant innovation, inclusion et collaboration, KouLakay vise à combler les lacunes éducatives, à promouvoir l'apprentissage tout au long de la vie, et à fournir aux apprenants les connaissances et les compétences nécessaires pour prospérer dans un monde en constante évolution. Par des partenariats avec des éducateurs, des institutions et des communautés, nous nous engageons à façonner un avenir où l'éducation est un droit, non un privilège.
+                {% endblocktrans %}
+            </strong></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

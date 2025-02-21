@@ -60,7 +60,7 @@ def generate_paylink(request, transaction:Transaction):
     protocol = request.scheme
    
     amount = transaction.price
-    return_url = protocol + "://"+ domain
+    return_url = protocol + "://"+ domain + "success_page/"
     webhooks_url=protocol + "://"+ domain + "/payment/confirm/"
     auth_token = "970bce3247a398006c10152d6ffc51d55eb4be88"  # Replace with your token management logic
 
@@ -129,3 +129,4 @@ def course_details(request,course_id):
     instructor = thinkific.instructors.retrieve_instructor(id=course['instructor_id'])
    
     return render(request,'pages/course_details.html',{'course':course,'instructor':instructor})
+
