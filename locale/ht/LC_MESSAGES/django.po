@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-25 23:03+0000\n"
+"POT-Creation-Date: 2025-02-21 11:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,7 +152,8 @@ msgid ""
 "vraiment ajouter une adresse e-mail afin de pouvoir recevoir des "
 "notifications, réinitialiser votre mot de passe, etc."
 msgstr ""
-"Ou pa gen okenn adrès imèl aktyèlman konfigire. Ou ta dwe vrèman ajoute yon adrès imèl pou kapab resevwa notifikasyon, rekòmanse modpas ou, elatriye."
+"Ou pa gen okenn adrès imèl aktyèlman konfigire. Ou ta dwe vrèman ajoute yon "
+"adrès imèl pou kapab resevwa notifikasyon, rekòmanse modpas ou, elatriye."
 
 #: templates/account/email.html:49
 msgid "Ajouter une adresse e-mail"
@@ -232,7 +233,8 @@ msgid ""
 "\n"
 "To confirm this is correct, go to %(activate_url)s"
 msgstr ""
-"Ou ap resevwa imèl sa a paske itilizatè %(user_display)s te bay adrès imèl ou pou anrejistre yon kont sou %(site_domain)s.\n"
+"Ou ap resevwa imèl sa a paske itilizatè %(user_display)s te bay adrès imèl "
+"ou pou anrejistre yon kont sou %(site_domain)s.\n"
 "\n"
 "Pou konfime ke sa a kòrèk, ale nan %(activate_url)s"
 
@@ -296,7 +298,8 @@ msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
 msgstr ""
-"Tanpri konfime ke <a href=\"mailto:%(email)s\">%(email)s</a> se yon adrès imèl pou itilizatè %(user_display)s."
+"Tanpri konfime ke <a href=\"mailto:%(email)s\">%(email)s</a> se yon adrès "
+"imèl pou itilizatè %(user_display)s."
 
 #: templates/account/email_confirm.html:20
 msgid "Confirm"
@@ -323,8 +326,8 @@ msgid ""
 "style=\"color: #f15922;\" href=\"%(signup_url)s\">inscrivez-vous</a>\n"
 "pour un compte %(site_name)s et connectez-vous ci-dessous:"
 msgstr ""
-"Tanpri konekte avèk youn nan kont twazyèm pati ou yo ki egziste deja. Oswa, <a "
-"style=\"color: #f15922;\" href=\"%(signup_url)s\">enskri</a>\n"
+"Tanpri konekte avèk youn nan kont twazyèm pati ou yo ki egziste deja. Oswa, "
+"<a style=\"color: #f15922;\" href=\"%(signup_url)s\">enskri</a>\n"
 "pou yon kont %(site_name)s epi konekte anba a:"
 
 #: templates/account/login.html:25
@@ -345,7 +348,7 @@ msgid "Mot de passe oublié ?"
 msgstr "Modpas bliye?"
 
 #: templates/account/logout.html:5 templates/account/logout.html:8
-#: templates/partials/header.html:149
+#: templates/partials/header.html:168
 msgid "Déconnexion"
 msgstr "Dekonekte"
 
@@ -419,7 +422,8 @@ msgid ""
 "dessous, et nous vous enverrons un e-mail pour vous permettre de le "
 "réinitialiser."
 msgstr ""
-"Ou bliye modpas ou? Antre adrès imèl ou anba a, e nou pral voye yon imèl pou pèmèt ou reyinisyalize li."
+"Ou bliye modpas ou? Antre adrès imèl ou anba a, e nou pral voye yon imèl pou "
+"pèmèt ou reyinisyalize li."
 
 #: templates/account/password_reset.html:21
 msgid "Réinitialiser mon mot de passe"
@@ -429,8 +433,7 @@ msgstr "Reyinisyalize modpas mwen"
 msgid ""
 "Veuillez nous contacter si vous avez des difficultés à réinitialiser votre "
 "mot de passe."
-msgstr ""
-"Tanpri kontakte nou si ou gen difikilte pou reyinisyalize modpas ou."
+msgstr "Tanpri kontakte nou si ou gen difikilte pou reyinisyalize modpas ou."
 
 #: templates/account/password_reset_done.html:6
 #: templates/account/password_reset_done.html:9
@@ -442,7 +445,8 @@ msgid ""
 "We have sent you an e-mail. If you have not received it please check your "
 "spam folder. Otherwise contact us if you do not receive it in a few minutes."
 msgstr ""
-"Nou te voye yon imèl pou ou. Si ou pa resevwa li, tanpri tcheke katab spam ou. Sinon, kontakte nou si ou pa resevwa li nan kèk minit."
+"Nou te voye yon imèl pou ou. Si ou pa resevwa li, tanpri tcheke katab spam "
+"ou. Sinon, kontakte nou si ou pa resevwa li nan kèk minit."
 
 #: templates/account/password_reset_from_key.html:6
 #: templates/account/password_reset_from_key.html:9
@@ -463,7 +467,9 @@ msgid ""
 "used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
 "a>."
 msgstr ""
-"Lyèn pou reyinisyalize modpas la te envalab, posibman paske li deja itilize. Tanpri mande yon <a href=\"%(passwd_reset_url)s\">nouvo reyinisyalizasyon modpas</a>."
+"Lyèn pou reyinisyalize modpas la te envalab, posibman paske li deja itilize. "
+"Tanpri mande yon <a href=\"%(passwd_reset_url)s\">nouvo reyinisyalizasyon "
+"modpas</a>."
 
 #: templates/account/password_reset_from_key.html:18
 msgid "change password"
@@ -496,7 +502,7 @@ msgstr "Enskripsyon"
 
 #: templates/account/signup.html:15 templates/account/signup.html:38
 #: templates/pages/course_details.html:39 templates/pages/courses.html:103
-#: templates/pages/home.html:145
+#: templates/pages/home.html:146
 msgid "S'inscrire"
 msgstr "Enskri"
 
@@ -541,10 +547,10 @@ msgid ""
 "your main inbox, check your spam folder. Please contact us if you do not "
 "receive the verification e-mail within a few minutes."
 msgstr ""
-"Nou te voye yon imèl pou ou pou verifye. Swiv lyen ki bay la pou "
-"finalize pwosesis enskripsyon an. Si ou pa wè imèl verifye a nan "
-"bande prensipal ou, tcheke katab spam ou. Tanpri kontakte nou si ou pa "
-"resevwa imèl verifye a nan kèk minit."
+"Nou te voye yon imèl pou ou pou verifye. Swiv lyen ki bay la pou finalize "
+"pwosesis enskripsyon an. Si ou pa wè imèl verifye a nan bande prensipal ou, "
+"tcheke katab spam ou. Tanpri kontakte nou si ou pa resevwa imèl verifye a "
+"nan kèk minit."
 
 #: templates/account/verified_email_required.html:12
 msgid ""
@@ -576,10 +582,11 @@ msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
 "mail address</a>."
 msgstr ""
-"<strong>Nòt:</strong> ou toujou ka <a href=\"%(email_url)s\">chanje adrès imèl ou</a>."
+"<strong>Nòt:</strong> ou toujou ka <a href=\"%(email_url)s\">chanje adrès "
+"imèl ou</a>."
 
-#: templates/pages/about.html:20 templates/partials/header.html:24
-#: templates/partials/header.html:86
+#: templates/pages/about.html:20 templates/partials/header.html:25
+#: templates/partials/header.html:96
 msgid "À propos"
 msgstr "Sou nou"
 
@@ -605,8 +612,15 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"                Misyon nou nan KouLakay se fè edikasyon kalite aksesib pou tout moun, pèmèt chak moun reyalize potansyèl yo. Nou dedye pou kreye yon eksperyans aprantisaj transfòmatè lè nou ofri resous edikatif angaje, kiltirèlman ki apwopriye ak pratik.\n"
-"                Lè nou konbine inovasyon, enklizyon ak kolaborasyon, KouLakay vize ranpli twou nan edikasyon, pwomouvwa aprantisaj pandan tout lavi, e bay aprenan yo konesans ak konpetans nesesè pou briye nan yon mond ki toujou ap evolye. Atravè patenarya ak edikatè, enstitisyon ak kominote, nou angaje nou pou fòm yon avni kote edikasyon se yon dwa, pa yon privilèj.\n"
+"                Misyon nou nan KouLakay se fè edikasyon kalite aksesib pou "
+"tout moun, pèmèt chak moun reyalize potansyèl yo. Nou dedye pou kreye yon "
+"eksperyans aprantisaj transfòmatè lè nou ofri resous edikatif angaje, "
+"kiltirèlman ki apwopriye ak pratik.\n"
+"                Lè nou konbine inovasyon, enklizyon ak kolaborasyon, "
+"KouLakay vize ranpli twou nan edikasyon, pwomouvwa aprantisaj pandan tout "
+"lavi, e bay aprenan yo konesans ak konpetans nesesè pou briye nan yon mond "
+"ki toujou ap evolye. Atravè patenarya ak edikatè, enstitisyon ak kominote, "
+"nou angaje nou pou fòm yon avni kote edikasyon se yon dwa, pa yon privilèj.\n"
 "                "
 
 #: templates/pages/about.html:46
@@ -624,7 +638,10 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"                Vizyon nou nan KouLakay se vin tounen platfòm referans pou yon edikasyon enklizif ak aksesib atravè mond lan. Nou aspire pou transfòme fason moun aprann pa kreye yon koneksyon fasil ant resous edikatif kalite, teknoloji inovatif ak yon kominote aprantisaj solidè.\n"
+"                Vizyon nou nan KouLakay se vin tounen platfòm referans pou "
+"yon edikasyon enklizif ak aksesib atravè mond lan. Nou aspire pou transfòme "
+"fason moun aprann pa kreye yon koneksyon fasil ant resous edikatif kalite, "
+"teknoloji inovatif ak yon kominote aprantisaj solidè.\n"
 "                "
 
 #: templates/pages/about.html:65
@@ -637,7 +654,9 @@ msgid ""
 "guident toutes nos actions. Ces principes façonnent notre engagement envers "
 "les apprenants, les éducateurs et les communautés."
 msgstr ""
-"Nan KouLakay, valè fondamantal nou yo defini kiyès nou ye epi gide tout aksyon nou yo. Prensip sa yo fòme angajman nou ak aprenan yo, edikatè yo ak kominote yo."
+"Nan KouLakay, valè fondamantal nou yo defini kiyès nou ye epi gide tout "
+"aksyon nou yo. Prensip sa yo fòme angajman nou ak aprenan yo, edikatè yo ak "
+"kominote yo."
 
 #: templates/pages/about.html:77
 msgid "Accessibilité"
@@ -649,7 +668,8 @@ msgid ""
 "engageons à éliminer les obstacles à l'apprentissage en proposant des "
 "ressources éducatives accessibles et inclusives."
 msgstr ""
-"Nou kwè ke edikasyon se yon dwa, pa yon privilèj. Nou angaje nou pou elimine baryè nan aprantisaj lè nou ofri resous edikatif aksesib ak enklizif."
+"Nou kwè ke edikasyon se yon dwa, pa yon privilèj. Nou angaje nou pou elimine "
+"baryè nan aprantisaj lè nou ofri resous edikatif aksesib ak enklizif."
 
 #: templates/pages/about.html:84
 msgid "Innovation"
@@ -662,7 +682,9 @@ msgid ""
 "inspirent la croissance et l'adaptabilité dans un monde en constante "
 "évolution."
 msgstr ""
-"Lè nou itilize teknoloji avanse, nou fè efò pou kreye eksperyans aprantisaj dinamik, angaje ak efikas ki enspire kwasans ak adaptabilite nan yon mond ki toujou ap evolye."
+"Lè nou itilize teknoloji avanse, nou fè efò pou kreye eksperyans aprantisaj "
+"dinamik, angaje ak efikas ki enspire kwasans ak adaptabilite nan yon mond ki "
+"toujou ap evolye."
 
 #: templates/pages/about.html:91
 msgid "Collaboration"
@@ -674,7 +696,8 @@ msgid ""
 "main dans la main avec des éducateurs, des institutions et des parties "
 "prenantes pour co-créer des opportunités éducatives percutantes."
 msgstr ""
-"Nou valè patenarya ak angajman kominotè, travay men nan men ak edikatè, enstitisyon ak pati enterese pou ko-kreye opòtinite edikatif ki gen enpak."
+"Nou valè patenarya ak angajman kominotè, travay men nan men ak edikatè, "
+"enstitisyon ak pati enterese pou ko-kreye opòtinite edikatif ki gen enpak."
 
 #: templates/pages/about.html:98
 msgid "Pertinence culturelle"
@@ -686,7 +709,8 @@ msgid ""
 "qui résonnent avec la réalité de nos apprenants, favorisant la fierté et le "
 "lien à travers la langue et le contexte."
 msgstr ""
-"Respekte ak selebre kilti ayisyen an, nou devlope kontni ki reyini ak reyalite aprenan nou yo, favorize fyète ak lyen atravè lang ak kontèks."
+"Respekte ak selebre kilti ayisyen an, nou devlope kontni ki reyini ak "
+"reyalite aprenan nou yo, favorize fyète ak lyen atravè lang ak kontèks."
 
 #: templates/pages/about.html:105
 msgid "Autonomisation"
@@ -698,7 +722,9 @@ msgid ""
 "compétences nécessaires pour libérer leur potentiel, atteindre leurs "
 "objectifs et contribuer de manière significative à la société."
 msgstr ""
-"Nou dedye nou pou ekipe endividi yo ak konesans ak konpetans nesesè pou libere potansyèl yo, atenn objektif yo ak kontribye de fason siyifikatif nan sosyete a."
+"Nou dedye nou pou ekipe endividi yo ak konesans ak konpetans nesesè pou "
+"libere potansyèl yo, atenn objektif yo ak kontribye de fason siyifikatif nan "
+"sosyete a."
 
 #: templates/pages/about.html:112
 msgid "Excellence"
@@ -710,7 +736,8 @@ msgid ""
 "des expériences d'apprentissage exceptionnelles qui répondent aux normes les "
 "plus élevées d'intégrité éducative."
 msgstr ""
-"Angajman nou pou kalite pouse nou pou founi resous ak eksperyans aprantisaj eksepsyonèl ki satisfè pi wo estanda entegrite edikatif yo."
+"Angajman nou pou kalite pouse nou pou founi resous ak eksperyans aprantisaj "
+"eksepsyonèl ki satisfè pi wo estanda entegrite edikatif yo."
 
 #: templates/pages/about.html:120
 msgid "Durabilité"
@@ -722,11 +749,12 @@ msgid ""
 "long de la vie et en bâtissant un modèle pérenne pour le développement "
 "éducatif."
 msgstr ""
-"Nou vize kreye yon enpak dirab nan pwomouvwa aprantisaj pandan tout lavi ak bati yon modèl dirab pou devlopman edikatif."
+"Nou vize kreye yon enpak dirab nan pwomouvwa aprantisaj pandan tout lavi ak "
+"bati yon modèl dirab pou devlopman edikatif."
 
-#: templates/pages/contact.html:19 templates/partials/footer.html:65
-#: templates/partials/footer.html:73 templates/partials/header.html:26
-#: templates/partials/header.html:88
+#: templates/pages/contact.html:19 templates/partials/footer.html:68
+#: templates/partials/footer.html:76 templates/partials/header.html:27
+#: templates/partials/header.html:98
 msgid "Contact"
 msgstr "Kontak"
 
@@ -767,20 +795,19 @@ msgid "Rejoindre les Cours"
 msgstr "Antre nan Kourè"
 
 #: templates/pages/contact.html:50
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                                Rejoignez-nous maintenant pour accéder à "
+#| "des cours de qualité qui transformeront votre expérience "
+#| "d'apprentissage.\n"
+#| "                            "
 msgid ""
-"\n"
-"\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum nulla, "
-"vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor "
-"fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus "
-"facilisis ultricies. Etiam eu purus nec eros varius luctus.\n"
-"\t\t\t\t\t\t\t"
+"Rejoignez-nous maintenant pour accéder à des cours de qualité qui "
+"transformeront votre expérience d'apprentissage."
 msgstr ""
-"\n"
-"\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum nulla, "
-"vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor "
-"fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus "
-"facilisis ultricies. Etiam eu purus nec eros varius luctus.\n"
-"\t\t\t\t\t\t\t"
+"Rantre nan nou kounye a pou jwenn aksè a kou de kalite "
+"ki pral transfòme eksperyans aprantisaj ou."
 
 #: templates/pages/course_details.html:18 templates/pages/courses.html:101
 #: templates/pages/courses.html:104
@@ -795,16 +822,16 @@ msgstr "Enstriktè:"
 msgid "Description"
 msgstr "Deskripsyon"
 
-#: templates/pages/courses.html:19 templates/partials/footer.html:64
-#: templates/partials/header.html:25 templates/partials/header.html:87
+#: templates/pages/courses.html:19 templates/partials/footer.html:67
+#: templates/partials/header.html:26 templates/partials/header.html:97
 msgid "Cours"
 msgstr "Kourè"
 
-#: templates/pages/courses.html:29 templates/pages/home.html:120
+#: templates/pages/courses.html:29 templates/pages/home.html:121
 msgid "Cours populaires"
 msgstr "Kourè popilè"
 
-#: templates/pages/courses.html:41 templates/pages/home.html:189
+#: templates/pages/courses.html:41 templates/pages/home.html:190
 msgid "Nom du cours"
 msgstr "Non Kourè"
 
@@ -812,7 +839,7 @@ msgstr "Non Kourè"
 msgid "Rechercher"
 msgstr "Chèche"
 
-#: templates/pages/courses.html:87 templates/pages/home.html:128
+#: templates/pages/courses.html:87 templates/pages/home.html:129
 msgid "Image du cours"
 msgstr "Imaj Kourè"
 
@@ -820,20 +847,20 @@ msgstr "Imaj Kourè"
 msgid "Auteur"
 msgstr "Oteur"
 
-#: templates/pages/courses.html:100 templates/pages/home.html:141
+#: templates/pages/courses.html:100 templates/pages/home.html:142
 msgid "Voir le cours"
 msgstr "Wè Kourè"
 
-#: templates/pages/home.html:38 templates/pages/home.html:50
-#: templates/pages/home.html:62
+#: templates/pages/home.html:39 templates/pages/home.html:51
+#: templates/pages/home.html:63
 msgid "Obtenez <span>Votre Éducation</span> aujourd'hui !"
 msgstr "Jwenn <span>Edikasyon Ou</span> jodi a!"
 
-#: templates/pages/home.html:95
+#: templates/pages/home.html:96
 msgid "Qui sommes-nous ?"
 msgstr "Kilès nou ye?"
 
-#: templates/pages/home.html:101
+#: templates/pages/home.html:102
 msgid ""
 "\n"
 "                KouLakay est une plateforme éducative novatrice conçue pour "
@@ -857,23 +884,34 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"                KouLakay se yon platfòm edikatif inovatè ki fèt pou demokratize aksè a yon edikasyon kalite pou elèv yo, pwofesyonèl yo ak aprenan pandan tout lavi a.\n"
-"                Anchre nan konviksyon ke konesans se yon fòs, KouLakay ofri kontni entèaktif ak kiltirèlman ki apwopriye adapte ak bezwen yon piblik divèsifye.\n"
-"                Misyon nou se ranpli twou nan resous edikatif yo lè nou ofri kourè ki gen gwo kalite pou ankouraje aprantisaj ak devlopman konpetans.\n"
-"                Lè nou itilize teknoloji, nou vize kreye yon anviwònman aprantisaj enklizif ak dinamik, aksesib pou tout moun, kèlkeswa lokalizasyon oswa kontèks.\n"
-"                Nan KouLakay, nou kolabore ak edikatè, enstitisyon ak lidè endistri yo pou garanti ke kontni nou yo gen enpak, pratik ak aliyen ak bezwen mond reyèl la.\n"
-"                Kit ou se yon elèv segondè, yon diplome inivèsite oswa yon pwofesyonèl k ap chèche edikasyon kontinye, KouLakay la pou sipòte siksè ou.\n"
+"                KouLakay se yon platfòm edikatif inovatè ki fèt pou "
+"demokratize aksè a yon edikasyon kalite pou elèv yo, pwofesyonèl yo ak "
+"aprenan pandan tout lavi a.\n"
+"                Anchre nan konviksyon ke konesans se yon fòs, KouLakay ofri "
+"kontni entèaktif ak kiltirèlman ki apwopriye adapte ak bezwen yon piblik "
+"divèsifye.\n"
+"                Misyon nou se ranpli twou nan resous edikatif yo lè nou ofri "
+"kourè ki gen gwo kalite pou ankouraje aprantisaj ak devlopman konpetans.\n"
+"                Lè nou itilize teknoloji, nou vize kreye yon anviwònman "
+"aprantisaj enklizif ak dinamik, aksesib pou tout moun, kèlkeswa lokalizasyon "
+"oswa kontèks.\n"
+"                Nan KouLakay, nou kolabore ak edikatè, enstitisyon ak lidè "
+"endistri yo pou garanti ke kontni nou yo gen enpak, pratik ak aliyen ak "
+"bezwen mond reyèl la.\n"
+"                Kit ou se yon elèv segondè, yon diplome inivèsite oswa yon "
+"pwofesyonèl k ap chèche edikasyon kontinye, KouLakay la pou sipòte siksè "
+"ou.\n"
 "                "
 
-#: templates/pages/home.html:137
+#: templates/pages/home.html:138
 msgid "Image de l'auteur"
 msgstr "Imaj Otè a"
 
-#: templates/pages/home.html:169
+#: templates/pages/home.html:170
 msgid "Inscrivez-vous maintenant !"
 msgstr "Enskri kounye a!"
 
-#: templates/pages/home.html:171
+#: templates/pages/home.html:172
 msgid ""
 "\n"
 "                                Rejoignez-nous maintenant pour accéder à des "
@@ -881,35 +919,35 @@ msgid ""
 "                            "
 msgstr ""
 "\n"
-"                                Antre nan nou kounye a pou jwenn aksè a kourè kalite ki pral transfòme eksperyans aprantisaj ou.\n"
+"                                Antre nan nou kounye a pou jwenn aksè a "
+"kourè kalite ki pral transfòme eksperyans aprantisaj ou.\n"
 "                            "
 
-#: templates/pages/home.html:177
+#: templates/pages/home.html:178
 msgid "Inscrivez-vous maintenant"
 msgstr "Enskri kounye a"
 
-#: templates/pages/home.html:187
+#: templates/pages/home.html:188
 msgid "Recherchez votre cours"
 msgstr "Chèche kourè ou"
 
-#: templates/pages/home.html:190
+#: templates/pages/home.html:191
 msgid "Rechercher cours"
 msgstr "Chèche kourè"
 
-#: templates/pages/home.html:205
+#: templates/pages/home.html:206
 msgid "Nos Services"
 msgstr "Sèvis Nou yo"
 
-#: templates/pages/home.html:215 templates/pages/home.html:230
-#: templates/pages/home.html:300
-msgid "Icône d\\"
-msgstr "Icono de\\"
+#: templates/pages/home.html:216
+msgid "Icône d\\'un globe terrestre"
+msgstr ""
 
-#: templates/pages/home.html:217
+#: templates/pages/home.html:218
 msgid "Cours en ligne interactifs"
 msgstr "Kourè sou entènèt entèaktif"
 
-#: templates/pages/home.html:219
+#: templates/pages/home.html:220
 msgid ""
 "\n"
 "                    Des cours de haute qualité en créole haïtien et dans "
@@ -920,16 +958,24 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                    Kourè ki gen gwo kalite an kreyòl ayisyen ak lòt lang, adapte pou elèv,\n"
-"                    pwofesyonèl ak aprenan pandan tout lavi. Yo enkli videyo angaje, kèstyon\n"
+"                    Kourè ki gen gwo kalite an kreyòl ayisyen ak lòt lang, "
+"adapte pou elèv,\n"
+"                    pwofesyonèl ak aprenan pandan tout lavi. Yo enkli videyo "
+"angaje, kèstyon\n"
 "                    ak aktivite pratik.\n"
 "                    "
 
-#: templates/pages/home.html:232
+#: templates/pages/home.html:231
+#, fuzzy
+#| msgid "Icône d\\"
+msgid "Icône d\\'examen"
+msgstr "Icono de\\"
+
+#: templates/pages/home.html:233
 msgid "Programmes de certification personnalisés"
 msgstr "Pwogram Sètifikasyon Pèsonalize"
 
-#: templates/pages/home.html:234
+#: templates/pages/home.html:235
 msgid ""
 "\n"
 "                    Obtenez des certificats reconnus qui valident vos "
@@ -943,15 +989,15 @@ msgstr ""
 "                    pwofil pwofesyonèl ak akademik ou.\n"
 "                    "
 
-#: templates/pages/home.html:244
+#: templates/pages/home.html:245
 msgid "Icône de livres"
 msgstr "Icono liv"
 
-#: templates/pages/home.html:246
+#: templates/pages/home.html:247
 msgid "Formation continue pour professionnels"
 msgstr "Fòmasyon kontinye pou pwofesyonèl"
 
-#: templates/pages/home.html:248
+#: templates/pages/home.html:249
 msgid ""
 "\n"
 "                    Des programmes spécialisés conçus pour répondre aux "
@@ -962,19 +1008,20 @@ msgid ""
 msgstr ""
 "\n"
 "                    Pwogram espesyalize yo fèt pou reponn\n"
-"                    bezwen pwofesyonèl ak diplome inivèsite k ap chèche pwogrese nan karyè yo\n"
+"                    bezwen pwofesyonèl ak diplome inivèsite k ap chèche "
+"pwogrese nan karyè yo\n"
 "                    oswa chanje domèn.\n"
 "                    "
 
-#: templates/pages/home.html:258
+#: templates/pages/home.html:259
 msgid "Icône de professeur"
 msgstr "Icono pwofesè"
 
-#: templates/pages/home.html:260
+#: templates/pages/home.html:261
 msgid "Solutions de formation B2B"
 msgstr "Solisyon Fòmasyon B2B"
 
-#: templates/pages/home.html:262
+#: templates/pages/home.html:263
 msgid ""
 "\n"
 "                    Modules d'apprentissage sur mesure pour les entreprises, "
@@ -990,15 +1037,15 @@ msgstr ""
 "                    òganizasyonèl.\n"
 "                    "
 
-#: templates/pages/home.html:272
+#: templates/pages/home.html:273
 msgid "Icône de tableau noir"
 msgstr "Icono tablo nwa"
 
-#: templates/pages/home.html:274
+#: templates/pages/home.html:275
 msgid "Soutien aux éducateurs"
 msgstr "Sipò pou edikatè"
 
-#: templates/pages/home.html:276
+#: templates/pages/home.html:277
 msgid ""
 "\n"
 "                    Des outils, ressources et formations pour aider les "
@@ -1008,20 +1055,21 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                    Zouti, resous ak fòmasyon pou ede pwofesè yo amelyore konpetans yo\n"
+"                    Zouti, resous ak fòmasyon pou ede pwofesè yo amelyore "
+"konpetans yo\n"
 "                    pedagojik ak entegre teknoloji nan\n"
 "                    pratik edikatif yo.\n"
 "                    "
 
-#: templates/pages/home.html:286
+#: templates/pages/home.html:287
 msgid "Icône de mortier et planche"
 msgstr "Icono mòto ak pilon"
 
-#: templates/pages/home.html:288
+#: templates/pages/home.html:289
 msgid "Évaluation et validation des compétences"
 msgstr "Evalyasyon ak validasyon konpetans"
 
-#: templates/pages/home.html:290
+#: templates/pages/home.html:291
 msgid ""
 "\n"
 "                    Options d'évaluation sécurisées, en ligne et hybrides, "
@@ -1037,11 +1085,15 @@ msgstr ""
 "                    pou evalyasyon an pèsòn.\n"
 "                    "
 
-#: templates/pages/home.html:302
+#: templates/pages/home.html:301
+msgid "Icône d\\"
+msgstr "Icono de\\"
+
+#: templates/pages/home.html:303
 msgid "Activités d'engagement communautaire"
 msgstr "Aktivite angajman kominotè"
 
-#: templates/pages/home.html:304
+#: templates/pages/home.html:305
 msgid ""
 "\n"
 "                    Programmes récréatifs et pratiques, tels que des "
@@ -1051,20 +1103,21 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                    Pwogram rekreyatif ak pratik, tankou tounwa echèk sou entènèt, inisyativ\n"
+"                    Pwogram rekreyatif ak pratik, tankou tounwa echèk sou "
+"entènèt, inisyativ\n"
 "                    espòtif ak atelye agrikòl, yo fèt pou\n"
 "                    konplete aprantisaj fòmèl.\n"
 "                    "
 
-#: templates/pages/home.html:314
+#: templates/pages/home.html:315
 msgid "Icône de partenariat"
 msgstr "Icono patenarya"
 
-#: templates/pages/home.html:316
+#: templates/pages/home.html:317
 msgid "Partenariats de développement de contenu"
 msgstr "Patenarya devlopman kontni"
 
-#: templates/pages/home.html:318
+#: templates/pages/home.html:319
 msgid ""
 "\n"
 "                    Collaborez avec nous pour créer et publier des contenus "
@@ -1078,11 +1131,11 @@ msgstr ""
 "                    enpak.\n"
 "                    "
 
-#: templates/pages/home.html:339
+#: templates/pages/home.html:340
 msgid "Témoignages"
 msgstr "Temwayaj"
 
-#: templates/pages/home.html:357
+#: templates/pages/home.html:358
 msgid ""
 "\n"
 "                                    KouLakay a transformé mon parcours "
@@ -1092,72 +1145,97 @@ msgid ""
 "                                    "
 msgstr ""
 "\n"
-"                                    KouLakay te transfòme chemen edikatif mwen. Kourè yo fasil pou swiv, e aprann nan kreyòl ayisyen fè eksperyans nan tèlman plis aksesib. Mwen santi mwen finalman konekte ak resous edikatif kalite ki satisfè bezwen mwen.\n"
+"                                    KouLakay te transfòme chemen edikatif "
+"mwen. Kourè yo fasil pou swiv, e aprann nan kreyòl ayisyen fè eksperyans nan "
+"tèlman plis aksesib. Mwen santi mwen finalman konekte ak resous edikatif "
+"kalite ki satisfè bezwen mwen.\n"
 "                                    "
-#: templates/pages/home.html:375
+
+#: templates/pages/home.html:364
+#, fuzzy
+#| msgid "Image de l'auteur"
+msgid "Image de l\\'utilisateur"
+msgstr "Imaj Otè a"
+
+#: templates/pages/home.html:367
+msgid "Lycéenne"
+msgstr "Etidyan Segondè"
+
+#: templates/pages/home.html:376
 msgid ""
 "\n"
-"                                    Les programmes de formation continue de KouLakay sont incroyablement utiles. Les compétences pratiques que j'ai acquises ont renforcé ma confiance et m'ont permis de progresser dans ma carrière.\n"
+"                                    Les programmes de formation continue de "
+"KouLakay sont incroyablement utiles. Les compétences pratiques que j'ai "
+"acquises ont renforcé ma confiance et m'ont permis de progresser dans ma "
+"carrière.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    Pwogram fòmasyon kontinyèl KouLakay yo itil anpil. Konpetans pratik mwen te aprann yo te ranfòse konfyans mwen e te pèmèt mwen avanse nan karyè mwen.\n"
+"                                    Pwogram fòmasyon kontinyèl KouLakay yo "
+"itil anpil. Konpetans pratik mwen te aprann yo te ranfòse konfyans mwen e te "
+"pèmèt mwen avanse nan karyè mwen.\n"
 "                                    "
 
-#: templates/pages/home.html:394
-msgid ""
-"\n"
-"                                    Notre organisation a collaboré avec KouLakay pour former nos employés, et les résultats ont été exceptionnels. Les cours sur mesure et les certifications ont permis à notre équipe d'améliorer ses compétences et de travailler plus efficacement.\n"
-"                                    "
-msgstr ""
-"\n"
-"                                    Òganizasyon nou an te kolabore ak KouLakay pou fòme anplwaye nou yo, e rezilta yo te eksepsyonèl. Klas yo adapte ak bezwen yo ak sètifikasyon yo te pèmèt ekip nou an amelyore konpetans yo epi travay pi efikas.\n"
-"                                    "
-
-#: templates/pages/home.html:413
-msgid ""
-"\n"
-"                                    Je recommande vivement KouLakay pour sa flexibilité. J'ai pu apprendre à mon rythme, et les certificats obtenus ont apporté une vraie valeur ajoutée à mon CV.\n"
-"                                    "
-msgstr ""
-"\n"
-"                                    Mwen rekòmande KouLakay anpil pou fleksibilite li. Mwen te kapab aprann nan pwòp ritm mwen, epi sètifika mwen te resevwa yo te ajoute yon valè reyèl nan CV mwen.\n"
-"                                    "
-
-#: templates/pages/home.html:432
-msgid ""
-"\n"
-"                                    Les solutions de formation B2B proposées par KouLakay ont parfaitement répondu aux besoins de notre organisation. L'intégration d'exercices pratiques et d'activités d'équipe a rendu le processus d'apprentissage engageant et efficace.\n"
-"                                    "
-msgstr ""
-"\n"
-"                                    Solisyon fòmasyon B2B KouLakay yo te reponn parfe ak bezwen òganizasyon nou an. Entegrasyon egzèsis pratik ak aktivite an ekip te fè pwosesis aprantisaj la angaje ak efikas.\n"
-"                                    "
-
-#: templates/pages/home.html:384
+#: templates/pages/home.html:385
 msgid "Analyste d'affaires"
 msgstr "Analist biznis"
 
-#: templates/pages/home.html:403
+#: templates/pages/home.html:395
+msgid ""
+"\n"
+"                                    Notre organisation a collaboré avec "
+"KouLakay pour former nos employés, et les résultats ont été exceptionnels. "
+"Les cours sur mesure et les certifications ont permis à notre équipe "
+"d'améliorer ses compétences et de travailler plus efficacement.\n"
+"                                    "
+msgstr ""
+"\n"
+"                                    Òganizasyon nou an te kolabore ak "
+"KouLakay pou fòme anplwaye nou yo, e rezilta yo te eksepsyonèl. Klas yo "
+"adapte ak bezwen yo ak sètifikasyon yo te pèmèt ekip nou an amelyore "
+"konpetans yo epi travay pi efikas.\n"
+"                                    "
+
+#: templates/pages/home.html:404
 msgid "Responsable RH"
 msgstr "Manadjè Resous Imèn"
 
-#: templates/pages/home.html:422
+#: templates/pages/home.html:414
+msgid ""
+"\n"
+"                                    Je recommande vivement KouLakay pour sa "
+"flexibilité. J'ai pu apprendre à mon rythme, et les certificats obtenus ont "
+"apporté une vraie valeur ajoutée à mon CV.\n"
+"                                    "
+msgstr ""
+"\n"
+"                                    Mwen rekòmande KouLakay anpil pou "
+"fleksibilite li. Mwen te kapab aprann nan pwòp ritm mwen, epi sètifika mwen "
+"te resevwa yo te ajoute yon valè reyèl nan CV mwen.\n"
+"                                    "
+
+#: templates/pages/home.html:423
 msgid "Diplômée récente"
 msgstr "Gradye resan"
 
-#: templates/pages/home.html:441
+#: templates/pages/home.html:433
+msgid ""
+"\n"
+"                                    Les solutions de formation B2B proposées "
+"par KouLakay ont parfaitement répondu aux besoins de notre organisation. "
+"L'intégration d'exercices pratiques et d'activités d'équipe a rendu le "
+"processus d'apprentissage engageant et efficace.\n"
+"                                    "
+msgstr ""
+"\n"
+"                                    Solisyon fòmasyon B2B KouLakay yo te "
+"reponn parfe ak bezwen òganizasyon nou an. Entegrasyon egzèsis pratik ak "
+"aktivite an ekip te fè pwosesis aprantisaj la angaje ak efikas.\n"
+"                                    "
+
+#: templates/pages/home.html:442
 msgid "PDG"
 msgstr "PDG"
-
-
-#: templates/pages/home.html:363
-msgid "Image de l\\"
-msgstr "Imaj de la\\"
-
-#: templates/pages/home.html:366
-msgid "Lycéenne"
-msgstr "Etidyan Segondè"
 
 #: templates/partials/course_details.html:7
 msgid "Course Details"
@@ -1167,15 +1245,7 @@ msgstr "Detay Kourè"
 msgid "Close"
 msgstr "Fèmen"
 
-#: templates/partials/footer.html:12
-msgid "Abonnez-vous à la newsletter"
-msgstr "Abònman nan bilten nouvèl la"
-
-#: templates/partials/footer.html:23
-msgid "S'abonner"
-msgstr "Abònman"
-
-#: templates/partials/footer.html:50
+#: templates/partials/footer.html:53
 msgid ""
 "\n"
 "                            In aliquam, augue a gravida rutrum, ante nisl "
@@ -1189,20 +1259,20 @@ msgstr ""
 "finibus tortor fermentum, tempor lacus.\n"
 "                        "
 
-#: templates/partials/footer.html:60
+#: templates/partials/footer.html:63
 msgid "Menu"
 msgstr "Meni"
 
-#: templates/partials/footer.html:63 templates/partials/header.html:23
-#: templates/partials/header.html:85
+#: templates/partials/footer.html:66 templates/partials/header.html:24
+#: templates/partials/header.html:95
 msgid "Accueil"
 msgstr "Akèy"
 
-#: templates/partials/footer.html:105
+#: templates/partials/footer.html:108
 msgid "Copyright"
 msgstr "Dwa Otè"
 
-#: templates/partials/footer.html:105
+#: templates/partials/footer.html:108
 msgid "Tous droits réservés"
 msgstr "Tout dwa rezève"
 
@@ -1210,30 +1280,55 @@ msgstr "Tout dwa rezève"
 msgid "Logo de Koulakay"
 msgstr "Logo KouLakay"
 
-#: templates/partials/header.html:14
-msgid "Logo de Koulakay mobile"
-msgstr "Logo mobil KouLakay"
-
-#: templates/partials/header.html:39 templates/partials/header.html:97
+#: templates/partials/header.html:40 templates/partials/header.html:107
 msgid "Connexion"
 msgstr "Koneksyon"
 
-#: templates/partials/header.html:40
+#: templates/partials/header.html:41
 msgid "Inscrivez-vous"
 msgstr "Enskri"
 
-#: templates/partials/header.html:108
+#: templates/partials/header.html:122
 msgid "Language"
 msgstr "Lang"
 
-#: templates/partials/header.html:143
+#: templates/partials/header.html:162
 msgid "Informations utilisateur"
 msgstr "Enfòmasyon itilizatè"
 
-#: templates/partials/header.html:144 templates/partials/header.html:153
+#: templates/partials/header.html:163 templates/partials/header.html:172
 msgid "Fermer"
 msgstr "Fèmen"
 
-#: templates/partials/header.html:150
+#: templates/partials/header.html:169
 msgid "Profil de cours"
 msgstr "Profil Kourè"
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum "
+#~ "nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
+#~ "finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent "
+#~ "finibus risus facilisis ultricies. Etiam eu purus nec eros varius "
+#~ "luctus.\n"
+#~ "\t\t\t\t\t\t\t"
+#~ msgstr ""
+#~ "\n"
+#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum "
+#~ "nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
+#~ "finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent "
+#~ "finibus risus facilisis ultricies. Etiam eu purus nec eros varius "
+#~ "luctus.\n"
+#~ "\t\t\t\t\t\t\t"
+
+#~ msgid "Image de l\\"
+#~ msgstr "Imaj de la\\"
+
+#~ msgid "Abonnez-vous à la newsletter"
+#~ msgstr "Abònman nan bilten nouvèl la"
+
+#~ msgid "S'abonner"
+#~ msgstr "Abònman"
+
+#~ msgid "Logo de Koulakay mobile"
+#~ msgstr "Logo mobil KouLakay"

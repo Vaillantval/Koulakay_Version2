@@ -1,9 +1,13 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+
 from thinkific import Thinkific
 from django.conf import settings
+
 thinkific = Thinkific(settings.THINKIFIC['AUTH_TOKEN'],settings.THINKIFIC['SITE_ID'])
 from django.core.paginator import Paginator
 from courses.models import Enrollment
+
 # Create your views here.
 def home(request):
     courses = thinkific.courses.list()
@@ -24,5 +28,9 @@ def contact(request):
 def about(request):
     return render(request,'pages/about.html')
 
+
 def success_page(request):
     return render(request,'pages/success.html')
+
+def redirect_to_default_language(request):
+    return redirect(f'/{settings.LANGUAGE_CODE}/')
