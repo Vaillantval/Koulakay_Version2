@@ -14,18 +14,24 @@ from django.http import JsonResponse
 # Create your views here.
 def courses(request):
     courses = thinkific.courses.list()
+    product = thinkific.products.list()
+    
     category = thinkific.collections.list_collections()
     category_items = category['items']
     courses_items = courses['items']
-    paginator = Paginator(courses_items, 5)  # Show 25 contacts per page.
+    paginator = Paginator(courses_items, 5) 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    if request.user.is_authenticated:
-        for c in courses_items:
-            e = Enrollment.objects.filter(user=request.user.pk,course_id=c['id'])
-            if e :
-                c['enroll']=True
+    for c in courses_items:
+        for p in product['items']:
+            if c['id'] == p['productable_id']:
+                c['price'] = p['price']
+        if request.user.is_authenticated:
+            e = Enrollment.objects.filter(user=request.user.pk, course_id=c['id'])
+            if e:
+                c['enroll'] = True
+           
    
     if request.method == "POST":
         
