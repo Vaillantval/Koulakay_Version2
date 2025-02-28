@@ -449,3 +449,10 @@ THINKIFIC = {
     'SITE_ID':os.getenv('SITE_ID','max-s-site-7ef4')
 } 
 DEFAULT_FROM_EMAIL = ""
+
+EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
+
+ANYMAIL = {
+    "MAILJET_API_KEY": os.getenv('MAILJET_API_KEY',"test"),
+    "MAILJET_SECRET_KEY":os.getenv('MAILJET_SECRET_KEY',"test"),
+}
