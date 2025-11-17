@@ -40,6 +40,8 @@ PRODUCTION = os.environ.get("PRODUCTION",False)
 if PRODUCTION == "True":
     PRODUCTION = True
 
+STATIC_ROOT = "/app/static/"
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY","dev")
 
@@ -446,7 +448,7 @@ EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
 # }
 THINKIFIC = {
     'AUTH_TOKEN':os.getenv('THINKIFIC_SECRET_KEY','c1699f4b4498b1c1fefd7b86604f9e68'),
-    'SITE_ID':os.getenv('SITE_ID','max-s-site-7ef4')
+    'SITE_ID':os.getenv('SITE_ID','koulakay')
 } 
 DEFAULT_FROM_EMAIL = ""
 

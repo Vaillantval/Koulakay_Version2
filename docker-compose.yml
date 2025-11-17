@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15
+    container_name: koulakay_db
+    restart: always
+    environment:
+      POSTGRES_DB: koulakay
+      POSTGRES_USER: koulakay
+      POSTGRES_PASSWORD: koulakay123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  web:
+    build: .
+    container_name: koulakay_web
+    restart: always
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             uvicorn config.asgi:application --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
