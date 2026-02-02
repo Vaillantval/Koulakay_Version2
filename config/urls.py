@@ -20,6 +20,7 @@ from django.views.generic import TemplateView
 
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
+from django.conf import settings
 
 from pages.views import redirect_to_default_language
 
@@ -29,6 +30,7 @@ from  django.contrib.sitemaps.views import sitemap
 
 urlpatterns = [
     path("sitemap.xml", sitemap, name="sitemap-xml"),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 urlpatterns += [
@@ -41,8 +43,11 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('accounts.urls')),
     path('payment/', include('payment.urls')),
     path('courses/', include('courses.urls')),
-    
-    # prefix_default_language=False
 )
 
+# Servir les fichiers media
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# En développement, servir les fichiers statiques
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

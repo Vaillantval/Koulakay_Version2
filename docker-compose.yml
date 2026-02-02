@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:15
     container_name: koulakay_db
-    restart: always
+    # restart: always
     environment:
       POSTGRES_DB: koulakay
       POSTGRES_USER: koulakay
@@ -15,11 +15,11 @@ services:
   web:
     build: .
     container_name: koulakay_web
-    restart: always
+    # restart: always
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
-             uvicorn config.asgi:application --host 0.0.0.0 --port 8000 --reload"
+             uvicorn config.asgi:application --host 0.0.0.0 --port 8000 --reload --reload-dir /app"
     volumes:
       - .:/app
     ports:

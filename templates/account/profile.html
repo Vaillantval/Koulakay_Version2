@@ -1,23 +1,68 @@
 {% extends "account/base.html" %}
-
 {% load i18n %}
-
 {% load crispy_forms_tags %}
 
-{% block head_title %}{% trans "Profile" %}{% endblock %}
+{% block head_title %}{% trans "Mon Profil" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Profile" %}</h1>
+<div class="max-w-3xl mx-auto py-10">
 
-<form method="post">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <button type="submit" class="btn btn-success">{% trans "Update" %}</button>
-</form>
+    <!-- Titre -->
+    <h1 class="text-3xl font-bold mb-8 text-center">
+        {% trans "Mon Profil" %}
+    </h1>
 
-<p class="mt-2 mb-1">{{user.email}}</p>
-<div >
-  <a href="{% url 'account_email' %}" class="btn btn-secondary">{% trans "Change Email" %}</a>
-  <a href="{% url 'account_change_password' %}" class="btn btn-outline-secondary">{% trans "Change Password" %}</a>
+    <!-- Carte du Profil Utilisateur -->
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-8 mb-10">
+        <div class="flex items-center gap-6">
+            <!-- Avatar -->
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                {{ user.username|first|upper }}
+            </div>
+
+            <!-- Informations utilisateur -->
+            <div>
+                <p class="text-xl font-semibold">{{ user.username }}</p>
+                <p class="text-gray-600 dark:text-gray-300">{{ user.email }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulaire Update Profil -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-2xl p-8 mb-10">
+        <h2 class="text-2xl font-semibold mb-6">{% trans "Mettre à jour mes informations" %}</h2>
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <button
+                type="submit"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-medium transition"
+            >
+                {% trans "Mettre à jour" %}
+            </button>
+        </form>
+    </div>
+
+    <!-- Section Actions -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-2xl p-8">
+        <h2 class="text-2xl font-semibold mb-6">{% trans "Sécurité du compte" %}</h2>
+
+        <div class="flex flex-col md:flex-row gap-4">
+            
+            <!-- Changer email -->
+            <a href="{% url 'account_email' %}"
+               class="flex-1 text-center bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-50 py-3 rounded-xl font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+                {% trans "Changer l'Email" %}
+            </a>
+            
+            <!-- Changer mot de passe -->
+            <a href="{% url 'account_change_password' %}"
+               class="flex-1 text-center border border-gray-300 dark:border-gray-600 py-3 rounded-xl font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                {% trans "Changer le mot de passe" %}
+            </a>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

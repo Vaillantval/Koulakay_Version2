@@ -1,67 +1,288 @@
 {% load static %}
-
 {% load i18n %}
 {% load i18n_urls %}
 {% load dfm_tags %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" class="light">
 <head>
-<title>Course</title>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Course Project">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
-<link href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
-
-<link rel="stylesheet" type="text/css" href="{% static 'styles/contact_styles.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'styles/contact_responsive.css' %}">
+    <title>{% block title %}KouLakay{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{% trans 'Plateforme éducative en ligne - KouLakay' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'logo/koulaka.png' %}" rel="icon">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3A86FF",
+                        "secondary": "#FFBE0B",
+                        "background-light": "#F8F9FA",
+                        "background-dark": "#101922",
+                        "text-light": "#212529",
+                        "text-dark": "#F8F9FA",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <!-- Bootstrap (for legacy compatibility) -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    
+    <!-- FontAwesome -->
+    <link href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}" rel="stylesheet" type="text/css">
+    
+    <!-- Owl Carousel (for legacy features) -->
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+    
+    {% block head %}{% endblock head %}
 </head>
-<body>
+<body class="font-display">
 
 <div class="super_container">
-
-	<!-- Header -->
-
-	{% include "partials/header.html" %}
-
-	<div class="home">
-		<div class="home_background_container prlx_parent">
-			<div class="home_background prlx" style="background-image:url({% static 'images/contact_background.jpg' %})"></div>
-		</div>
-		<div class="home_content">
-			<h1>Account</h1>
-		</div>
-	</div>
-	
-	{% block body %}
-	<div class="contact">
-    <div class="container ">
-        <div class="card card-outline">
-            <div class="card-body  p-4" style="color:black;">
-                {% block content %}
-                {% endblock content%}
-            </div> <!-- /.login-card-body -->
+    
+    <!-- Modern Header -->
+    <header class="sticky top-0 z-50 w-full border-b border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="{% url 'home' %}" class="flex items-center gap-3">
+                        <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-10 w-auto">
+                        <h2 class="hidden sm:block text-xl font-bold tracking-tight text-gray-900 dark:text-white">KouLakay</h2>
+                    </a>
+                </div>
+                
+                <nav class="hidden items-center gap-8 md:flex">
+                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300" href="{% url 'home' %}">
+                        {% trans "Accueil" %}
+                    </a>
+                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300" href="{% url 'about' %}">
+                        {% trans "À propos" %}
+                    </a>
+                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300" href="{% url 'courses' %}">
+                        {% trans "Cours" %}
+                    </a>
+                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300" href="{% url 'contact' %}">
+                        {% trans "Contact" %}
+                    </a>
+                </nav>
+                
+                <div class="flex items-center gap-2 md:gap-3">
+                    {% if user.is_authenticated %}
+                        <!-- User Menu Button -->
+                        <button type="button" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700 px-4 text-sm font-bold transition-colors hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white" data-toggle="modal" data-target="#staticBackdrop">
+                            <i class="fa fa-user-circle"></i>
+                            <span class="truncate hidden sm:inline">{{ user|truncatechars:9 }}</span>
+                        </button>
+                    {% else %}
+                        <a href="{% url 'account_login' %}" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700 px-4 text-sm font-bold transition-colors hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white">
+                            <span class="truncate">{% trans "Connexion" %}</span>
+                        </a>
+                        <a href="{% url 'account_signup' %}" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-blue-600 px-4 text-white text-sm font-bold shadow-sm transition-transform hover:scale-105">
+                            <span class="truncate">{% trans "Inscrivez-vous" %}</span>
+                        </a>
+                    {% endif %}
+                    
+                    <!-- Language Dropdown -->
+                    <div class="relative">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        <button id="languagesDropdown" class="flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg px-3 text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{% static 'images/flags/'|add:LANGUAGE_CODE|add:'.png' %}" height="15" class="h-4 w-auto">
+                            <span class="hidden sm:inline">{{ LANGUAGE_CODE|upper }}</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right mt-2 px-1 py-1" style="max-width: 300px; background-color:#f4f4f4;">
+                            {% for language in languages %}
+                                <a class="dropdown-item {% if language.code == LANGUAGE_CODE %} text-dark {% endif %}"
+                                {% if language.code == LANGUAGE_CODE %}
+                                style="background-color:orange; border-radius: 5px; overflow: hidden;" {% endif %}
+                                href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
+                                    <img class="pe-1" src="{% static 'images/flags/'|add:language.code|add:'.png' %}" height="15px;">
+                                    {{ language.name_local }} ({{ language.code }})
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button class="p-2 md:hidden text-gray-700 dark:text-gray-300" id="mobile-menu-button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden pb-4 border-t border-gray-200 dark:border-gray-700 mt-2 pt-4" id="mobile-menu">
+                <nav class="flex flex-col space-y-2">
+                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300 py-2" href="{% url 'home' %}">
+                        {% trans "Accueil" %}
+                    </a>
+                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300 py-2" href="{% url 'about' %}">
+                        {% trans "À propos" %}
+                    </a>
+                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300 py-2" href="{% url 'courses' %}">
+                        {% trans "Cours" %}
+                    </a>
+                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300 py-2" href="{% url 'contact' %}">
+                        {% trans "Contact" %}
+                    </a>
+                </nav>
+                
+                {% if not user.is_authenticated %}
+                    <div class="mt-4 space-y-2">
+                        <a href="{% url 'account_login' %}" class="block w-full text-center py-2 px-4 rounded-lg bg-gray-200 dark:bg-gray-700 text-sm font-bold transition-colors hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white">
+                            {% trans "Connexion" %}
+                        </a>
+                        <a href="{% url 'account_signup' %}" class="block w-full text-center py-2 px-4 rounded-lg bg-blue-600 text-white text-sm font-bold shadow-sm">
+                            {% trans "Inscrivez-vous" %}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    </div> 
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Modern Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-900">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
+                <!-- Brand Column -->
+                <div class="sm:col-span-2 md:col-span-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-10 w-auto">
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        {% trans "Rendre l'éducation de qualité accessible à tous." %}
+                    </p>
+                </div>
+                
+                <!-- Menu Column -->
+                <div>
+                    <h3 class="font-bold uppercase tracking-wider text-sm text-gray-900 dark:text-white mb-4">
+                        {% trans "Menu" %}
+                    </h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a class="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors" href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                        <li><a class="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors" href="{% url 'courses' %}">{% trans "Cours" %}</a></li>
+                        <li><a class="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors" href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Column -->
+                <div>
+                    <h3 class="font-bold uppercase tracking-wider text-sm text-gray-900 dark:text-white mb-4">
+                        {% trans "Contact" %}
+                    </h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-map text-blue-600 mt-0.5"></i>
+                            <span class="text-gray-600 dark:text-gray-400">Blvd Libertad, 34 m05200 Arévalo</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa fa-phone text-blue-600"></i>
+                            <span class="text-gray-600 dark:text-gray-400">0034 37483 2445 322</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa fa-envelope text-blue-600"></i>
+                            <span class="text-gray-600 dark:text-gray-400">info@koulakay.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Social Media Column -->
+                <div>
+                    <h3 class="font-bold uppercase tracking-wider text-sm text-gray-900 dark:text-white mb-4">
+                        {% trans "Suivez-nous" %}
+                    </h3>
+                    <div class="flex gap-3">
+                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Copyright -->
+            <div class="mt-12 border-t border-gray-200 dark:border-gray-700 pt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                <p>
+                    {% trans "Copyright" %} © <script>document.write(new Date().getFullYear());</script> 
+                    {% trans "Tous droits réservés" %}
+                </p>
+            </div>
+        </div>
+    </footer>
+
 </div>
-    {% endblock body%}
 
-    {% block extra_body %}
-    {% endblock extra_body%}
-
-	<!-- Footer -->
-
-	{% include "partials/footer.html" %}
-
+<!-- User Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{% trans "Informations utilisateur" %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Fermer' %}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a class="btn btn-outline-danger" href="{% url 'account_logout' %}">{% trans "Déconnexion" %}</a>
+                <a class="btn btn-outline-success" href="https://max-s-site-7ef4.thinkific.com">{% trans "Profil de cours" %}</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Fermer" %}</button>
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- Scripts -->
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
@@ -74,6 +295,22 @@
 <script src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>
 <script src="{% static 'plugins/easing/easing.js' %}"></script>
 <script src="{% static 'js/custom.js' %}"></script>
+
+<!-- Mobile Menu Toggle Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    });
+</script>
+
+{% block extra_js %}{% endblock extra_js %}
 
 </body>
 </html>

@@ -40,8 +40,6 @@ PRODUCTION = os.environ.get("PRODUCTION",False)
 if PRODUCTION == "True":
     PRODUCTION = True
 
-STATIC_ROOT = "/app/static/"
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY","dev")
 
@@ -75,6 +73,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.humanize',
     'django_admin_generator',
+    #'django_browser_reload',
     'crispy_forms',
     'crispy_bootstrap4',
     'accounts',
@@ -219,6 +218,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django_browser_reload.middleware.BrowserReloadMiddleware',
 
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
@@ -421,11 +421,18 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = './static'
-STATICFILES_DIRS = [
-    BASE_DIR / "config/static",
-]
+# Static files configuration
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / "config" / "static",
+    ]
+    # NE PAS inclure BASE_DIR / "static" car c'est le dossier collecté
+else:
+    STATICFILES_DIRS = []
+    STATIC_ROOT = "/app/static/"
 
 ADMIN_USER=os.getenv("ADMIN_USER","admin@koulakay.ht")
 ADMIN_PASSWORD=os.getenv("ADMIN_PASSWORD","admin12345")
@@ -458,3 +465,7 @@ ANYMAIL = {
     "MAILJET_API_KEY": os.getenv('MAILJET_API_KEY',"test"),
     "MAILJET_SECRET_KEY":os.getenv('MAILJET_SECRET_KEY',"test"),
 }
+
+if DEBUG:
+    INSTALLED_APPS += ['django_browser_reload']
+    MIDDLEWARE += ['django_browser_reload.middleware.BrowserReloadMiddleware']

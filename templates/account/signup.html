@@ -1,41 +1,269 @@
-{% extends "account/base.html" %}
+{% extends "base.html" %}
 
 {% load i18n %}
-
-{% load crispy_forms_tags %}
+{% load static %}
+{% load account socialaccount %}
 
 {% block head_title %}{% trans "Inscription" %}{% endblock %}
 
-{% block content %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <style>
-  .form-text {
-    color:white;
-  }
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Style les champs de formulaire Django pour correspondre au design */
+#id_first_name, #id_last_name, #id_email, #id_password1, #id_password2 {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 0%;
+  resize: none;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  color: rgb(13 20 27);
+  border: 1px solid rgb(209 213 219);
+  background-color: rgb(246 247 248);
+  height: 3rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.dark #id_first_name, .dark #id_last_name, .dark #id_email, .dark #id_password1, .dark #id_password2 {
+  color: white;
+  border-color: rgb(55 65 81);
+  background-color: rgb(16 25 34);
+}
+
+#id_first_name:focus, #id_last_name:focus, #id_email:focus, #id_password1:focus, #id_password2:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-color: rgba(19, 127, 236, 0.5);
+  border-color: #137fec;
+}
+
+#id_password1, #id_password2 {
+  padding-right: 2.5rem;
+}
+
+#id_first_name::placeholder, #id_last_name::placeholder, #id_email::placeholder, 
+#id_password1::placeholder, #id_password2::placeholder {
+  color: rgb(156 163 175);
+}
+
+.dark #id_first_name::placeholder, .dark #id_last_name::placeholder, .dark #id_email::placeholder,
+.dark #id_password1::placeholder, .dark #id_password2::placeholder {
+  color: rgb(107 114 128);
+}
+
+/* Style pour les listes d'aide du mot de passe */
+.helptext {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgb(107 114 128);
+  margin-top: 0.25rem;
+}
+
+.dark .helptext {
+  color: rgb(156 163 175);
+}
+
+.helptext ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-top: 0.25rem;
+}
+
+.helptext ul li {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+/* Cache le header et footer de base.html */
+header, footer {
+  display: none !important;
+}
+
+/* Assure que le contenu prend toute la hauteur */
+.super_container {
+  min-height: 100vh;
+}
 </style>
-<h1>{% trans "S'inscrire" %}</h1>
+{% endblock %}
 
-<p>{% blocktrans %}Vous avez déjà un compte ? Dans ce cas, veuillez <a class="orange" href="{{ login_url }}">vous connecter</a>.{% endblocktrans %}</p>
-
-<form class="signup col-12 business pb-2" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  <div class="row">
-    <div class="form-group col-md-6 mb-0">
-      {{ form.first_name|as_crispy_field }}
-    </div>
-    <div class="form-group col-md-6 mb-0">
-      {{ form.last_name|as_crispy_field }}
+{% block content %}
+<div class="flex min-h-screen w-full">
+  <!-- Left Column - Image -->
+  <div class="hidden lg:flex lg:w-1/2 items-center justify-center p-8 bg-gray-100 dark:bg-background-dark/50">
+    <div class="relative w-full h-full max-w-md mx-auto">
+      <img alt="Personnes étudiant ensemble sur un ordinateur portable" class="w-full h-full object-cover rounded-xl shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6Wp2hYTkbo24o9vXQPhXLymmQQVAC4VfNynCSQgOEP7FkKXKHhrP4p9ZKE_qQ8SEk3p4hEYELo7h0O6sTG-1lqJ3NHMm-OW3c7zlt85EotMGUPXUwKIYVyvlgJiYr7h5brg1phGG-eT494JcNVC71Ivp56ZDz_zXuYRoUsd-YBuo4IfVSFiW9DK9D9RZ3aRtYHNMu7qPQEtmwom8EkQ1lhWp6ywD0B37drh5n39cs1q0HU09GbON4zq12mH63Re9y-xppaNzhFVs"/>
     </div>
   </div>
+  
+  <!-- Right Column - Form -->
+  <div class="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8 bg-background-light dark:bg-background-dark">
+    <div class="w-full max-w-md mx-auto py-8">
+      <div class="text-left mb-8">
+        <a class="text-2xl font-bold text-gray-900 dark:text-white" href="{% url 'home' %}">KouLakay</a>
+      </div>
+      
+      <div class="flex min-w-72 flex-col gap-2 mb-8">
+        <h1 class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">{% trans "Créez votre compte" %}</h1>
+        <p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">{% trans "Commencez votre parcours d'apprentissage dès aujourd'hui." %}</p>
+      </div>
 
-  {{form.email|as_crispy_field}}
+      {% get_providers as socialaccount_providers %}
 
-  {{form.password1|as_crispy_field}}
-  {{form.password2|as_crispy_field}}
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        {% blocktrans %}
+        Vous avez déjà un compte ? Dans ce cas, veuillez <a style="color: #137fec; font-weight: 600;" href="{{ login_url }}">vous connecter</a>.
+        {% endblocktrans %}
+      </p>
 
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button class="btn btn-success" type="submit">{% trans "S'inscrire" %}</button>
-</form>
+      <form class="flex flex-col gap-5" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <label class="flex flex-col w-full">
+            <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal pb-2">{% trans "Prénom" %}</p>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.first_name.errors.0 }}</p>
+            {% endif %}
+          </label>
+          
+          <label class="flex flex-col w-full">
+            <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal pb-2">{% trans "Nom" %}</p>
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.last_name.errors.0 }}</p>
+            {% endif %}
+          </label>
+        </div>
 
+        <label class="flex flex-col w-full">
+          <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal pb-2">{% trans "Adresse e-mail" %}</p>
+          {{ form.email }}
+          {% if form.email.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.email.errors.0 }}</p>
+          {% endif %}
+        </label>
+
+        <label class="flex flex-col w-full">
+          <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal pb-2">{% trans "Mot de passe" %}</p>
+          <div class="relative flex w-full items-center">
+            {{ form.password1 }}
+            <button class="absolute right-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300" type="button" onclick="togglePassword('id_password1', 'password1-icon')">
+              <span class="material-symbols-outlined text-xl" id="password1-icon">visibility_off</span>
+            </button>
+          </div>
+          {% if form.password1.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.password1.errors.0 }}</p>
+          {% endif %}
+          {% if form.password1.help_text %}
+            <div class="helptext">{{ form.password1.help_text|safe }}</div>
+          {% endif %}
+        </label>
+
+        <label class="flex flex-col w-full">
+          <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal pb-2">{% trans "Confirmer le mot de passe" %}</p>
+          <div class="relative flex w-full items-center">
+            {{ form.password2 }}
+            <button class="absolute right-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300" type="button" onclick="togglePassword('id_password2', 'password2-icon')">
+              <span class="material-symbols-outlined text-xl" id="password2-icon">visibility_off</span>
+            </button>
+          </div>
+          {% if form.password2.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.password2.errors.0 }}</p>
+          {% endif %}
+        </label>
+
+        {% if form.non_field_errors %}
+          <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg text-sm">
+            {{ form.non_field_errors.0 }}
+          </div>
+        {% endif %}
+
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+
+        <button class="w-full bg-primary text-white font-semibold py-3 px-4 rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-background-dark transition-colors duration-200" type="submit">
+          {% trans "S'inscrire" %}
+        </button>
+      </form>
+
+      {% if socialaccount_providers %}
+      <div class="relative my-8 flex items-center">
+        <div class="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
+        <span class="flex-shrink mx-4 text-sm text-gray-400 dark:text-gray-500">{% trans "OU" %}</span>
+        <div class="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
+      </div>
+
+      <div class="flex flex-col space-y-3">
+        {% for provider in socialaccount_providers %}
+          <a href="{% provider_login_url provider.id process='signup' %}" class="flex items-center justify-center w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-200 font-semibold py-2.5 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+            {% if provider.id == "google" %}
+              <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48">
+                <path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" fill="#FFC107"/>
+                <path d="M6.306,14.691l6.06,4.71c1.032-3.456,4.24-6.009,7.634-6.009c1.601,0,3.101,0.481,4.408,1.314l5.657-5.657C30.654,6.546,27.465,5,24,5C17.7,5,12.5,8.2,8.6,12.2l-2.294-2.509L6.306,14.691z" fill="#FF3D00"/>
+                <path d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" fill="#4CAF50"/>
+                <path d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C42.02,35.848,44,30.338,44,24C44,22.659,43.862,21.35,43.611,20.083z" fill="#1976D2"/>
+              </svg>
+              {% trans "S'inscrire avec Google" %}
+            {% elif provider.id == "linkedin" or provider.id == "linkedin_oauth2" %}
+              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M22.23,0H1.77C0.79,0,0,0.79,0,1.77V22.23C0,23.21,0.79,24,1.77,24H22.23C23.21,24,24,23.21,24,22.23V1.77 C24,0.79,23.21,0,22.23,0z M7.06,20.45h-3.5V8.97h3.5V20.45z M5.31,7.52c-1.11,0-2.01-0.9-2.01-2.01s0.9-2.01,2.01-2.01 c1.11,0,2.01,0.9,2.01,2.01S6.42,7.52,5.31,7.52z M20.45,20.45h-3.5v-5.57c0-1.33-0.02-3.03-1.85-3.03 c-1.85,0-2.13,1.45-2.13,2.94v5.66h-3.5V8.97h3.36v1.54h0.05c0.47-0.88,1.61-1.81,3.31-1.81c3.55,0,4.2,2.34,4.2,5.37V20.45z"/>
+              </svg>
+              {% trans "S'inscrire avec LinkedIn" %}
+            {% else %}
+              {% trans "S'inscrire avec" %} {{ provider.name }}
+            {% endif %}
+          </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="mt-8 text-center">
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          {% trans "Vous avez déjà un compte?" %}
+          <a class="font-semibold text-primary hover:underline" href="{% url 'account_login' %}">{% trans "Connectez-vous" %}</a>
+        </p>
+      </div>
+
+      <footer class="mt-12 text-center">
+        <p class="text-xs text-gray-400 dark:text-gray-500">
+          {% trans "En vous inscrivant, vous acceptez nos" %}
+          <a class="text-primary hover:underline" href="#">{% trans "Conditions d'utilisation" %}</a> 
+          {% trans "et notre" %}
+          <a class="text-primary hover:underline" href="#">{% trans "Politique de confidentialité" %}</a>.
+        </p>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+  function togglePassword(fieldId, iconId) {
+    const passwordField = document.getElementById(fieldId);
+    const passwordIcon = document.getElementById(iconId);
+    
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      passwordIcon.textContent = 'visibility';
+    } else {
+      passwordField.type = 'password';
+      passwordIcon.textContent = 'visibility_off';
+    }
+  }
+</script>
 {% endblock %}

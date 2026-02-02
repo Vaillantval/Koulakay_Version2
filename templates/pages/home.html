@@ -1,458 +1,292 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
 {% load i18n %}
-<div class="home">
-    <style>
-        .fa-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 27px;
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 100;
-            opacity: 0.5
-        }
 
-        .fa-left {
-            left: 5px;
-        }
+{% block title %}{% trans "Accueil - KouLakay" %}{% endblock %}
 
-        .fa-right {
-            right: 5px;
-        }
-    </style>
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    body { font-family: 'Lexend', sans-serif; }
+    .hero-section { 
+        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("{% static 'images/slider_1.JPG' %}");
+        background-size: cover;
+        background-position: center;
+        min-height: 500px;
+    }
+    .course-card { transition: transform 0.2s; }
+    .course-card:hover { transform: translateY(-4px); }
+</style>
+{% endblock head %}
 
-    <!-- Hero Slider -->
-    <div class="hero_slider_container">
-        <div class="hero_slider owl-carousel">
-            
-            <!-- Hero Slide -->
-            <div class="hero_slide">
-                <div class="hero_slide_background" style="background-image:url({% static 'images/slider_1.JPG' %})"></div>
-                <div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
-                    <div class="hero_slide_content text-center">
-                        <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">
-                            {% blocktrans %}Obtenez <span>Votre Éducation</span> aujourd'hui !{% endblocktrans %}
-                        </h1>
+{% block content %}
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    
+    <!-- Hero -->
+    <section class="hero-section flex items-center justify-center text-white px-4">
+        <div class="max-w-3xl text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                {% trans "Débloquez votre" %} <span class="text-yellow-400">{% trans "Potentiel" %}</span>
+            </h1>
+            <p class="text-xl mb-6 text-gray-200">
+                {% trans "Apprenez à votre rythme avec des certifications reconnues" %}
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="{% url 'courses' %}" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition">
+                    {% trans "Explorer les cours" %}
+                </a>
+                {% if not user.is_authenticated %}
+                <a href="{% url 'account_signup' %}" class="px-6 py-3 bg-white hover:bg-gray-100 text-indigo-600 font-bold rounded-lg transition">
+                    {% trans "Commencer gratuitement" %}
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 mb-3">
+                        <span class="material-symbols-outlined text-2xl">school</span>
                     </div>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1">{{ stats.total_courses|default:0 }}+</p>
+                    <p class="text-gray-600 dark:text-gray-400">{% trans "Cours" %}</p>
                 </div>
-            </div>
-            
-            <!-- Hero Slide -->
-            <div class="hero_slide">
-                <div class="hero_slide_background" style="background-image:url({% static 'images/slider_2.JPG' %})"></div>
-                <div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
-                    <div class="hero_slide_content text-center">
-                        <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">
-                            {% blocktrans %}Obtenez <span>Votre Éducation</span> aujourd'hui !{% endblocktrans %}
-                        </h1>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 mb-3">
+                        <span class="material-symbols-outlined text-2xl">group</span>
                     </div>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1">{{ stats.total_users|default:0 }}+</p>
+                    <p class="text-gray-600 dark:text-gray-400">{% trans "Étudiants" %}</p>
                 </div>
-            </div>
-            
-            <!-- Hero Slide -->
-            <div class="hero_slide">
-                <div class="hero_slide_background" style="background-image:url({% static 'images/slider_3.JPG' %})"></div>
-                <div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
-                    <div class="hero_slide_content text-center">
-                        <h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">
-                            {% blocktrans %}Obtenez <span>Votre Éducation</span> aujourd'hui !{% endblocktrans %}
-                        </h1>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 mb-3">
+                        <span class="material-symbols-outlined text-2xl">star</span>
                     </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="hero_slider_left hero_slider_nav trans_200">
-            <span class="trans_200">
-                <div class="fa-button fa-left">
-                    <i class="fas fa-chevron-left"></i>
-                </div>
-            </span>
-        </div>
-        <div class="hero_slider_right hero_slider_nav trans_200">
-            <span class="trans_200">
-                <div class="fa-button fa-right">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </span>
-        </div>
-
-    </div>
-
-</div>
-
-<!-- Popular -->
-<div class="popular mt-4">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="section_title text-center">
-                    <h1>{% trans "Qui sommes-nous ?" %}</h1>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1">{{ stats.local_enrollments|default:0 }}+</p>
+                    <p class="text-gray-600 dark:text-gray-400">{% trans "Inscriptions" %}</p>
                 </div>
             </div>
         </div>
-        <div class="text-center">
-            <p><strong>
+    </section>
+
+    <!-- À propos -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                {% trans "Qui sommes-nous ?" %}
+            </h2>
+            <p class="text-lg text-gray-700 dark:text-gray-300">
                 {% blocktrans %}
-                KouLakay est une plateforme éducative novatrice conçue pour démocratiser l'accès à une éducation de qualité pour les élèves, les professionnels et les apprenants tout au long de la vie. 
-                Ancré dans la conviction que le savoir est une force, KouLakay propose des contenus interactifs et culturellement pertinents adaptés aux besoins d'un public diversifié.
-                Notre mission est de combler le fossé des ressources éducatives en offrant des cours de haute qualité pour favoriser l'apprentissage et le développement des compétences. 
-                En exploitant la technologie, nous visons à créer un environnement d'apprentissage inclusif et dynamique, accessible à tous, quel que soit l'emplacement ou le contexte.
-                Chez KouLakay, nous collaborons avec des éducateurs, des institutions et des leaders de l'industrie pour garantir que nos contenus soient percutants, pratiques et alignés avec les besoins du monde réel. 
-                Que vous soyez lycéen, diplômé universitaire ou professionnel à la recherche d'une formation continue, KouLakay est là pour accompagner votre réussite.
+                KouLakay démocratise l'accès à une éducation de qualité avec des contenus interactifs et pertinents.
                 {% endblocktrans %}
-            </strong></p>
+            </p>
         </div>
-    </div>
-</div>
-
-
-<div class="popular page_section">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="section_title text-center">
-                    <h1>{% trans "Cours populaires" %}</h1>
-                </div>
+    </section>
+    
+    <!-- Cours Populaires -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">{% trans "Cours Populaires" %}</h2>
+                <a href="{% url 'courses' %}" class="text-indigo-600 hover:text-indigo-700 font-semibold">
+                    {% trans "Voir tout" %} →
+                </a>
             </div>
-        </div>
-        <div class="row course_boxes">
-            {% for c in courses %}
-                <div class="col-lg-4 course_box">
-                    <div class="card">
-                        <img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="{% trans 'Image du cours' %}">
-                        <form method='POST' action="{% url 'course_enrollment' c.id %}">
-                            {% csrf_token %}
-                            <div class="card-body text-center">
-                                <div class="card-title">{{ c.name }}</div>
-                                <div class="card-text">{{ c.description|truncatechars:40 }}</div>
-                            </div>
-                            <div class="price_box d-flex flex-row align-items-center">
-                                <div class="course_author_image">
-                                    <img src="{% static 'images/author.jpg' %}" alt="{% trans "Image de l'auteur" %}">
-                                </div>
-                                <div class="course_author_name">
-                                {% if c.enroll %}
-                                
-                                    <a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{ c.slug }}/texts/">{% trans "Voir le cours" %}</a>
-                                
-                                {% else %}
-                             
-                                    <button class="btn btn-success" type="submit">{% trans "S'inscrire" %}</button>
-                                
-                                {% endif %}
-                                <a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2 ">{% trans "Détails" %}</a>
-                            </div>
-                                <div class="course_price d-flex flex-column align-items-center justify-content-center">
-                                    <span>${{ c.price }}</span>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>		
-</div>
-
-<!-- Register -->
-
-<!-- Register -->
-<div class="register">
-    <div class="container-fluid">
-        <div class="row row-eq-height">
-            <div class="col-lg-6 nopadding">
-                <div class="register_section d-flex flex-column align-items-center justify-content-center">
-                    <div class="register_content text-center">
-                        <h1 class="register_title">{% trans "Inscrivez-vous maintenant !" %}</h1>
-                        <p class="register_text">
-                            {% blocktrans %}
-                                Rejoignez-nous maintenant pour accéder à des cours de qualité qui transformeront votre expérience d'apprentissage.
-                            {% endblocktrans %}
-                        </p>
-                        {% if not user.is_authenticated %}
-                        <div class="button button_1 register_button mx-auto trans_200">
-                            <a href="{% url 'account_signup' %}">{% trans "Inscrivez-vous maintenant" %}</a>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for c in courses %}
+                <div class="course-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="relative h-44 bg-gradient-to-br from-indigo-400 to-purple-500">
+                        {% if c.course_card_image_url %}
+                        <img src="{{ c.course_card_image_url }}" alt="{{ c.name }}" class="w-full h-full object-cover">
+                        {% endif %}
+                        {% if c.enrollment_count %}
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded">
+                            ★ {{ c.enrollment_count }}
                         </div>
                         {% endif %}
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-6 nopadding">
-                <div class="search_section d-flex flex-column align-items-center justify-content-center">
-                    <div class="search_background" style="background-image:url({% static 'images/search_background.jpg' %});"></div>
-                    <div class="search_content text-center">
-                        <h1 class="search_title">{% trans "Recherchez votre cours" %}</h1>
-                        <form id="search_form" class="search_form" action="{% url 'courses' %}">
-                            <input id="search_form_name" class="input_field search_form_name" name="q" type="text" placeholder="{% trans 'Nom du cours' %}" required="required">
-                            <button id="search_submit_button" type="submit" class="search_submit_button trans_200" value="Submit">{% trans "Rechercher cours" %}</button>
-                        </form>
-                    </div> 
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Services -->
-
-<div class="services page_section">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="section_title text-center">
-                    <h1>{% trans "Nos Services" %}</h1>
-                </div>
-            </div>
-        </div>
-
-        <div class="row services_row">
-
-            <!-- Service 1 -->
-            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
-                <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/earth-globe.svg' %}" alt="{% trans "Icône d\'un globe terrestre" %}">
-                </div>
-                <h3>{% trans "Cours en ligne interactifs" %}</h3>
-                <p>
-                    {% blocktrans %}
-                    Des cours de haute qualité en créole haïtien et dans d'autres langues, adaptés aux élèves,
-                    professionnels et apprenants tout au long de la vie. Ils incluent des vidéos engageantes, des quiz
-                    et des activités pratiques.
-                    {% endblocktrans %}
-                </p>
-            </div>
-
-            <!-- Service 2 -->
-            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
-                <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/exam.svg' %}" alt="{% trans "Icône d\'examen" %}">
-                </div>
-                <h3>{% trans "Programmes de certification personnalisés" %}</h3>
-                <p>
-                    {% blocktrans %}
-                    Obtenez des certificats reconnus qui valident vos compétences et vos réalisations, renforçant ainsi
-                    votre profil professionnel et académique.
-                    {% endblocktrans %}
-                </p>
-            </div>
-
-            <!-- Service 3 -->
-            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
-                <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/books.svg' %}" alt="{% trans 'Icône de livres' %}">
-                </div>
-                <h3>{% trans "Formation continue pour professionnels" %}</h3>
-                <p>
-                    {% blocktrans %}
-                    Des programmes spécialisés conçus pour répondre aux besoins des professionnels et des diplômés
-                    universitaires cherchant à progresser dans leur carrière ou à changer de domaine.
-                    {% endblocktrans %}
-                </p>
-            </div>
-
-            <!-- Service 4 -->
-            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
-                <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/professor.svg' %}" alt="{% trans 'Icône de professeur' %}">
-                </div>
-                <h3>{% trans "Solutions de formation B2B" %}</h3>
-                <p>
-                    {% blocktrans %}
-                    Modules d'apprentissage sur mesure pour les entreprises, axés sur le développement des compétences,
-                    la cohésion d'équipe et la croissance organisationnelle.
-                    {% endblocktrans %}
-                </p>
-            </div>
-
-            <!-- Service 5 -->
-            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
-                <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/blackboard.svg' %}" alt="{% trans 'Icône de tableau noir' %}">
-                </div>
-                <h3>{% trans "Soutien aux éducateurs" %}</h3>
-                <p>
-                    {% blocktrans %}
-                    Des outils, ressources et formations pour aider les enseignants à perfectionner leurs compétences
-                    pédagogiques et à intégrer la technologie dans leurs pratiques éducatives.
-                    {% endblocktrans %}
-                </p>
-            </div>
-
-            <!-- Service 6 -->
-            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
-                <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/mortarboard.svg' %}" alt="{% trans 'Icône de mortier et planche' %}">
-                </div>
-                <h3>{% trans "Évaluation et validation des compétences" %}</h3>
-                <p>
-                    {% blocktrans %}
-                    Options d'évaluation sécurisées, en ligne et hybrides, pour valider les résultats d'apprentissage et
-                    les compétences, avec des points de service accrédités pour des évaluations en présentiel.
-                    {% endblocktrans %}
-                </p>
-            </div>
-
-            <!-- Service 7 -->
-            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
-                <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/mortarboard.svg' %}" alt="{% trans 'Icône d\'engagement communautaire' %}">
-                </div>
-                <h3>{% trans "Activités d'engagement communautaire" %}</h3>
-                <p>
-                    {% blocktrans %}
-                    Programmes récréatifs et pratiques, tels que des tournois d'échecs en ligne, des initiatives
-                    sportives et des ateliers agricoles, conçus pour compléter l'apprentissage formel.
-                    {% endblocktrans %}
-                </p>
-            </div>
-
-            <!-- Service 8 -->
-            <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
-                <div class="icon_container d-flex flex-column justify-content-end">
-                    <img src="{% static 'images/mortarboard.svg' %}" alt="{% trans 'Icône de partenariat' %}">
-                </div>
-                <h3>{% trans "Partenariats de développement de contenu" %}</h3>
-                <p>
-                    {% blocktrans %}
-                    Collaborez avec nous pour créer et publier des contenus éducatifs culturellement pertinents et
-                    percutants.
-                    {% endblocktrans %}
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Testimonials -->
-<div class="testimonials page_section">
-    <!-- <div class="testimonials_background" style="background-image:url({% static 'images/testimonials_background.jpg' %})"></div> -->
-    <div class="testimonials_background_container prlx_parent">
-        <div class="testimonials_background prlx" style="background-image:url({% static 'images/background.JPG' %})"></div>
-    </div>
-    <div class="container">
-
-        <div class="row">
-            <div class="col">
-                <div class="section_title text-center">
-                    <h1>{% trans "Témoignages" %}</h1>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-10 offset-lg-1">
-                
-                <div class="testimonials_slider_container">
-
-                    <!-- Testimonials Slider -->
-                    <div class="owl-carousel owl-theme testimonials_slider">
+                    
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
+                            {{ c.name }}
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                            {{ c.description|default:"Découvrez ce cours" }}
+                        </p>
                         
-                        <!-- Testimonials Item -->
-                        <div class="owl-item">
-                            <div class="testimonials_item text-center">
-                                <div class="quote">“</div>
-                                <p class="testimonials_text">
-                                    {% blocktrans %}
-                                    KouLakay a transformé mon parcours éducatif. Les cours sont faciles à suivre, et apprendre en créole haïtien rend l'expérience tellement plus accessible. Je me sens enfin connecté à des ressources éducatives de qualité qui répondent à mes besoins.
-                                    {% endblocktrans %}
-                                </p>
-                                <div class="testimonial_user">
-                                    <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user_4.png' %}" alt="{% trans "Image de l\'utilisateur" %}">
-                                    </div>
-                                    <div class="testimonial_name">Marie J.</div>
-                                    <div class="testimonial_title">{% trans "Lycéenne" %}</div>
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            {% if c.price is None or c.price == 0 %}
+                            <span class="text-xl font-bold text-green-600 dark:text-green-400">{% trans "Gratuit" %}</span>
+                            {% else %}
+                            <span class="text-xl font-bold text-gray-900 dark:text-white">${{ c.price }}</span>
+                            {% endif %}
                         </div>
-                        <!-- Testimonials Item -->
-                        <div class="owl-item">
-                            <div class="testimonials_item text-center">
-                                <div class="quote">“</div>
-                                <p class="testimonials_text">
-                                    {% blocktrans %}
-                                    Les programmes de formation continue de KouLakay sont incroyablement utiles. Les compétences pratiques que j'ai acquises ont renforcé ma confiance et m'ont permis de progresser dans ma carrière.
-                                    {% endblocktrans %}
-                                </p>
-                                <div class="testimonial_user">
-                                    <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user_1.JPG' %}" alt="">
-                                    </div>
-                                    <div class="testimonial_name">Jean P.</div>
-                                    <div class="testimonial_title">{% trans "Analyste d'affaires" %}</div>
-                                </div>
-                            </div>
+                        
+                        <div class="flex gap-2">
+                            {% if c.enroll %}
+                            <a href="https://koulakay.thinkific.com/courses/{{ c.slug }}" 
+                               class="flex-1 text-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition">
+                                {% trans "Continuer" %}
+                            </a>
+                            {% else %}
+                            <form method="POST" action="{% url 'course_enrollment' c.id %}" class="flex-1">
+                                {% csrf_token %}
+                                <button type="submit" class="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition">
+                                    {% trans "S'inscrire" %}
+                                </button>
+                            </form>
+                            {% endif %}
+                            <a href="{% url 'course_details' c.id %}" 
+                               class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                                {% trans "Détails" %}
+                            </a>
                         </div>
-
-                        <!-- Testimonials Item -->
-                        <div class="owl-item">
-                            <div class="testimonials_item text-center">
-                                <div class="quote">“</div>
-                                <p class="testimonials_text">
-                                    {% blocktrans %}
-                                    Notre organisation a collaboré avec KouLakay pour former nos employés, et les résultats ont été exceptionnels. Les cours sur mesure et les certifications ont permis à notre équipe d'améliorer ses compétences et de travailler plus efficacement.
-                                    {% endblocktrans %}
-                                </p>
-                                <div class="testimonial_user">
-                                    <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user_3.png' %}" alt="">
-                                    </div>
-                                    <div class="testimonial_name">Sophie L.</div>
-                                    <div class="testimonial_title">{% trans "Responsable RH" %}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Testimonials Item -->
-                        <div class="owl-item">
-                            <div class="testimonials_item text-center">
-                                <div class="quote">“</div>
-                                <p class="testimonials_text">
-                                    {% blocktrans %}
-                                    Je recommande vivement KouLakay pour sa flexibilité. J'ai pu apprendre à mon rythme, et les certificats obtenus ont apporté une vraie valeur ajoutée à mon CV.
-                                    {% endblocktrans %}
-                                </p>
-                                <div class="testimonial_user">
-                                    <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user_2.JPG' %}" alt="">
-                                    </div>
-                                    <div class="testimonial_name">Claudine M.</div>
-                                    <div class="testimonial_title">{% trans "Diplômée récente" %}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Testimonials Item -->
-                        <div class="owl-item">
-                            <div class="testimonials_item text-center">
-                                <div class="quote">“</div>
-                                <p class="testimonials_text">
-                                    {% blocktrans %}
-                                    Les solutions de formation B2B proposées par KouLakay ont parfaitement répondu aux besoins de notre organisation. L'intégration d'exercices pratiques et d'activités d'équipe a rendu le processus d'apprentissage engageant et efficace.
-                                    {% endblocktrans %}
-                                </p>
-                                <div class="testimonial_user">
-                                    <div class="testimonial_image mx-auto">
-                                        <img src="{% static 'images/testimonials_user.jpg' %}" alt="">
-                                    </div>
-                                    <div class="testimonial_name">Pierre A.</div>
-                                    <div class="testimonial_title">{% trans "PDG" %}</div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+                </div>
+                {% empty %}
+                <div class="col-span-full text-center py-8 text-gray-600 dark:text-gray-400">
+                    {% trans "Aucun cours disponible" %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
+    <!-- Services -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-10">{% trans "Nos Forces" %}</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center p-5">
+                    <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-lg bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400">
+                        <span class="material-symbols-outlined text-3xl">workspace_premium</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">{% trans "Certifications" %}</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "Reconnues par l'industrie" %}</p>
+                </div>
+                
+                <div class="text-center p-5">
+                    <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-lg bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400">
+                        <span class="material-symbols-outlined text-3xl">school</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">{% trans "Experts" %}</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "Instructeurs qualifiés" %}</p>
+                </div>
+                
+                <div class="text-center p-5">
+                    <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-lg bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
+                        <span class="material-symbols-outlined text-3xl">schedule</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">{% trans "Flexibilité" %}</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "À votre rythme" %}</p>
+                </div>
+                
+                <div class="text-center p-5">
+                    <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-lg bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400">
+                        <span class="material-symbols-outlined text-3xl">support_agent</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">{% trans "Support" %}</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "Accompagnement dédié" %}</p>
                 </div>
             </div>
         </div>
-
-    </div>
+    </section>
+    
+    <!-- CTA -->
+    <section class="py-12 bg-indigo-700 text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">{% trans "Prêt à commencer ?" %}</h2>
+            <p class="text-lg mb-6">{% trans "Rejoignez-nous et transformez votre carrière" %}</p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                {% if not user.is_authenticated %}
+                <a href="{% url 'account_signup' %}" class="px-6 py-3 bg-white text-indigo-700 font-bold rounded-lg hover:bg-gray-100 transition">
+                    {% trans "Inscription gratuite" %}
+                </a>
+                {% endif %}
+                <a href="{% url 'courses' %}" class="px-6 py-3 border-2 border-white text-white font-bold rounded-lg hover:text-indigo-700 hover:bg-white transition">
+                    {% trans "Explorer" %}
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Témoignages -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-10">{% trans "Témoignages" %}</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-1 mb-3">
+                        {% for i in "12345" %}
+                        <span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">
+                        "KouLakay a transformé mon parcours. Les cours sont accessibles."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold">
+                            MJ
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900 dark:text-white">Marie J.</p>
+                            <p class="text-sm text-gray-500">Lycéenne</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-1 mb-3">
+                        {% for i in "12345" %}
+                        <span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">
+                        "Les formations sont exceptionnelles. J'ai acquis des compétences pratiques."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
+                            JP
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900 dark:text-white">Jean P.</p>
+                            <p class="text-sm text-gray-500">Analyste</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-1 mb-3">
+                        {% for i in "12345" %}
+                        <span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">
+                        "Notre organisation a collaboré avec KouLakay. Les résultats sont impressionnants."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">
+                            SL
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900 dark:text-white">Sophie L.</p>
+                            <p class="text-sm text-gray-500">RH</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
 </div>
 {% endblock content %}

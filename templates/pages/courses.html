@@ -1,114 +1,211 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block head %}
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_styles.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'styles/courses_responsive.css' %}">
+
+{% block title %}{% trans "Cours - KouLakay" %}{% endblock %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    body { font-family: 'Lexend', sans-serif; }
+    .course-card { transition: transform 0.2s, box-shadow 0.2s; }
+    .course-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+</style>
 {% endblock %}
 
 {% block content %}
-{% load static %}
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    
+    <!-- Hero -->
+    <section class="bg-indigo-600 text-white py-12 mb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3">{% trans "Catalogue de Cours" %}</h1>
+            <p class="text-lg text-indigo-100">{% trans "Explorez nos formations" %}</p>
+        </div>
+    </section>
+    
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        
+        <!-- Search -->
+        <div class="mb-6">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="relative max-w-2xl mx-auto">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                    <input 
+                        type="text"
+                        name="q"
+                        value="{{ q|default:'' }}"
+                        placeholder="{% trans 'Rechercher un cours...' %}" 
+                        class="w-full h-12 pl-12 pr-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-indigo-500 focus:outline-none"
+                    />
+                </div>
+            </form>
+        </div>
+        
+        <!-- Catégories -->
+        <div class="mb-8">
+            <div class="flex gap-2 overflow-x-auto pb-2">
+                <a href="{% url 'courses' %}" 
+                   class="flex-shrink-0 px-4 py-2 rounded-full bg-indigo-600 text-white font-medium text-sm">
+                    {% trans "Tout" %}
+                </a>
+                
+                <form method="POST" action="{% url 'courses' %}" class="flex gap-2">
+                    {% csrf_token %}
+                    {% for c in category_items %}
+                    <button 
+                        name="products" 
+                        value="{{ c.product_ids }}" 
+                        type="submit" 
+                        class="flex-shrink-0 px-4 py-2 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium text-sm border border-gray-200 dark:border-gray-700 hover:border-indigo-500"
+                    >
+                        {{ c.name }}
+                    </button>
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+        
+        <!-- Populaires -->
+        {% if popular_courses and not q %}
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">{% trans "Cours Populaires" %}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {% for c in popular_courses %}
+                <div class="course-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow border border-gray-200 dark:border-gray-700">
+                    <div class="relative h-36 bg-gradient-to-br from-indigo-400 to-purple-500">
+                        {% if c.course_card_image_url %}
+                        <img src="{{ c.course_card_image_url }}" alt="{{ c.name }}" class="w-full h-full object-cover">
+                        {% endif %}
+                        {% if c.enrollment_count %}
+                        <div class="absolute top-2 right-2 px-2 py-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded">
+                            ★ {{ c.enrollment_count }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="p-3">
+                        <h3 class="text-sm font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[2.5rem]">
+                            {{ c.name }}
+                        </h3>
+                        <div class="mb-2">
+                            {% if c.price is None or c.price == 0 %}
+                            <span class="text-green-600 dark:text-green-400 font-bold">{% trans "Gratuit" %}</span>
+                            {% else %}
+                            <span class="font-bold text-gray-900 dark:text-white">${{ c.price }}</span>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'course_details' c.id %}" 
+                           class="block w-full text-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded transition">
+                            {% trans "Voir" %}
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Tous les cours -->
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {% if q %}{% trans "Résultats" %}{% else %}{% trans "Tous les cours" %}{% endif %}
+            </h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
+                {% for c in courses %}
+                <div class="course-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow border border-gray-200 dark:border-gray-700">
+                    <div class="relative h-40 bg-gradient-to-br from-indigo-400 to-purple-500">
+                        {% if c.course_card_image_url %}
+                        <img src="{{ c.course_card_image_url }}" alt="{{ c.name }}" class="w-full h-full object-cover" loading="lazy">
+                        {% endif %}
+                        <div class="absolute top-2 left-2">
+                            {% if c.price is None or c.price == 0 %}
+                            <span class="px-2 py-1 bg-green-500 text-white text-xs font-bold rounded">{% trans "Gratuit" %}</span>
+                            {% else %}
+                            <span class="px-2 py-1 bg-gray-900 bg-opacity-80 text-white text-xs font-bold rounded">${{ c.price }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="p-4">
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3rem]">
+                            {{ c.name }}
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                            {{ c.description|default:"Découvrez ce cours" }}
+                        </p>
+                        
+                        <div class="flex gap-2">
+                            {% if c.enroll %}
+                            <a href="https://koulakay.thinkific.com/courses/{{ c.slug }}" 
+                               class="flex-1 inline-flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded transition">
+                                {% trans "Continuer" %}
+                            </a>
+                            {% else %}
+                            <form method="POST" action="{% url 'course_enrollment' c.id %}" class="flex-1">
+                                {% csrf_token %}
+                                <button type="submit"
+                                        class="w-full px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded transition">
+                                    {% trans "S'inscrire" %}
+                                </button>
+                            </form>
+                            {% endif %}
+                            
+                            <a href="{% url 'course_details' c.id %}" 
+                               class="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                                <span class="material-symbols-outlined text-lg">visibility</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-span-full text-center py-12">
+                    <span class="material-symbols-outlined text-6xl text-gray-300 mb-3 block">search_off</span>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{% trans "Aucun cours trouvé" %}</h3>
+                    {% if q %}
+                    <a href="{% url 'courses' %}" class="inline-block px-4 py-2 bg-indigo-600 text-white font-semibold rounded hover:bg-indigo-700 transition">
+                        {% trans "Voir tous les cours" %}
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if pagination_meta and pagination_meta.total_pages > 1 %}
+            <div class="flex justify-center items-center gap-2">
+                {% if pagination_meta.prev_page %}
+                <a href="?page={{ pagination_meta.prev_page }}{% if q %}&q={{ q }}{% endif %}" 
+                   class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </a>
+                {% else %}
+                <button disabled class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded opacity-50 cursor-not-allowed">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                {% endif %}
 
-<!-- Home -->
+                <div class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded">
+                    {{ pagination_meta.current_page }} / {{ pagination_meta.total_pages }}
+                </div>
 
-<div class="home">
-	<div class="home_background_container prlx_parent">
-		<div class="home_background prlx" style="background-image:url({% static 'images/background_1.JPG' %})"></div>
-	</div>
-	<div class="home_content">
-		<h1>{% trans "Cours" %}</h1>
-	</div>
+                {% if pagination_meta.next_page %}
+                <a href="?page={{ pagination_meta.next_page }}{% if q %}&q={{ q }}{% endif %}" 
+                   class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </a>
+                {% else %}
+                <button disabled class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded opacity-50 cursor-not-allowed">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        
+    </main>
+    
 </div>
-
-<!-- Popular -->
-<div class="popular page_section">
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<div class="section_title text-center">
-					<h1>{% trans "Cours populaires" %}</h1>
-				</div>
-			</div>
-		</div>
-
-		<!-- Search Form -->
-		<div class="row">
-			<div class="col text-center">
-				<div class="newsletter_form_container mx-auto">
-					<form method="POST" action="{% url 'courses' %}">
-						{% csrf_token %}
-						<div class="newsletter_form d-flex flex-md-row flex-column align-items-center justify-content-center">
-							<input id="newsletter_email" class="newsletter_email" type="text" name="q" placeholder="{% trans "Nom du cours" %}" required value="{{ q }}">
-							<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300">{% trans "Rechercher" %}</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
-		<!-- Category Filter -->
-		<div class="col-12 mt-2">
-			<ul class="list-group">
-				<div class="row d-flex justify-content-center">
-					<form method="POST" action="{% url 'courses' %}">
-						{% csrf_token %}
-						{% for c in category_items %}
-							<li class="list-group-item m-2">
-								<button name="products" value="{{ c.product_ids }}" type="submit" class="btn btn-outline-primary">
-									{{ c.name }}
-								</button>
-							</li>
-						{% endfor %}
-					{% comment %} {% endfor %} {% endcomment %}
-					{% comment %} </div> {% endcomment %}
-						{% comment %} {% endfor %} {% endcomment %}
-					{% comment %} </div> {% endcomment %}
-					</form>
-				</div>
-			</ul>
-		</div>
-
-		<!-- Course List -->
-			{% comment %} <div class="row course_boxes"> {% endcomment %}
-			{% comment %} <div class="row course_boxes"> {% endcomment %}
-				
-		<div class="row course_boxes">
-				
-			{% for c in courses %}
-			<!-- Course Item -->
-			<div class="col-lg-4 course_box">
-				<div class="card">
-					<img class="card-img-top" src="{% static 'images/course_1.jpg' %}" alt="{% trans "Image du cours" %}">
-					<form method="POST" action="{% url 'course_enrollment' c.id %}">
-						{% csrf_token %}
-						<div class="card-body text-center">
-							<div class="card-title">{{ c.name }}</div>
-							<div class="card-text">{{ c.description|truncatechars:40 }}</div>
-						</div>
-						<div class="price_box d-flex flex-row align-items-center">
-							<div class="course_author_image">
-								<img src="{% static 'images/author.jpg' %}" alt="{% trans "Auteur" %}">
-							</div>
-							<div class="course_author_name">
-								{% if c.enroll %}
-								<a class="btn btn-success" href="https://max-s-site-7ef4.thinkific.com/courses/take/{{ c.slug }}/texts/">{% trans "Voir le cours" %}</a>
-								<a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2">{% trans "Détails" %}</a>
-								{% else %}
-								<button class="btn btn-success" type="submit">{% trans "S'inscrire" %}</button>
-								<a href="{% url 'course_details' c.id %}" class="btn btn-outline-success mr-2">{% trans "Détails" %}</a>
-								{% endif %}
-							</div>
-							<div class="course_price d-flex flex-column align-items-center justify-content-center">
-								<span>${{c.price}}</span>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-			{% include "partials/course_details.html" %}
-			{% endfor %}
-		</div>
-	</div>		
-</div>
-
 {% endblock content %}
