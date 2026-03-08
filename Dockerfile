@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -12,10 +12,10 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt /app/
 
-RUN pip install --upgrade pip && pip install -r requirements.txt uvicorn gunicorn
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# ne pas copier le code ici !
+COPY . /app/
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && uvicorn config.asgi:application --host 0.0.0.0 --port 8000 --reload --reload-dir /app"]
+CMD ["sh", "-c", "python manage.py migrate --no-input && python manage.py collectstatic --no-input && gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2"]
