@@ -2,17 +2,6 @@
 
 ---
 
-
-echo "# Koulakay_Version2" >> README.md
-git init
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/Vaillantval/Koulakay_Version2.git
-git push -u origin main
-
-
-
 ## PARTIE 1 — RÉCIT UTILISATEUR (User Story)
 
 ### Persona : Marie, 22 ans, étudiante à Port-au-Prince
@@ -32,7 +21,7 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
   Facebook / WhatsApp / Bouche-à-oreille
            │
            ▼
-  koulakay.ht  (Cloudflare → Nginx → Django)
+  koulakay.ht  (Cloudflare → Railway → Django)
            │
            ▼
 
@@ -55,8 +44,8 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
   3. MODAL D'INSCRIPTION  (course_modal.html)
   ────────────────────────────────────────────
   ┌──────────────────────────────────┐
-  │  🖼  Image du cours              │
-  │  📚 Comptabilité avancée        │
+  │  Image du cours                  │
+  │  Comptabilité avancée            │
   │  "Ce cours vous prépare à…"     │
   │                                  │
   │  Flexible | Certifié | Support   │
@@ -64,8 +53,8 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
   │  Prix : 1 500 HTG               │
   │  Paiement : MonCash · NatCash   │
   │                                  │
-  │  [💳 Procéder au paiement]      │  ← bouton principal
-  │  [ℹ  Plus de détails]           │
+  │  [Procéder au paiement]         │  ← bouton principal
+  │  [Plus de détails]              │
   └──────────────────────────────────┘
            │                    │
     Marie veut payer      Marie veut en savoir plus
@@ -77,7 +66,7 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
   Marie n'est pas connectée     Description complète,
   → Django redirige vers        programme, prérequis
     /fr/accounts/login/         → Bouton "Acheter ce cours"
-                                  avec animation kl-btn-cta
+
   Marie crée un compte :
     Email + Mot de passe
     (django-allauth)
@@ -89,7 +78,7 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
   5. CHOIX DU COURS  (re-clic après connexion)
   ────────────────────────────────────────────
   → POST /fr/courses/enrollment/<id>/
-  → Vue course_enrollment_payment()
+  → Vue course_enrollment_step1()
   → Crée une Transaction (PENDING)
   → Appel PlopPlopService.create_payment()
            │
@@ -99,13 +88,11 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
   ─────────────────────────────────────────────────────
   ┌──────────────────────────────────────────────────┐
   │                                                  │
-  │   ┌────────────┐  ┌────────────┐  ┌──────────┐  │
-  │   │  MonCash   │  │  NatCash   │  │  Carte   │  │
-  │   │ 🔴⬜️ Rouge │  │ 🔵🟡 Bleu │  │ 💳 Stripe│  │
-  │   │  + Blanc   │  │  + Jaune  │  │ (bientôt)│  │
-  │   │            │  │            │  │          │  │
-  │   │ [Payer]    │  │ [Payer]    │  │ [Payer]  │  │
-  │   └────────────┘  └────────────┘  └──────────┘  │
+  │   ┌────────────┐  ┌────────────┐                 │
+  │   │  MonCash   │  │  NatCash   │                 │
+  │   │            │  │            │                 │
+  │   │ [Payer]    │  │ [Payer]    │                 │
+  │   └────────────┘  └────────────┘                 │
   │                                                  │
   └──────────────────────────────────────────────────┘
            │
@@ -116,10 +103,10 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
   ─────────────────────────────
   POST /api/paiement-marchand
     client_id : pp_ys21gw5plzo
-    refference_id : MPT0042
+    refference_id : KOULKY000042
     montant : 1500
     payment_method : moncash
-    return_url : https://koulakay.ht/payment/retour/
+    return_url : https://<domaine>/payment/retour/
            │
            ▼
   → Marie est redirigée sur plopplop.solutionip.app
@@ -130,13 +117,14 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
 
   8. RETOUR APRÈS PAIEMENT
   ─────────────────────────
-  GET /payment/retour/?refference_id=MPT0042
+  GET /payment/retour/?refference_id=KOULKY000042
   → Vue payment_return()
-  → Appel PlopPlopService.verify_payment(MPT0042)
+  → Appel PlopPlopService.verify_payment(KOULKY000042)
   → Si paid=True :
       Transaction.status = COMPLETE
-      Enrollment créé en base
-      Appel Thinkific API → inscription au cours
+      Enrollment créé en base Django
+      Appel Thinkific API → inscription au cours (avec activated_at)
+      Email de confirmation envoyé (Mailjet)
   → Redirection vers /fr/pages/success/
            │
            ▼
@@ -144,10 +132,10 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
   9. PAGE DE SUCCÈS + EMAIL
   ──────────────────────────
   ┌──────────────────────────────────┐
-  │  ✅ Inscription réussie !        │
+  │  Inscription réussie !           │
   │  Accédez à votre cours sur       │
   │  Thinkific dès maintenant.       │
-  │  [Accéder au cours →]            │
+  │  [Accéder au cours]              │
   └──────────────────────────────────┘
   + Email de confirmation (Mailjet)
            │
@@ -157,6 +145,7 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
   ────────────────────────
   Marie accède à koulakay.thinkific.com
   Elle suit ses modules, télécharge son certificat.
+  Elle peut aussi voir ses cours dans "Mon apprentissage" sur KouLakay.
 
 ```
 
@@ -177,238 +166,176 @@ Objectif : suivre une formation en comptabilité pour décrocher un emploi.
                         └──────────────────┬───────────────────┘
                                            │
                         ┌──────────────────▼───────────────────┐
-                        │        SERVEUR VPS / CLOUD           │
-                        │  ┌────────────┐  ┌────────────────┐  │
-                        │  │   NGINX    │  │   Gunicorn     │  │
-                        │  │  port 80   │→ │  Django 6.0    │  │
-                        │  │  + 443     │  │  WSGI workers  │  │
-                        │  └────────────┘  └───────┬────────┘  │
-                        └──────────────────────────┼───────────┘
-                                                   │
-              ┌───────────────────┬────────────────┼───────────────┐
-              │                   │                │               │
-  ┌───────────▼──┐  ┌─────────────▼──┐  ┌─────────▼───┐  ┌──────▼──────┐
-  │  PostgreSQL  │  │   Cloudflare   │  │   Mailjet   │  │  Thinkific  │
-  │  (Supabase  │  │   R2 (static)  │  │   (emails)  │  │  API (LMS)  │
-  │   ou Railway│  │  /media files  │  │             │  │             │
-  └─────────────┘  └────────────────┘  └─────────────┘  └─────────────┘
-
-  Externe (API paiement) :
-  ┌────────────────────────┐
-  │  PlopPlop              │
-  │  plopplop.solutionip   │
-  │  MonCash / NatCash     │
-  └────────────────────────┘
+                        │            RAILWAY                   │
+                        │  ┌──────────────────────────────┐    │
+                        │  │  Gunicorn + Django 6.0        │    │
+                        │  │  WhiteNoise (fichiers static) │    │
+                        │  │  2 workers                    │    │
+                        │  └──────────────┬───────────────┘    │
+                        │                 │                    │
+                        │  ┌──────────────▼───────────────┐    │
+                        │  │  PostgreSQL (Railway plugin)  │    │
+                        │  │  DATABASE_URL injectée auto   │    │
+                        │  └──────────────────────────────┘    │
+                        └──────────────────────────────────────┘
+                                           │
+              ┌────────────────────────────┼───────────────┐
+              │                            │               │
+  ┌───────────▼──────┐          ┌──────────▼───┐  ┌───────▼─────┐
+  │    Mailjet       │          │   PlopPlop   │  │  Thinkific  │
+  │  (emails)        │          │  MonCash /   │  │  API (LMS)  │
+  │  django-anymail  │          │  NatCash     │  │             │
+  └──────────────────┘          └──────────────┘  └─────────────┘
 ```
 
 ---
 
 ## PARTIE 2 — MISE EN PRODUCTION (Step by Step)
 
-### Réponse directe : Vercel + Supabase + Cloudflare ?
+### Stack utilisée pour KouLakay
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  VERDICT : Vercel ❌  Supabase ✅  Cloudflare ✅     │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│  Vercel est conçu pour Node.js / Next.js.           │
-│  Pour Django, les limitations sont bloquantes :     │
-│   ✗ Pas de système de fichiers persistant           │
-│   ✗ Fonctions serverless = timeout 10s              │
-│   ✗ Django Admin upload fichiers cassé              │
-│   ✗ Pas de Celery / tâches asynchrones             │
-│   ✗ Cold starts lents                               │
-│                                                     │
-│  Supabase = PostgreSQL managé ✅ parfait pour Django │
-│  Cloudflare = DNS/CDN/SSL ✅ indispensable          │
-│                                                     │
-│  REMPLACEMENT DE VERCEL → Railway ou Render         │
-│  (déploiement Django natif, $5-7/mois)              │
-└─────────────────────────────────────────────────────┘
-```
-
-### Stack recommandée pour KouLakay
-
-```
-OPTION A — Géré (simple, idéal pour démarrer)
-──────────────────────────────────────────────
-  Hosting Django  → Railway ($5/mois)
-  Base de données → Supabase PostgreSQL (gratuit jusqu'à 500 MB)
-  Fichiers static → Cloudflare R2 (gratuit 10 GB/mois)
+OPTION A — Railway tout-en-un (ACTUELLE)
+─────────────────────────────────────────
+  Hosting Django  → Railway (~$5/mois)
+  Base de données → PostgreSQL Railway plugin (inclus dans le plan)
+  Fichiers static → WhiteNoise (servis directement par Gunicorn)
   CDN + DNS + SSL → Cloudflare (gratuit)
-  Emails          → Mailjet (déjà configuré)
-  LMS             → Thinkific (déjà configuré)
+  Emails          → Mailjet via django-anymail
+  LMS             → Thinkific
 
-  Coût total estimé : ~$5-10/mois
+  Coût total estimé : ~$44-49/mois (Railway + Thinkific)
 
-OPTION B — VPS classique (plus de contrôle)
-────────────────────────────────────────────
+OPTION B — VPS classique (plus de contrôle, pour plus tard)
+────────────────────────────────────────────────────────────
   VPS             → DigitalOcean / Vultr ($6/mois, 1 GB RAM)
   Serveur web     → Nginx + Gunicorn
-  Base de données → PostgreSQL sur le même VPS ou Supabase
+  Base de données → PostgreSQL sur le même VPS
   SSL             → Let's Encrypt (Certbot, gratuit)
   CDN + DNS       → Cloudflare (gratuit)
-  Fichiers static → Cloudflare R2 ou dossier /static/ Nginx
+  Emails          → Mailjet
+  LMS             → Thinkific
 
-  Coût total estimé : ~$6-12/mois
+  Coût total estimé : ~$45-50/mois
 ```
 
 ---
 
-## OPTION A — Déploiement Railway (recommandé)
+## OPTION A — Déploiement Railway (actuel)
 
-### Étape 1 — Préparer le projet
+### Étape 1 — Fichiers déjà prêts dans le projet
+
+```
+Procfile      → commande de démarrage Gunicorn
+requirements.txt → inclut gunicorn, whitenoise, dj-database-url, psycopg2-binary
+config/settings.py → DATABASE_URL, RAILWAY_PUBLIC_DOMAIN, WhiteNoise configurés
+```
+
+### Étape 2 — Créer le projet Railway
+
+```
+1. railway.app → New Project → Deploy from GitHub repo
+2. Sélectionner le dépôt : Vaillantval/Koulakay_Version2
+3. Railway détecte Python et utilise le Procfile automatiquement
+```
+
+### Étape 3 — Ajouter la base de données PostgreSQL
+
+```
+Dans votre projet Railway → + New → Database → Add PostgreSQL
+
+Railway injecte automatiquement la variable DATABASE_URL dans votre service.
+Vous n'avez RIEN à copier/coller — c'est automatique.
+```
+
+### Étape 4 — Variables d'environnement à saisir dans Railway
+
+```
+Aller dans : votre service Django → Variables → + Add Variable
+
+┌─────────────────────────────┬──────────────────────────────────────────────────────┐
+│ Variable                    │ Valeur                                               │
+├─────────────────────────────┼──────────────────────────────────────────────────────┤
+│ DEBUG                       │ False                                                │
+│ PRODUCTION                  │ True                                                 │
+│ SECRET_KEY                  │ (générer : python -c "from django.core.management   │
+│                             │  .utils import get_random_secret_key;               │
+│                             │  print(get_random_secret_key())")                   │
+│ SITE_ID                     │ koulakay                                             │
+│ THINKIFIC_SECRET_KEY        │ c1699f4b4498b1c1fefd7b86604f9e68                    │
+│ THINKIFIC_WEBHOOK_SECRET    │ (à récupérer dans Thinkific → Settings → Webhooks)  │
+│ PLOPPLOP_CLIENT_ID          │ pp_ys21gw5plzo                                       │
+│ PLOPPLOP_RETURN_URL         │ https://<votre-sous-domaine>.up.railway.app/payment/retour/ │
+│ MAILJET_API_KEY             │ (votre clé Mailjet)                                 │
+│ MAILJET_SECRET_KEY          │ (votre clé secrète Mailjet)                         │
+│ DEFAULT_FROM_EMAIL          │ KouLakay <noreply@koulakay.ht>                      │
+│ ADMIN_USER                  │ admin@koulakay.ht                                   │
+│ ADMIN_PASSWORD              │ (mot de passe fort pour l'admin Django)             │
+└─────────────────────────────┴──────────────────────────────────────────────────────┘
+
+Variables injectées AUTOMATIQUEMENT par Railway (ne pas saisir manuellement) :
+  DATABASE_URL          → connexion PostgreSQL Railway
+  RAILWAY_PUBLIC_DOMAIN → votre sous-domaine (ex: koulakay-production.up.railway.app)
+  PORT                  → port d'écoute Gunicorn
+```
+
+> **Note PLOPPLOP_RETURN_URL** : après avoir généré votre domaine Railway
+> (Settings → Networking → Generate Domain), revenez mettre à jour cette variable
+> avec votre vrai sous-domaine.
+
+### Étape 5 — Générer le domaine Railway
+
+```
+Service Django → Settings → Networking → Generate Domain
+→ Vous obtenez : koulakay-production.up.railway.app (ou similaire)
+→ Mettez à jour PLOPPLOP_RETURN_URL avec ce domaine
+→ Port à renseigner : 8000
+```
+
+### Étape 6 — Déclencher le premier déploiement
+
+```
+Railway détecte le push GitHub et lance automatiquement :
+
+  pip install -r requirements.txt
+  python manage.py migrate --no-input
+  python manage.py collectstatic --no-input
+  gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2
+
+Suivre les logs dans Railway → Deployments → View Logs
+```
+
+### Étape 7 — Vérifications post-déploiement
 
 ```bash
-# 1.1 Installer les dépendances de production
-pip install whitenoise django-storages boto3
-pip freeze > requirements.txt
-
-# 1.2 Créer Procfile à la racine
-echo "web: gunicorn config.wsgi:application --bind 0.0.0.0:\$PORT" > Procfile
-
-# 1.3 Créer runtime.txt
-echo "python-3.12.7" > runtime.txt
+# Via Railway CLI (optionnel)
+railway run python manage.py check --deploy
+railway run python manage.py createsuperuser
 ```
 
-### Étape 2 — Modifier settings.py pour la production
+Ou directement depuis Railway → votre service → **Shell** (onglet terminal).
 
-Dans `config/settings.py`, ajouter/modifier :
-
-```python
-import os
-from pathlib import Path
-
-DEBUG = os.environ.get("DEBUG", "False") == "True"
-
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
-
-# Sécurité production
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-
-# Fichiers statiques — WhiteNoise pour servir sans Nginx
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   # ← ajouter en 2e
-    # ... reste du middleware
-]
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATIC_URL = '/static/'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Base de données via URL (Railway / Supabase)
-import dj_database_url
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True,
-    )
-}
-```
-
-```bash
-pip install whitenoise dj-database-url
-pip freeze > requirements.txt
-```
-
-### Étape 3 — Variables d'environnement (.env production)
+### Étape 8 — Domaine personnalisé + Cloudflare (quand vous achetez un domaine)
 
 ```
-DEBUG=False
-SECRET_KEY=<votre_vraie_cle_secrete_longue>
-ALLOWED_HOSTS=koulakay.ht,www.koulakay.ht
-DATABASE_URL=postgresql://user:pass@host:5432/dbname
-PLOPPLOP_CLIENT_ID=pp_ys21gw5plzo
-PLOPPLOP_RETURN_URL=https://koulakay.ht/payment/retour/
-MAILJET_API_KEY=<votre_cle>
-MAILJET_SECRET_KEY=<votre_cle>
-THINKIFIC_SECRET_KEY=c1699f4b4498b1c1fefd7b86604f9e68
-PRODUCTION=True
-```
-
-### Étape 4 — Supabase (base de données)
-
-```
-1. Aller sur supabase.com → New Project
-2. Choisir région : US East (la plus proche d'Haïti)
-3. Copier la "Connection string" (mode Transaction Pooler)
-   postgresql://postgres.[ref]:[password]@aws-0-us-east-1.pooler.supabase.com:5432/postgres
-4. Mettre cette URL dans DATABASE_URL
-```
-
-### Étape 5 — Déployer sur Railway
-
-```bash
-# Installer Railway CLI
-npm install -g @railway/cli
-
-# Se connecter
-railway login
-
-# Initialiser le projet
-railway init
-
-# Lier à GitHub (recommandé pour déploiements auto)
-# Aller sur railway.app → New Project → Deploy from GitHub repo
-
-# Ajouter les variables d'environnement dans Railway dashboard
-# Settings → Variables → ajouter toutes les vars du .env production
-
-# Déclencher le déploiement
-railway up
-```
-
-Railway exécutera automatiquement :
-```
-pip install -r requirements.txt
-python manage.py collectstatic --no-input
-python manage.py migrate
-gunicorn config.wsgi:application
-```
-
-### Étape 6 — Cloudflare (DNS + SSL + CDN)
-
-```
-1. Acheter le domaine koulakay.ht (registrar .ht ou Namecheap)
+1. Acheter le domaine chez Namecheap ou autre registrar
 2. Ajouter le site sur cloudflare.com (plan gratuit)
 3. Changer les nameservers chez votre registrar → ceux de Cloudflare
 
 4. Dans Cloudflare → DNS :
-   Type  | Nom | Valeur                          | Proxy
-   CNAME | @   | <votre-app>.railway.app          | ✅ Proxied
-   CNAME | www | <votre-app>.railway.app          | ✅ Proxied
+   Type  | Nom | Valeur                                    | Proxy
+   CNAME | @   | <votre-app>.up.railway.app               | Proxied
+   CNAME | www | <votre-app>.up.railway.app               | Proxied
 
 5. SSL/TLS → Mode : Full (strict)
 6. Edge Certificates → Always Use HTTPS : ON
-7. Speed → Optimization → Auto Minify : JS + CSS + HTML
 
-8. Dans Railway → Settings → Custom Domain :
+7. Dans Railway → votre service → Settings → Networking → Custom Domain :
    Ajouter koulakay.ht et www.koulakay.ht
-```
 
-### Étape 7 — Vérifications finales
-
-```bash
-# Checklist Django (donne des recommandations)
-python manage.py check --deploy
-
-# Collecter les fichiers statiques
-python manage.py collectstatic --no-input
-
-# Appliquer les migrations
-python manage.py migrate
-
-# Créer un super-utilisateur admin
-python manage.py createsuperuser
+8. Mettre à jour les variables Railway :
+   PLOPPLOP_RETURN_URL = https://koulakay.ht/payment/retour/
+   DEFAULT_FROM_EMAIL  = KouLakay <noreply@koulakay.ht>
 ```
 
 ---
@@ -421,13 +348,8 @@ python manage.py createsuperuser
 # Sur DigitalOcean : Droplet Ubuntu 22.04 LTS, 1 GB RAM ($6/mois)
 # Activer SSH key lors de la création
 
-# Se connecter
 ssh root@<votre_ip>
-
-# Mettre à jour le système
 apt update && apt upgrade -y
-
-# Installer les dépendances
 apt install -y python3-pip python3-venv postgresql nginx certbot python3-certbot-nginx git
 ```
 
@@ -444,30 +366,44 @@ GRANT ALL PRIVILEGES ON DATABASE koulakay TO koulakay_user;
 ### Étape 3 — Déployer Django
 
 ```bash
-# Cloner le projet
 cd /var/www
-git clone https://github.com/votre-compte/koulakay.git
+git clone https://github.com/Vaillantval/Koulakay_Version2.git koulakay
 cd koulakay
 
-# Environnement virtuel
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
 # Créer le fichier .env
 nano .env
-# (coller les variables d'environnement de production)
+# (coller les variables ci-dessous)
 
-# Migrations et static
 python manage.py migrate
 python manage.py collectstatic --no-input
 python manage.py createsuperuser
 ```
 
+Variables à mettre dans le `.env` sur VPS :
+```
+DEBUG=False
+PRODUCTION=True
+SECRET_KEY=<clé longue>
+DATABASE_URL=postgresql://koulakay_user:motdepasse_fort@localhost:5432/koulakay
+SITE_ID=koulakay
+THINKIFIC_SECRET_KEY=c1699f4b4498b1c1fefd7b86604f9e68
+THINKIFIC_WEBHOOK_SECRET=<depuis Thinkific>
+PLOPPLOP_CLIENT_ID=pp_ys21gw5plzo
+PLOPPLOP_RETURN_URL=https://koulakay.ht/payment/retour/
+MAILJET_API_KEY=<votre clé>
+MAILJET_SECRET_KEY=<votre clé>
+DEFAULT_FROM_EMAIL=KouLakay <noreply@koulakay.ht>
+ADMIN_USER=admin@koulakay.ht
+ADMIN_PASSWORD=<mot de passe fort>
+```
+
 ### Étape 4 — Configurer Gunicorn (service systemd)
 
 ```bash
-# Créer /etc/systemd/system/koulakay.service
 nano /etc/systemd/system/koulakay.service
 ```
 
@@ -538,7 +474,6 @@ systemctl restart nginx
 
 ```bash
 certbot --nginx -d koulakay.ht -d www.koulakay.ht
-# Certbot modifie Nginx automatiquement pour HTTPS
 systemctl reload nginx
 ```
 
@@ -546,11 +481,10 @@ systemctl reload nginx
 
 ```
 DNS Cloudflare :
-  A | @ | <votre_ip_VPS> | ✅ Proxied
-  A | www | <votre_ip_VPS> | ✅ Proxied
+  A | @   | <votre_ip_VPS> | Proxied
+  A | www | <votre_ip_VPS> | Proxied
 
 SSL/TLS → Mode : Full (strict)
-  (Certbot gère le cert entre Nginx et Cloudflare)
 ```
 
 ---
@@ -560,18 +494,18 @@ SSL/TLS → Mode : Full (strict)
 ```
 □ DEBUG = False en production
 □ SECRET_KEY longue et unique (jamais dans git)
-□ ALLOWED_HOSTS contient votre domaine
+□ RAILWAY_PUBLIC_DOMAIN détecté (ALLOWED_HOSTS auto)
 □ CSRF_TRUSTED_ORIGINS contient votre domaine
-□ HTTPS activé (SSL/TLS)
-□ Fichiers statiques collectés (collectstatic)
-□ Toutes les migrations appliquées
-□ Super-utilisateur admin créé
-□ Email Mailjet testé (envoyer un email test)
+□ HTTPS activé (SSL/TLS via Cloudflare ou Certbot)
+□ Fichiers statiques collectés (collectstatic — fait par Procfile)
+□ Toutes les migrations appliquées (migrate — fait par Procfile)
+□ Super-utilisateur admin créé (railway run python manage.py createsuperuser)
+□ Email Mailjet testé (compte approuvé par Mailjet Support)
 □ Plopplop testé avec un vrai paiement test
-□ Thinkific API testée
-□ SiteConfig rempli dans le dashboard admin
-□ Images MonCash/NatCash ajoutées dans staticfiles/images/
-□ Sauvegardes BDD automatiques configurées (pg_dump ou Supabase auto-backup)
+□ Thinkific API testée (enrollment avec activated_at)
+□ SiteConfig rempli dans le dashboard admin Django
+□ Page "Mon apprentissage" testée après une vraie inscription
+□ Sauvegardes BDD automatiques activées (Railway → PostgreSQL → Backups)
 □ Monitoring uptime configuré (UptimeRobot gratuit)
 ```
 
@@ -580,17 +514,18 @@ SSL/TLS → Mode : Full (strict)
 ## Résumé des coûts mensuels
 
 ```
-OPTION A (Railway)                OPTION B (VPS)
-─────────────────────────────     ─────────────────────────────
-Railway Starter    : $5/mois      DigitalOcean 1GB : $6/mois
-Supabase Free      : $0/mois      PostgreSQL local : inclus
-Cloudflare Free    : $0/mois      Cloudflare Free  : $0/mois
-Mailjet Free       : $0/mois      Mailjet Free     : $0/mois
-Thinkific Basic    : $39/mois     Thinkific Basic  : $39/mois
-Domaine .ht        : ~$25/an      Domaine .ht      : ~$25/an
-─────────────────────────────     ─────────────────────────────
-TOTAL              : ~$46/mois    TOTAL            : ~$47/mois
+OPTION A (Railway tout-en-un)         OPTION B (VPS)
+─────────────────────────────         ─────────────────────────────
+Railway Hobby      : $5/mois          DigitalOcean 1GB : $6/mois
+PostgreSQL Railway : inclus           PostgreSQL local : inclus
+Cloudflare Free    : $0/mois          Cloudflare Free  : $0/mois
+Mailjet Free       : $0/mois          Mailjet Free     : $0/mois
+Thinkific Basic    : $39/mois         Thinkific Basic  : $39/mois
+Domaine            : ~$1/mois         Domaine          : ~$1/mois
+─────────────────────────────         ─────────────────────────────
+TOTAL              : ~$45/mois        TOTAL            : ~$46/mois
 ```
 
-> **Recommandation** : commencez avec **Option A (Railway)** pour aller vite.
-> Migrez vers Option B quand vous avez plus de 200 utilisateurs actifs et besoin de plus de contrôle.
+> **Recommandation** : restez sur **Option A (Railway)** tant que vous avez moins de
+> 500 utilisateurs actifs. Migrez vers Option B si vous avez besoin de plus de contrôle
+> ou que les coûts Railway augmentent avec le volume.
