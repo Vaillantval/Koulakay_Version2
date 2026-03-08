@@ -433,7 +433,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 if DEBUG:
     STATICFILES_DIRS = [
