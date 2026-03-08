@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.http import Http404
 from datetime import datetime, timezone
 from decimal import Decimal
+from django.db.models import Count
 import requests
 
 from .monkey_patch.patch_thinkific import ThinkificExtend
@@ -40,14 +41,19 @@ def course_enrollment_step1(request, course_id):
                 product_id = p.get('id')
                 break
         
-        # Trouver l'ID Thinkific de l'utilisateur
-        thinkific_user_id = None
-        user_list = thinkific.users.list().get('items', [])
-        for u in user_list:
-            if u.get('email') == request.user.email:
-                thinkific_user_id = u.get('id')
-                break
-        
+        # Trouver l'ID Thinkific de l'utilisateur (champ local en priorité)
+        thinkific_user_id = request.user.thinkific_user_id
+        if not thinkific_user_id:
+            # Fallback : chercher par email sur l'API
+            user_list = thinkific.users.list().get('items', [])
+            for u in user_list:
+                if u.get('email') == request.user.email:
+                    thinkific_user_id = u.get('id')
+                    # Sauvegarder pour éviter ce fallback à l'avenir
+                    request.user.thinkific_user_id = thinkific_user_id
+                    request.user.save(update_fields=['thinkific_user_id'])
+                    break
+
         if not thinkific_user_id:
             messages.error(request, _("Impossible de trouver votre profil Thinkific."))
             return redirect('course_details', course_id=course_id)
@@ -70,7 +76,7 @@ def course_enrollment_step1(request, course_id):
             'thinkific_user_id': thinkific_user_id
         }
         
-        return render(request, 'courses/payment_options.html', {
+        return render(request, 'pages/payment_options.html', {
             'course': course,
             'course_price': course_price,
         })
@@ -83,129 +89,80 @@ def course_enrollment_step1(request, course_id):
 
 @login_required
 def course_enrollment_payment(request, payment_method):
-    """Étape 2: Traiter le paiement selon la méthode choisie"""
+    """Étape 2: Traiter le paiement via plopplop (MonCash / NatCash / Kashpaw)"""
     if request.method != 'POST':
         return redirect('courses')
-    
-    # Récupérer les données de session
+
     enrollment_data = request.session.get('enrollment_data')
     if not enrollment_data:
         messages.error(request, _("Session expirée. Veuillez recommencer."))
         return redirect('courses')
-    
+
     course_id = enrollment_data['course_id']
     course_name = enrollment_data['course_name']
     course_price = Decimal(str(enrollment_data['course_price']))
     product_id = enrollment_data.get('product_id')
     thinkific_user_id = enrollment_data['thinkific_user_id']
-    
-    # Valider la méthode de paiement
-    valid_methods = ['credit_card', 'moncash', 'natcash']
+
+    # plopplop accepte : moncash, natcash, kashpaw, all
+    valid_methods = ['moncash', 'natcash', 'kashpaw', 'all']
     if payment_method not in valid_methods:
         messages.error(request, _("Méthode de paiement invalide."))
         return redirect('course_details', course_id=course_id)
-    
+
     try:
-        # Créer la transaction
+        from payment.models import Transaction
+        from payment.plopplop_service import PlopPlopService
+
+        # Créer la transaction locale (PENDING)
         transaction = Transaction.objects.create(
             user=request.user,
             price=course_price,
-            currency=Transaction.Currencies.USD,
+            currency=Transaction.Currencies.HTG,
             status=Transaction.Status.PENDING,
             payment_method=payment_method,
             meta_data={
                 "course": {
                     "course_id": course_id,
                     "course_name": course_name,
-                    "product_id": product_id
+                    "product_id": product_id,
                 },
                 "user": {
                     "id": request.user.pk,
                     "email": request.user.email,
-                    "thinkific_user_id": thinkific_user_id
-                }
+                    "thinkific_user_id": thinkific_user_id,
+                },
             }
         )
-        
-        # Générer le lien de paiement selon la méthode
-        redirect_url = generate_payment_link(request, transaction, payment_method)
-        
-        if redirect_url:
+
+        # Appel à plopplop
+        plopplop = PlopPlopService()
+        result = plopplop.create_payment(
+            refference_id=transaction.transaction_number,
+            montant=float(course_price),
+            payment_method=payment_method,
+        )
+
+        if result['success']:
+            # Sauvegarder l'ID plopplop dans la transaction
+            transaction.external_transaction_id = result.get('transaction_id')
+            transaction.save()
+
             # Nettoyer la session
             del request.session['enrollment_data']
-            return redirect(redirect_url)
+
+            # Rediriger l'utilisateur vers la page de paiement plopplop
+            return redirect(result['url'])
         else:
             transaction.status = Transaction.Status.FAILED
             transaction.save()
-            messages.error(request, _("Impossible de générer le lien de paiement."))
+            messages.error(request, _("Impossible de créer le paiement : ") + result.get('error', ''))
             return redirect('course_details', course_id=course_id)
-            
+
     except Exception as e:
         messages.error(request, _("Erreur lors du traitement du paiement."))
-        print(f"Erreur payment: {e}")
+        print(f"Erreur payment plopplop: {e}")
         return redirect('course_details', course_id=course_id)
-
-
-def generate_payment_link(request, transaction, payment_method):
-    """Génère le lien de paiement selon la méthode choisie"""
-    
-    # Configuration des endpoints selon la méthode
-    payment_configs = {
-        'credit_card': {
-            'endpoint': settings.PAYMENT['PAY_API_ENDPOINT'],
-            'api_key': settings.PAYMENT['API_KEY']
-        },
-        'moncash': {
-            'endpoint': settings.PAYMENT.get('MONCASH_API_ENDPOINT', settings.PAYMENT['PAY_API_ENDPOINT']),
-            'api_key': settings.PAYMENT.get('MONCASH_API_KEY', settings.PAYMENT['API_KEY'])
-        },
-        'natcash': {
-            'endpoint': settings.PAYMENT.get('NATCASH_API_ENDPOINT', settings.PAYMENT['PAY_API_ENDPOINT']),
-            'api_key': settings.PAYMENT.get('NATCASH_API_KEY', settings.PAYMENT['API_KEY'])
-        }
-    }
-    
-    config = payment_configs.get(payment_method)
-    if not config:
-        return None
-    
-    # Construire le callback URL
-    callback_url = request.build_absolute_uri('/payment/callback_url/')
-    
-    # Données de paiement
-    data = {
-        "amount": float(transaction.price),
-        "currency": transaction.currency,
-        "api_key": config['api_key'],
-        "payment_method": payment_method,
-        "callback_url": callback_url,
-        "transaction_id": transaction.pk,
-        "meta_data": {
-            "transaction_number": transaction.transaction_number,
-            "user_email": transaction.user.email,
-            "course_name": transaction.course_name
-        }
-    }
-    
-    try:
-        response = requests.post(
-            config['endpoint'],
-            json=data,
-            timeout=30
-        )
-        response.raise_for_status()
-        response_data = response.json()
-        
-        # Sauvegarder l'ID externe si fourni
-        if 'transaction_id' in response_data:
-            transaction.external_transaction_id = response_data['transaction_id']
-            transaction.save()
-        
-        return response_data.get('pay_url')
-        
-    except requests.RequestException as e:
-        print(f"Erreur génération lien paiement: {e}")
-        return None
 
 
 def enroll_user_free(request, course_id, thinkific_user_id, course_name):
@@ -245,6 +202,41 @@ def enroll_user_free(request, course_id, thinkific_user_id, course_name):
         messages.error(request, _("Erreur lors de l'inscription."))
         print(f"Erreur enroll free: {e}")
         return redirect('course_details', course_id=course_id)
+
+
+@login_required
+def mon_apprentissage(request):
+    """Dashboard 'Mon apprentissage' — cours auxquels l'utilisateur est inscrit"""
+    enrollments = (
+        Enrollment.objects
+        .filter(user=request.user)
+        .select_related('user')
+        .order_by('-activated_at')
+    )
+
+    cours_inscrits = []
+    for enrollment in enrollments:
+        try:
+            course_data = thinkific.courses.retrieve_course(id=enrollment.course_id)
+            course_data['enrollment'] = enrollment
+            # URL directe sur Thinkific
+            site_id = thinkific.site_id if hasattr(thinkific, 'site_id') else ''
+            course_data['thinkific_url'] = f"https://{site_id}.thinkific.com/courses/{course_data.get('slug', '')}"
+            cours_inscrits.append(course_data)
+        except Exception:
+            # Si le cours n'existe plus sur Thinkific, on garde une version minimale
+            cours_inscrits.append({
+                'id': enrollment.course_id,
+                'name': f'Cours #{enrollment.course_id}',
+                'slug': '',
+                'banner_image_url': None,
+                'enrollment': enrollment,
+                'thinkific_url': '#',
+            })
+
+    return render(request, 'pages/mon_apprentissage.html', {
+        'cours_inscrits': cours_inscrits,
+    })
 
 
 def payment_callback(request):

@@ -23,6 +23,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 
 from pages.views import redirect_to_default_language
+from payment.views import payment_return
 
 admin.autodiscover()
 
@@ -35,6 +36,8 @@ urlpatterns = [
 
 urlpatterns += [
     path('', redirect_to_default_language),
+    # URL de retour plopplop — hors i18n pour compatibilité avec la redirection externe
+    path('payment/retour/', payment_return, name='payment_return'),
 ]
 
 urlpatterns += i18n_patterns(

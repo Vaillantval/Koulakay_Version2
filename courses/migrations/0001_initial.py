@@ -18,10 +18,11 @@ class Migration(migrations.Migration):
             name='Enrollment',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('thinkific_user_id', models.IntegerField(verbose_name='thinkific user id')),
                 ('course_id', models.IntegerField(verbose_name='Course id')),
                 ('activated_at', models.DateTimeField(verbose_name='activated at')),
                 ('expiry_date', models.DateTimeField(verbose_name='expiry date')),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

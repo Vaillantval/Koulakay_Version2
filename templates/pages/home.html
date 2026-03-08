@@ -9,35 +9,70 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <style>
     body { font-family: 'Lexend', sans-serif; }
-    .hero-section { 
-        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("{% static 'images/slider_1.JPG' %}");
+
+    /* ── Hero ── */
+    .hero-section {
+        background: linear-gradient(rgba(30,10,0,0.45), rgba(20,6,0,0.65)),
+                    url("{% static 'images/slider_1.JPG' %}");
         background-size: cover;
         background-position: center;
-        min-height: 500px;
+        min-height: 560px;
     }
-    .course-card { transition: transform 0.2s; }
-    .course-card:hover { transform: translateY(-4px); }
+
+    /* ── Cards ── */
+    .course-card {
+        transition: transform 0.28s cubic-bezier(.34,1.56,.64,1), box-shadow 0.28s;
+    }
+    .course-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(124,61,14,0.18);
+    }
+
+    /* ── Stat icons ── */
+    .stat-icon { background: linear-gradient(135deg,#C4853A,#7C3D0E); }
+
+    /* ── Force icons ── */
+    .force-icon {
+        background: rgba(196,133,58,0.12);
+        transition: background 0.25s, color 0.25s;
+    }
+    .force-card:hover .force-icon {
+        background: linear-gradient(135deg,#C4853A,#7C3D0E);
+        color: white;
+    }
+
+    /* ── Testimonial ── */
+    .testimonial-card { transition: transform 0.25s; }
+    .testimonial-card:hover { transform: translateY(-4px); }
+
+    /* ── CTA section ── */
+    .cta-section { background: linear-gradient(135deg,#3D1C04 0%,#7C3D0E 60%,#9B5116 100%); }
 </style>
 {% endblock head %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    
-    <!-- Hero -->
+<div class="min-h-screen" style="background:#FBF7F4;">
+
+    <!-- ── Hero ── -->
     <section class="hero-section flex items-center justify-center text-white px-4">
-        <div class="max-w-3xl text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                {% trans "Débloquez votre" %} <span class="text-yellow-400">{% trans "Potentiel" %}</span>
+        <div class="max-w-3xl text-center" data-aos="fade-up" data-aos-duration="900">
+            <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-3 letter-spacing-2">
+                {% trans "Plateforme éducative haïtienne" %}
+            </p>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                {% trans "Débloquez votre" %}<br>
+                <span class="text-yellow-400">{% trans "Potentiel" %}</span>
             </h1>
-            <p class="text-xl mb-6 text-gray-200">
+            <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto">
                 {% trans "Apprenez à votre rythme avec des certifications reconnues" %}
             </p>
             <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                <a href="{% url 'courses' %}" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition">
+                <a href="{% url 'courses' %}" class="kl-btn-cta px-7 py-3 font-bold rounded-xl text-base">
                     {% trans "Explorer les cours" %}
                 </a>
                 {% if not user.is_authenticated %}
-                <a href="{% url 'account_signup' %}" class="px-6 py-3 bg-white hover:bg-gray-100 text-indigo-600 font-bold rounded-lg transition">
+                <a href="{% url 'account_signup' %}"
+                   class="px-7 py-3 bg-white/15 hover:bg-white/25 border border-white/40 text-white font-bold rounded-xl transition backdrop-blur-sm text-base">
                     {% trans "Commencer gratuitement" %}
                 </a>
                 {% endif %}
@@ -45,114 +80,128 @@
         </div>
     </section>
 
-    <!-- Stats -->
+    <!-- ── Stats ── -->
     <section class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-lg border border-gray-200 dark:border-gray-700">
-                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 mb-3">
+
+                <div class="bg-white rounded-2xl p-6 text-center shadow-md border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="0">
+                    <div class="stat-icon inline-flex items-center justify-center w-14 h-14 rounded-full text-white mb-3">
                         <span class="material-symbols-outlined text-2xl">school</span>
                     </div>
-                    <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1">{{ stats.total_courses|default:0 }}+</p>
-                    <p class="text-gray-600 dark:text-gray-400">{% trans "Cours" %}</p>
+                    <p class="text-4xl font-bold text-brand-800 mb-1">{{ stats.total_courses|default:0 }}+</p>
+                    <p class="text-brand-500 font-medium">{% trans "Cours" %}</p>
                 </div>
-                
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-lg border border-gray-200 dark:border-gray-700">
-                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 mb-3">
+
+                <div class="bg-white rounded-2xl p-6 text-center shadow-md border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-icon inline-flex items-center justify-center w-14 h-14 rounded-full text-white mb-3">
                         <span class="material-symbols-outlined text-2xl">group</span>
                     </div>
-                    <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1">{{ stats.total_users|default:0 }}+</p>
-                    <p class="text-gray-600 dark:text-gray-400">{% trans "Étudiants" %}</p>
+                    <p class="text-4xl font-bold text-brand-800 mb-1">{{ stats.total_users|default:0 }}+</p>
+                    <p class="text-brand-500 font-medium">{% trans "Étudiants" %}</p>
                 </div>
-                
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-lg border border-gray-200 dark:border-gray-700">
-                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 mb-3">
-                        <span class="material-symbols-outlined text-2xl">star</span>
+
+                <div class="bg-white rounded-2xl p-6 text-center shadow-md border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-icon inline-flex items-center justify-center w-14 h-14 rounded-full text-white mb-3">
+                        <span class="material-symbols-outlined text-2xl">emoji_events</span>
                     </div>
-                    <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1">{{ stats.local_enrollments|default:0 }}+</p>
-                    <p class="text-gray-600 dark:text-gray-400">{% trans "Inscriptions" %}</p>
+                    <p class="text-4xl font-bold text-brand-800 mb-1">{{ stats.local_enrollments|default:0 }}+</p>
+                    <p class="text-brand-500 font-medium">{% trans "Inscriptions" %}</p>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- À propos -->
-    <section class="py-12 bg-white dark:bg-gray-800">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+    <!-- ── À propos bref ── -->
+    <section class="py-14 bg-white">
+        <div class="max-w-4xl mx-auto px-4 text-center" data-aos="fade-up">
+            <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200 mb-4">
+                {% trans "Notre mission" %}
+            </span>
+            <h2 class="text-3xl md:text-4xl font-bold text-brand-900 mb-4">
                 {% trans "Qui sommes-nous ?" %}
             </h2>
-            <p class="text-lg text-gray-700 dark:text-gray-300">
+            <p class="text-lg text-brand-600 leading-relaxed">
                 {% blocktrans %}
-                KouLakay démocratise l'accès à une éducation de qualité avec des contenus interactifs et pertinents.
+                KouLakay démocratise l'accès à une éducation de qualité avec des contenus interactifs,
+                culturellement pertinents et adaptés à la réalité haïtienne.
                 {% endblocktrans %}
             </p>
+            <a href="{% url 'about' %}" class="inline-block mt-6 text-brand-600 font-semibold hover:text-brand-800 transition border-b-2 border-brand-300 pb-0.5">
+                {% trans "En savoir plus" %} →
+            </a>
         </div>
     </section>
-    
-    <!-- Cours Populaires -->
-    <section class="py-12">
+
+    <!-- ── Cours Populaires ── -->
+    <section class="py-14" style="background:#FBF7F4;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">{% trans "Cours Populaires" %}</h2>
-                <a href="{% url 'courses' %}" class="text-indigo-600 hover:text-indigo-700 font-semibold">
+            <div class="flex items-center justify-between mb-8" data-aos="fade-up">
+                <div>
+                    <span class="w-1 h-7 rounded-full bg-brand-600 inline-block align-middle mr-2"></span>
+                    <h2 class="text-3xl font-bold text-brand-800 inline-block align-middle">{% trans "Cours Populaires" %}</h2>
+                </div>
+                <a href="{% url 'courses' %}" class="text-brand-600 hover:text-brand-800 font-semibold transition text-sm">
                     {% trans "Voir tout" %} →
                 </a>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for c in courses %}
-                <div class="course-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
-                    <div class="relative h-44 bg-gradient-to-br from-indigo-400 to-purple-500">
+                <div class="course-card bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+
+                    <!-- Image -->
+                    <div class="relative h-44" style="background: linear-gradient(135deg,#C4853A,#7C3D0E);">
                         {% if c.course_card_image_url %}
-                        <img src="{{ c.course_card_image_url }}" alt="{{ c.name }}" class="w-full h-full object-cover">
+                        <img src="{{ c.course_card_image_url }}" alt="{{ c.name }}"
+                             class="w-full h-full object-cover">
                         {% endif %}
+                        <!-- Prix -->
+                        <div class="absolute bottom-2 left-2">
+                            {% if c.price is None or c.price == 0 %}
+                            <span class="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full shadow">{% trans "Gratuit" %}</span>
+                            {% else %}
+                            <span class="px-2 py-1 text-white text-xs font-bold rounded-full shadow" style="background:rgba(30,10,0,0.7);backdrop-filter:blur(4px);">{{ c.price }} HTG</span>
+                            {% endif %}
+                        </div>
                         {% if c.enrollment_count %}
-                        <div class="absolute top-3 right-3 px-2 py-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded">
+                        <div class="absolute top-2 right-2 px-2 py-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded-full shadow">
                             ★ {{ c.enrollment_count }}
                         </div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="p-5">
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
-                            {{ c.name }}
-                        </h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
-                            {{ c.description|default:"Découvrez ce cours" }}
-                        </p>
-                        
-                        <div class="mb-3">
-                            {% if c.price is None or c.price == 0 %}
-                            <span class="text-xl font-bold text-green-600 dark:text-green-400">{% trans "Gratuit" %}</span>
-                            {% else %}
-                            <span class="text-xl font-bold text-gray-900 dark:text-white">${{ c.price }}</span>
-                            {% endif %}
-                        </div>
-                        
+                        <h3 class="text-base font-bold text-brand-900 mb-2 line-clamp-2 min-h-[3rem]">{{ c.name }}</h3>
+                        <p class="text-xs text-brand-500 mb-4 line-clamp-2">{{ c.description|default:"Découvrez ce cours" }}</p>
+
                         <div class="flex gap-2">
                             {% if c.enroll %}
-                            <a href="https://koulakay.thinkific.com/courses/{{ c.slug }}" 
-                               class="flex-1 text-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition">
+                            <a href="https://koulakay.thinkific.com/courses/{{ c.slug }}"
+                               class="flex-1 text-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg transition">
                                 {% trans "Continuer" %}
                             </a>
                             {% else %}
-                            <form method="POST" action="{% url 'course_enrollment' c.id %}" class="flex-1">
-                                {% csrf_token %}
-                                <button type="submit" class="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition">
-                                    {% trans "S'inscrire" %}
-                                </button>
-                            </form>
+                            <button type="button"
+                                    onclick="openCourseModal('{% url 'course_enrollment' c.id %}','{% url 'course_details' c.id %}','{{ c.name|escapejs }}','{{ c.description|default:''|escapejs }}','{{ c.price|default:0 }}','{{ c.course_card_image_url|default:'' }}')"
+                                    class="flex-1 kl-btn-cta px-4 py-2 text-sm font-semibold rounded-lg">
+                                {% trans "S'inscrire" %}
+                            </button>
                             {% endif %}
-                            <a href="{% url 'course_details' c.id %}" 
-                               class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                            <a href="{% url 'course_details' c.id %}"
+                               class="px-4 py-2 bg-brand-50 border border-brand-200 text-brand-600 rounded-lg hover:bg-brand-100 transition text-sm font-medium">
                                 {% trans "Détails" %}
                             </a>
                         </div>
                     </div>
                 </div>
                 {% empty %}
-                <div class="col-span-full text-center py-8 text-gray-600 dark:text-gray-400">
+                <div class="col-span-full text-center py-10 text-brand-400">
                     {% trans "Aucun cours disponible" %}
                 </div>
                 {% endfor %}
@@ -160,133 +209,149 @@
         </div>
     </section>
 
-    <!-- Services -->
-    <section class="py-12 bg-white dark:bg-gray-800">
+    <!-- ── Nos Forces ── -->
+    <section class="py-14 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-10">{% trans "Nos Forces" %}</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="text-center p-5">
-                    <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-lg bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200 mb-3">
+                    {% trans "Pourquoi nous" %}
+                </span>
+                <h2 class="text-3xl font-bold text-brand-900">{% trans "Nos Forces" %}</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {% for item in "1234" %}
+                {% if forloop.first %}
+                <div class="force-card text-center p-6 rounded-2xl border border-brand-100 hover:shadow-lg transition-shadow"
+                     data-aos="fade-up" data-aos-delay="0">
+                    <div class="force-icon inline-flex items-center justify-center w-16 h-16 mb-4 rounded-xl text-brand-600">
                         <span class="material-symbols-outlined text-3xl">workspace_premium</span>
                     </div>
-                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">{% trans "Certifications" %}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "Reconnues par l'industrie" %}</p>
+                    <h3 class="text-base font-bold mb-2 text-brand-900">{% trans "Certifications" %}</h3>
+                    <p class="text-sm text-brand-500">{% trans "Reconnues par l'industrie" %}</p>
                 </div>
-                
-                <div class="text-center p-5">
-                    <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-lg bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400">
+                {% elif forloop.counter == 2 %}
+                <div class="force-card text-center p-6 rounded-2xl border border-brand-100 hover:shadow-lg transition-shadow"
+                     data-aos="fade-up" data-aos-delay="100">
+                    <div class="force-icon inline-flex items-center justify-center w-16 h-16 mb-4 rounded-xl text-brand-600">
                         <span class="material-symbols-outlined text-3xl">school</span>
                     </div>
-                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">{% trans "Experts" %}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "Instructeurs qualifiés" %}</p>
+                    <h3 class="text-base font-bold mb-2 text-brand-900">{% trans "Experts" %}</h3>
+                    <p class="text-sm text-brand-500">{% trans "Instructeurs qualifiés" %}</p>
                 </div>
-                
-                <div class="text-center p-5">
-                    <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-lg bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
+                {% elif forloop.counter == 3 %}
+                <div class="force-card text-center p-6 rounded-2xl border border-brand-100 hover:shadow-lg transition-shadow"
+                     data-aos="fade-up" data-aos-delay="200">
+                    <div class="force-icon inline-flex items-center justify-center w-16 h-16 mb-4 rounded-xl text-brand-600">
                         <span class="material-symbols-outlined text-3xl">schedule</span>
                     </div>
-                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">{% trans "Flexibilité" %}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "À votre rythme" %}</p>
+                    <h3 class="text-base font-bold mb-2 text-brand-900">{% trans "Flexibilité" %}</h3>
+                    <p class="text-sm text-brand-500">{% trans "À votre rythme" %}</p>
                 </div>
-                
-                <div class="text-center p-5">
-                    <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-lg bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400">
+                {% else %}
+                <div class="force-card text-center p-6 rounded-2xl border border-brand-100 hover:shadow-lg transition-shadow"
+                     data-aos="fade-up" data-aos-delay="300">
+                    <div class="force-icon inline-flex items-center justify-center w-16 h-16 mb-4 rounded-xl text-brand-600">
                         <span class="material-symbols-outlined text-3xl">support_agent</span>
                     </div>
-                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">{% trans "Support" %}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "Accompagnement dédié" %}</p>
+                    <h3 class="text-base font-bold mb-2 text-brand-900">{% trans "Support" %}</h3>
+                    <p class="text-sm text-brand-500">{% trans "Accompagnement dédié" %}</p>
                 </div>
+                {% endif %}
+                {% endfor %}
             </div>
         </div>
     </section>
-    
-    <!-- CTA -->
-    <section class="py-12 bg-indigo-700 text-white">
-        <div class="max-w-4xl mx-auto px-4 text-center">
+
+    <!-- ── CTA ── -->
+    <section class="cta-section py-16 text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in">
             <h2 class="text-3xl md:text-4xl font-bold mb-4">{% trans "Prêt à commencer ?" %}</h2>
-            <p class="text-lg mb-6">{% trans "Rejoignez-nous et transformez votre carrière" %}</p>
+            <p class="text-lg mb-8 text-amber-100">{% trans "Rejoignez-nous et transformez votre carrière" %}</p>
             <div class="flex flex-col sm:flex-row gap-3 justify-center">
                 {% if not user.is_authenticated %}
-                <a href="{% url 'account_signup' %}" class="px-6 py-3 bg-white text-indigo-700 font-bold rounded-lg hover:bg-gray-100 transition">
+                <a href="{% url 'account_signup' %}"
+                   class="px-8 py-3 bg-white text-brand-800 font-bold rounded-xl hover:bg-amber-50 transition shadow-lg">
                     {% trans "Inscription gratuite" %}
                 </a>
                 {% endif %}
-                <a href="{% url 'courses' %}" class="px-6 py-3 border-2 border-white text-white font-bold rounded-lg hover:text-indigo-700 hover:bg-white transition">
+                <a href="{% url 'courses' %}"
+                   class="px-8 py-3 border-2 border-white/60 text-white font-bold rounded-xl hover:bg-white/10 transition">
                     {% trans "Explorer" %}
                 </a>
             </div>
         </div>
     </section>
-    
-    <!-- Témoignages -->
-    <section class="py-12">
+
+    <!-- ── Témoignages ── -->
+    <section class="py-14" style="background:#FBF7F4;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-10">{% trans "Témoignages" %}</h2>
-            
+            <div class="text-center mb-10" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-brand-900">{% trans "Témoignages" %}</h2>
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow border border-gray-200 dark:border-gray-700">
-                    <div class="flex items-center gap-1 mb-3">
-                        {% for i in "12345" %}
-                        <span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                        {% endfor %}
+
+                <div class="testimonial-card bg-white rounded-2xl p-6 shadow-sm border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="0">
+                    <div class="flex gap-0.5 mb-4">
+                        {% for i in "12345" %}<span class="material-symbols-outlined text-yellow-400 text-base" style="font-variation-settings:'FILL' 1;">star</span>{% endfor %}
                     </div>
-                    <p class="text-gray-700 dark:text-gray-300 mb-4">
-                        "KouLakay a transformé mon parcours. Les cours sont accessibles."
+                    <p class="text-brand-700 mb-5 text-sm leading-relaxed italic">
+                        "KouLakay a transformé mon parcours. Les cours sont accessibles et vraiment utiles."
                     </p>
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold">
-                            MJ
-                        </div>
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                             style="background:linear-gradient(135deg,#C4853A,#7C3D0E);">MJ</div>
                         <div>
-                            <p class="font-bold text-gray-900 dark:text-white">Marie J.</p>
-                            <p class="text-sm text-gray-500">Lycéenne</p>
+                            <p class="font-bold text-brand-900 text-sm">Marie J.</p>
+                            <p class="text-xs text-brand-400">Lycéenne</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow border border-gray-200 dark:border-gray-700">
-                    <div class="flex items-center gap-1 mb-3">
-                        {% for i in "12345" %}
-                        <span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                        {% endfor %}
+
+                <div class="testimonial-card bg-white rounded-2xl p-6 shadow-sm border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex gap-0.5 mb-4">
+                        {% for i in "12345" %}<span class="material-symbols-outlined text-yellow-400 text-base" style="font-variation-settings:'FILL' 1;">star</span>{% endfor %}
                     </div>
-                    <p class="text-gray-700 dark:text-gray-300 mb-4">
-                        "Les formations sont exceptionnelles. J'ai acquis des compétences pratiques."
+                    <p class="text-brand-700 mb-5 text-sm leading-relaxed italic">
+                        "Les formations sont exceptionnelles. J'ai acquis des compétences pratiques immédiatement."
                     </p>
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-                            JP
-                        </div>
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                             style="background:linear-gradient(135deg,#C4853A,#7C3D0E);">JP</div>
                         <div>
-                            <p class="font-bold text-gray-900 dark:text-white">Jean P.</p>
-                            <p class="text-sm text-gray-500">Analyste</p>
+                            <p class="font-bold text-brand-900 text-sm">Jean P.</p>
+                            <p class="text-xs text-brand-400">Analyste</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow border border-gray-200 dark:border-gray-700">
-                    <div class="flex items-center gap-1 mb-3">
-                        {% for i in "12345" %}
-                        <span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                        {% endfor %}
+
+                <div class="testimonial-card bg-white rounded-2xl p-6 shadow-sm border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex gap-0.5 mb-4">
+                        {% for i in "12345" %}<span class="material-symbols-outlined text-yellow-400 text-base" style="font-variation-settings:'FILL' 1;">star</span>{% endfor %}
                     </div>
-                    <p class="text-gray-700 dark:text-gray-300 mb-4">
+                    <p class="text-brand-700 mb-5 text-sm leading-relaxed italic">
                         "Notre organisation a collaboré avec KouLakay. Les résultats sont impressionnants."
                     </p>
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">
-                            SL
-                        </div>
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                             style="background:linear-gradient(135deg,#C4853A,#7C3D0E);">SL</div>
                         <div>
-                            <p class="font-bold text-gray-900 dark:text-white">Sophie L.</p>
-                            <p class="text-sm text-gray-500">RH</p>
+                            <p class="font-bold text-brand-900 text-sm">Sophie L.</p>
+                            <p class="text-xs text-brand-400">RH</p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
-    
+
 </div>
+
+<!-- ── Modal Inscription ── -->
+{% include 'components/course_modal.html' %}
+
 {% endblock content %}

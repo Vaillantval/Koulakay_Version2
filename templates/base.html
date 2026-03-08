@@ -12,372 +12,487 @@
     <meta name="description" content="{% trans 'Plateforme éducative en ligne - KouLakay' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{% static 'logo/koulaka.png' %}" rel="icon">
-    
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#3A86FF",
-                        "secondary": "#FFBE0B",
-                        "background-light": "#F8F9FA",
-                        "background-dark": "#101922",
-                        "text-light": "#212529",
-                        "text-dark": "#F8F9FA",
+                        brand: {
+                            50:  "#FBF7F4",
+                            100: "#F2E8DC",
+                            200: "#E2C9A8",
+                            300: "#CFA472",
+                            400: "#C4853A",
+                            500: "#A0663B",
+                            600: "#7C3D0E",
+                            700: "#5E2D08",
+                            800: "#3D1C04",
+                            900: "#200F02",
+                        },
+                        gold: {
+                            400: "#D4A05A",
+                            500: "#B8842A",
+                        }
                     },
                     fontFamily: {
-                        "display": ["Lexend", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.5rem",
-                        "lg": "0.75rem",
-                        "xl": "1rem",
-                        "full": "9999px"
+                        display: ["Lexend", "sans-serif"]
                     },
                 },
             },
         }
     </script>
-    
-    <!-- Bootstrap (for legacy compatibility) -->
+
+    <!-- Bootstrap 4 (pour les dropdowns et modals) -->
     <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
-    
+
     <!-- FontAwesome -->
     <link href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}" rel="stylesheet" type="text/css">
-    
-    <!-- Owl Carousel (for legacy features) -->
+
+    <!-- Owl Carousel -->
     <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
-    
-    <!-- Custom Styles -->
+
+    <!-- Custom styles hérités -->
     <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
-    
+
+    <style>
+        * { font-family: 'Lexend', sans-serif; }
+        body { background-color: #FBF7F4; }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #F2E8DC; }
+        ::-webkit-scrollbar-thumb { background: #C4853A; border-radius: 3px; }
+
+        /* ── Header ── */
+        .kl-header {
+            background: linear-gradient(135deg, #4A2810 0%, #7C3D0E 60%, #9B5116 100%);
+            box-shadow: 0 2px 12px rgba(124,61,14,0.25);
+        }
+        .kl-nav-link {
+            color: #F2E8DC;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .kl-nav-link:hover {
+            background: rgba(255,255,255,0.15);
+            color: #ffffff;
+        }
+        .kl-nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-kl-primary {
+            background: #C4853A;
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-size: 0.875rem;
+            transition: background 0.2s, transform 0.15s;
+            border: none;
+        }
+        .btn-kl-primary:hover {
+            background: #A0663B;
+            transform: translateY(-1px);
+        }
+        .btn-kl-outline {
+            background: transparent;
+            color: #F2E8DC;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 7px 17px;
+            font-size: 0.875rem;
+            border: 1.5px solid rgba(242,232,220,0.5);
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .btn-kl-outline:hover {
+            border-color: #F2E8DC;
+            background: rgba(255,255,255,0.08);
+            color: #ffffff;
+        }
+
+        /* ── Footer ── */
+        .kl-footer {
+            background: linear-gradient(135deg, #2D1A0A 0%, #3D1C04 100%);
+            color: #E2C9A8;
+        }
+
+        /* ── Modal ── */
+        .modal-content { background: #ffffff; border-radius: 12px; border: none; }
+        .modal-backdrop.show { opacity: 0.7; }
+        .modal.fade .modal-dialog { transform: scale(0.95); opacity: 0; transition: all 0.3s ease-out; }
+        .modal.show .modal-dialog { transform: scale(1); opacity: 1; }
+    </style>
+
+
+    <!-- AOS - Animate On Scroll -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+    <style>
+        /* ── Transition de page ── */
+        body { opacity: 0; animation: pageIn 0.45s ease forwards; }
+        @keyframes pageIn { to { opacity: 1; } }
+
+        /* ── Bouton CTA principal ("Acheter ce cours", "S inscrire", etc.) ── */
+        .kl-btn-cta {
+            background: linear-gradient(135deg, #7C3D0E, #C4853A);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(124,61,14,0.35);
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+        .kl-btn-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 200%; height: 200%;
+            background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        .kl-btn-cta:hover::before { transform: translateX(100%); }
+        .kl-btn-cta:hover {
+            box-shadow: 0 8px 25px rgba(124,61,14,0.5);
+            transform: translateY(-2px);
+        }
+        .kl-btn-cta:active { transform: translateY(0); }
+
+        /* ── Pulse discret sur les boutons importants ── */
+        @keyframes pulse-brand {
+            0%, 100% { box-shadow: 0 4px 15px rgba(124,61,14,0.35); }
+            50%       { box-shadow: 0 4px 25px rgba(196,133,58,0.6); }
+        }
+        .kl-btn-cta { animation: pulse-brand 3s ease-in-out infinite; }
+        .kl-btn-cta:hover { animation: none; }
+
+        /* ── Liens de navigation avec soulignement animé ── */
+        .kl-nav-link {
+            position: relative;
+        }
+        .kl-nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 2px; left: 50%; right: 50%;
+            height: 2px;
+            background: #D4A05A;
+            border-radius: 2px;
+            transition: left 0.25s, right 0.25s;
+        }
+        .kl-nav-link:hover::after { left: 10%; right: 10%; }
+
+        /* ── Cards : shadow au survol ── */
+        .course-card, .pay-card {
+            will-change: transform;
+        }
+
+        /* ── Scroll smooth global ── */
+        html { scroll-behavior: smooth; }
+
+        /* ── Focus visible accessible ── */
+        :focus-visible {
+            outline: 2px solid #C4853A;
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+    </style>
     {% block head %}{% endblock head %}
 </head>
 <body class="font-display">
 
 <div class="super_container">
-    
-    <!-- Modern Header -->
-    <header class="sticky top-0 z-50 w-full border-b border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-        <div class="container mx-auto px-4">
-            <div class="flex h-16 items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <a href="{% url 'home' %}" class="flex items-center gap-3">
-                        <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-10 w-auto">
-                        <h2 class="hidden sm:block text-xl font-bold tracking-tight text-gray-900 dark:text-white">KouLakay</h2>
-                    </a>
-                </div>
-                
-                <nav class="hidden items-center gap-8 md:flex">
-                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300" href="{% url 'home' %}">
-                        {% trans "Accueil" %}
-                    </a>
-                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300" href="{% url 'about' %}">
-                        {% trans "À propos" %}
-                    </a>
-                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300" href="{% url 'courses' %}">
-                        {% trans "Cours" %}
-                    </a>
-                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300" href="{% url 'contact' %}">
-                        {% trans "Contact" %}
-                    </a>
-                </nav>
-                
-                <div class="flex items-center gap-2 md:gap-3">
+
+    <!-- ══════════ HEADER ══════════ -->
+    <header class="kl-header sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex h-16 items-center justify-between gap-4">
+
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="flex items-center gap-3 shrink-0">
+                    <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-9 w-auto">
+                    <span class="hidden sm:block text-xl font-bold tracking-tight text-white">
+                        Kou<span class="text-gold-400">Lakay</span>
+                    </span>
+                </a>
+
+                <!-- Nav desktop -->
+                <nav class="hidden items-center gap-1 md:flex">
+                    <a class="kl-nav-link" href="{% url 'home' %}">{% trans "Accueil" %}</a>
+                    <a class="kl-nav-link" href="{% url 'courses' %}">{% trans "Cours" %}</a>
                     {% if user.is_authenticated %}
-                        <!-- User Menu Button -->
-                        <button type="button" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700 px-4 text-sm font-bold transition-colors hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white" data-toggle="modal" data-target="#staticBackdrop">
+                    <a class="kl-nav-link" href="{% url 'mon_apprentissage' %}">{% trans "Mon apprentissage" %}</a>
+                    {% endif %}
+                    <a class="kl-nav-link" href="{% url 'about' %}">{% trans "À propos" %}</a>
+                    <a class="kl-nav-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
+                </nav>
+
+                <!-- Auth + langue -->
+                <div class="flex items-center gap-2">
+                    {% if user.is_authenticated %}
+                        <button type="button" class="btn-kl-outline flex items-center gap-2"
+                                data-toggle="modal" data-target="#userModal">
                             <i class="fa fa-user-circle"></i>
-                            <span class="truncate hidden sm:inline">{{ user|truncatechars:9 }}</span>
+                            <span class="hidden sm:inline truncate max-w-[100px]">{{ user|truncatechars:12 }}</span>
                         </button>
                     {% else %}
-                        <a href="{% url 'account_login' %}" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700 px-4 text-sm font-bold transition-colors hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white">
-                            <span class="truncate">{% trans "Connexion" %}</span>
+                        <a href="{% url 'account_login' %}" class="btn-kl-outline hidden sm:flex items-center gap-1">
+                            {% trans "Connexion" %}
                         </a>
-                        <a href="{% url 'account_signup' %}" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-blue-600 px-4 text-white text-sm font-bold shadow-sm transition-transform hover:scale-105">
-                            <span class="truncate">{% trans "Inscrivez-vous" %}</span>
+                        <a href="{% url 'account_signup' %}" class="btn-kl-primary">
+                            {% trans "S'inscrire" %}
                         </a>
                     {% endif %}
-                    
-                    <!-- Language Dropdown -->
+
+                    <!-- Langue -->
                     <div class="relative">
                         {% get_current_language as LANGUAGE_CODE %}
                         {% get_available_languages as LANGUAGES %}
                         {% get_language_info_list for LANGUAGES as languages %}
-                        <button id="languagesDropdown" class="flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg px-3 text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{% static 'images/flags/'|add:LANGUAGE_CODE|add:'.png' %}" height="15" class="h-4 w-auto">
+                        <button id="langBtn" type="button"
+                                class="flex items-center gap-1 px-3 py-2 rounded-lg text-sm text-brand-100 hover:bg-white/10 transition"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{% static 'images/flags/'|add:LANGUAGE_CODE|add:'.png' %}" class="h-4 w-auto">
                             <span class="hidden sm:inline">{{ LANGUAGE_CODE|upper }}</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
+                            <i class="fa fa-angle-down text-xs ml-1"></i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right mt-2 px-1 py-1" style="max-width: 300px; background-color:#f4f4f4;">
+                        <div class="dropdown-menu dropdown-menu-right mt-1 px-1 py-1 rounded-lg shadow-lg"
+                             style="background:#FBF7F4; min-width:180px;">
                             {% for language in languages %}
-                                <a class="dropdown-item {% if language.code == LANGUAGE_CODE %} text-dark {% endif %}"
-                                {% if language.code == LANGUAGE_CODE %}
-                                style="background-color:orange; border-radius: 5px; overflow: hidden;" {% endif %}
-                                href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
-                                    <img class="pe-1" src="{% static 'images/flags/'|add:language.code|add:'.png' %}" height="15px;">
-                                    {{ language.name_local }} ({{ language.code }})
+                                <a class="dropdown-item rounded-md flex items-center gap-2 py-2 text-sm {% if language.code == LANGUAGE_CODE %}font-bold text-brand-600{% else %}text-brand-800{% endif %}"
+                                   {% if language.code == LANGUAGE_CODE %}style="background:#E2C9A8;"{% endif %}
+                                   href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
+                                    <img src="{% static 'images/flags/'|add:language.code|add:'.png' %}" class="h-4 w-auto">
+                                    {{ language.name_local }}
                                 </a>
                             {% endfor %}
                         </div>
                     </div>
-                    
-                    <!-- Mobile Menu Button -->
-                    <button class="p-2 md:hidden text-gray-700 dark:text-gray-300" id="mobile-menu-button">
+
+                    <!-- Hamburger mobile -->
+                    <button class="md:hidden text-white p-2" id="mobileMenuBtn">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
                 </div>
             </div>
-            
-            <!-- Mobile Menu -->
-            <div class="hidden md:hidden pb-4 border-t border-gray-200 dark:border-gray-700 mt-2 pt-4" id="mobile-menu">
-                <nav class="flex flex-col space-y-2">
-                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300 py-2" href="{% url 'home' %}">
-                        {% trans "Accueil" %}
-                    </a>
-                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300 py-2" href="{% url 'about' %}">
-                        {% trans "À propos" %}
-                    </a>
-                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300 py-2" href="{% url 'courses' %}">
-                        {% trans "Cours" %}
-                    </a>
-                    <a class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-700 dark:text-gray-300 py-2" href="{% url 'contact' %}">
-                        {% trans "Contact" %}
-                    </a>
+
+            <!-- Menu mobile -->
+            <div id="mobileMenu" class="hidden md:hidden border-t border-white/20 pb-4 pt-3">
+                <nav class="flex flex-col gap-1">
+                    <a class="kl-nav-link" href="{% url 'home' %}">{% trans "Accueil" %}</a>
+                    <a class="kl-nav-link" href="{% url 'courses' %}">{% trans "Cours" %}</a>
+                    {% if user.is_authenticated %}
+                    <a class="kl-nav-link" href="{% url 'mon_apprentissage' %}">{% trans "Mon apprentissage" %}</a>
+                    {% endif %}
+                    <a class="kl-nav-link" href="{% url 'about' %}">{% trans "À propos" %}</a>
+                    <a class="kl-nav-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
                 </nav>
-                
                 {% if not user.is_authenticated %}
-                    <div class="mt-4 space-y-2">
-                        <a href="{% url 'account_login' %}" class="block w-full text-center py-2 px-4 rounded-lg bg-gray-200 dark:bg-gray-700 text-sm font-bold transition-colors hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white">
-                            {% trans "Connexion" %}
-                        </a>
-                        <a href="{% url 'account_signup' %}" class="block w-full text-center py-2 px-4 rounded-lg bg-blue-600 text-white text-sm font-bold shadow-sm">
-                            {% trans "Inscrivez-vous" %}
-                        </a>
-                    </div>
+                <div class="mt-3 flex gap-2">
+                    <a href="{% url 'account_login' %}" class="btn-kl-outline flex-1 text-center">{% trans "Connexion" %}</a>
+                    <a href="{% url 'account_signup' %}" class="btn-kl-primary flex-1 text-center">{% trans "S'inscrire" %}</a>
+                </div>
                 {% endif %}
             </div>
         </div>
     </header>
-    
-    <!-- Main Content -->
+
+    <!-- ══════════ CONTENU ══════════ -->
     <main>
         {% block content %}{% endblock %}
     </main>
-    
-    <!-- Modern Footer -->
-    <footer class="bg-gray-100 dark:bg-gray-900">
-        <div class="container mx-auto px-4 py-12">
-            <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
-                <!-- Brand Column -->
+
+    <!-- ══════════ FOOTER ══════════ -->
+    <footer class="kl-footer">
+        <div class="max-w-7xl mx-auto px-4 py-14">
+            <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4">
+
+                <!-- Marque -->
                 <div class="sm:col-span-2 md:col-span-1">
                     <div class="flex items-center gap-3 mb-4">
-                        <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-10 w-auto">
+                        <img src="{% static 'logo/koulakay_white.png' %}" alt="KouLakay" class="h-10 w-auto"
+                             onerror="this.src='{% static 'logo/koulakay.png' %}'">
                     </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                        {% trans "Rendre l'éducation de qualité accessible à tous." %}
+                    <p class="text-sm text-brand-200 leading-relaxed">
+                        {% trans "Rendre l'éducation de qualité accessible à tous en Haïti et dans la diaspora." %}
                     </p>
-                </div>
-                
-                <!-- Menu Column -->
-                <div>
-                    <h3 class="font-bold uppercase tracking-wider text-sm text-gray-900 dark:text-white mb-4">
-                        {% trans "Menu" %}
-                    </h3>
-                    <ul class="space-y-2 text-sm">
-                        <li><a class="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors" href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
-                        <li><a class="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors" href="{% url 'courses' %}">{% trans "Cours" %}</a></li>
-                        <li><a class="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors" href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Contact Column -->
-                <div>
-                    <h3 class="font-bold uppercase tracking-wider text-sm text-gray-900 dark:text-white mb-4">
-                        {% trans "Contact" %}
-                    </h3>
-                    <ul class="space-y-3 text-sm">
-                        <li class="flex items-start gap-2">
-                            <i class="fa fa-map text-blue-600 mt-0.5"></i>
-                            <span class="text-gray-600 dark:text-gray-400">Blvd Libertad, 34 m05200 Arévalo</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fa fa-phone text-blue-600"></i>
-                            <span class="text-gray-600 dark:text-gray-400">0034 37483 2445 322</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fa fa-envelope text-blue-600"></i>
-                            <span class="text-gray-600 dark:text-gray-400">info@koulakay.com</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Social Media Column -->
-                <div>
-                    <h3 class="font-bold uppercase tracking-wider text-sm text-gray-900 dark:text-white mb-4">
-                        {% trans "Suivez-nous" %}
-                    </h3>
-                    <div class="flex gap-3">
-                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
-                            <i class="fab fa-facebook-f"></i>
+                    <!-- Réseaux sociaux -->
+                    <div class="flex gap-3 mt-5">
+                                    <a href="#" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-brand-400 transition text-brand-200 hover:text-white">
+                            <i class="fab fa-facebook-f text-sm"></i>
                         </a>
-                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
-                            <i class="fab fa-twitter"></i>
+                        <a href="#" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-brand-400 transition text-brand-200 hover:text-white">
+                            <i class="fab fa-twitter text-sm"></i>
                         </a>
-                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
-                            <i class="fab fa-instagram"></i>
+                        <a href="#" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-brand-400 transition text-brand-200 hover:text-white">
+                            <i class="fab fa-instagram text-sm"></i>
                         </a>
-                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors">
-                            <i class="fab fa-pinterest"></i>
+                        <a href="#" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-brand-400 transition text-brand-200 hover:text-white">
+                            <i class="fab fa-linkedin-in text-sm"></i>
                         </a>
                     </div>
+                </div>
+
+                <!-- Liens -->
+                <div>
+                    <h3 class="font-bold uppercase tracking-wider text-xs text-brand-300 mb-4">{% trans "Navigation" %}</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a class="text-brand-200 hover:text-gold-400 transition" href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                        <li><a class="text-brand-200 hover:text-gold-400 transition" href="{% url 'courses' %}">{% trans "Cours" %}</a></li>
+                        <li><a class="text-brand-200 hover:text-gold-400 transition" href="{% url 'about' %}">{% trans "À propos" %}</a></li>
+                        <li><a class="text-brand-200 hover:text-gold-400 transition" href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
+                    </ul>
+                </div>
+
+                <!-- Compte -->
+                <div>
+                    <h3 class="font-bold uppercase tracking-wider text-xs text-brand-300 mb-4">{% trans "Mon compte" %}</h3>
+                    <ul class="space-y-2 text-sm">
+                        {% if user.is_authenticated %}
+                        <li><a class="text-brand-200 hover:text-gold-400 transition" href="{% url 'account_logout' %}">{% trans "Déconnexion" %}</a></li>
+                        {% else %}
+                        <li><a class="text-brand-200 hover:text-gold-400 transition" href="{% url 'account_login' %}">{% trans "Connexion" %}</a></li>
+                        <li><a class="text-brand-200 hover:text-gold-400 transition" href="{% url 'account_signup' %}">{% trans "Inscription" %}</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="font-bold uppercase tracking-wider text-xs text-brand-300 mb-4">{% trans "Contact" %}</h3>
+                    <ul class="space-y-3 text-sm">
+                        {% if site_config.email %}
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-envelope text-brand-400 mt-0.5"></i>
+                            <a href="mailto:{{ site_config.email }}" class="text-brand-200 hover:text-gold-400 transition">{{ site_config.email }}</a>
+                        </li>
+                        {% endif %}
+                        {% if site_config.phone_1 %}
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-phone text-brand-400 mt-0.5"></i>
+                            <a href="tel:{{ site_config.phone_1 }}" class="text-brand-200 hover:text-gold-400 transition">{{ site_config.phone_1 }}</a>
+                        </li>
+                        {% endif %}
+                        {% if site_config.address %}
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-map-marker-alt text-brand-400 mt-0.5"></i>
+                            <span class="text-brand-200">{{ site_config.address }}</span>
+                        </li>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
-            
-            <!-- Footer Copyright -->
-            <div class="mt-12 border-t border-gray-200 dark:border-gray-700 pt-8 text-center text-sm text-gray-500 dark:text-gray-400">
-                <p>
-                    {% trans "Copyright" %} © <script>document.write(new Date().getFullYear());</script> 
-                    {% trans "Tous droits réservés" %}
-                </p>
+
+            <div class="mt-12 border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-brand-300">
+                <p>© <script>document.write(new Date().getFullYear());</script> KouLakay — {% trans "Tous droits réservés" %}</p>
+                <p>{{ site_config.footer_text|default:"Conçu avec ❤️ pour Haïti" }}</p>
             </div>
         </div>
     </footer>
 
 </div>
 
-<!-- User Modal - Modern Style -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-2xl rounded-xl overflow-hidden">
-            <div class="modal-header bg-gradient-to-r from-blue-600 to-blue-700 border-0 px-6 py-4">
-                <div class="flex items-center gap-3">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-                        <i class="fa fa-user-circle text-white text-xl"></i>
-                    </div>
-                    <h5 class="modal-title text-white text-lg font-bold m-0" id="staticBackdropLabel">{% trans "Mon compte" %}</h5>
-                </div>
-                <button type="button" class="close text-white opacity-75 hover:opacity-100 transition-opacity" data-dismiss="modal" aria-label="{% trans 'Fermer' %}">
-                    <span aria-hidden="true" class="text-2xl font-light">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body bg-gray-50 dark:bg-gray-800 px-6 py-6">
-                <div class="flex flex-col gap-3">
-                    <!-- User Info -->
-                    <div class="bg-white dark:bg-gray-700 rounded-lg p-4 mb-2">
-                        <div class="flex items-center gap-3">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
-                                <i class="fa fa-user text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">{% trans "Connecté en tant que" %}</p>
-                                <p class="font-semibold text-gray-900 dark:text-white">{{ user.email|default:user.username }}</p>
-                            </div>
+<!-- ══════════ MODAL UTILISATEUR ══════════ -->
+<div class="modal fade" id="userModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content shadow-2xl overflow-hidden">
+            <!-- Header modal -->
+            <div class="px-5 py-4" style="background: linear-gradient(135deg, #4A2810, #7C3D0E);">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                            <i class="fa fa-user-circle text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-brand-200">{% trans "Connecté" %}</p>
+                            <p class="font-semibold text-white text-sm truncate max-w-[140px]">{{ user.email|default:user.username }}</p>
                         </div>
                     </div>
-                    
-                    <!-- Actions -->
-                    <!-- <a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-700 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors border border-gray-200 dark:border-gray-600 group" href="">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 group-hover:scale-110 transition-transform">
-                            <i class="fa fa-graduation-cap"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-semibold text-gray-900 dark:text-white">{% trans "Profil de cours" %}</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">{% trans "Accéder à vos cours" %}</p>
-                        </div>
-                        <i class="fa fa-chevron-right text-gray-400 group-hover:text-blue-600 transition-colors"></i>
-                    </a> -->
-                    
-                    <button type="button" class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-700 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors border border-gray-200 dark:border-gray-600 group" onclick="window.location.href='{% url 'account_logout' %}'">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 group-hover:scale-110 transition-transform">
-                            <i class="fa fa-sign-out-alt"></i>
-                        </div>
-                        <div class="flex-1 text-left">
-                            <p class="font-semibold text-gray-900 dark:text-white">{% trans "Déconnexion" %}</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">{% trans "Se déconnecter du compte" %}</p>
-                        </div>
-                        <i class="fa fa-chevron-right text-gray-400 group-hover:text-red-600 transition-colors"></i>
+                    <button type="button" class="text-white/70 hover:text-white" data-dismiss="modal">
+                        <i class="fa fa-times"></i>
                     </button>
                 </div>
             </div>
-            <div class="modal-footer bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-6 py-3">
-                <button type="button" class="px-6 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors" data-dismiss="modal">{% trans "Fermer" %}</button>
+            <!-- Body -->
+            <div class="p-4 bg-brand-50 space-y-2">
+                <a href="{% url 'mon_apprentissage' %}"
+                   class="flex items-center gap-3 px-4 py-3 bg-white hover:bg-brand-50 rounded-lg transition border border-gray-100 group">
+                    <div class="w-9 h-9 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fa fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">{% trans "Mon apprentissage" %}</p>
+                        <p class="text-xs text-gray-500">{% trans "Mes cours inscrits" %}</p>
+                    </div>
+                </a>
+                <a href="{% url 'account_logout' %}"
+                   class="flex items-center gap-3 px-4 py-3 bg-white hover:bg-red-50 rounded-lg transition border border-gray-100 group">
+                    <div class="w-9 h-9 rounded-full bg-red-100 text-red-500 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fa fa-sign-out-alt"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">{% trans "Déconnexion" %}</p>
+                        <p class="text-xs text-gray-500">{% trans "Quitter la session" %}</p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
 </div>
 
-<style>
-    /* Style moderne pour le modal */
-    .modal-content {
-        background-color: white;
-    }
-    
-    .dark .modal-content {
-        background-color: #1f2937;
-    }
-    
-    .modal-backdrop.show {
-        opacity: 0.7;
-    }
-    
-    /* Animation d'entrée du modal */
-    .modal.fade .modal-dialog {
-        transform: scale(0.95);
-        opacity: 0;
-        transition: all 0.3s ease-out;
-    }
-    
-    .modal.show .modal-dialog {
-        transform: scale(1);
-        opacity: 1;
-    }
-</style>
-
 <!-- Scripts -->
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
-<script src="{% static 'plugins/greensock/TweenMax.min.js' %}"></script>
-<script src="{% static 'plugins/greensock/TimelineMax.min.js' %}"></script>
-<script src="{% static 'plugins/scrollmagic/ScrollMagic.min.js' %}"></script>
-<script src="{% static 'plugins/greensock/animation.gsap.min.js' %}"></script>
-<script src="{% static 'plugins/greensock/ScrollToPlugin.min.js' %}"></script>
 <script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
-<script src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>
-<script src="{% static 'plugins/easing/easing.js' %}"></script>
 <script src="{% static 'js/custom.js' %}"></script>
 
-<!-- Mobile Menu Toggle Script -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', function() {
+        document.getElementById('mobileMenu').classList.toggle('hidden');
     });
 </script>
 
-{% block extra_js %}{% endblock extra_js %}
 
+<!-- AOS init -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 600,
+        easing: "ease-out-cubic",
+        once: true,
+        offset: 60,
+    });
+
+    // Transition sortie de page (au clic sur les liens internes)
+    document.querySelectorAll("a[href]").forEach(function(link) {
+        const href = link.getAttribute("href");
+        if (!href || href.startsWith("#") || href.startsWith("mailto") ||
+            href.startsWith("tel") || href.startsWith("http") ||
+            link.target === "_blank") return;
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+            document.body.style.opacity = "0";
+            document.body.style.transition = "opacity 0.3s";
+            setTimeout(() => { window.location.href = href; }, 280);
+        });
+    });
+</script>
+{% block extra_js %}{% endblock extra_js %}
 </body>
 </html>

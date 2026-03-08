@@ -5,172 +5,216 @@
 {% block title %}{% trans "À propos de KouLakay" %}{% endblock %}
 
 {% block head %}
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <style>
-    body {
-        font-family: 'Inter', sans-serif;
+    body { font-family: 'Lexend', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+
+    .val-card {
+        transition: transform 0.28s cubic-bezier(.34,1.56,.64,1), box-shadow 0.28s;
     }
-    .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    .val-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 36px rgba(124,61,14,0.14);
     }
+    .val-icon {
+        background: rgba(196,133,58,0.12);
+        color: #7C3D0E;
+        transition: background 0.25s, color 0.25s;
+    }
+    .val-card:hover .val-icon {
+        background: linear-gradient(135deg,#C4853A,#7C3D0E);
+        color: white;
+    }
+
+    .hero-about {
+        background: linear-gradient(rgba(30,10,0,0.45), rgba(20,6,0,0.65)),
+                    url("{% static 'images/background_1.JPG' %}");
+        background-size: cover;
+        background-position: center;
+        min-height: 400px;
+    }
+    .cta-about { background: linear-gradient(135deg,#3D1C04 0%,#7C3D0E 60%,#9B5116 100%); }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden text-gray-800 dark:text-gray-200">
-    
-    <!-- Hero Section -->
-    <section class="@container">
-        <div class="px-4 py-16 sm:px-6 lg:px-8">
-            <div class="mx-auto max-w-7xl">
-                <div class="flex min-h-[480px] flex-col items-center justify-center gap-6 rounded-xl bg-cover bg-center bg-no-repeat p-4 text-center" style='background-image: linear-gradient(rgba(0, 28, 58, 0.4) 0%, rgba(0, 15, 32, 0.7) 100%), url("{% static 'images/background_1.JPG' %}");'>
-                    <div class="flex flex-col gap-4">
-                        <h1 class="text-4xl font-black text-white sm:text-5xl lg:text-6xl">{% trans "À propos de KouLakay" %}</h1>
-                        <p class="mx-auto max-w-2xl text-base text-slate-200 sm:text-lg">{% trans "Façonner l'avenir par l'éducation accessible à tous." %}</p>
+<div class="min-h-screen" style="background:#FBF7F4;">
+
+    <!-- ── Hero ── -->
+    <section class="hero-about flex items-center justify-center text-white px-4">
+        <div class="text-center" data-aos="fade-up" data-aos-duration="900">
+            <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-white/15 border border-white/30 text-amber-200 mb-4">
+                {% trans "Notre histoire" %}
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black mb-3">{% trans "À propos de KouLakay" %}</h1>
+            <p class="text-lg text-slate-200 max-w-xl mx-auto">
+                {% trans "Façonner l'avenir par l'éducation accessible à tous." %}
+            </p>
+        </div>
+    </section>
+
+    <!-- ── Mission ── -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+                <div data-aos="fade-right" data-aos-duration="800">
+                    <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200 mb-4">
+                        {% trans "Mission" %}
+                    </span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-900 mb-5">{% trans "Notre mission" %}</h2>
+                    <p class="text-brand-600 leading-relaxed mb-4">
+                        {% blocktrans %}
+                        Notre mission chez KouLakay est de rendre l'éducation de qualité accessible à tous,
+                        en permettant à chacun de réaliser son plein potentiel.
+                        {% endblocktrans %}
+                    </p>
+                    <p class="text-brand-600 leading-relaxed">
+                        {% blocktrans %}
+                        Nous sommes dédiés à la création d'une expérience d'apprentissage transformative
+                        en proposant des ressources éducatives engageantes, culturellement pertinentes et pratiques.
+                        En combinant innovation, inclusion et collaboration, KouLakay vise à combler les lacunes
+                        éducatives et à fournir aux apprenants les connaissances nécessaires pour prospérer.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4" data-aos="fade-left" data-aos-duration="800">
+                    <div class="bg-brand-50 rounded-2xl p-6 border border-brand-100 text-center">
+                        <p class="text-4xl font-black text-brand-700 mb-1">500+</p>
+                        <p class="text-sm text-brand-500 font-medium">{% trans "Étudiants actifs" %}</p>
+                    </div>
+                    <div class="bg-amber-50 rounded-2xl p-6 border border-amber-100 text-center">
+                        <p class="text-4xl font-black text-amber-700 mb-1">20+</p>
+                        <p class="text-sm text-amber-500 font-medium">{% trans "Cours disponibles" %}</p>
+                    </div>
+                    <div class="bg-amber-50 rounded-2xl p-6 border border-amber-100 text-center">
+                        <p class="text-4xl font-black text-amber-700 mb-1">4</p>
+                        <p class="text-sm text-amber-500 font-medium">{% trans "Langues" %}</p>
+                    </div>
+                    <div class="bg-brand-50 rounded-2xl p-6 border border-brand-100 text-center">
+                        <p class="text-4xl font-black text-brand-700 mb-1">100%</p>
+                        <p class="text-sm text-brand-500 font-medium">{% trans "En ligne" %}</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
-    
-    <!-- Mission & Vision Section -->
-    <section class="py-16 sm:py-24 bg-white dark:bg-gray-900">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">{% trans "Notre mission" %}</h2>
-            </div>
-            <div class="max-w-4xl mx-auto text-center mb-16">
-                <p class="text-base leading-relaxed text-gray-600 dark:text-gray-400">
+
+    <!-- ── Vision ── -->
+    <section class="py-16" style="background:#FBF7F4;">
+        <div class="max-w-4xl mx-auto px-4 text-center" data-aos="fade-up">
+            <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-600 bg-white border border-brand-200 mb-4">
+                {% trans "Vision" %}
+            </span>
+            <h2 class="text-3xl md:text-4xl font-bold text-brand-900 mb-6">{% trans "Notre vision" %}</h2>
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-brand-100">
+                <p class="text-lg text-brand-600 leading-relaxed">
                     {% blocktrans %}
-                    Notre mission chez KouLakay est de rendre l'éducation de qualité accessible à tous, en permettant à chacun de réaliser son plein potentiel. Nous sommes dédiés à la création d'une expérience d'apprentissage transformative en proposant des ressources éducatives engageantes, culturellement pertinentes et pratiques.
-                    En combinant innovation, inclusion et collaboration, KouLakay vise à combler les lacunes éducatives, à promouvoir l'apprentissage tout au long de la vie, et à fournir aux apprenants les connaissances et les compétences nécessaires pour prospérer dans un monde en constante évolution.
-                    {% endblocktrans %}
-                </p>
-            </div>
-            
-            <hr class="my-12 border-gray-200 dark:border-gray-700">
-            
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">{% trans "Notre vision" %}</h2>
-            </div>
-            <div class="max-w-4xl mx-auto text-center">
-                <p class="text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-                    {% blocktrans %}
-                    Notre vision chez KouLakay est de devenir la plateforme de référence pour une éducation inclusive et accessible à travers le monde. Nous aspirons à transformer la manière d'apprendre en créant une connexion fluide entre des ressources éducatives de qualité, une technologie innovante et une communauté d'apprentissage solidaire.
+                    Notre vision chez KouLakay est de devenir la plateforme de référence pour une éducation
+                    inclusive et accessible à travers le monde. Nous aspirons à transformer la manière
+                    d'apprendre en créant une connexion fluide entre des ressources éducatives de qualité,
+                    une technologie innovante et une communauté d'apprentissage solidaire.
                     {% endblocktrans %}
                 </p>
             </div>
         </div>
     </section>
-    
-    <!-- Values Section -->
-    <section class="py-16 sm:py-24 bg-gray-50 dark:bg-gray-800">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">{% trans "Nos valeurs fondamentales" %}</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-lg leading-8 text-gray-600 dark:text-gray-400">
-                    {% trans "Chez KouLakay, nos valeurs fondamentales définissent qui nous sommes et guident toutes nos actions." %}
+
+    <!-- ── Valeurs ── -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200 mb-3">
+                    {% trans "Ce qui nous guide" %}
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold text-brand-900">{% trans "Nos valeurs fondamentales" %}</h2>
+                <p class="mt-3 max-w-2xl mx-auto text-brand-500">
+                    {% trans "Chez KouLakay, nos valeurs définissent qui nous sommes et guident toutes nos actions." %}
                 </p>
             </div>
-            
-            <div class="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                <!-- Accessibilité -->
-                <div class="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-600/50">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600/20 text-blue-600 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
+
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+                <div class="val-card rounded-2xl border border-brand-100 bg-white p-6" data-aos="fade-up" data-aos-delay="0">
+                    <div class="val-icon flex h-12 w-12 items-center justify-center rounded-xl mb-4">
                         <span class="material-symbols-outlined">door_open</span>
                     </div>
-                    <h3 class="mt-5 text-lg font-semibold text-gray-900 dark:text-gray-100">{% trans "Accessibilité" %}</h3>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        {% trans "Nous croyons que l'éducation est un droit, non un privilège. Nous nous engageons à éliminer les obstacles à l'apprentissage en proposant des ressources éducatives accessibles et inclusives." %}
+                    <h3 class="text-base font-bold text-brand-900 mb-2">{% trans "Accessibilité" %}</h3>
+                    <p class="text-sm text-brand-500 leading-relaxed">
+                        {% trans "Nous croyons que l'éducation est un droit, non un privilège. Nous éliminons les obstacles à l'apprentissage avec des ressources inclusives." %}
                     </p>
                 </div>
-                
-                <!-- Innovation -->
-                <div class="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-600/50">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600/20 text-blue-600 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
+
+                <div class="val-card rounded-2xl border border-brand-100 bg-white p-6" data-aos="fade-up" data-aos-delay="80">
+                    <div class="val-icon flex h-12 w-12 items-center justify-center rounded-xl mb-4">
                         <span class="material-symbols-outlined">lightbulb</span>
                     </div>
-                    <h3 class="mt-5 text-lg font-semibold text-gray-900 dark:text-gray-100">{% trans "Innovation" %}</h3>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        {% trans "En exploitant des technologies de pointe, nous nous efforçons de créer des expériences d'apprentissage dynamiques, engageantes et efficaces qui inspirent la croissance et l'adaptabilité dans un monde en constante évolution." %}
+                    <h3 class="text-base font-bold text-brand-900 mb-2">{% trans "Innovation" %}</h3>
+                    <p class="text-sm text-brand-500 leading-relaxed">
+                        {% trans "En exploitant des technologies de pointe, nous créons des expériences d'apprentissage dynamiques et efficaces." %}
                     </p>
                 </div>
-                
-                <!-- Collaboration -->
-                <div class="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-600/50">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600/20 text-blue-600 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
+
+                <div class="val-card rounded-2xl border border-brand-100 bg-white p-6" data-aos="fade-up" data-aos-delay="160">
+                    <div class="val-icon flex h-12 w-12 items-center justify-center rounded-xl mb-4">
                         <span class="material-symbols-outlined">groups</span>
                     </div>
-                    <h3 class="mt-5 text-lg font-semibold text-gray-900 dark:text-gray-100">{% trans "Collaboration" %}</h3>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        {% trans "Nous valorisons les partenariats et l'engagement communautaire, travaillant main dans la main avec des éducateurs, des institutions et des parties prenantes pour co-créer des opportunités éducatives percutantes." %}
+                    <h3 class="text-base font-bold text-brand-900 mb-2">{% trans "Collaboration" %}</h3>
+                    <p class="text-sm text-brand-500 leading-relaxed">
+                        {% trans "Nous valorisons les partenariats, travaillant avec des éducateurs et institutions pour co-créer des opportunités percutantes." %}
                     </p>
                 </div>
-                
-                <!-- Pertinence culturelle -->
-                <div class="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-600/50">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600/20 text-blue-600 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
+
+                <div class="val-card rounded-2xl border border-brand-100 bg-white p-6" data-aos="fade-up" data-aos-delay="0">
+                    <div class="val-icon flex h-12 w-12 items-center justify-center rounded-xl mb-4">
                         <span class="material-symbols-outlined">public</span>
                     </div>
-                    <h3 class="mt-5 text-lg font-semibold text-gray-900 dark:text-gray-100">{% trans "Pertinence culturelle" %}</h3>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        {% trans "Respectant et célébrant la culture haïtienne, nous développons des contenus qui résonnent avec la réalité de nos apprenants, favorisant la fierté et le lien à travers la langue et le contexte." %}
+                    <h3 class="text-base font-bold text-brand-900 mb-2">{% trans "Pertinence culturelle" %}</h3>
+                    <p class="text-sm text-brand-500 leading-relaxed">
+                        {% trans "Respectant la culture haïtienne, nous développons des contenus qui résonnent avec la réalité de nos apprenants." %}
                     </p>
                 </div>
-                
-                <!-- Autonomisation -->
-                <div class="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-600/50">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600/20 text-blue-600 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
+
+                <div class="val-card rounded-2xl border border-brand-100 bg-white p-6" data-aos="fade-up" data-aos-delay="80">
+                    <div class="val-icon flex h-12 w-12 items-center justify-center rounded-xl mb-4">
                         <span class="material-symbols-outlined">trending_up</span>
                     </div>
-                    <h3 class="mt-5 text-lg font-semibold text-gray-900 dark:text-gray-100">{% trans "Autonomisation" %}</h3>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        {% trans "Nous nous consacrons à équiper les individus des connaissances et des compétences nécessaires pour libérer leur potentiel, atteindre leurs objectifs et contribuer de manière significative à la société." %}
+                    <h3 class="text-base font-bold text-brand-900 mb-2">{% trans "Autonomisation" %}</h3>
+                    <p class="text-sm text-brand-500 leading-relaxed">
+                        {% trans "Nous équipons les individus des connaissances nécessaires pour libérer leur potentiel et contribuer à la société." %}
                     </p>
                 </div>
-                
-                <!-- Excellence -->
-                <div class="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-600/50">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600/20 text-blue-600 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
+
+                <div class="val-card rounded-2xl border border-brand-100 bg-white p-6" data-aos="fade-up" data-aos-delay="160">
+                    <div class="val-icon flex h-12 w-12 items-center justify-center rounded-xl mb-4">
                         <span class="material-symbols-outlined">workspace_premium</span>
                     </div>
-                    <h3 class="mt-5 text-lg font-semibold text-gray-900 dark:text-gray-100">{% trans "Excellence" %}</h3>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        {% trans "Notre engagement envers la qualité nous pousse à fournir des ressources et des expériences d'apprentissage exceptionnelles qui répondent aux normes les plus élevées d'intégrité éducative." %}
+                    <h3 class="text-base font-bold text-brand-900 mb-2">{% trans "Excellence" %}</h3>
+                    <p class="text-sm text-brand-500 leading-relaxed">
+                        {% trans "Notre engagement envers la qualité nous pousse à fournir des expériences d'apprentissage exceptionnelles aux normes les plus hautes." %}
                     </p>
                 </div>
-                
-                <!-- Durabilité -->
-                <div class="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-600/50 sm:col-span-2 lg:col-span-1">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600/20 text-blue-600 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
-                        <span class="material-symbols-outlined">eco</span>
-                    </div>
-                    <h3 class="mt-5 text-lg font-semibold text-gray-900 dark:text-gray-100">{% trans "Durabilité" %}</h3>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        {% trans "Nous visons à créer un impact durable en promouvant l'apprentissage tout au long de la vie et en bâtissant un modèle pérenne pour le développement éducatif." %}
-                    </p>
-                </div>
+
             </div>
         </div>
     </section>
-    
-    <!-- Call-to-Action Section -->
-    <section class="py-16 sm:py-24">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col items-center gap-6 rounded-xl bg-blue-600/10 p-8 text-center dark:bg-blue-600/20 sm:p-12">
-                <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl">
-                    {% trans "Prêt à commencer votre parcours d'apprentissage ?" %}
-                </h2>
-                <p class="max-w-xl text-base text-gray-600 dark:text-gray-300">
-                    {% trans "Rejoignez des milliers d'apprenants et donnez un nouvel élan à votre carrière avec nos cours conçus par des experts." %}
-                </p>
-                <a href="{% url 'courses' %}" class="flex h-12 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-blue-600 px-6 text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90">
-                    <span class="truncate">{% trans "Explorer nos formations" %}</span>
-                </a>
-            </div>
+
+    <!-- ── CTA ── -->
+    <section class="cta-about py-16 text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">{% trans "Prêt à commencer votre parcours ?" %}</h2>
+            <p class="text-lg mb-8 text-amber-100">
+                {% trans "Rejoignez des milliers d'apprenants et donnez un nouvel élan à votre carrière." %}
+            </p>
+            <a href="{% url 'courses' %}" class="inline-block px-8 py-3 bg-white text-brand-800 font-bold rounded-xl hover:bg-amber-50 transition shadow-lg">
+                {% trans "Explorer nos formations" %}
+            </a>
         </div>
     </section>
-    
+
 </div>
 {% endblock content %}

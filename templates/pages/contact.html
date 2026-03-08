@@ -2,174 +2,174 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}{% trans "Contact - KouLakay" %}{% endblock %}
-
-{% block head %}
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-<style>
-    .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    }
-</style>
-{% endblock %}
+{% block title %}{% trans "Contact" %} — {{ site_config.site_name }}{% endblock %}
 
 {% block content %}
-<div class="relative flex min-h-screen w-full flex-col">
-    
-    <!-- Hero Section -->
-    <div class="container mx-auto px-4 pt-8">
-        <div class="bg-cover bg-center flex flex-col justify-end overflow-hidden rounded-xl min-h-[280px] md:min-h-[350px]" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 40%), url("{% static 'images/background_1.JPG' %}");'>
-            <div class="p-8 md:p-12">
-                <h1 class="text-white text-4xl md:text-5xl font-extrabold tracking-tight">{% trans "Contactez-nous" %}</h1>
-            </div>
+<div class="min-h-screen" style="background:#FBF7F4;">
+
+    <!-- Hero -->
+    <div class="relative overflow-hidden rounded-xl mx-4 mt-6"
+         style="min-height:280px; background: linear-gradient(160deg,rgba(61,28,4,0.85),rgba(124,61,14,0.7)), url('{% static 'images/background_1.JPG' %}') center/cover;">
+        <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-12" data-aos="fade-up">
+            <h1 class="text-white text-4xl md:text-5xl font-extrabold tracking-tight">
+                {% trans "Contactez-nous" %}
+            </h1>
+            <p class="text-brand-200 mt-2 text-lg">{% trans "Notre équipe vous répond sous 24h." %}</p>
         </div>
     </div>
-    
-    <!-- Main Content Section -->
-    <div class="container mx-auto px-4 py-12 md:py-20">
+
+    <!-- Contenu -->
+    <div class="max-w-6xl mx-auto px-4 py-14">
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-16">
-            
-            <!-- Left Column: Form -->
-            <div class="lg:col-span-3">
-                <div class="mb-8">
-                    <h2 class="text-3xl md:text-4xl font-black tracking-tighter text-gray-900 dark:text-white">
-                        {% trans "Envoyez-nous un message" %}
-                    </h2>
-                    <p class="mt-3 text-base text-gray-600 dark:text-gray-400">
-                        {% trans "Nous sommes là pour répondre à toutes vos questions." %}
-                    </p>
-                </div>
-                
-                <!-- Contact Form -->
-                <form action="post" method="POST" class="space-y-6">
+
+            <!-- Formulaire -->
+            <div class="lg:col-span-3" data-aos="fade-right">
+                <h2 class="text-3xl font-black text-brand-900 mb-2">{% trans "Envoyez-nous un message" %}</h2>
+                <p class="text-brand-500 mb-8">{% trans "Nous sommes là pour répondre à toutes vos questions." %}</p>
+
+                <form method="POST" action="" class="space-y-5">
                     {% csrf_token %}
-                    
-                    <!-- Nom complet -->
+
                     <div>
-                        <label class="block text-base font-medium pb-2 text-gray-900 dark:text-white" for="contact_form_name">
-                            {% trans "Nom complet" %}
-                        </label>
-                        <input 
-                            class="form-input block w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 h-14 p-4 text-base placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600" 
-                            id="contact_form_name" 
-                            name="name" 
-                            placeholder="{% trans 'Entrez votre nom complet' %}" 
-                            type="text"
-                            required
-                        />
+                        <label class="block text-sm font-semibold text-brand-700 mb-1" for="name">{% trans "Nom complet" %}</label>
+                        <input id="name" name="name" type="text" required
+                               placeholder="{% trans 'Votre nom complet' %}"
+                               class="w-full h-12 px-4 rounded-xl border border-brand-200 bg-white text-brand-900
+                                      focus:border-brand-600 focus:ring-2 focus:ring-brand-200 focus:outline-none transition">
                     </div>
-                    
-                    <!-- Adresse e-mail -->
+
                     <div>
-                        <label class="block text-base font-medium pb-2 text-gray-900 dark:text-white" for="contact_form_email">
-                            {% trans "Adresse e-mail" %}
-                        </label>
-                        <input 
-                            class="form-input block w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 h-14 p-4 text-base placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600" 
-                            id="contact_form_email" 
-                            name="email" 
-                            placeholder="{% trans 'votre.email@exemple.com' %}" 
-                            type="email"
-                            required
-                        />
+                        <label class="block text-sm font-semibold text-brand-700 mb-1" for="email">{% trans "Email" %}</label>
+                        <input id="email" name="email" type="email" required
+                               placeholder="votre@email.com"
+                               class="w-full h-12 px-4 rounded-xl border border-brand-200 bg-white text-brand-900
+                                      focus:border-brand-600 focus:ring-2 focus:ring-brand-200 focus:outline-none transition">
                     </div>
-                    
-                    <!-- Message -->
+
                     <div>
-                        <label class="block text-base font-medium pb-2 text-gray-900 dark:text-white" for="contact_form_message">
-                            {% trans "Votre message" %}
-                        </label>
-                        <textarea 
-                            class="form-textarea block w-full resize-none rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 text-base placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600" 
-                            id="contact_form_message" 
-                            name="message" 
-                            placeholder="{% trans 'Écrivez votre message ici...' %}" 
-                            rows="6"
-                            required
-                        ></textarea>
+                        <label class="block text-sm font-semibold text-brand-700 mb-1" for="message">{% trans "Message" %}</label>
+                        <textarea id="message" name="message" rows="6" required
+                                  placeholder="{% trans 'Écrivez votre message...' %}"
+                                  class="w-full px-4 py-3 rounded-xl border border-brand-200 bg-white text-brand-900 resize-none
+                                         focus:border-brand-600 focus:ring-2 focus:ring-brand-200 focus:outline-none transition"></textarea>
                     </div>
-                    
-                    <!-- Submit Button -->
-                    <div>
-                        <button 
-                            class="flex w-full cursor-pointer items-center justify-center rounded-lg h-14 px-6 bg-blue-600 text-white text-base font-bold tracking-wide hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-colors" 
-                            type="submit"
-                            id="contact_send_btn"
-                        >
-                            <span class="truncate">{% trans "Envoyer le message" %}</span>
-                        </button>
-                    </div>
+
+                    <button type="submit"
+                            class="kl-btn-cta w-full h-13 py-3 text-white font-bold rounded-xl text-base transition">
+                        <span class="material-symbols-outlined align-middle mr-2" style="font-size:18px;">send</span>
+                        {% trans "Envoyer le message" %}
+                    </button>
                 </form>
             </div>
-            
-            <!-- Right Column: Contact Info & Map -->
-            <div class="lg:col-span-2">
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-6">
-                        {% trans "Nos Coordonnées" %}
-                    </h3>
-                    
-                    <div class="space-y-6">
-                        <!-- Adresse -->
+
+            <!-- Coordonnées -->
+            <div class="lg:col-span-2" data-aos="fade-left" data-aos-delay="100">
+                <div class="bg-white rounded-2xl shadow-sm border border-brand-100 p-7">
+                    <h3 class="text-2xl font-bold text-brand-900 mb-6">{% trans "Nos Coordonnées" %}</h3>
+
+                    <div class="space-y-5">
+                        {% if site_config.address %}
                         <div class="flex items-start gap-4">
-                            <div class="flex-shrink-0 mt-1">
-                                <span class="material-symbols-outlined text-blue-600 text-2xl">location_on</span>
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                                 style="background:#FBF7F4;">
+                                <span class="material-symbols-outlined text-brand-600" style="font-size:20px;">location_on</span>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-gray-900 dark:text-white">{% trans "Adresse" %}</h4>
-                                <p class="text-gray-600 dark:text-gray-400">Blvd Libertad, 34 m05200 Arévalo</p>
+                                <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-0.5">{% trans "Adresse" %}</p>
+                                <p class="text-brand-800 font-medium">{{ site_config.address }}</p>
                             </div>
                         </div>
-                        
-                        <!-- Téléphone -->
+                        {% endif %}
+
+                        {% if site_config.phone_1 %}
                         <div class="flex items-start gap-4">
-                            <div class="flex-shrink-0 mt-1">
-                                <span class="material-symbols-outlined text-blue-600 text-2xl">call</span>
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                                 style="background:#FBF7F4;">
+                                <span class="material-symbols-outlined text-brand-600" style="font-size:20px;">call</span>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-gray-900 dark:text-white">{% trans "Téléphone" %}</h4>
-                                <p class="text-gray-600 dark:text-gray-400">0034 37483 2445 322</p>
+                                <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-0.5">{% trans "Téléphone" %}</p>
+                                <a href="tel:{{ site_config.phone_1 }}" class="text-brand-800 font-medium hover:text-brand-600 transition">
+                                    {{ site_config.phone_1 }}
+                                </a>
+                                {% if site_config.phone_2 %}
+                                <br>
+                                <a href="tel:{{ site_config.phone_2 }}" class="text-brand-600 text-sm hover:text-brand-700 transition">
+                                    {{ site_config.phone_2 }}
+                                </a>
+                                {% endif %}
                             </div>
                         </div>
-                        
-                        <!-- Email -->
+                        {% endif %}
+
+                        {% if site_config.email %}
                         <div class="flex items-start gap-4">
-                            <div class="flex-shrink-0 mt-1">
-                                <span class="material-symbols-outlined text-blue-600 text-2xl">mail</span>
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                                 style="background:#FBF7F4;">
+                                <span class="material-symbols-outlined text-brand-600" style="font-size:20px;">mail</span>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-gray-900 dark:text-white">{% trans "Email" %}</h4>
-                                <p class="text-gray-600 dark:text-gray-400">hello@company.com</p>
+                                <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-0.5">{% trans "Email" %}</p>
+                                <a href="mailto:{{ site_config.email }}" class="text-brand-800 font-medium hover:text-brand-600 transition">
+                                    {{ site_config.email }}
+                                </a>
+                                {% if site_config.email_support %}
+                                <br>
+                                <a href="mailto:{{ site_config.email_support }}" class="text-brand-500 text-sm hover:text-brand-700 transition">
+                                    {{ site_config.email_support }}
+                                </a>
+                                {% endif %}
                             </div>
                         </div>
+                        {% endif %}
                     </div>
-                    
-                    <hr class="my-8 border-gray-200 dark:border-gray-700"/>
-                    
-                    <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">
-                        {% trans "Retrouvez-nous ici" %}
-                    </h3>
-                    
-                    <!-- Google Map -->
-                    <div class="overflow-hidden rounded-lg">
-                        <div id="google_map" class="w-full h-64">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.00713292429!2d2.348881315674393!3d48.85826027928747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b6c5%3A0x1c7929dc62d29c8c!2sLouvre%20Museum!5e0!3m2!1sen!2sfr!4v1622033000000!5m2!1sen!2sfr" 
-                                width="100%" 
-                                height="256" 
-                                style="border:0;" 
-                                allowfullscreen="" 
-                                loading="lazy"
-                                class="grayscale-[0.5] contrast-125"
-                            ></iframe>
-                        </div>
+
+                    <!-- Réseaux sociaux -->
+                    {% if site_config.facebook_url or site_config.instagram_url or site_config.twitter_url or site_config.linkedin_url %}
+                    <hr class="my-6 border-brand-100">
+                    <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-3">{% trans "Suivez-nous" %}</p>
+                    <div class="flex gap-3">
+                        {% if site_config.facebook_url %}
+                        <a href="{{ site_config.facebook_url }}" target="_blank"
+                           class="w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
+                            <i class="fab fa-facebook-f text-sm"></i>
+                        </a>
+                        {% endif %}
+                        {% if site_config.twitter_url %}
+                        <a href="{{ site_config.twitter_url }}" target="_blank"
+                           class="w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
+                            <i class="fab fa-twitter text-sm"></i>
+                        </a>
+                        {% endif %}
+                        {% if site_config.instagram_url %}
+                        <a href="{{ site_config.instagram_url }}" target="_blank"
+                           class="w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
+                            <i class="fab fa-instagram text-sm"></i>
+                        </a>
+                        {% endif %}
+                        {% if site_config.linkedin_url %}
+                        <a href="{{ site_config.linkedin_url }}" target="_blank"
+                           class="w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
+                            <i class="fab fa-linkedin-in text-sm"></i>
+                        </a>
+                        {% endif %}
                     </div>
+                    {% endif %}
+
+                    <!-- Carte -->
+                    {% if site_config.map_embed_url %}
+                    <hr class="my-6 border-brand-100">
+                    <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-3">{% trans "Retrouvez-nous" %}</p>
+                    <div class="rounded-xl overflow-hidden">
+                        <iframe src="{{ site_config.map_embed_url }}"
+                                width="100%" height="220"
+                                style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
-            
+
         </div>
     </div>
-    
 </div>
-{% endblock content %}
+{% endblock %}

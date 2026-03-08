@@ -3,86 +3,97 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from django.contrib import messages
+from django.shortcuts import redirect, render
 from datetime import timedelta
+import hashlib
+import hmac
 import json
 import requests
 
 from courses.models import Enrollment
 from .models import Transaction, Payment
+from .plopplop_service import PlopPlopService
+from .email_service import send_enrollment_confirmation
 from thinkific import Thinkific
 
 User = get_user_model()
 thinkific = Thinkific(settings.THINKIFIC['AUTH_TOKEN'], settings.THINKIFIC['SITE_ID'])
 
 
+def _verify_thinkific_hmac(request):
+    """
+    Valide la signature HMAC-SHA256 envoyée par Thinkific dans le header
+    X-Thinkific-Hmac-SHA256.
+    Retourne True si valide (ou si le header est absent = source non-Thinkific).
+    Retourne False si le header est présent mais la signature ne correspond pas.
+    """
+    signature_header = request.headers.get('X-Thinkific-Hmac-SHA256')
+    if not signature_header:
+        # Pas un webhook Thinkific — on laisse passer (vérification PlopPlop suit)
+        return True
+
+    secret = settings.THINKIFIC.get('SECRET_KEY', '').encode('utf-8')
+    expected = hmac.new(secret, request.body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, signature_header)
+
+
 @csrf_exempt
 def confirm(request):
     """
-    Endpoint de confirmation de paiement.
-    Appelé par le fournisseur de paiement après un paiement réussi.
+    Webhook de confirmation de paiement (appelé par PlopPlop ou Thinkific).
+
+    Sécurité :
+    - Si la requête vient de Thinkific : signature HMAC-SHA256 vérifiée.
+    - Dans tous les cas : le statut du paiement est RE-VÉRIFIÉ directement
+      chez PlopPlop (on ne fait jamais confiance au payload seul).
     """
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'])
 
+    # 1. Valider la signature HMAC si c'est un webhook Thinkific
+    if not _verify_thinkific_hmac(request):
+        return JsonResponse({'success': False, 'error': 'Invalid HMAC signature'}, status=401)
+
     try:
-        # Parser le payload JSON
         payload = json.loads(request.body)
         transaction_number = payload.get('meta_data', {}).get('transaction_number')
         external_transaction_id = payload.get('external_transaction_id')
-        payment_status = payload.get('status', 'completed').lower()
-        
-        if not transaction_number:
-            return JsonResponse({
-                'success': False,
-                'error': 'Transaction number is required'
-            }, status=400)
 
-        # Récupérer la transaction
+        if not transaction_number:
+            return JsonResponse({'success': False, 'error': 'Transaction number is required'}, status=400)
+
         try:
             transaction = Transaction.objects.get(transaction_number=transaction_number)
         except Transaction.DoesNotExist:
-            return JsonResponse({
-                'success': False,
-                'error': 'Transaction not found'
-            }, status=404)
+            return JsonResponse({'success': False, 'error': 'Transaction not found'}, status=404)
 
-        # Vérifier si déjà complétée
         if transaction.is_completed:
-            return JsonResponse({
-                'success': True,
-                'message': 'Transaction already completed'
-            }, status=200)
+            return JsonResponse({'success': True, 'message': 'Transaction already completed'}, status=200)
 
-        # Mettre à jour l'ID externe
         if external_transaction_id:
             transaction.external_transaction_id = external_transaction_id
 
-        # Traiter selon le statut
-        if payment_status in ['success', 'completed']:
+        # 2. Re-vérifier le statut réel du paiement chez PlopPlop
+        #    On n'utilise PAS le statut du payload — un attaquant peut le forger.
+        plopplop = PlopPlopService()
+        verification = plopplop.verify_payment(transaction_number)
+
+        if not verification.get('success'):
+            return JsonResponse({'success': False, 'error': 'Payment verification failed with provider'}, status=502)
+
+        if verification.get('paid'):
             return process_successful_payment(transaction, payload)
-        elif payment_status == 'failed':
-            transaction.status = Transaction.Status.FAILED
-            transaction.save()
-            return JsonResponse({
-                'success': False,
-                'error': 'Payment failed'
-            }, status=400)
-        else:
-            return JsonResponse({
-                'success': False,
-                'error': f'Unknown payment status: {payment_status}'
-            }, status=400)
+
+        # Paiement non confirmé chez le fournisseur
+        transaction.status = Transaction.Status.FAILED
+        transaction.save()
+        return JsonResponse({'success': False, 'error': 'Payment not confirmed by provider'}, status=400)
 
     except json.JSONDecodeError:
-        return JsonResponse({
-            'success': False,
-            'error': 'Invalid JSON payload'
-        }, status=400)
+        return JsonResponse({'success': False, 'error': 'Invalid JSON payload'}, status=400)
     except Exception as e:
-        return JsonResponse({
-            'success': False,
-            'error': f'Internal server error: {str(e)}'
-        }, status=500)
+        return JsonResponse({'success': False, 'error': f'Internal server error: {str(e)}'}, status=500)
 
 
 def process_successful_payment(transaction, payload):
@@ -178,6 +189,22 @@ def process_successful_payment(transaction, payload):
         transaction.status = Transaction.Status.COMPLETED
         transaction.completed_at = timezone.now()
         transaction.save()
+
+        # 6. Envoyer l'email de confirmation + reçu PDF
+        try:
+            send_enrollment_confirmation(
+                user=user,
+                course_name=course_data.get('name', f'Cours #{course_id}'),
+                transaction_number=transaction.transaction_number,
+                amount=transaction.price,
+                currency=transaction.currency,
+                payment_method=transaction.payment_method or 'mobile',
+                activated_at=activated_at,
+                expiry_date=expiry_date,
+            )
+        except Exception as email_err:
+            # L'email ne doit jamais bloquer la confirmation du paiement
+            print(f"[KouLakay] Avertissement email : {email_err}")
 
         return JsonResponse({
             'success': True,
@@ -365,3 +392,50 @@ def create_thinkific_refund(external_order_id, amount, currency, reference):
 
 
 
+
+
+def payment_return(request):
+    """
+    Vue de retour après paiement plopplop.
+    L'utilisateur est redirigé ici après avoir payé (ou annulé) sur plopplop.
+    On vérifie le statut via /api/paiement-verify, puis on traite l'inscription.
+    """
+    # plopplop peut transmettre la référence en GET ou POST
+    refference_id = request.GET.get('refference_id') or request.POST.get('refference_id')
+
+    if not refference_id:
+        messages.error(request, "Référence de paiement introuvable.")
+        return redirect('courses')
+
+    try:
+        transaction = Transaction.objects.get(transaction_number=refference_id)
+    except Transaction.DoesNotExist:
+        messages.error(request, "Transaction introuvable.")
+        return redirect('courses')
+
+    # Si déjà traitée, ne pas re-traiter
+    if transaction.is_completed:
+        messages.info(request, "Ce paiement a déjà été traité.")
+        course_id = transaction.course_id
+        if course_id:
+            return redirect('course_details', course_id=course_id)
+        return redirect('courses')
+
+    # Vérifier le statut sur plopplop
+    plopplop = PlopPlopService()
+    result = plopplop.verify_payment(refference_id)
+
+    course_id = transaction.course_id
+
+    if result.get('paid'):
+        # Paiement confirmé → traiter l'inscription (ignore la JsonResponse)
+        process_successful_payment(transaction, {})
+        messages.success(request, "Paiement confirmé ! Votre accès au cours est activé. Un email de confirmation vous a été envoyé.")
+        return redirect('success_page')
+    elif not result.get('success'):
+        messages.error(request, f"Erreur de vérification : {result.get('error', 'Inconnue')}")
+        return redirect('course_details', course_id=course_id) if course_id else redirect('courses')
+    else:
+        # Paiement en cours ou annulé
+        messages.warning(request, "Votre paiement n'a pas encore été confirmé. Veuillez réessayer dans quelques instants.")
+        return redirect('course_details', course_id=course_id) if course_id else redirect('courses')

@@ -48,11 +48,10 @@ class ThinkificSignupView(SignupView):
             
             # 3. Créer l'utilisateur local Django
             response = super().form_valid(form)
-            
-            # 4. Stocker l'ID Thinkific dans le profil utilisateur (optionnel)
-            # Vous pouvez ajouter un champ thinkific_user_id dans votre modèle User
-            # self.user.thinkific_user_id = thinkific_user.get('id')
-            # self.user.save()
+
+            # 4. Stocker l'ID Thinkific dans le modèle User
+            self.user.thinkific_user_id = thinkific_user.get('id')
+            self.user.save(update_fields=['thinkific_user_id'])
             
             messages.success(
                 self.request, 
@@ -201,7 +200,9 @@ class DirectThinkificSignupView(View):
                 first_name=first_name,
                 last_name=last_name
             )
-            
+            user.thinkific_user_id = thinkific_user.get('id')
+            user.save(update_fields=['thinkific_user_id'])
+
             # Connecter automatiquement
             auth_login(request, user)
             

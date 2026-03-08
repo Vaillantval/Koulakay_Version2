@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:plopplop.solutionip.app)",
+      "Bash(\"C:/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/.venv/Scripts/pip.exe\" install:*)",
+      "Bash(\".venv/Scripts/python.exe\":*)",
+      "Bash(python:*)",
+      "Bash(.venv/Scripts/python.exe:*)",
+      "Bash(rm:*)",
+      "Bash(.venv/Scripts/python:*)",
+      "Bash(.venv/Scripts/pip install:*)"
+    ]
+  }
+}

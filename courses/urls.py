@@ -10,4 +10,7 @@ urlpatterns = [
     # Nouvelles routes pour l'inscription avec paiement
     path('enrollment/<int:course_id>/', views.course_enrollment_step1, name='course_enrollment'),
     path('enrollment/payment/<str:payment_method>/', views.course_enrollment_payment, name='course_enrollment_payment'),
+
+    # Dashboard apprenant
+    path('mon-apprentissage/', views.mon_apprentissage, name='mon_apprentissage'),
 ]

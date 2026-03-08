@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Mon apprentissage" %} — KouLakay{% endblock %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 py-10">
+
+    <!-- En-tête -->
+    <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-brand-800">{% trans "Mon apprentissage" %}</h1>
+            <p class="text-sm text-brand-500 mt-1">
+                {{ cours_inscrits|length }}
+                {% blocktrans count count=cours_inscrits|length %}
+                    cours inscrit
+                {% plural %}
+                    cours inscrits
+                {% endblocktrans %}
+            </p>
+        </div>
+        <a href="{% url 'courses' %}"
+           class="btn-kl-primary inline-flex items-center gap-2 self-start sm:self-auto">
+            <i class="fa fa-plus-circle"></i>
+            {% trans "Explorer d'autres cours" %}
+        </a>
+    </div>
+
+    {% if cours_inscrits %}
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {% for course in cours_inscrits %}
+            <div class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden flex flex-col course-card hover:shadow-md transition-shadow"
+                 data-aos="fade-up">
+
+                <!-- Image -->
+                <div class="relative h-44 bg-brand-100 overflow-hidden">
+                    {% if course.banner_image_url %}
+                        <img src="{{ course.banner_image_url }}"
+                             alt="{{ course.name }}"
+                             class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="flex items-center justify-center h-full">
+                            <i class="fa fa-book-open text-5xl text-brand-300"></i>
+                        </div>
+                    {% endif %}
+                    <!-- Badge accès -->
+                    <div class="absolute top-2 right-2">
+                        {% if course.enrollment.expiry_date %}
+                            <span class="text-xs bg-green-500 text-white px-2 py-0.5 rounded-full font-medium">
+                                {% trans "Actif" %}
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Contenu -->
+                <div class="flex flex-col flex-1 p-5 gap-3">
+                    <h2 class="font-semibold text-brand-800 text-sm leading-snug line-clamp-2">
+                        {{ course.name }}
+                    </h2>
+
+                    <!-- Dates -->
+                    <div class="text-xs text-brand-400 space-y-1">
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa fa-calendar-check text-green-500"></i>
+                            <span>
+                                {% trans "Inscrit le" %}
+                                {{ course.enrollment.activated_at|date:"d/m/Y" }}
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa fa-clock text-brand-400"></i>
+                            <span>
+                                {% trans "Accès jusqu'au" %}
+                                {{ course.enrollment.expiry_date|date:"d/m/Y" }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Bouton accès -->
+                    <div class="mt-auto pt-2">
+                        <a href="{{ course.thinkific_url }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="kl-btn-cta w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold">
+                            <i class="fa fa-play-circle"></i>
+                            {% trans "Accéder au cours" %}
+                            <i class="fa fa-external-link-alt text-xs opacity-75"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <!-- État vide -->
+        <div class="flex flex-col items-center justify-center py-24 text-center" data-aos="fade-up">
+            <div class="w-24 h-24 rounded-full bg-brand-100 flex items-center justify-center mb-6">
+                <i class="fa fa-graduation-cap text-4xl text-brand-300"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-brand-700 mb-2">
+                {% trans "Vous n'êtes inscrit à aucun cours" %}
+            </h2>
+            <p class="text-sm text-brand-400 max-w-sm mb-6">
+                {% trans "Découvrez nos formations et commencez votre parcours d'apprentissage dès aujourd'hui." %}
+            </p>
+            <a href="{% url 'courses' %}" class="kl-btn-cta px-6 py-3 rounded-xl text-white font-semibold inline-flex items-center gap-2">
+                <i class="fa fa-search"></i>
+                {% trans "Voir les cours disponibles" %}
+            </a>
+        </div>
+    {% endif %}
+
+</section>
+{% endblock %}

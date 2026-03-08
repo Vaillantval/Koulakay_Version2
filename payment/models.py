@@ -54,6 +54,7 @@ class Transaction(models.Model):
         CREDIT_CARD = 'credit_card', _('Carte de crédit')
         MONCASH = 'moncash', _('MonCash')
         NATCASH = 'natcash', _('NatCash')
+        KASHPAW = 'kashpaw', _('Kashpaw')
         OTHER = 'other', _('Autre')
     
     # Identifiants

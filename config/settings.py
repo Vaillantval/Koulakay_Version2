@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
 from django.conf.locale import LANG_INFO
@@ -43,16 +44,26 @@ if PRODUCTION == "True":
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY","dev")
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1'
-]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+# Railway injecte RAILWAY_PUBLIC_DOMAIN (ex: koulakay-production.up.railway.app)
+_railway_domain = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '')
+if _railway_domain:
+    ALLOWED_HOSTS.append(_railway_domain)
+
+# Domaines supplémentaires définis manuellement (séparés par virgule dans l'env)
+_extra_hosts = os.environ.get('ALLOWED_HOSTS', '')
+if _extra_hosts:
+    ALLOWED_HOSTS += [h.strip() for h in _extra_hosts.split(',') if h.strip()]
 
 CORS_ALLOW_ALL_ORIGINS = True
-CSRF_TRUSTED_ORIGINS=[
-    'https://koulakay.devfundme.online'
-    
-]
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1']
+if _railway_domain:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{_railway_domain}')
+_extra_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
+if _extra_origins:
+    CSRF_TRUSTED_ORIGINS += [o.strip() for o in _extra_origins.split(',') if o.strip()]
 
 # if DEBUG == False:
 #     SESSION_COOKIE_SECURE = True
@@ -211,6 +222,7 @@ INSTALLED_APPS = [
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',   # sert les fichiers statiques sans Nginx
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -272,6 +284,7 @@ TEMPLATES = [
 
                 # ` media`
                 'django.template.context_processors.media',
+                'pages.context_processors.site_config',
                 
                 # `allauth` needs this from django
                 'django.template.context_processors.request',
@@ -287,18 +300,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-if PRODUCTION:
+_database_url = os.environ.get('DATABASE_URL', '')
+if _database_url:
+    # Railway (et tout hébergeur 12-factor) fournit DATABASE_URL automatiquement
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv("POSTGRESQL_ADDON_DB"),
-            'USER': os.getenv("POSTGRESQL_ADDON_USER"),
-            'PASSWORD': os.getenv("POSTGRESQL_ADDON_PASSWORD"),
-            'HOST': os.getenv("POSTGRESQL_ADDON_HOST"),
-            'PORT': os.getenv("POSTGRESQL_ADDON_PORT"),
-        }
+        'default': dj_database_url.config(
+            default=_database_url,
+            conn_max_age=600,
+            ssl_require=PRODUCTION,
+        )
     }
 else:
+    # Développement local → SQLite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -309,11 +322,9 @@ else:
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake', # Set a unique identifier for the cache
+        'LOCATION': 'unique-snowflake',
     }
 }
-
-# DATABASES = { 'default': dj_database_url.config(default=os.environ.get('DATABASE_URL')) }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -339,24 +350,21 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND défini plus bas via anymail (ne pas redéfinir ici)
 
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
-ACCOUNT_EMAIL_REQUIRED = True
+# Nouvelle syntaxe allauth >= 65.x
+ACCOUNT_LOGIN_METHODS = {'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_UNIQUE_EMAIL = True
-# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION=True
 
 AUTH_USER_MODEL = 'accounts.User'
-
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE=True
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
@@ -425,14 +433,14 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 if DEBUG:
     STATICFILES_DIRS = [
         BASE_DIR / "config" / "static",
     ]
-    # NE PAS inclure BASE_DIR / "static" car c'est le dossier collecté
 else:
     STATICFILES_DIRS = []
-    STATIC_ROOT = "/app/static/"
 
 ADMIN_USER=os.getenv("ADMIN_USER","admin@koulakay.ht")
 ADMIN_PASSWORD=os.getenv("ADMIN_PASSWORD","admin12345")
@@ -454,17 +462,34 @@ EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
 #     "MAILJET_SECRET_KEY":os.getenv('MAILJET_SECRET_KEY','17bd4d39407fb21719b674f187d591c2'),
 # }
 THINKIFIC = {
-    'AUTH_TOKEN':os.getenv('THINKIFIC_SECRET_KEY','c1699f4b4498b1c1fefd7b86604f9e68'),
-    'SITE_ID':os.getenv('SITE_ID','koulakay')
-} 
-DEFAULT_FROM_EMAIL = ""
-
-EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
-
-ANYMAIL = {
-    "MAILJET_API_KEY": os.getenv('MAILJET_API_KEY',"test"),
-    "MAILJET_SECRET_KEY":os.getenv('MAILJET_SECRET_KEY',"test"),
+    'AUTH_TOKEN': os.getenv('THINKIFIC_SECRET_KEY', 'c1699f4b4498b1c1fefd7b86604f9e68'),
+    'SITE_ID': os.getenv('SITE_ID', 'koulakay'),
+    # Clé utilisée pour valider les signatures HMAC des webhooks Thinkific
+    # À configurer dans Thinkific → Settings → Webhooks → Secret
+    'SECRET_KEY': os.getenv('THINKIFIC_WEBHOOK_SECRET', ''),
 }
+
+PLOPPLOP = {
+    'CLIENT_ID': os.getenv('PLOPPLOP_CLIENT_ID', ''),
+    'BASE_URL': 'https://plopplop.solutionip.app',
+    'RETURN_URL': os.getenv('PLOPPLOP_RETURN_URL', 'https://koulakay.devfundme.online/payment/retour/'),
+}
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'KouLakay <noreply@koulakay.ht>')
+SERVER_EMAIL       = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@koulakay.ht')
+
+# En développement sans clés Mailjet réelles → console. En prod → anymail/mailjet.
+_mailjet_key    = os.getenv('MAILJET_API_KEY', '')
+_mailjet_secret = os.getenv('MAILJET_SECRET_KEY', '')
+
+if _mailjet_key and _mailjet_secret and _mailjet_key != 'test':
+    EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
+    ANYMAIL = {
+        "MAILJET_API_KEY":    _mailjet_key,
+        "MAILJET_SECRET_KEY": _mailjet_secret,
+    }
+else:
+    # Pas de clés réelles → affiche les emails dans la console (dev)
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 if DEBUG:
     INSTALLED_APPS += ['django_browser_reload']
