@@ -23,6 +23,6 @@ def generate_superuser(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-   dependencies = [("accounts", "0001_initial")]
+   dependencies = [("accounts", "0002_add_thinkific_user_id")]
 
    operations = [migrations.RunPython(generate_superuser)]
