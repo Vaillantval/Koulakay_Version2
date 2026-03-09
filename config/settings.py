@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG",True)
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 if DEBUG == "False":
     DEBUG = False
@@ -88,7 +88,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'accounts',
-    # 'payment',
+    #'payment',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -455,7 +455,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"
 
-EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
+#Valcin
+#EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
 
 # ANYMAIL = {
 #     "MAILJET_API_KEY": os.getenv('MAILJET_API_KEY','14bc4be8813fb712bcf5871ec6664225'),

@@ -2,7 +2,7 @@ asgiref==3.11.1
 dj-database-url==2.3.0
 whitenoise==6.9.0
 crispy-bootstrap4==2024.1
-Django==6.0.2
+Django==5.2.1              # ← corrigé
 django-allauth==65.13.0
 django-anymail==14.0
 django-browser-reload==1.21.0
@@ -20,5 +20,4 @@ six==1.16.0
 sqlparse==0.5.4
 thinkific==0.1.1
 typing_extensions==4.12.2
-uvicorn==0.41.0
-reportlab==4.4.10
+reportlab==4.4.10          # uvicorn supprimé
