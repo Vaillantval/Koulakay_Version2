@@ -442,12 +442,9 @@ STORAGES = {
     },
 }
 
-if DEBUG:
-    STATICFILES_DIRS = [
-        BASE_DIR / "config" / "static",
-    ]
-else:
-    STATICFILES_DIRS = []
+STATICFILES_DIRS = [
+    BASE_DIR / "config" / "static",
+]
 
 ADMIN_USER=os.getenv("ADMIN_USER","admin@koulakay.ht")
 ADMIN_PASSWORD=os.getenv("ADMIN_PASSWORD","admin12345")
