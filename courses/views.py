@@ -220,8 +220,8 @@ def mon_apprentissage(request):
             course_data = thinkific.courses.retrieve_course(id=enrollment.course_id)
             course_data['enrollment'] = enrollment
             # URL directe sur Thinkific
-            site_id = thinkific.site_id if hasattr(thinkific, 'site_id') else ''
-            course_data['thinkific_url'] = f"https://{site_id}.thinkific.com/courses/{course_data.get('slug', '')}"
+            site_id = settings.THINKIFIC['SITE_ID']
+            course_data['thinkific_url'] = f"https://{site_id}.thinkific.com/products/courses/{course_data.get('slug', '')}"
             cours_inscrits.append(course_data)
         except Exception:
             # Si le cours n'existe plus sur Thinkific, on garde une version minimale
