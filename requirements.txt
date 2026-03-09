@@ -2,8 +2,8 @@ asgiref==3.11.1
 dj-database-url==2.3.0
 whitenoise==6.9.0
 crispy-bootstrap4==2024.1
-Django==5.2.1              # ← corrigé
-django-allauth==65.13.0
+Django==6.0.3              # ← corrigé
+django-allauth==65.14.1
 django-anymail==14.0
 django-browser-reload==1.21.0
 django-crispy-forms==2.3
