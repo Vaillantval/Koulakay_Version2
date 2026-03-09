@@ -25,4 +25,4 @@ RUN python manage.py collectstatic --no-input
 EXPOSE 8000
 
 # Au démarrage : uniquement migrate + gunicorn
-CMD ["sh", "-c", "python manage.py migrate --no-input && python -c 'import config.wsgi; print(\"[OK] WSGI charge correctement\")' && gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120 --log-level debug"]
+CMD ["sh", "-c", "python manage.py migrate --no-input 2>&1 && echo '=== MIGRATE OK ===' && python manage.py check 2>&1 && echo '=== CHECK OK ===' && exec gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 1 --timeout 120 --log-level debug 2>&1"]
