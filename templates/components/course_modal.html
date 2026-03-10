@@ -99,11 +99,12 @@ function openCourseModal(enrollUrl, detailsUrl, name, desc, price, imgUrl) {
     document.getElementById('modalTitle').textContent = name;
     document.getElementById('modalDesc').textContent = desc || '{% trans "Découvrez ce cours exceptionnel conçu par des experts." %}';
 
-    // Prix
+    // Prix — devise configurée dans l'admin
+    var siteCurrency = '{{ site_currency|default:"USD" }}';
     var priceNum = parseFloat(price);
     var priceText = (priceNum === 0 || isNaN(priceNum))
         ? '{% trans "Gratuit" %}'
-        : priceNum.toFixed(0) + ' HTG';
+        : priceNum.toFixed(0) + ' ' + siteCurrency;
     document.getElementById('modalPrice').textContent = priceText;
     document.getElementById('modalPriceBadge').textContent = priceText;
 

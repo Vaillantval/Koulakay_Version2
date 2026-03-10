@@ -149,7 +149,7 @@
                     <div class="pay-img-placeholder mx-auto" style="max-width:200px;">
                         <div class="text-center">
                             <span class="material-symbols-outlined text-white/80 block mb-1" style="font-size:32px;">account_balance_wallet</span>
-                            <span class="text-white/70 text-xs">Logo MonCash ici</span>
+                            <span class="text-white/70 text-xs">{% trans "Logo MonCash ici" %}</span>
                         </div>
                     </div>
                 </div>
@@ -176,7 +176,7 @@
                     <div class="pay-img-placeholder mx-auto" style="max-width:200px;">
                         <div class="text-center">
                             <span class="material-symbols-outlined text-white/80 block mb-1" style="font-size:32px;">payments</span>
-                            <span class="text-white/70 text-xs">Logo NatCash ici</span>
+                            <span class="text-white/70 text-xs">{% trans "Logo NatCash ici" %}</span>
                         </div>
                     </div>
                 </div>
@@ -202,14 +202,14 @@
                     <div class="pay-img-placeholder mx-auto" style="max-width:200px;">
                         <div class="text-center">
                             <span class="material-symbols-outlined text-white/80 block mb-1" style="font-size:32px;">credit_card</span>
-                            <span class="text-white/70 text-xs">Stripe · Sécurisé</span>
+                            <span class="text-white/70 text-xs">{% trans "Stripe · Sécurisé" %}</span>
                         </div>
                     </div>
                 </div>
                 <!-- Body -->
                 <div class="p-5 text-center">
                     <h3 class="text-lg font-bold text-gray-900 mb-1">{% trans "Carte bancaire" %}</h3>
-                    <p class="text-sm text-gray-500 mb-3">Visa · Mastercard · Amex</p>
+                    <p class="text-sm text-gray-500 mb-3">{% trans "Visa · Mastercard · Amex" %}</p>
                     <!-- Logos cartes -->
                     <div class="flex justify-center gap-2 mb-2">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"
@@ -267,8 +267,8 @@
 
 <script>
 const methodNames = {
-    moncash:     'MonCash (Digicel)',
-    natcash:     'NatCash (Natcom)',
+    moncash:     '{% trans "MonCash (Digicel)" %}',
+    natcash:     '{% trans "NatCash (Natcom)" %}',
     credit_card: '{% trans "Carte bancaire (Stripe)" %}',
 };
 
@@ -290,6 +290,9 @@ function selectMethod(card) {
     document.getElementById('payBtn').disabled = false;
 }
 
+// URL générée par Django avec le bon préfixe de langue (/fr/, /en/, etc.)
+const enrollPaymentBaseUrl = "{% url 'course_enrollment_payment' 'METHODE' %}";
+
 document.getElementById('payForm').addEventListener('submit', function(e) {
     const method = document.getElementById('selectedMethod').value;
     if (!method) {
@@ -297,7 +300,7 @@ document.getElementById('payForm').addEventListener('submit', function(e) {
         alert('{% trans "Veuillez sélectionner une méthode de paiement." %}');
         return;
     }
-    this.action = `/courses/enrollment/payment/${method}/`;
+    this.action = enrollPaymentBaseUrl.replace('METHODE', method);
 });
 </script>
 {% endblock %}

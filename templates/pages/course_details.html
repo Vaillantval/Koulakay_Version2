@@ -55,7 +55,7 @@
             <!-- Titre + meta -->
             <div class="mb-7">
                 <h1 class="text-3xl md:text-4xl font-bold text-brand-900 mb-4 leading-tight" data-aos="fade-up">
-                    {{ course.name|default:"Titre du cours" }}
+                    {{ course.name|default:_("Titre du cours") }}
                 </h1>
 
                 <div class="flex flex-wrap gap-2 mb-4">
@@ -77,7 +77,7 @@
                     {% endif %}
                 </div>
 
-                <p class="text-brand-700 leading-relaxed">{{ course.description|default:"Découvrez ce cours passionnant." }}</p>
+                <p class="text-brand-700 leading-relaxed">{{ course.description|default:_("Découvrez ce cours passionnant.") }}</p>
             </div>
 
             <!-- Onglets -->
@@ -91,7 +91,7 @@
             <!-- Tab: Description -->
             <div id="tab-description" class="tab-content">
                 <p class="text-brand-700 leading-relaxed mb-6 whitespace-pre-wrap">
-                    {{ course.description|default:"Ce cours vous fournira les connaissances nécessaires." }}
+                    {{ course.description|default:_("Ce cours vous fournira les connaissances nécessaires.") }}
                 </p>
                 <div class="p-5 rounded-xl border border-brand-200" style="background:#FBF7F4;">
                     <h3 class="text-base font-bold text-brand-800 mb-4">{% trans "Ce que vous apprendrez" %}</h3>
@@ -136,7 +136,7 @@
                                 <li class="flex items-center justify-between px-4 py-3 hover:bg-brand-50 transition">
                                     <div class="flex items-center gap-2 text-sm text-brand-700">
                                         <span class="material-symbols-outlined text-brand-400" style="font-size:16px;">play_circle</span>
-                                        {{ lesson.name|default:"Leçon" }}
+                                        {{ lesson.name|default:_("Leçon") }}
                                     </div>
                                     {% if lesson.duration %}
                                     <span class="text-xs text-brand-400">{{ lesson.duration }}</span>
