@@ -53,6 +53,13 @@ class SiteConfigAdmin(admin.ModelAdmin):
         (_("📄 Pied de page"), {
             "fields": ("footer_text",),
         }),
+        (_("💱 Devise"), {
+            "fields": ("currency",),
+            "description": _(
+                "Devise utilisée pour afficher les prix sur toutes les pages. "
+                "Sur la page de paiement, l'équivalent en HTG est toujours affiché en sous-titre."
+            ),
+        }),
     )
 
     def has_add_permission(self, request):

@@ -90,7 +90,7 @@
                             {% if c.price is None or c.price == 0 %}
                             <span class="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} HTG</span>
+                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} {{ site_currency }}</span>
                             {% endif %}
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                             {% if c.price is None or c.price == 0 %}
                             <span class="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full shadow">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} HTG</span>
+                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} {{ site_currency }}</span>
                             {% endif %}
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                             {% if c.price is None or c.price == 0 %}
                             <span class="text-green-600 font-bold text-sm">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="font-bold text-brand-700 text-sm">{{ c.price }} HTG</span>
+                            <span class="font-bold text-brand-700 text-sm">{{ c.price }} {{ site_currency }}</span>
                             {% endif %}
                         </div>
 

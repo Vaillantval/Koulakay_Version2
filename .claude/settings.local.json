@@ -10,7 +10,8 @@
       "Bash(.venv/Scripts/python:*)",
       "Bash(.venv/Scripts/pip install:*)",
       "Bash(.venv/Scripts/pip show:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates/pages -type f -name \"*.html\" 2>/dev/null | head -10)"
     ]
   }
 }

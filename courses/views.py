@@ -12,6 +12,8 @@ import requests
 from .monkey_patch.patch_thinkific import ThinkificExtend
 from .models import Enrollment
 from payment.models import Transaction
+from payment.exchange_service import convert_to_htg
+from pages.models import SiteConfig
 
 # Configuration Thinkific
 thinkific = ThinkificExtend(settings.THINKIFIC['AUTH_TOKEN'], settings.THINKIFIC['SITE_ID'])
@@ -76,9 +78,16 @@ def course_enrollment_step1(request, course_id):
             'thinkific_user_id': thinkific_user_id
         }
         
+        site_currency = SiteConfig.get().currency
+        htg_equivalent = None
+        if site_currency != 'HTG':
+            htg_equivalent = convert_to_htg(course_price, site_currency)
+
         return render(request, 'pages/payment_options.html', {
             'course': course,
             'course_price': course_price,
+            'site_currency': site_currency,
+            'htg_equivalent': htg_equivalent,
         })
         
     except Exception as e:
@@ -104,8 +113,7 @@ def course_enrollment_payment(request, payment_method):
     product_id = enrollment_data.get('product_id')
     thinkific_user_id = enrollment_data['thinkific_user_id']
 
-    # plopplop accepte : moncash, natcash, kashpaw, all
-    valid_methods = ['moncash', 'natcash', 'kashpaw', 'all']
+    valid_methods = ['moncash', 'natcash', 'kashpaw', 'credit_card']
     if payment_method not in valid_methods:
         messages.error(request, _("Méthode de paiement invalide."))
         return redirect('course_details', course_id=course_id)
@@ -113,12 +121,46 @@ def course_enrollment_payment(request, payment_method):
     try:
         from payment.models import Transaction
         from payment.plopplop_service import PlopPlopService
+        from payment.exchange_service import convert_to_htg
+
+        # Méthodes Haïtiennes → montant en HTG ; Stripe → USD
+        haitian_methods = {'moncash', 'natcash', 'kashpaw'}
+        site_currency = SiteConfig.get().currency
+
+        if payment_method in haitian_methods:
+            # Convertir le prix en HTG pour PlopPlop
+            if site_currency == 'HTG':
+                montant_htg = float(course_price)
+            else:
+                montant_htg = convert_to_htg(course_price, site_currency)
+                if montant_htg is None:
+                    messages.error(request, _("Impossible d'obtenir le taux de change. Réessayez dans quelques instants."))
+                    return redirect('course_details', course_id=course_id)
+            tx_currency = Transaction.Currencies.HTG
+            tx_price = Decimal(str(montant_htg))
+        else:
+            # Stripe / Carte bancaire → USD
+            if site_currency == 'USD':
+                montant_usd = float(course_price)
+            else:
+                from payment.exchange_service import convert_from_htg, get_htg_rate
+                # course_price est dans site_currency, on veut USD
+                # convert site_currency → HTG → USD
+                htg_amount = convert_to_htg(course_price, site_currency)
+                if htg_amount is None:
+                    montant_usd = float(course_price)
+                else:
+                    usd_rate = get_htg_rate('USD')
+                    montant_usd = round(htg_amount / usd_rate, 2) if usd_rate else float(course_price)
+            tx_currency = Transaction.Currencies.USD
+            tx_price = Decimal(str(montant_usd))
+            montant_htg = montant_usd  # sera ignoré (pas PlopPlop)
 
         # Créer la transaction locale (PENDING)
         transaction = Transaction.objects.create(
             user=request.user,
-            price=course_price,
-            currency=Transaction.Currencies.HTG,
+            price=tx_price,
+            currency=tx_currency,
             status=Transaction.Status.PENDING,
             payment_method=payment_method,
             meta_data={
@@ -135,11 +177,20 @@ def course_enrollment_payment(request, payment_method):
             }
         )
 
-        # Appel à plopplop
+        if payment_method not in haitian_methods:
+            # Carte bancaire (Stripe via Thinkific) — rediriger vers Thinkific checkout
+            site_id = settings.THINKIFIC['SITE_ID']
+            thinkific_checkout_url = f"https://{site_id}.thinkific.com/cart/add_product?product_id={product_id}" if product_id else f"https://{site_id}.thinkific.com/products/courses/{course_id}"
+            transaction.status = Transaction.Status.CANCELLED
+            transaction.save()
+            del request.session['enrollment_data']
+            return redirect(thinkific_checkout_url)
+
+        # Appel à plopplop (méthodes haïtiennes uniquement)
         plopplop = PlopPlopService()
         result = plopplop.create_payment(
             refference_id=transaction.transaction_number,
-            montant=float(course_price),
+            montant=float(tx_price),
             payment_method=payment_method,
         )
 

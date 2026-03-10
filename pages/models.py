@@ -81,6 +81,22 @@ class SiteConfig(models.Model):
         default="Conçu avec ❤️ pour Haïti"
     )
 
+    # ── Devise ──
+    CURRENCY_CHOICES = [
+        ('USD', _('Dollar américain (USD)')),
+        ('EUR', _('Euro (EUR)')),
+        ('CAD', _('Dollar canadien (CAD)')),
+        ('GBP', _('Livre sterling (GBP)')),
+        ('HTG', _('Gourde haïtienne (HTG)')),
+    ]
+    currency = models.CharField(
+        _("Devise d'affichage"),
+        max_length=3,
+        choices=CURRENCY_CHOICES,
+        default='USD',
+        help_text=_("Devise utilisée pour afficher les prix sur toutes les pages (sauf la page de paiement qui affiche aussi l'équivalent HTG)."),
+    )
+
     class Meta:
         verbose_name = _("Configuration du site")
         verbose_name_plural = _("Configuration du site")

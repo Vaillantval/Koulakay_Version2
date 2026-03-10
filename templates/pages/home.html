@@ -291,7 +291,7 @@
                             {% if c.price is None or c.price == 0 %}
                             <span class="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full shadow">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="px-2 py-1 text-white text-xs font-bold rounded-full shadow" style="background:rgba(30,10,0,0.7);backdrop-filter:blur(4px);">{{ c.price }} HTG</span>
+                            <span class="px-2 py-1 text-white text-xs font-bold rounded-full shadow" style="background:rgba(30,10,0,0.7);backdrop-filter:blur(4px);">{{ c.price }} {{ site_currency }}</span>
                             {% endif %}
                         </div>
                         {% if c.enrollment_count %}

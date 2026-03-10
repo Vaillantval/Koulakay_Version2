@@ -176,7 +176,7 @@
                     {% else %}
                     <div class="text-center">
                         <p class="text-brand-300 text-xs mb-1">{% trans "Prix du cours" %}</p>
-                        <span class="text-3xl font-bold text-white">{{ course.price }} HTG</span>
+                        <span class="text-3xl font-bold text-white">{{ course.price }} {{ site_currency }}</span>
                         <p class="text-gold-400 text-xs mt-1 font-medium">{% trans "Accès à vie inclus" %}</p>
                     </div>
                     {% endif %}
@@ -282,7 +282,7 @@
             {% if course.price is None or course.price == 0 %}
             <span class="font-bold text-green-600">{% trans "Gratuit" %}</span>
             {% else %}
-            <span class="font-bold text-brand-800">{{ course.price }} HTG</span>
+            <span class="font-bold text-brand-800">{{ course.price }} {{ site_currency }}</span>
             {% endif %}
         </div>
 

@@ -2,4 +2,8 @@ from .models import SiteConfig
 
 
 def site_config(request):
-    return {"site_config": SiteConfig.get()}
+    config = SiteConfig.get()
+    return {
+        "site_config": config,
+        "site_currency": config.currency,
+    }
