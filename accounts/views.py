@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import login as auth_login
 from django.contrib import messages
 from django.conf import settings
 from allauth.account.views import SignupView, LoginView
@@ -82,68 +82,14 @@ class ThinkificSignupView(SignupView):
 
 
 class ThinkificLoginView(LoginView):
-    """Vue de connexion qui vérifie les credentials dans Thinkific"""
-    
-    def form_valid(self, form):
-        email = form.cleaned_data.get('login')
-        password = form.cleaned_data.get('password')
-        
-        try:
-            # 1. Vérifier les credentials dans Thinkific
-            # Note: Thinkific n'a pas d'endpoint direct pour vérifier le password
-            # On doit vérifier si l'utilisateur existe
-            users_response = thinkific.users.list()
-            thinkific_user = None
-            
-            for user in users_response.get('items', []):
-                if user.get('email') == email:
-                    thinkific_user = user
-                    break
-            
-            if not thinkific_user:
-                messages.error(self.request, _("Email ou mot de passe incorrect."))
-                return self.form_invalid(form)
-            
-            # 2. Authentifier localement
-            # Django va vérifier le password localement
-            user = authenticate(
-                self.request,
-                username=email,  # Si vous utilisez email comme username
-                password=password
-            )
-            
-            if user is None:
-                # Essayer de récupérer l'utilisateur local
-                from django.contrib.auth import get_user_model
-                User = get_user_model()
-                try:
-                    user = User.objects.get(email=email)
-                    # Vérifier le password
-                    if not user.check_password(password):
-                        messages.error(self.request, _("Email ou mot de passe incorrect."))
-                        return self.form_invalid(form)
-                except User.DoesNotExist:
-                    messages.error(self.request, _("Compte non trouvé localement. Veuillez vous inscrire."))
-                    return self.form_invalid(form)
-            
-            # 3. Connecter l'utilisateur
-            auth_login(self.request, user)
-            
-            messages.success(self.request, _("Connexion réussie !"))
-            
-            # 4. Redirection
-            return redirect(self.get_success_url())
-            
-        except Exception as e:
-            messages.error(
-                self.request,
-                _("Une erreur s'est produite lors de la connexion.")
-            )
-            print(f"Erreur login Thinkific: {e}")
-            return self.form_invalid(form)
-    
+    """
+    Vue de connexion — délègue entièrement à allauth.
+    Allauth vérifie email + password localement via AUTHENTICATION_BACKENDS,
+    gère la session et la redirection. Pas besoin de vérifier Thinkific ici :
+    Thinkific ne peut pas valider un mot de passe via son API.
+    """
+
     def get_success_url(self):
-        """Redirige vers la page d'origine ou home"""
         next_url = self.request.GET.get('next')
         if next_url:
             return next_url

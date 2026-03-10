@@ -356,7 +356,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Nouvelle syntaxe allauth >= 65.x
 ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+ACCOUNT_SIGNUP_FIELDS = ['first_name*', 'last_name*', 'email*', 'password1*', 'password2*']
 ACCOUNT_UNIQUE_EMAIL = True
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
