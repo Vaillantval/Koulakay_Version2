@@ -384,8 +384,10 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
 SOCIALACCOUNT_LOGIN_ON_GET = True 
 ACCOUNT_LOGOUT_ON_GET = True
 
-LOGIN_REDIRECT_URL="/"
+LOGIN_REDIRECT_URL = "/"           # fallback si pas de ?next=
 LOGIN_URL = '/accounts/login/'
+# Allauth respecte automatiquement ?next= pour login et signup
+# ACCOUNT_SIGNUP_REDIRECT_URL non défini → utilise LOGIN_REDIRECT_URL comme fallback
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 

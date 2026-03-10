@@ -115,7 +115,7 @@ header, footer {
         </p>
         {% endif %}
 
-        <form method="POST" action="{% url 'account_login' %}?next={{request.path}}" class="flex flex-col gap-4">
+        <form method="POST" action="{% url 'account_login' %}" class="flex flex-col gap-4">
           {% csrf_token %}
 
           <!-- Email / Username -->

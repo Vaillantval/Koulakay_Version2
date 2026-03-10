@@ -90,10 +90,8 @@ class ThinkificLoginView(LoginView):
     """
 
     def get_success_url(self):
-        next_url = self.request.GET.get('next')
-        if next_url:
-            return next_url
-        return '/'
+        # Allauth gère déjà le ?next= correctement (GET + POST hidden field)
+        return super().get_success_url()
 
 
 # Vue alternative pour inscription directe sans allauth
@@ -189,3 +187,47 @@ def sync_thinkific_user(request):
         print(f"Erreur sync: {e}")
     
     return redirect('account_profile')
+
+
+@login_required
+def thinkific_sso(request):
+    """
+    Génère un SSO token Thinkific et redirige l'utilisateur directement
+    sur la plateforme Thinkific sans qu'il ait à se reconnecter.
+
+    Usage : /accounts/thinkific-sso/?return_to=/courses/mon-cours
+    Si return_to est absent, redirige vers le dashboard Thinkific.
+    """
+    thinkific_user_id = request.user.thinkific_user_id
+
+    if not thinkific_user_id:
+        messages.error(request, _("Votre compte n'est pas lié à Thinkific."))
+        return redirect('home')
+
+    return_to = request.GET.get('return_to', '')
+    site_id = settings.THINKIFIC['SITE_ID']
+
+    try:
+        api_url = f"https://api.thinkific.com/api/public/v1/users/{thinkific_user_id}/sso_token"
+        headers = {
+            "X-Auth-API-Key": settings.THINKIFIC['AUTH_TOKEN'],
+            "X-Auth-Subdomain": site_id,
+            "Content-Type": "application/json",
+        }
+        response = requests.post(api_url, headers=headers, json={})
+        response.raise_for_status()
+
+        token = response.json().get('token')
+        if not token:
+            raise ValueError("Token SSO absent de la réponse Thinkific")
+
+        sso_url = f"https://{site_id}.thinkific.com/api/sso?token={token}"
+        if return_to:
+            sso_url += f"&return_to={return_to}"
+
+        return redirect(sso_url)
+
+    except Exception as e:
+        print(f"Erreur SSO Thinkific: {e}")
+        messages.error(request, _("Impossible d'accéder à Thinkific. Veuillez réessayer."))
+        return redirect('home')

@@ -80,13 +80,10 @@
 
                     <!-- Bouton accès -->
                     <div class="mt-auto pt-2">
-                        <a href="{{ course.thinkific_url }}"
-                           target="_blank"
-                           rel="noopener noreferrer"
+                        <a href="{% url 'thinkific_sso' %}{% if course.slug %}?return_to=/courses/{{ course.slug }}{% endif %}"
                            class="kl-btn-cta w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold">
                             <i class="fa fa-play-circle"></i>
                             {% trans "Accéder au cours" %}
-                            <i class="fa fa-external-link-alt text-xs opacity-75"></i>
                         </a>
                     </div>
                 </div>
