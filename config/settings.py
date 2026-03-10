@@ -572,7 +572,7 @@ JAZZMIN_SETTINGS = {
 
     # ── UI ──
     "related_modal_active": True,
-    "custom_css": None,
+    "custom_css": "styles/admin_koulakay.css",
     "custom_js": None,
     "use_google_fonts_cdn": True,
     "show_ui_builder": False,
@@ -616,7 +616,7 @@ JAZZMIN_UI_TWEAKS = {
     "no_navbar_border": True,
     "navbar_fixed": True,
 
-    # Sidebar
+    # Sidebar sombre brun (surcharge via CSS custom)
     "sidebar":             "sidebar-dark-warning",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
@@ -625,8 +625,8 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
 
-    # Layout
-    "theme":    "cyborg",
+    # Layout — thème clair comme base (le CSS custom applique le brun par-dessus)
+    "theme":    "flatly",
     "dark_mode_theme": None,
 
     # Boutons
