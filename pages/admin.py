@@ -1,6 +1,27 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from .models import SiteConfig
+from .models import SiteConfig, HeroSlide
+
+
+@admin.register(HeroSlide)
+class HeroSlideAdmin(admin.ModelAdmin):
+    list_display = ("order", "title", "is_active", "image_preview")
+    list_display_links = ("title",)
+    list_editable = ("order", "is_active")
+    list_per_page = 20
+    ordering = ("order",)
+
+    fields = ("title", "subtitle", "image", "cta_label", "cta_url", "order", "is_active")
+
+    def image_preview(self, obj):
+        if obj.image:
+            from django.utils.html import format_html
+            return format_html(
+                '<img src="{}" style="height:48px;border-radius:6px;object-fit:cover;" />',
+                obj.image.url,
+            )
+        return "—"
+    image_preview.short_description = _("Aperçu")
 
 
 @admin.register(SiteConfig)

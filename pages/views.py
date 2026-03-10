@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
+from .models import HeroSlide
 
 
 def home(request):
-    return render(request, 'pages/home.html')
+    hero_slides = list(HeroSlide.objects.filter(is_active=True).order_by("order"))
+    return render(request, 'pages/home.html', {"hero_slides": hero_slides})
 
 
 def contact(request):

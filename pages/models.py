@@ -2,6 +2,42 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+class HeroSlide(models.Model):
+    """
+    Slide du carousel hero sur la page d'accueil.
+    Gérable depuis l'admin Django.
+    """
+    title = models.CharField(_("Titre"), max_length=120)
+    subtitle = models.CharField(_("Sous-titre"), max_length=255, blank=True)
+    image = models.ImageField(
+        _("Image"),
+        upload_to="hero_slides/",
+        help_text=_("Recommandé : 1920×800 px minimum"),
+    )
+    cta_label = models.CharField(
+        _("Texte du bouton CTA"),
+        max_length=60,
+        blank=True,
+        default="Explorer les cours",
+    )
+    cta_url = models.CharField(
+        _("URL du bouton CTA"),
+        max_length=200,
+        blank=True,
+        default="/fr/courses/courses/",
+    )
+    order = models.PositiveSmallIntegerField(_("Ordre d'affichage"), default=0)
+    is_active = models.BooleanField(_("Actif"), default=True)
+
+    class Meta:
+        verbose_name = _("Slide hero")
+        verbose_name_plural = _("Slides hero")
+        ordering = ["order"]
+
+    def __str__(self):
+        return f"[{self.order}] {self.title}"
+
+
 class SiteConfig(models.Model):
     """
     Configuration globale du site — une seule instance (singleton).

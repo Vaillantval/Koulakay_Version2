@@ -31,10 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False") == "True"
-
-if DEBUG == "False":
-    DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes")
 
 PRODUCTION = os.environ.get("PRODUCTION",False)
 
@@ -74,6 +71,7 @@ if _extra_origins:
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -433,14 +431,26 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-    },
-}
+if DEBUG:
+    # En développement : storage standard (pas besoin de collectstatic)
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    # En production : whitenoise compresse et hache les fichiers
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
 
 STATICFILES_DIRS = [
     BASE_DIR / "config" / "static",
@@ -499,3 +509,134 @@ else:
 if DEBUG:
     INSTALLED_APPS += ['django_browser_reload']
     MIDDLEWARE += ['django_browser_reload.middleware.BrowserReloadMiddleware']
+
+# ─────────────────────────────────────────────
+# JAZZMIN — Admin KouLakay
+# ─────────────────────────────────────────────
+JAZZMIN_SETTINGS = {
+    # Titre affiché dans la barre du navigateur
+    "site_title": "KouLakay Admin",
+    "site_header": "KouLakay",
+    "site_brand": "KouLakay",
+
+    # Logo (chemin relatif à STATIC_URL)
+    "site_logo": "logo/koulakay.png",
+    "login_logo": "logo/koulakay.png",
+    "site_logo_classes": "img-circle elevation-3",
+    "site_icon": "logo/koulaka.png",
+
+    # Texte de bienvenue sur la page de login
+    "welcome_sign": "Administration KouLakay",
+
+    # Copyright
+    "copyright": "KouLakay — Plateforme éducative haïtienne",
+
+    # Recherche globale dans les modèles
+    "search_model": ["accounts.CustomUser", "courses.Enrollment", "payment.Transaction"],
+
+    # Champ utilisateur dans la navbar
+    "user_avatar": None,
+
+    # ── Topbar ──
+    "topmenu_links": [
+        {"name": "Accueil", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Voir le site", "url": "/fr/", "new_window": True},
+        {"model": "accounts.CustomUser"},
+    ],
+
+    # ── Sidebar ──
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+
+    # Icônes par app/modèle (Material Design Icons via FontAwesome)
+    "icons": {
+        "auth":                          "fas fa-users-cog",
+        "auth.user":                     "fas fa-user",
+        "auth.Group":                    "fas fa-users",
+        "accounts.CustomUser":           "fas fa-user-graduate",
+        "courses.Enrollment":            "fas fa-graduation-cap",
+        "payment.Transaction":           "fas fa-money-bill-wave",
+        "payment.Payment":               "fas fa-credit-card",
+        "pages.SiteConfig":              "fas fa-cog",
+        "allauth.account.EmailAddress":  "fas fa-envelope",
+        "sites.Site":                    "fas fa-globe",
+        "socialaccount.SocialApp":       "fas fa-share-alt",
+        "socialaccount.SocialAccount":   "fas fa-id-badge",
+    },
+    "default_icon_parents": "fas fa-folder",
+    "default_icon_children": "fas fa-circle",
+
+    # ── UI ──
+    "related_modal_active": True,
+    "custom_css": None,
+    "custom_js": None,
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+
+    # Ordre des apps dans la sidebar
+    "order_with_respect_to": [
+        "pages",
+        "accounts",
+        "courses",
+        "payment",
+        "allauth",
+        "auth",
+        "sites",
+    ],
+
+    # Liens rapides dans le menu latéral
+    "custom_links": {
+        "courses": [
+            {
+                "name": "Voir les cours",
+                "url": "/fr/courses/courses/",
+                "icon": "fas fa-book-open",
+                "new_window": True,
+            }
+        ],
+    },
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+
+    # Couleurs principales — palette KouLakay brun/ambre
+    "brand_colour": "navbar-dark",
+    "accent":       "accent-warning",
+
+    # Navbar couleur sombre (brun foncé)
+    "navbar":       "navbar-dark",
+    "no_navbar_border": True,
+    "navbar_fixed": True,
+
+    # Sidebar
+    "sidebar":             "sidebar-dark-warning",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+
+    # Layout
+    "theme":    "cyborg",
+    "dark_mode_theme": None,
+
+    # Boutons
+    "button_classes": {
+        "primary":   "btn-primary",
+        "secondary": "btn-warning",
+        "info":      "btn-info",
+        "warning":   "btn-warning",
+        "danger":    "btn-danger",
+        "success":   "btn-success",
+    },
+
+    # Actions
+    "actions_sticky_top": True,
+}

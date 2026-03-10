@@ -7,80 +7,10 @@
 {% block head_title %}{% trans "Se connecter" %}{% endblock %}
 
 {% block head %}
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <style>
 body {
   font-family: 'Lexend', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-}
-
-/* Style les champs de formulaire Django pour correspondre au design */
-#id_login, #id_password {
-  display: flex;
-  width: 100%;
-  min-width: 0;
-  flex: 1 1 0%;
-  resize: none;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  color: #0d141b;
-  border: 1px solid rgb(203 213 225);
-  background-color: rgb(248 250 252);
-  height: 3.5rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  font-weight: 400;
-}
-
-.dark #id_login, .dark #id_password {
-  color: white;
-  border-color: rgb(51 65 85);
-  background-color: rgba(30 41 59 / 0.5);
-}
-
-#id_login:focus, #id_password:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-  --tw-ring-color: rgba(19, 127, 236, 0.5);
-  border-color: #137fec;
-}
-
-#id_login::placeholder, #id_password::placeholder {
-  color: #4c739a;
-}
-
-.dark #id_login::placeholder, .dark #id_password::placeholder {
-  color: rgb(100 116 139);
-}
-
-#id_remember {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 0.25rem;
-  border: 1px solid rgb(203 213 225);
-  background-color: white;
-  cursor: pointer;
-}
-
-.dark #id_remember {
-  border-color: rgb(51 65 85);
-  background-color: rgb(30 41 59);
-}
-
-#id_remember:checked {
-  background-color: #137fec;
-  border-color: #137fec;
+  background: #FBF7F4;
 }
 
 /* Cache le header et footer de base.html */
@@ -88,108 +18,176 @@ header, footer {
   display: none !important;
 }
 
-/* Assure que le contenu prend toute la hauteur */
-.super_container {
-  min-height: 100vh;
+.super_container { min-height: 100vh; }
+
+.hero-bg {
+  background: linear-gradient(rgba(30,10,0,0.55), rgba(20,6,0,0.72)),
+              url("{% static 'images/slider_1.JPG' %}");
+  background-size: cover;
+  background-position: center;
+}
+
+.kl-btn {
+  background: linear-gradient(135deg, #C4853A, #7C3D0E);
+  transition: opacity 0.2s;
+}
+.kl-btn:hover { opacity: 0.88; }
+
+/* Champs Django */
+#id_login, #id_password {
+  display: block;
+  width: 100%;
+  height: 3rem;
+  padding: 0 1rem 0 3rem;
+  font-size: 0.95rem;
+  font-family: 'Lexend', sans-serif;
+  color: #3D1C04;
+  background-color: #FBF7F4;
+  border: 1px solid #CFA472;
+  border-radius: 0.75rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#id_login:focus, #id_password:focus {
+  border-color: #7C3D0E;
+  box-shadow: 0 0 0 3px rgba(124,61,14,0.18);
+}
+#id_login::placeholder, #id_password::placeholder { color: #A0663B; }
+
+#id_password { padding-right: 3rem; }
+
+#id_remember {
+  width: 1rem; height: 1rem;
+  accent-color: #7C3D0E;
+  cursor: pointer;
 }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="relative flex min-h-screen w-full flex-col items-center justify-center bg-cover bg-center bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUXYZbI7w9sdruoUX4Wer2wvz2O604pNsISw1zHc-vVVGetvz5PRu-CXWEeNBchElPafZ75H-n8rPv_IdVCXxfeti4dE-xbFQprEmpyEkfiWl3RQiAYfnKBumZZjGi-MiShgSYi9f2vv0ur7nKumFWhwQUgJIO5IVLZHP_n8DxczU_Xd_lFP461dDazogC53JX2ky6NeC9lucv_1TGWy9Sre-X9biH4Oa6vS_pkdVpOVMlS2NQv65oX-zZ1W_ak82stiw7CzxBbjI');">
-  <div class="absolute inset-0 bg-background-light/80 dark:bg-background-dark/90 backdrop-blur-sm"></div>
-  <div class="relative flex w-full max-w-md flex-col items-center justify-center p-4 sm:p-6">
-    <div class="w-full rounded-xl border border-slate-200/50 dark:border-slate-800 bg-white/70 dark:bg-background-dark/80 p-6 shadow-2xl shadow-slate-300/10 dark:shadow-black/20 backdrop-blur-lg sm:p-8">
-      <div class="flex flex-col items-center gap-4">
-        <div class="flex items-center justify-center gap-2">
-          <span class="material-symbols-outlined text-primary text-4xl">school</span>
-          <span class="text-3xl font-bold text-[#0d141b] dark:text-white">KouLakay</span>
-        </div>
-        <div class="text-center">
-          <h1 class="text-[#0d141b] dark:text-white tracking-light text-[32px] font-bold leading-tight pt-2">{% trans "Bienvenue" %}</h1>
-          <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-normal pt-1">{% trans "Connectez-vous pour commencer à apprendre." %}</p>
-        </div>
+<div class="flex min-h-screen w-full">
+
+  <!-- ── Panneau gauche — branding ── -->
+  <div class="hero-bg hidden lg:flex lg:w-1/2 flex-col items-center justify-center p-12 text-white">
+    <a href="{% url 'home' %}" class="flex flex-col items-center gap-4 mb-10">
+      <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-20 w-auto drop-shadow-lg">
+    </a>
+    <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-2">
+      {% trans "Plateforme éducative haïtienne" %}
+    </p>
+    <h2 class="text-3xl md:text-4xl font-bold text-center leading-tight mb-4">
+      {% trans "Débloquez votre" %}<br>
+      <span class="text-yellow-400">{% trans "Potentiel" %}</span>
+    </h2>
+    <p class="text-gray-300 text-center max-w-xs">
+      {% trans "Apprenez à votre rythme avec des certifications reconnues." %}
+    </p>
+  </div>
+
+  <!-- ── Panneau droit — formulaire ── -->
+  <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10" style="background:#FBF7F4;">
+    <div class="w-full max-w-md">
+
+      <!-- Logo mobile -->
+      <div class="flex justify-center mb-8 lg:hidden">
+        <a href="{% url 'home' %}">
+          <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-14 w-auto">
+        </a>
       </div>
 
-      {% get_providers as socialaccount_providers %}
+      <div class="bg-white rounded-2xl shadow-md border border-brand-200 p-8">
+        <h1 class="text-2xl font-bold text-brand-800 mb-1">{% trans "Bienvenue" %}</h1>
+        <p class="text-brand-500 text-sm mb-6">{% trans "Connectez-vous pour continuer à apprendre." %}</p>
 
-      {% if socialaccount_providers %}
-      <p class="text-sm text-slate-600 dark:text-slate-400 mt-6 text-center">
-        {% blocktrans with site.name as site_name %}
-        Veuillez vous connecter avec l'un de vos comptes tiers existants. Ou, <a style="color: #137fec; font-weight: 600;" href="{{ signup_url }}">inscrivez-vous</a> pour un compte {{ site_name }} et connectez-vous ci-dessous:
-        {% endblocktrans %}
-      </p>
-      {% else %}
-      <p class="text-sm text-slate-600 dark:text-slate-400 mt-6 text-center">
-        {% blocktrans %}
-        Si vous n'avez pas encore créé de compte, veuillez <a style="color: #137fec; font-weight: 600;" href="{{ signup_url }}">vous inscrire</a> d'abord.
-        {% endblocktrans %}
-      </p>
-      {% endif %}
+        {% get_providers as socialaccount_providers %}
 
-      <form class="mt-8 flex flex-col gap-5" method="POST" action="{% url 'account_login' %}?next={{request.path}}">
-        {% csrf_token %}
-        
-        <div class="flex flex-col">
-          <label class="text-[#0d141b] dark:text-slate-200 text-base font-medium leading-normal pb-2" for="{{ form.login.id_for_label }}">
-            {% trans "Email ou nom d'utilisateur" %}
-          </label>
-          <div class="relative flex w-full items-center">
-            <span class="material-symbols-outlined absolute left-4 text-slate-400 dark:text-slate-500">person</span>
-            {{ form.login }}
+        {% if socialaccount_providers %}
+        <p class="text-xs text-brand-500 mb-5 text-center">
+          {% blocktrans with site.name as site_name %}
+          Connectez-vous avec un compte tiers ou <a style="color:#7C3D0E;font-weight:600;" href="{{ signup_url }}">créez un compte {{ site_name }}</a>.
+          {% endblocktrans %}
+        </p>
+        {% else %}
+        <p class="text-xs text-brand-500 mb-5">
+          {% blocktrans %}
+          Pas encore de compte ? <a style="color:#7C3D0E;font-weight:600;" href="{{ signup_url }}">Inscrivez-vous</a> d'abord.
+          {% endblocktrans %}
+        </p>
+        {% endif %}
+
+        <form method="POST" action="{% url 'account_login' %}?next={{request.path}}" class="flex flex-col gap-4">
+          {% csrf_token %}
+
+          <!-- Email / Username -->
+          <div>
+            <label class="block text-sm font-medium text-brand-700 mb-1" for="{{ form.login.id_for_label }}">
+              {% trans "Email ou nom d'utilisateur" %}
+            </label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-brand-400 text-xl pointer-events-none">person</span>
+              {{ form.login }}
+            </div>
+            {% if form.login.errors %}
+              <p class="text-red-600 text-xs mt-1">{{ form.login.errors.0 }}</p>
+            {% endif %}
           </div>
-          {% if form.login.errors %}
-            <p class="text-red-500 text-sm mt-1">{{ form.login.errors.0 }}</p>
-          {% endif %}
-        </div>
 
-        <div class="flex flex-col">
-          <label class="text-[#0d141b] dark:text-slate-200 text-base font-medium leading-normal pb-2" for="{{ form.password.id_for_label }}">
-            {% trans "Mot de passe" %}
-          </label>
-          <div class="relative flex w-full items-center">
-            <span class="material-symbols-outlined absolute left-4 text-slate-400 dark:text-slate-500">lock</span>
-            {{ form.password }}
-            <button class="absolute right-0 flex h-full w-12 items-center justify-center text-slate-400 dark:text-slate-500 hover:text-primary dark:hover:text-primary" type="button" onclick="togglePassword()">
-              <span class="material-symbols-outlined" id="password-icon">visibility</span>
-            </button>
+          <!-- Mot de passe -->
+          <div>
+            <label class="block text-sm font-medium text-brand-700 mb-1" for="{{ form.password.id_for_label }}">
+              {% trans "Mot de passe" %}
+            </label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-brand-400 text-xl pointer-events-none">lock</span>
+              {{ form.password }}
+              <button type="button" onclick="togglePassword()"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-400 hover:text-brand-700">
+                <span class="material-symbols-outlined text-xl" id="password-icon">visibility</span>
+              </button>
+            </div>
+            {% if form.password.errors %}
+              <p class="text-red-600 text-xs mt-1">{{ form.password.errors.0 }}</p>
+            {% endif %}
           </div>
-          {% if form.password.errors %}
-            <p class="text-red-500 text-sm mt-1">{{ form.password.errors.0 }}</p>
-          {% endif %}
-        </div>
 
-        {% if form.non_field_errors %}
-          <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg text-sm">
+          {% if form.non_field_errors %}
+          <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
             {{ form.non_field_errors.0 }}
           </div>
-        {% endif %}
+          {% endif %}
 
-        <div class="flex items-center justify-end">
-          <a class="text-primary hover:text-primary/80 text-sm font-normal leading-normal underline" href="{% url 'account_reset_password' %}">
-            {% trans "Mot de passe oublié ?" %}
-          </a>
+          <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center gap-2 text-brand-600 cursor-pointer">
+              {{ form.remember }}
+              {% trans "Se souvenir de moi" %}
+            </label>
+            <a class="text-brand-600 hover:text-brand-800 font-medium underline underline-offset-2"
+               href="{% url 'account_reset_password' %}">
+              {% trans "Mot de passe oublié ?" %}
+            </a>
+          </div>
+
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+
+          <button type="submit"
+            class="kl-btn w-full h-12 rounded-xl text-white font-bold text-sm shadow-md mt-1">
+            {% trans "Se connecter" %}
+          </button>
+        </form>
+
+        <!-- Social providers -->
+        {% if socialaccount_providers %}
+        <div class="my-6 flex items-center gap-3">
+          <span class="flex-1 h-px bg-brand-200"></span>
+          <span class="text-xs text-brand-400">{% trans "ou continuer avec" %}</span>
+          <span class="flex-1 h-px bg-brand-200"></span>
         </div>
-
-        {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-
-        <button class="flex h-14 w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-6 text-base font-semibold leading-normal text-white shadow-sm shadow-primary/20 transition-all duration-200 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50" type="submit">
-          {% trans "Se connecter" %}
-        </button>
-      </form>
-
-      {% if socialaccount_providers %}
-      <div class="my-6 flex items-center justify-center">
-        <span class="h-px flex-1 bg-slate-300 dark:bg-slate-700"></span>
-        <span class="px-4 text-sm text-slate-500 dark:text-slate-400">{% trans "ou continuer avec" %}</span>
-        <span class="h-px flex-1 bg-slate-300 dark:bg-slate-700"></span>
-      </div>
-      
-      <div class="grid grid-cols-2 gap-4">
-        {% for provider in socialaccount_providers %}
-          <a href="{% provider_login_url provider.id process='login' %}" class="flex h-12 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/50 text-[#0d141b] dark:text-slate-200 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+        <div class="grid grid-cols-2 gap-3">
+          {% for provider in socialaccount_providers %}
+          <a href="{% provider_login_url provider.id process='login' %}"
+             class="flex h-11 items-center justify-center gap-2 rounded-xl border border-brand-200 bg-white text-brand-700 text-sm font-medium hover:bg-brand-50 transition">
             {% if provider.id == "google" %}
               <svg class="h-5 w-5" viewBox="0 0 48 48">
                 <path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" fill="#FFC107"/>
@@ -197,44 +195,41 @@ header, footer {
                 <path d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.657-3.356-11.303-7.962l-6.571,4.819C9.656,39.663,16.318,44,24,44z" fill="#4CAF50"/>
                 <path d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571l6.19,5.238C42.012,36.494,44,30.638,44,24C44,22.659,43.862,21.35,43.611,20.083z" fill="#1976D2"/>
               </svg>
-              <span class="text-sm font-medium">Google</span>
+              Google
             {% elif provider.id == "linkedin" or provider.id == "linkedin_oauth2" %}
               <svg class="h-5 w-5" viewBox="0 0 24 24">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" fill="#0077B5"/>
               </svg>
-              <span class="text-sm font-medium">LinkedIn</span>
+              LinkedIn
             {% else %}
-              <span class="text-sm font-medium">{{ provider.name }}</span>
+              {{ provider.name }}
             {% endif %}
           </a>
-        {% endfor %}
-      </div>
-      {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
 
-      {% include "socialaccount/snippets/login_extra.html" %}
+        {% include "socialaccount/snippets/login_extra.html" %}
 
-      <div class="mt-8 text-center">
-        <p class="text-sm text-slate-600 dark:text-slate-400">
-          {% trans "Vous n'avez pas de compte ?" %} 
-          <a class="font-semibold text-primary hover:text-primary/80" href="{% url 'account_signup' %}">{% trans "Inscrivez-vous" %}</a>
+        <p class="mt-6 text-center text-sm text-brand-500">
+          {% trans "Pas encore de compte ?" %}
+          <a class="font-semibold text-brand-700 hover:text-brand-900" href="{% url 'account_signup' %}">
+            {% trans "Inscrivez-vous" %}
+          </a>
         </p>
       </div>
+
     </div>
   </div>
+
 </div>
 
 <script>
-  function togglePassword() {
-    const passwordField = document.getElementById('id_password');
-    const passwordIcon = document.getElementById('password-icon');
-    
-    if (passwordField.type === 'password') {
-      passwordField.type = 'text';
-      passwordIcon.textContent = 'visibility_off';
-    } else {
-      passwordField.type = 'password';
-      passwordIcon.textContent = 'visibility';
-    }
-  }
+function togglePassword() {
+  const f = document.getElementById('id_password');
+  const i = document.getElementById('password-icon');
+  if (f.type === 'password') { f.type = 'text'; i.textContent = 'visibility_off'; }
+  else { f.type = 'password'; i.textContent = 'visibility'; }
+}
 </script>
 {% endblock %}

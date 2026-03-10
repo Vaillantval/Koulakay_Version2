@@ -300,44 +300,64 @@ def home(request):
     top_course_ids_queryset = Enrollment.objects.values('course_id') \
                                              .annotate(num_enrollments=Count('course_id')) \
                                              .order_by('-num_enrollments')[:6]
-    
+
     top_course_ids = [item['course_id'] for item in top_course_ids_queryset]
-    
+
     # Récupérer les détails des produits
     try:
         product_response = thinkific.products.list()
         product_items = product_response.get('items', [])
     except Exception:
         product_items = []
-    
-    # Obtenir les détails de chaque cours populaire
-    for course_id in top_course_ids:
-        try:
-            course_data = thinkific.courses.retrieve_course(id=course_id)
-            enroll_count = next((item['num_enrollments'] for item in top_course_ids_queryset if item['course_id'] == course_id), 0)
-            course_data['enrollment_count'] = enroll_count
-            
-            # Ajouter le prix
-            course_data['price'] = None
-            product_id = course_data.get('product_id')
-            if product_id is not None:
+
+    if top_course_ids:
+        # Cas normal : on a des inscriptions → cours les plus populaires
+        for course_id in top_course_ids:
+            try:
+                course_data = thinkific.courses.retrieve_course(id=course_id)
+                enroll_count = next((item['num_enrollments'] for item in top_course_ids_queryset if item['course_id'] == course_id), 0)
+                course_data['enrollment_count'] = enroll_count
+
+                course_data['price'] = None
                 for p in product_items:
                     if p.get('productable_id') == course_id and p.get('price') is not None:
                         course_data['price'] = p['price']
                         break
-            
-            # Vérifier l'inscription
-            course_data['enroll'] = False
-            if request.user.is_authenticated:
-                course_data['enroll'] = Enrollment.objects.filter(
-                    user=request.user, 
-                    course_id=course_id
-                ).exists()
-            
-            popular_courses.append(course_data)
+
+                course_data['enroll'] = False
+                if request.user.is_authenticated:
+                    course_data['enroll'] = Enrollment.objects.filter(
+                        user=request.user, course_id=course_id
+                    ).exists()
+
+                popular_courses.append(course_data)
+            except Exception as e:
+                print(f"Erreur lors de la récupération du cours populaire {course_id}: {e}")
+                continue
+    else:
+        # Fallback : aucune inscription encore → afficher les 6 premiers cours de Thinkific
+        try:
+            fallback_response = thinkific.courses.list(limit=6)
+            fallback_items = fallback_response.get('items', [])
+            for course_data in fallback_items:
+                course_id = course_data.get('id')
+                course_data['enrollment_count'] = 0
+
+                course_data['price'] = None
+                for p in product_items:
+                    if p.get('productable_id') == course_id and p.get('price') is not None:
+                        course_data['price'] = p['price']
+                        break
+
+                course_data['enroll'] = False
+                if request.user.is_authenticated:
+                    course_data['enroll'] = Enrollment.objects.filter(
+                        user=request.user, course_id=course_id
+                    ).exists()
+
+                popular_courses.append(course_data)
         except Exception as e:
-            print(f"Erreur lors de la récupération du cours populaire {course_id}: {e}")
-            continue
+            print(f"Erreur lors de la récupération des cours fallback: {e}")
     
     return render(request, 'pages/home.html', {
         'stats': stats,
