@@ -6,28 +6,27 @@ from .models import User
 
 from import_export.admin import ImportExportModelAdmin
 
-class CustomUserAdmin(ImportExportModelAdmin,UserAdmin):
+class CustomUserAdmin(ImportExportModelAdmin, UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User
-    list_display = ("email", "is_staff", "is_active",)
-    list_filter = ("email", "is_staff", "is_active",)
+    list_display = ("email", "first_name", "last_name", "thinkific_user_id", "is_staff", "is_active")
+    list_filter = ("is_staff", "is_active")
     fieldsets = (
-        (None, {"fields": ("first_name", "last_name")}),
-        (None, {"fields": ("email", "password")}),
+        ("Identité", {"fields": ("first_name", "last_name", "email", "password")}),
+        ("Thinkific", {"fields": ("thinkific_user_id",)}),
         ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
     )
     add_fieldsets = (
-        (None, {"fields": ("first_name", "last_name")}),
-        (None, {
+        ("Identité", {
             "classes": ("wide",),
-            "fields": (
-                "email", "password1", "password2", "is_staff",
-                "is_active", "groups", "user_permissions"
-            )}
-        ),
+            "fields": ("first_name", "last_name", "email", "password1", "password2"),
+        }),
+        ("Permissions", {
+            "fields": ("is_staff", "is_active"),
+        }),
     )
-    search_fields = ("email",)
+    search_fields = ("email", "first_name", "last_name")
     ordering = ("email",)
 
 

@@ -10,14 +10,14 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("email",)
+        fields = ("first_name", "last_name", "email")
 
 
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ("email",)
+        fields = ("first_name", "last_name", "email", "thinkific_user_id")
 
 class CustomSignupForm(SignupForm):
     first_name = d_forms.CharField(required=True)
