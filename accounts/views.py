@@ -164,33 +164,49 @@ class DirectThinkificSignupView(View):
             return render(request, 'account/signup_direct.html')
 
 
+def get_thinkific_user_by_email(email: str):
+    """
+    Cherche un utilisateur dans Thinkific par email.
+    Retourne le dict utilisateur ou None.
+    """
+    try:
+        result = thinkific.users.list(query=email)
+        for u in result.get('items', []):
+            if u.get('email', '').lower() == email.lower():
+                return u
+    except Exception as e:
+        print(f"Erreur recherche Thinkific par email ({email}): {e}")
+    return None
+
+
 @login_required
 def sync_thinkific_user(request):
     """Synchronise l'utilisateur local avec Thinkific"""
     try:
-        # Récupérer l'utilisateur dans Thinkific
-        users_response = thinkific.users.list()
-        thinkific_user = None
-        
-        for user in users_response.get('items', []):
-            if user.get('email') == request.user.email:
-                thinkific_user = user
-                break
-        
+        thinkific_user = get_thinkific_user_by_email(request.user.email)
+
         if thinkific_user:
-            # Mettre à jour les informations locales si nécessaire
-            request.user.first_name = thinkific_user.get('first_name', request.user.first_name)
-            request.user.last_name = thinkific_user.get('last_name', request.user.last_name)
-            request.user.save()
-            
+            update_fields = []
+            if thinkific_user.get('first_name'):
+                request.user.first_name = thinkific_user['first_name']
+                update_fields.append('first_name')
+            if thinkific_user.get('last_name'):
+                request.user.last_name = thinkific_user['last_name']
+                update_fields.append('last_name')
+            if thinkific_user.get('id') and not request.user.thinkific_user_id:
+                request.user.thinkific_user_id = thinkific_user['id']
+                update_fields.append('thinkific_user_id')
+            if update_fields:
+                request.user.save(update_fields=update_fields)
+
             messages.success(request, _("Profil synchronisé avec Thinkific."))
         else:
             messages.warning(request, _("Utilisateur non trouvé dans Thinkific."))
-        
+
     except Exception as e:
         messages.error(request, _("Erreur lors de la synchronisation."))
         print(f"Erreur sync: {e}")
-    
+
     return redirect('account_profile')
 
 

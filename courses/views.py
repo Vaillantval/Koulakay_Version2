@@ -46,15 +46,13 @@ def course_enrollment_step1(request, course_id):
         # Trouver l'ID Thinkific de l'utilisateur (champ local en priorité)
         thinkific_user_id = request.user.thinkific_user_id
         if not thinkific_user_id:
-            # Fallback : chercher par email sur l'API
-            user_list = thinkific.users.list().get('items', [])
-            for u in user_list:
-                if u.get('email') == request.user.email:
-                    thinkific_user_id = u.get('id')
-                    # Sauvegarder pour éviter ce fallback à l'avenir
-                    request.user.thinkific_user_id = thinkific_user_id
-                    request.user.save(update_fields=['thinkific_user_id'])
-                    break
+            # Fallback : chercher par email dans Thinkific
+            from accounts.views import get_thinkific_user_by_email
+            thinkific_user = get_thinkific_user_by_email(request.user.email)
+            if thinkific_user:
+                thinkific_user_id = thinkific_user.get('id')
+                request.user.thinkific_user_id = thinkific_user_id
+                request.user.save(update_fields=['thinkific_user_id'])
 
         if not thinkific_user_id:
             messages.error(request, _("Impossible de trouver votre profil Thinkific."))
