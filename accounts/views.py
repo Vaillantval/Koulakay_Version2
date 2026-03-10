@@ -39,7 +39,7 @@ class ThinkificSignupView(SignupView):
             except requests.exceptions.HTTPError as e:
                 # 422 = utilisateur déjà existant dans Thinkific → on récupère son ID
                 if e.response is not None and e.response.status_code == 422:
-                    existing = thinkific.users.list(query=email)
+                    existing = thinkific.users.list(email=email)
                     for u in existing.get('items', []):
                         if u.get('email', '').lower() == email.lower():
                             thinkific_user_id = u.get('id')
@@ -170,7 +170,7 @@ def get_thinkific_user_by_email(email: str):
     Retourne le dict utilisateur ou None.
     """
     try:
-        result = thinkific.users.list(query=email)
+        result = thinkific.users.list(email=email)
         for u in result.get('items', []):
             if u.get('email', '').lower() == email.lower():
                 return u

@@ -534,7 +534,7 @@ JAZZMIN_SETTINGS = {
     "copyright": "KouLakay — Plateforme éducative haïtienne",
 
     # Recherche globale dans les modèles
-    "search_model": ["accounts.CustomUser", "courses.Enrollment", "payment.Transaction"],
+    "search_model": ["accounts.User", "courses.Enrollment", "payment.Transaction"],
 
     # Champ utilisateur dans la navbar
     "user_avatar": None,
@@ -557,7 +557,7 @@ JAZZMIN_SETTINGS = {
         "auth":                          "fas fa-users-cog",
         "auth.user":                     "fas fa-user",
         "auth.Group":                    "fas fa-users",
-        "accounts.CustomUser":           "fas fa-user-graduate",
+        "accounts.User":           "fas fa-user-graduate",
         "courses.Enrollment":            "fas fa-graduation-cap",
         "payment.Transaction":           "fas fa-money-bill-wave",
         "payment.Payment":               "fas fa-credit-card",
