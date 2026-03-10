@@ -543,7 +543,7 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
         {"name": "Accueil", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"name": "Voir le site", "url": "/fr/", "new_window": True},
-        {"model": "accounts.CustomUser"},
+        {"name": "Utilisateurs", "url": "admin:accounts_customuser_changelist", "permissions": ["accounts.view_customuser"]},
     ],
 
     # ── Sidebar ──
@@ -627,7 +627,7 @@ JAZZMIN_UI_TWEAKS = {
 
     # Layout — thème clair comme base (le CSS custom applique le brun par-dessus)
     "theme":    "flatly",
-    "dark_mode_theme": None,
+    "default_theme_mode": "light",
 
     # Boutons
     "button_classes": {
