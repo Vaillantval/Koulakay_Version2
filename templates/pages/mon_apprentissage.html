@@ -52,8 +52,8 @@
                         </span>
                     </div>
                     {% endif %}
-                    <!-- Badge progression -->
-                    {% if course.percentage_completed %}
+                    <!-- Badge progression (non vide) -->
+                    {% if course.percentage_completed and course.percentage_completed > 0 %}
                     <div class="absolute bottom-2 left-2">
                         <span class="text-xs bg-brand-800/80 text-white px-2 py-0.5 rounded-full font-medium backdrop-blur-sm">
                             {{ course.percentage_completed }}% {% trans "complété" %}
@@ -68,11 +68,21 @@
                         {{ course.name }}
                     </h2>
 
+                    {% if course.description %}
+                    <p class="text-xs text-brand-400 line-clamp-2">{{ course.description }}</p>
+                    {% endif %}
+
                     <!-- Barre de progression -->
                     {% if course.percentage_completed %}
-                    <div class="w-full bg-brand-100 rounded-full h-1.5">
-                        <div class="bg-brand-600 h-1.5 rounded-full transition-all"
-                             style="width: {{ course.percentage_completed }}%"></div>
+                    <div>
+                        <div class="flex justify-between text-xs text-brand-400 mb-1">
+                            <span>{% trans "Progression" %}</span>
+                            <span>{{ course.percentage_completed }}%</span>
+                        </div>
+                        <div class="w-full bg-brand-100 rounded-full h-1.5">
+                            <div class="bg-brand-600 h-1.5 rounded-full transition-all"
+                                 style="width: {{ course.percentage_completed }}%"></div>
+                        </div>
                     </div>
                     {% endif %}
 

@@ -298,7 +298,7 @@ def mon_apprentissage(request):
     site_id = settings.THINKIFIC['SITE_ID']
     cours_inscrits = []
 
-    # ── Tentative : 1 seul appel API Thinkific ──
+    # ── Tentative : 1 seul appel API Thinkific (enrollments) ──
     if thinkific_user_id:
         try:
             response = thinkific.enrollments.list(user_id=thinkific_user_id, limit=100)
@@ -310,7 +310,8 @@ def mon_apprentissage(request):
                     'id':                   course_id,
                     'name':                 course_info.get('name', f'Cours #{course_id}'),
                     'slug':                 slug,
-                    'banner_image_url':     course_info.get('banner_image_url'),
+                    'banner_image_url':     None,   # enrichi ci-dessous
+                    'description':          '',
                     'activated_at':         item.get('activated_at'),
                     'expiry_date':          item.get('expiry_date'),
                     'percentage_completed': item.get('percentage_completed', 0),
@@ -321,6 +322,25 @@ def mon_apprentissage(request):
                 })
         except Exception as e:
             print(f"[mon_apprentissage] Erreur API Thinkific: {e}")
+
+    # ── Enrichissement : récupérer banner_image_url + description pour chaque cours ──
+    if cours_inscrits:
+        for c in cours_inscrits:
+            cid = c.get('id')
+            if not cid:
+                continue
+            try:
+                full = thinkific.courses.retrieve_course(id=cid)
+                c['banner_image_url'] = (
+                    full.get('banner_image_url') or full.get('course_card_image_url')
+                )
+                c['description'] = full.get('description', '')
+                if not c['slug']:
+                    c['slug'] = full.get('slug', '')
+                    if c['slug']:
+                        c['thinkific_url'] = f"https://{site_id}.thinkific.com/products/courses/{c['slug']}"
+            except Exception:
+                pass
 
     # ── Fallback : DB locale ──
     if not cours_inscrits:
