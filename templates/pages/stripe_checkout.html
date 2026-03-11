@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Paiement par carte" %} — KouLakay{% endblock %}
+
+{% block head %}
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+    body { background: #FBF7F4; }
+
+    .stripe-card {
+        background: #fff;
+        border: 1.5px solid #EDE8E3;
+        border-radius: 16px;
+        padding: 28px;
+    }
+
+    #payment-element {
+        margin-bottom: 20px;
+    }
+
+    #payment-message {
+        color: #DC2626;
+        font-size: 14px;
+        margin-top: 10px;
+        display: none;
+    }
+
+    .btn-pay {
+        background: linear-gradient(135deg, #7C3D0E, #A0663B);
+        color: #fff;
+        font-weight: 700;
+        border: none;
+        border-radius: 12px;
+        padding: 14px;
+        width: 100%;
+        font-size: 1rem;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-pay:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    .btn-pay:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .spinner {
+        width: 18px; height: 18px;
+        border: 2.5px solid rgba(255,255,255,0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .secure-badge {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: #F0FDF4; border: 1px solid #BBF7D0;
+        border-radius: 999px; padding: 4px 14px;
+        font-size: 12px; color: #15803D; font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-10" style="background:#FBF7F4;">
+<div class="max-w-lg mx-auto px-4">
+
+    <!-- Fil d'Ariane -->
+    <nav class="flex items-center gap-2 text-sm text-brand-500 mb-6">
+        <a href="{% url 'home' %}" class="hover:text-brand-700">{% trans "Accueil" %}</a>
+        <i class="fa fa-angle-right text-xs"></i>
+        <a href="{% url 'courses' %}" class="hover:text-brand-700">{% trans "Cours" %}</a>
+        <i class="fa fa-angle-right text-xs"></i>
+        <span class="text-brand-800 font-medium">{% trans "Paiement" %}</span>
+    </nav>
+
+    <!-- Titre -->
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-brand-900 mb-1">{% trans "Paiement par carte bancaire" %}</h1>
+        <p class="text-brand-500 text-sm">{% trans "Vos informations sont protégées par Stripe" %}</p>
+    </div>
+
+    <!-- Résumé commande -->
+    <div class="bg-white rounded-2xl border border-brand-100 shadow-sm p-5 mb-5">
+        <div class="flex items-center gap-2 mb-3">
+            <span class="material-symbols-outlined text-brand-500" style="font-size:18px;">receipt_long</span>
+            <p class="font-bold text-brand-800 text-sm">{% trans "Résumé" %}</p>
+        </div>
+        <div class="flex items-center justify-between py-3 border-y border-brand-50">
+            <span class="text-brand-700 text-sm">{{ course_name }}</span>
+            <span class="font-bold text-brand-900">{{ transaction.price }} {{ transaction.currency }}</span>
+        </div>
+        <div class="flex items-center justify-between pt-3">
+            <span class="font-bold text-brand-800 text-sm">{% trans "Total" %}</span>
+            <span class="text-xl font-bold text-brand-900">{{ transaction.price }} {{ transaction.currency }}</span>
+        </div>
+    </div>
+
+    <!-- Formulaire Stripe Elements -->
+    <div class="stripe-card mb-5">
+        <div class="flex items-center gap-3 mb-5">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
+                 style="background:linear-gradient(135deg,#635BFF,#5148EF);">
+                <span class="material-symbols-outlined text-white" style="font-size:18px;">credit_card</span>
+            </div>
+            <div>
+                <p class="font-bold text-brand-900 text-sm">{% trans "Informations de paiement" %}</p>
+                <p class="text-xs text-brand-400">Visa · Mastercard · Amex</p>
+            </div>
+        </div>
+
+        <form id="payment-form">
+            <div id="payment-element"></div>
+            <div id="payment-message"></div>
+            <button id="pay-btn" class="btn-pay mt-5" disabled>
+                <div class="spinner" id="spinner"></div>
+                <span class="material-symbols-outlined" id="btn-icon" style="font-size:17px;">lock</span>
+                <span id="btn-text">{% trans "Payer" %} {{ transaction.price }} {{ transaction.currency }}</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- Retour -->
+    <a href="{% url 'courses' %}"
+       class="flex items-center justify-center gap-2 w-full px-5 py-3 border-2 border-brand-200 text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition text-sm mb-6">
+        <i class="fa fa-arrow-left"></i>{% trans "Annuler et retourner aux cours" %}
+    </a>
+
+    <!-- Badge sécurité -->
+    <div class="text-center">
+        <div class="secure-badge mx-auto">
+            <span class="material-symbols-outlined" style="font-size:14px;">verified_user</span>
+            {% trans "Paiement SSL sécurisé · Stripe" %}
+        </div>
+    </div>
+
+</div>
+</div>
+
+<script>
+const stripe = Stripe('{{ stripe_public_key }}');
+const createIntentUrl = '{% url "payment:stripe_create_intent" %}';
+const successUrl = '{{ success_url }}';
+const csrfToken = '{{ csrf_token }}';
+
+let elements;
+
+async function initStripe() {
+    try {
+        const resp = await fetch(createIntentUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await resp.json();
+
+        if (data.error) {
+            showMessage(data.error);
+            return;
+        }
+
+        elements = stripe.elements({
+            clientSecret: data.client_secret,
+            appearance: {
+                theme: 'stripe',
+                variables: {
+                    colorPrimary: '#7C3D0E',
+                    colorBackground: '#ffffff',
+                    colorText: '#3D1C04',
+                    colorDanger: '#DC2626',
+                    fontFamily: 'system-ui, sans-serif',
+                    borderRadius: '10px',
+                },
+            },
+        });
+
+        const paymentElement = elements.create('payment');
+        paymentElement.mount('#payment-element');
+
+        paymentElement.on('ready', () => {
+            document.getElementById('pay-btn').disabled = false;
+        });
+
+    } catch (err) {
+        showMessage('{% trans "Erreur de connexion à Stripe. Veuillez réessayer." %}');
+    }
+}
+
+document.getElementById('payment-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+            return_url: successUrl,
+        },
+    });
+
+    // Si on arrive ici, c'est qu'il y a eu une erreur (Stripe redirige sinon)
+    if (error) {
+        if (error.type === 'card_error' || error.type === 'validation_error') {
+            showMessage(error.message);
+        } else {
+            showMessage('{% trans "Une erreur inattendue est survenue." %}');
+        }
+    }
+    setLoading(false);
+});
+
+function setLoading(isLoading) {
+    const btn = document.getElementById('pay-btn');
+    btn.disabled = isLoading;
+    document.getElementById('spinner').style.display = isLoading ? 'block' : 'none';
+    document.getElementById('btn-icon').style.display = isLoading ? 'none' : 'block';
+}
+
+function showMessage(msg) {
+    const el = document.getElementById('payment-message');
+    el.textContent = msg;
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 6000);
+}
+
+initStripe();
+</script>
+{% endblock %}

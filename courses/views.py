@@ -176,13 +176,10 @@ def course_enrollment_payment(request, payment_method):
         )
 
         if payment_method not in haitian_methods:
-            # Carte bancaire (Stripe via Thinkific) — rediriger vers Thinkific checkout
-            site_id = settings.THINKIFIC['SITE_ID']
-            thinkific_checkout_url = f"https://{site_id}.thinkific.com/cart/add_product?product_id={product_id}" if product_id else f"https://{site_id}.thinkific.com/products/courses/{course_id}"
-            transaction.status = Transaction.Status.CANCELLED
-            transaction.save()
+            # Carte bancaire → Stripe Elements
+            request.session['stripe_transaction_number'] = transaction.transaction_number
             del request.session['enrollment_data']
-            return redirect(thinkific_checkout_url)
+            return redirect('payment:stripe_checkout')
 
         # Appel à plopplop (méthodes haïtiennes uniquement)
         plopplop = PlopPlopService()

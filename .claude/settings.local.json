@@ -11,7 +11,10 @@
       "Bash(.venv/Scripts/pip install:*)",
       "Bash(.venv/Scripts/pip show:*)",
       "Bash(grep:*)",
-      "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates/pages -type f -name \"*.html\" 2>/dev/null | head -10)"
+      "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates/pages -type f -name \"*.html\" 2>/dev/null | head -10)",
+      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip show stripe 2>&1 | head -3)",
+      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip install stripe 2>&1 | tail -3)",
+      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip show stripe 2>&1 | grep -E \"Name|Version\")"
     ]
   }
 }

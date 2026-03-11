@@ -13,4 +13,9 @@ urlpatterns = [
 
     # Endpoint de remboursement
     path('refund/<str:transaction_number>/', views.refund_transaction, name='refund_transaction'),
+
+    # Stripe Elements
+    path('stripe/checkout/', views.stripe_checkout, name='stripe_checkout'),
+    path('stripe/create-intent/', views.stripe_create_intent, name='stripe_create_intent'),
+    path('stripe/success/', views.stripe_success, name='stripe_success'),
 ]

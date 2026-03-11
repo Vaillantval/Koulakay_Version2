@@ -157,15 +157,14 @@
                     {% endif %}
 
                     <!-- Carte -->
-                    {% if site_config.map_embed_url %}
                     <hr class="my-6 border-brand-100">
                     <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-3">{% trans "Retrouvez-nous" %}</p>
                     <div class="rounded-xl overflow-hidden">
-                        <iframe src="{{ site_config.map_embed_url }}"
+                        <iframe src="{{ site_config.map_embed_url|default:'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11013.706872402363!2d-72.3370542!3d18.5341787!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eb9dd58037b43b5%3A0xb68f48dfa28783ca!2sTransversal!5e1!3m2!1sfr!2sht!4v1773237176547!5m2!1sfr!2sht' }}"
                                 width="100%" height="220"
-                                style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                    {% endif %}
                 </div>
             </div>
 

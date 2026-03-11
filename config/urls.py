@@ -23,7 +23,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 
 from pages.views import redirect_to_default_language
-from payment.views import payment_return, confirm as thinkific_webhook
+from payment.views import payment_return, confirm as thinkific_webhook, stripe_webhook
 
 admin.autodiscover()
 
@@ -40,6 +40,8 @@ urlpatterns += [
     path('payment/retour/', payment_return, name='payment_return'),
     # Webhook Thinkific — hors i18n pour URL fixe (Thinkific ne gère pas les préfixes de langue)
     path('payment/webhook/thinkific/', thinkific_webhook, name='thinkific_webhook'),
+    # Webhook Stripe — hors i18n pour URL fixe
+    path('payment/webhook/stripe/', stripe_webhook, name='stripe_webhook'),
 ]
 
 urlpatterns += i18n_patterns(

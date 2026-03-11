@@ -491,6 +491,13 @@ PLOPPLOP = {
     'BASE_URL': 'https://plopplop.solutionip.app',
     'RETURN_URL': os.getenv('PLOPPLOP_RETURN_URL', 'https://koulakay.devfundme.online/payment/retour/'),
 }
+
+STRIPE = {
+    'PUBLIC_KEY': os.getenv('STRIPE_PUBLIC_KEY', ''),
+    'SECRET_KEY': os.getenv('STRIPE_SECRET_KEY', ''),
+    'WEBHOOK_SECRET': os.getenv('STRIPE_WEBHOOK_SECRET', ''),
+}
+
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'KouLakay <noreply@koulakay.ht>')
 SERVER_EMAIL       = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@koulakay.ht')
 

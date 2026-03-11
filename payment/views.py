@@ -2,9 +2,12 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from datetime import timedelta
 import hashlib
 import hmac
@@ -439,3 +442,164 @@ def payment_return(request):
         # Paiement en cours ou annulé
         messages.warning(request, "Votre paiement n'a pas encore été confirmé. Veuillez réessayer dans quelques instants.")
         return redirect('course_details', course_id=course_id) if course_id else redirect('courses')
+
+
+# ── Stripe Elements ────────────────────────────────────────────────────────────
+
+@login_required
+def stripe_checkout(request):
+    """Page de paiement avec Stripe Elements."""
+    transaction_number = request.session.get('stripe_transaction_number')
+    if not transaction_number:
+        messages.error(request, _("Session expirée. Veuillez recommencer."))
+        return redirect('courses')
+
+    try:
+        transaction = Transaction.objects.get(
+            transaction_number=transaction_number,
+            user=request.user,
+            status=Transaction.Status.PENDING,
+        )
+    except Transaction.DoesNotExist:
+        messages.error(request, _("Transaction introuvable."))
+        return redirect('courses')
+
+    success_url = request.build_absolute_uri(reverse('payment:stripe_success'))
+
+    return render(request, 'pages/stripe_checkout.html', {
+        'transaction': transaction,
+        'stripe_public_key': settings.STRIPE['PUBLIC_KEY'],
+        'course_name': transaction.course_name,
+        'success_url': success_url,
+    })
+
+
+@login_required
+def stripe_create_intent(request):
+    """AJAX POST — crée un PaymentIntent et retourne le client_secret."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    transaction_number = request.session.get('stripe_transaction_number')
+    if not transaction_number:
+        return JsonResponse({'error': 'Session expirée'}, status=400)
+
+    try:
+        transaction = Transaction.objects.get(
+            transaction_number=transaction_number,
+            user=request.user,
+            status=Transaction.Status.PENDING,
+        )
+    except Transaction.DoesNotExist:
+        return JsonResponse({'error': 'Transaction introuvable'}, status=404)
+
+    # Si un PaymentIntent existe déjà (rechargement de page), on le réutilise
+    if transaction.external_transaction_id and transaction.external_transaction_id.startswith('pi_'):
+        from .stripe_service import StripeService
+        stripe_svc = StripeService()
+        result = stripe_svc.retrieve_payment_intent(transaction.external_transaction_id)
+        if result['success'] and result['status'] in ('requires_payment_method', 'requires_confirmation', 'requires_action'):
+            import stripe as _stripe
+            _stripe.api_key = settings.STRIPE['SECRET_KEY']
+            intent = _stripe.PaymentIntent.retrieve(transaction.external_transaction_id)
+            return JsonResponse({'client_secret': intent.client_secret})
+
+    from .stripe_service import StripeService
+    stripe_svc = StripeService()
+    result = stripe_svc.create_payment_intent(
+        amount_usd=float(transaction.price),
+        transaction_number=transaction.transaction_number,
+        metadata={
+            'course_id': str(transaction.meta_data.get('course', {}).get('course_id', '')),
+            'user_email': request.user.email,
+        },
+    )
+
+    if result['success']:
+        transaction.external_transaction_id = result['payment_intent_id']
+        transaction.save()
+        return JsonResponse({'client_secret': result['client_secret']})
+
+    return JsonResponse({'error': result['error']}, status=500)
+
+
+@login_required
+def stripe_success(request):
+    """
+    Page de retour après confirmation Stripe.
+    Stripe ajoute ?payment_intent=pi_xxx&redirect_status=succeeded
+    """
+    payment_intent_id = request.GET.get('payment_intent')
+    redirect_status = request.GET.get('redirect_status')
+
+    if not payment_intent_id or redirect_status != 'succeeded':
+        messages.error(request, _("Paiement non confirmé."))
+        return redirect('courses')
+
+    try:
+        transaction = Transaction.objects.get(
+            external_transaction_id=payment_intent_id,
+            user=request.user,
+        )
+    except Transaction.DoesNotExist:
+        messages.error(request, _("Transaction introuvable."))
+        return redirect('courses')
+
+    if transaction.is_completed:
+        messages.info(request, _("Ce paiement a déjà été traité."))
+        return redirect('success_page')
+
+    # Vérifier côté Stripe (ne jamais faire confiance au GET seul)
+    from .stripe_service import StripeService
+    stripe_svc = StripeService()
+    result = stripe_svc.retrieve_payment_intent(payment_intent_id)
+
+    if result.get('success') and result.get('status') == 'succeeded':
+        process_successful_payment(transaction, {})
+        request.session.pop('stripe_transaction_number', None)
+        messages.success(request, _("Paiement confirmé ! Votre accès au cours est activé."))
+        return redirect('success_page')
+
+    messages.error(request, _("Le paiement n'a pas pu être confirmé. Veuillez réessayer."))
+    course_id = transaction.course_id
+    return redirect('course_details', course_id=course_id) if course_id else redirect('courses')
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    """
+    Webhook Stripe — backup pour payment_intent.succeeded.
+    URL fixe hors i18n : /payment/webhook/stripe/
+    """
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+
+    sig_header = request.headers.get('Stripe-Signature')
+    if not sig_header:
+        return JsonResponse({'error': 'Missing Stripe-Signature header'}, status=400)
+
+    from .stripe_service import StripeService
+    stripe_svc = StripeService()
+    result = stripe_svc.construct_webhook_event(request.body, sig_header)
+
+    if not result['success']:
+        return JsonResponse({'error': result['error']}, status=400)
+
+    event = result['event']
+
+    if event['type'] == 'payment_intent.succeeded':
+        payment_intent = event['data']['object']
+        transaction_number = payment_intent.get('metadata', {}).get('transaction_number')
+
+        if not transaction_number:
+            return JsonResponse({'error': 'Missing transaction_number in metadata'}, status=400)
+
+        try:
+            transaction = Transaction.objects.get(transaction_number=transaction_number)
+        except Transaction.DoesNotExist:
+            return JsonResponse({'error': 'Transaction not found'}, status=404)
+
+        if not transaction.is_completed:
+            process_successful_payment(transaction, {})
+
+    return JsonResponse({'received': True})
