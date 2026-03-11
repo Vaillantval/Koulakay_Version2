@@ -14,7 +14,15 @@
       "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates/pages -type f -name \"*.html\" 2>/dev/null | head -10)",
       "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip show stripe 2>&1 | head -3)",
       "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip install stripe 2>&1 | tail -3)",
-      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip show stripe 2>&1 | grep -E \"Name|Version\")"
+      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip show stripe 2>&1 | grep -E \"Name|Version\")",
+      "Bash(msgfmt --version 2>&1; which msgfmt 2>&1)",
+      "Bash(POFILE=\"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\\\\locale\\\\en\\\\LC_MESSAGES\\\\django.po\")",
+      "Bash(for s:*)",
+      "Bash(do)",
+      "Read(//c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/**)",
+      "Bash(echo \"EXISTS: $s\")",
+      "Bash(echo \"MISSING: $s\")",
+      "Bash(done)"
     ]
   }
 }

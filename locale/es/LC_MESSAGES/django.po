@@ -16,8 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
-"1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: accounts/managers.py:15
 msgid "The Email must be set"
@@ -119,7 +118,8 @@ msgstr "Direcciones de correo electrónico"
 #: templates/account/email.html:11
 msgid "Les adresses e-mail suivantes sont associées à votre compte :"
 msgstr ""
-"Las siguientes direcciones de correo electrónico están asociadas a su cuenta:"
+"Las siguientes direcciones de correo electrónico están asociadas a su "
+"cuenta:"
 
 #: templates/account/email.html:25
 msgid "Vérifié"
@@ -177,30 +177,24 @@ msgstr ""
 #: templates/account/email/account_already_exists_message.txt:4
 #, python-format
 msgid ""
-"You are receiving this e-mail because you or someone else tried to signup "
-"for an\n"
+"You are receiving this e-mail because you or someone else tried to signup for an\n"
 "account using e-mail address:\n"
 "\n"
 "%(email)s\n"
 "\n"
-"However, an account using that e-mail address already exists.  In case you "
-"have\n"
-"forgotten about this, please use the password forgotten procedure to "
-"recover\n"
+"However, an account using that e-mail address already exists.  In case you have\n"
+"forgotten about this, please use the password forgotten procedure to recover\n"
 "your account:\n"
 "\n"
 "%(password_reset_url)s"
 msgstr ""
-"Está recibiendo este correo electrónico porque usted u otra persona intentó "
-"registrarse\n"
+"Está recibiendo este correo electrónico porque usted u otra persona intentó registrarse\n"
 "para una cuenta usando la dirección de correo electrónico:\n"
 "\n"
 "%(email)s\n"
 "\n"
-"Sin embargo, ya existe una cuenta con esa dirección de correo electrónico. "
-"En caso de que lo\n"
-"haya olvidado, por favor use el procedimiento de recuperación de contraseña "
-"para\n"
+"Sin embargo, ya existe una cuenta con esa dirección de correo electrónico. En caso de que lo\n"
+"haya olvidado, por favor use el procedimiento de recuperación de contraseña para\n"
 "recuperar su cuenta:\n"
 "\n"
 "%(password_reset_url)s"
@@ -237,14 +231,11 @@ msgstr ""
 #: templates/account/email/email_confirmation_message.txt:5
 #, python-format
 msgid ""
-"You're receiving this e-mail because user %(user_display)s has given your e-"
-"mail address to register an account on %(site_domain)s.\n"
+"You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
 "\n"
 "To confirm this is correct, go to %(activate_url)s"
 msgstr ""
-"Está recibiendo este correo electrónico porque el usuario %(user_display)s "
-"ha proporcionado su dirección de correo electrónico para registrar una "
-"cuenta en %(site_domain)s.\n"
+"Está recibiendo este correo electrónico porque el usuario %(user_display)s ha proporcionado su dirección de correo electrónico para registrar una cuenta en %(site_domain)s.\n"
 "\n"
 "Para confirmar que esto es correcto, vaya a %(activate_url)s"
 
@@ -255,23 +246,20 @@ msgstr "Por Favor Confirme Su Dirección de Correo Electrónico"
 #: templates/account/email/password_reset_key_message.html:4
 #: templates/account/email/password_reset_key_message.txt:4
 msgid ""
-"You're receiving this e-mail because you or someone else has requested a "
-"password for your user account.\n"
-"It can be safely ignored if you did not request a password reset. Click the "
-"link below to reset your password."
+"You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
 msgstr ""
-"Está recibiendo este correo electrónico porque usted u otra persona ha "
-"solicitado una\n"
+"Está recibiendo este correo electrónico porque usted u otra persona ha solicitado una\n"
 "contraseña para su cuenta de usuario.\n"
-"Puede ignorarlo de manera segura si no solicitó un restablecimiento de "
-"contraseña. Haga clic en el\n"
+"Puede ignorarlo de manera segura si no solicitó un restablecimiento de contraseña. Haga clic en el\n"
 "enlace a continuación para restablecer su contraseña."
 
 #: templates/account/email/password_reset_key_message.html:9
 #: templates/account/email/password_reset_key_message.txt:9
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
-msgstr "En caso de que lo haya olvidado, su nombre de usuario es %(username)s."
+msgstr ""
+"En caso de que lo haya olvidado, su nombre de usuario es %(username)s."
 
 #: templates/account/email/password_reset_key_subject.txt:3
 #: templates/account/email/unknown_account_subject.txt:3
@@ -283,25 +271,20 @@ msgstr "Correo Electrónico de Restablecimiento de Contraseña"
 #, python-format
 msgid ""
 "You are receiving this e-mail because you or someone else has requested a\n"
-"password for your user account. However, we do not have any record of a "
-"user\n"
+"password for your user account. However, we do not have any record of a user\n"
 "with email %(email)s in our database.\n"
 "\n"
 "This mail can be safely ignored if you did not request a password reset.\n"
 "\n"
 "If it was you, you can sign up for an account using the link below."
 msgstr ""
-"Está recibiendo este correo electrónico porque usted u otra persona ha "
-"solicitado una\n"
-"contraseña para su cuenta de usuario. Sin embargo, no tenemos ningún "
-"registro de un\n"
+"Está recibiendo este correo electrónico porque usted u otra persona ha solicitado una\n"
+"contraseña para su cuenta de usuario. Sin embargo, no tenemos ningún registro de un\n"
 "usuario con el correo electrónico %(email)s en nuestra base de datos.\n"
 "\n"
-"Este correo puede ser ignorado de manera segura si no solicitó un "
-"restablecimiento de contraseña.\n"
+"Este correo puede ser ignorado de manera segura si no solicitó un restablecimiento de contraseña.\n"
 "\n"
-"Si fue usted, puede registrarse para una cuenta utilizando el enlace a "
-"continuación."
+"Si fue usted, puede registrarse para una cuenta utilizando el enlace a continuación."
 
 #: templates/account/email_confirm.html:6
 #: templates/account/email_confirm.html:10
@@ -327,8 +310,8 @@ msgid ""
 "This e-mail confirmation link expired or is invalid. Please <a "
 "href=\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
-"Este enlace de confirmación de correo electrónico ha expirado o es inválido. "
-"Por favor, <a href=\"%(email_url)s\">solicite una nueva confirmación de "
+"Este enlace de confirmación de correo electrónico ha expirado o es inválido."
+" Por favor, <a href=\"%(email_url)s\">solicite una nueva confirmación de "
 "correo electrónico</a>."
 
 #: templates/account/login.html:7 templates/account/login.html:11
@@ -339,12 +322,10 @@ msgstr "Iniciar sesión"
 #: templates/account/login.html:16
 #, python-format
 msgid ""
-"Veuillez vous connecter avec l'un de vos comptes tiers existants. Ou, <a "
-"style=\"color: #f15922;\" href=\"%(signup_url)s\">inscrivez-vous</a>\n"
+"Veuillez vous connecter avec l'un de vos comptes tiers existants. Ou, <a style=\"color: #f15922;\" href=\"%(signup_url)s\">inscrivez-vous</a>\n"
 "pour un compte %(site_name)s et connectez-vous ci-dessous:"
 msgstr ""
-"Por favor, inicie sesión con una de sus cuentas de terceros existentes. O, "
-"<a style=\"color: #f15922;\" href=\"%(signup_url)s\">regístrese</a>\n"
+"Por favor, inicie sesión con una de sus cuentas de terceros existentes. O, <a style=\"color: #f15922;\" href=\"%(signup_url)s\">regístrese</a>\n"
 "para una cuenta de %(site_name)s e inicie sesión abajo:"
 
 #: templates/account/login.html:25
@@ -485,11 +466,11 @@ msgstr "Token inválido"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
+"reset</a>."
 msgstr ""
-"El enlace para restablecer la contraseña es inválido, posiblemente porque ya "
-"ha sido utilizado. Por favor, solicite un <a "
+"El enlace para restablecer la contraseña es inválido, posiblemente porque ya"
+" ha sido utilizado. Por favor, solicite un <a "
 "href=\"%(passwd_reset_url)s\">nuevo restablecimiento de contraseña</a>."
 
 #: templates/account/password_reset_from_key.html:18
@@ -587,24 +568,20 @@ msgstr ""
 #: templates/account/verified_email_required.html:16
 msgid ""
 "We have sent an e-mail to you for\n"
-"verification. Please click on the link inside that e-mail. If you do not see "
-"the verification e-mail in your main inbox, check your spam folder. "
-"Otherwise\n"
+"verification. Please click on the link inside that e-mail. If you do not see the verification e-mail in your main inbox, check your spam folder. Otherwise\n"
 "contact us if you do not receive it within a few minutes."
 msgstr ""
 "Le hemos enviado un correo electrónico para\n"
-"verificación. Por favor, haga clic en el enlace dentro de ese correo. Si no "
-"ve\n"
-"el correo de verificación en su bandeja de entrada principal, revise su "
-"carpeta de spam.\n"
+"verificación. Por favor, haga clic en el enlace dentro de ese correo. Si no ve\n"
+"el correo de verificación en su bandeja de entrada principal, revise su carpeta de spam.\n"
 "De lo contrario,\n"
 "contáctenos si no lo recibe en unos minutos."
 
 #: templates/account/verified_email_required.html:20
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
-"mail address</a>."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
+"e-mail address</a>."
 msgstr ""
 "<strong>Nota:</strong> aún puede <a href=\"%(email_url)s\">cambiar su "
 "dirección de correo electrónico</a>."
@@ -621,32 +598,13 @@ msgstr "Nuestra misión"
 #: templates/pages/about.html:36
 msgid ""
 "\n"
-"                Notre mission chez KouLakay est de rendre l'éducation de "
-"qualité accessible à tous, en permettant à chacun de réaliser son plein "
-"potentiel. Nous sommes dédiés à la création d'une expérience d'apprentissage "
-"transformative en proposant des ressources éducatives engageantes, "
-"culturellement pertinentes et pratiques.\n"
-"                En combinant innovation, inclusion et collaboration, "
-"KouLakay vise à combler les lacunes éducatives, à promouvoir l'apprentissage "
-"tout au long de la vie, et à fournir aux apprenants les connaissances et les "
-"compétences nécessaires pour prospérer dans un monde en constante évolution. "
-"Par des partenariats avec des éducateurs, des institutions et des "
-"communautés, nous nous engageons à façonner un avenir où l'éducation est un "
-"droit, non un privilège.\n"
+"                Notre mission chez KouLakay est de rendre l'éducation de qualité accessible à tous, en permettant à chacun de réaliser son plein potentiel. Nous sommes dédiés à la création d'une expérience d'apprentissage transformative en proposant des ressources éducatives engageantes, culturellement pertinentes et pratiques.\n"
+"                En combinant innovation, inclusion et collaboration, KouLakay vise à combler les lacunes éducatives, à promouvoir l'apprentissage tout au long de la vie, et à fournir aux apprenants les connaissances et les compétences nécessaires pour prospérer dans un monde en constante évolution. Par des partenariats avec des éducateurs, des institutions et des communautés, nous nous engageons à façonner un avenir où l'éducation est un droit, non un privilège.\n"
 "                "
 msgstr ""
 "\n"
-"                Nuestra misión en KouLakay es hacer que la educación de "
-"calidad sea accesible para todos, permitiendo que cada persona realice su "
-"pleno potencial. Estamos dedicados a crear una experiencia de aprendizaje "
-"transformadora ofreciendo recursos educativos atractivos, culturalmente "
-"relevantes y prácticos.\n"
-"                Al combinar innovación, inclusión y colaboración, KouLakay "
-"busca llenar las brechas educativas, promover el aprendizaje a lo largo de "
-"la vida y proporcionar a los aprendices los conocimientos y habilidades "
-"necesarios para prosperar en un mundo en constante evolución. A través de "
-"asociaciones con educadores, instituciones y comunidades, nos comprometemos "
-"a moldear un futuro donde la educación sea un derecho, no un privilegio.\n"
+"                Nuestra misión en KouLakay es hacer que la educación de calidad sea accesible para todos, permitiendo que cada persona realice su pleno potencial. Estamos dedicados a crear una experiencia de aprendizaje transformadora ofreciendo recursos educativos atractivos, culturalmente relevantes y prácticos.\n"
+"                Al combinar innovación, inclusión y colaboración, KouLakay busca llenar las brechas educativas, promover el aprendizaje a lo largo de la vida y proporcionar a los aprendices los conocimientos y habilidades necesarios para prosperar en un mundo en constante evolución. A través de asociaciones con educadores, instituciones y comunidades, nos comprometemos a moldear un futuro donde la educación sea un derecho, no un privilegio.\n"
 "                "
 
 #: templates/pages/about.html:46
@@ -656,19 +614,11 @@ msgstr "Nuestra visión"
 #: templates/pages/about.html:52
 msgid ""
 "\n"
-"                Notre vision chez KouLakay est de devenir la plateforme de "
-"référence pour une éducation inclusive et accessible à travers le monde. "
-"Nous aspirons à transformer la manière d'apprendre en créant une connexion "
-"fluide entre des ressources éducatives de qualité, une technologie innovante "
-"et une communauté d'apprentissage solidaire.\n"
+"                Notre vision chez KouLakay est de devenir la plateforme de référence pour une éducation inclusive et accessible à travers le monde. Nous aspirons à transformer la manière d'apprendre en créant une connexion fluide entre des ressources éducatives de qualité, une technologie innovante et une communauté d'apprentissage solidaire.\n"
 "                "
 msgstr ""
 "\n"
-"                Nuestra visión en KouLakay es convertirnos en la plataforma "
-"de referencia para una educación inclusiva y accesible en todo el mundo. "
-"Aspiramos a transformar la manera de aprender creando una conexión fluida "
-"entre recursos educativos de calidad, tecnología innovadora y una comunidad "
-"de aprendizaje solidaria.\n"
+"                Nuestra visión en KouLakay es convertirnos en la plataforma de referencia para una educación inclusiva y accesible en todo el mundo. Aspiramos a transformar la manera de aprender creando una conexión fluida entre recursos educativos de calidad, tecnología innovadora y una comunidad de aprendizaje solidaria.\n"
 "                "
 
 #: templates/pages/about.html:65
@@ -682,8 +632,8 @@ msgid ""
 "les apprenants, les éducateurs et les communautés."
 msgstr ""
 "En KouLakay, nuestros valores fundamentales definen quiénes somos y guían "
-"todas nuestras acciones. Estos principios dan forma a nuestro compromiso con "
-"los aprendices, educadores y comunidades."
+"todas nuestras acciones. Estos principios dan forma a nuestro compromiso con"
+" los aprendices, educadores y comunidades."
 
 #: templates/pages/about.html:77
 msgid "Accessibilité"
@@ -753,8 +703,8 @@ msgid ""
 "objectifs et contribuer de manière significative à la société."
 msgstr ""
 "Nos dedicamos a equipar a las personas con los conocimientos y habilidades "
-"necesarias para liberar su potencial, alcanzar sus objetivos y contribuir de "
-"manera significativa a la sociedad."
+"necesarias para liberar su potencial, alcanzar sus objetivos y contribuir de"
+" manera significativa a la sociedad."
 
 #: templates/pages/about.html:112
 msgid "Excellence"
@@ -763,8 +713,8 @@ msgstr "Excelencia"
 #: templates/pages/about.html:113
 msgid ""
 "Notre engagement envers la qualité nous pousse à fournir des ressources et "
-"des expériences d'apprentissage exceptionnelles qui répondent aux normes les "
-"plus élevées d'intégrité éducative."
+"des expériences d'apprentissage exceptionnelles qui répondent aux normes les"
+" plus élevées d'intégrité éducative."
 msgstr ""
 "Nuestro compromiso con la calidad nos impulsa a proporcionar recursos y "
 "experiencias de aprendizaje excepcionales que cumplen con los más altos "
@@ -830,16 +780,14 @@ msgstr "Unirse a los Cursos"
 #, fuzzy
 #| msgid ""
 #| "\n"
-#| "                                Rejoignez-nous maintenant pour accéder à "
-#| "des cours de qualité qui transformeront votre expérience "
-#| "d'apprentissage.\n"
+#| "                                Rejoignez-nous maintenant pour accéder à des cours de qualité qui transformeront votre expérience d'apprentissage.\n"
 #| "                            "
 msgid ""
 "Rejoignez-nous maintenant pour accéder à des cours de qualité qui "
 "transformeront votre expérience d'apprentissage."
 msgstr ""
-"Únase a nosotros ahora para acceder a cursos de calidad "
-"que transformarán su experiencia de aprendizaje."
+"Únase a nosotros ahora para acceder a cursos de calidad que transformarán su"
+" experiencia de aprendizaje."
 
 #: templates/pages/course_details.html:18 templates/pages/courses.html:101
 #: templates/pages/courses.html:104
@@ -895,45 +843,21 @@ msgstr "¿Quiénes somos?"
 #: templates/pages/home.html:102
 msgid ""
 "\n"
-"                KouLakay est une plateforme éducative novatrice conçue pour "
-"démocratiser l'accès à une éducation de qualité pour les élèves, les "
-"professionnels et les apprenants tout au long de la vie. \n"
-"                Ancré dans la conviction que le savoir est une force, "
-"KouLakay propose des contenus interactifs et culturellement pertinents "
-"adaptés aux besoins d'un public diversifié.\n"
-"                Notre mission est de combler le fossé des ressources "
-"éducatives en offrant des cours de haute qualité pour favoriser "
-"l'apprentissage et le développement des compétences. \n"
-"                En exploitant la technologie, nous visons à créer un "
-"environnement d'apprentissage inclusif et dynamique, accessible à tous, quel "
-"que soit l'emplacement ou le contexte.\n"
-"                Chez KouLakay, nous collaborons avec des éducateurs, des "
-"institutions et des leaders de l'industrie pour garantir que nos contenus "
-"soient percutants, pratiques et alignés avec les besoins du monde réel. \n"
-"                Que vous soyez lycéen, diplômé universitaire ou "
-"professionnel à la recherche d'une formation continue, KouLakay est là pour "
-"accompagner votre réussite.\n"
+"                KouLakay est une plateforme éducative novatrice conçue pour démocratiser l'accès à une éducation de qualité pour les élèves, les professionnels et les apprenants tout au long de la vie. \n"
+"                Ancré dans la conviction que le savoir est une force, KouLakay propose des contenus interactifs et culturellement pertinents adaptés aux besoins d'un public diversifié.\n"
+"                Notre mission est de combler le fossé des ressources éducatives en offrant des cours de haute qualité pour favoriser l'apprentissage et le développement des compétences. \n"
+"                En exploitant la technologie, nous visons à créer un environnement d'apprentissage inclusif et dynamique, accessible à tous, quel que soit l'emplacement ou le contexte.\n"
+"                Chez KouLakay, nous collaborons avec des éducateurs, des institutions et des leaders de l'industrie pour garantir que nos contenus soient percutants, pratiques et alignés avec les besoins du monde réel. \n"
+"                Que vous soyez lycéen, diplômé universitaire ou professionnel à la recherche d'une formation continue, KouLakay est là pour accompagner votre réussite.\n"
 "                "
 msgstr ""
 "\n"
-"                KouLakay es una plataforma educativa innovadora diseñada "
-"para democratizar el acceso a una educación de calidad para estudiantes, "
-"profesionales y aprendices a lo largo de toda la vida.\n"
-"                Enraizados en la convicción de que el conocimiento es poder, "
-"KouLakay ofrece contenidos interactivos y culturalmente relevantes adaptados "
-"a las necesidades de una audiencia diversa.\n"
-"                Nuestra misión es cerrar la brecha en los recursos "
-"educativos ofreciendo cursos de alta calidad para fomentar el aprendizaje y "
-"el desarrollo de habilidades.\n"
-"                Al aprovechar la tecnología, aspiramos a crear un entorno de "
-"aprendizaje inclusivo y dinámico, accesible para todos, independientemente "
-"de la ubicación o el contexto.\n"
-"                En KouLakay, colaboramos con educadores, instituciones y "
-"líderes de la industria para garantizar que nuestros contenidos sean "
-"impactantes, prácticos y alineados con las necesidades del mundo real.\n"
-"                Ya sea que sea un estudiante de secundaria, un graduado "
-"universitario o un profesional que busca educación continua, KouLakay está "
-"aquí para apoyar su éxito.\n"
+"                KouLakay es una plataforma educativa innovadora diseñada para democratizar el acceso a una educación de calidad para estudiantes, profesionales y aprendices a lo largo de toda la vida.\n"
+"                Enraizados en la convicción de que el conocimiento es poder, KouLakay ofrece contenidos interactivos y culturalmente relevantes adaptados a las necesidades de una audiencia diversa.\n"
+"                Nuestra misión es cerrar la brecha en los recursos educativos ofreciendo cursos de alta calidad para fomentar el aprendizaje y el desarrollo de habilidades.\n"
+"                Al aprovechar la tecnología, aspiramos a crear un entorno de aprendizaje inclusivo y dinámico, accesible para todos, independientemente de la ubicación o el contexto.\n"
+"                En KouLakay, colaboramos con educadores, instituciones y líderes de la industria para garantizar que nuestros contenidos sean impactantes, prácticos y alineados con las necesidades del mundo real.\n"
+"                Ya sea que sea un estudiante de secundaria, un graduado universitario o un profesional que busca educación continua, KouLakay está aquí para apoyar su éxito.\n"
 "                "
 
 #: templates/pages/home.html:138
@@ -947,13 +871,11 @@ msgstr "¡Regístrese ahora!"
 #: templates/pages/home.html:172
 msgid ""
 "\n"
-"                                Rejoignez-nous maintenant pour accéder à des "
-"cours de qualité qui transformeront votre expérience d'apprentissage.\n"
+"                                Rejoignez-nous maintenant pour accéder à des cours de qualité qui transformeront votre expérience d'apprentissage.\n"
 "                            "
 msgstr ""
 "\n"
-"                                Únase a nosotros ahora para acceder a cursos "
-"de calidad que transformarán su experiencia de aprendizaje.\n"
+"                                Únase a nosotros ahora para acceder a cursos de calidad que transformarán su experiencia de aprendizaje.\n"
 "                            "
 
 #: templates/pages/home.html:178
@@ -974,7 +896,7 @@ msgstr "Nuestros Servicios"
 
 #: templates/pages/home.html:216
 msgid "Icône d\\'un globe terrestre"
-msgstr ""
+msgstr "Icono de un globo terráqueo"
 
 #: templates/pages/home.html:218
 msgid "Cours en ligne interactifs"
@@ -983,18 +905,14 @@ msgstr "Cursos en línea interactivos"
 #: templates/pages/home.html:220
 msgid ""
 "\n"
-"                    Des cours de haute qualité en créole haïtien et dans "
-"d'autres langues, adaptés aux élèves,\n"
-"                    professionnels et apprenants tout au long de la vie. Ils "
-"incluent des vidéos engageantes, des quiz\n"
+"                    Des cours de haute qualité en créole haïtien et dans d'autres langues, adaptés aux élèves,\n"
+"                    professionnels et apprenants tout au long de la vie. Ils incluent des vidéos engageantes, des quiz\n"
 "                    et des activités pratiques.\n"
 "                    "
 msgstr ""
 "\n"
-"                    Cursos de alta calidad en criollo haitiano y otros "
-"idiomas, adaptados para estudiantes,\n"
-"                    profesionales y aprendices a lo largo de toda la vida. "
-"Incluyen videos atractivos, quizzes\n"
+"                    Cursos de alta calidad en criollo haitiano y otros idiomas, adaptados para estudiantes,\n"
+"                    profesionales y aprendices a lo largo de toda la vida. Incluyen videos atractivos, quizzes\n"
 "                    y actividades prácticas.\n"
 "                    "
 
@@ -1011,8 +929,7 @@ msgstr "Programas de certificación personalizados"
 #: templates/pages/home.html:235
 msgid ""
 "\n"
-"                    Obtenez des certificats reconnus qui valident vos "
-"compétences et vos réalisations, renforçant ainsi\n"
+"                    Obtenez des certificats reconnus qui valident vos compétences et vos réalisations, renforçant ainsi\n"
 "                    votre profil professionnel et académique.\n"
 "                    "
 msgstr ""
@@ -1033,16 +950,13 @@ msgstr "Formación continua para profesionales"
 #: templates/pages/home.html:249
 msgid ""
 "\n"
-"                    Des programmes spécialisés conçus pour répondre aux "
-"besoins des professionnels et des diplômés\n"
-"                    universitaires cherchant à progresser dans leur carrière "
-"ou à changer de domaine.\n"
+"                    Des programmes spécialisés conçus pour répondre aux besoins des professionnels et des diplômés\n"
+"                    universitaires cherchant à progresser dans leur carrière ou à changer de domaine.\n"
 "                    "
 msgstr ""
 "\n"
 "                    Programas especializados diseñados para satisfacer las\n"
-"                    necesidades de profesionales y graduados universitarios "
-"que buscan avanzar en su carrera\n"
+"                    necesidades de profesionales y graduados universitarios que buscan avanzar en su carrera\n"
 "                    o cambiar de campo.\n"
 "                    "
 
@@ -1057,10 +971,8 @@ msgstr "Soluciones de formación B2B"
 #: templates/pages/home.html:263
 msgid ""
 "\n"
-"                    Modules d'apprentissage sur mesure pour les entreprises, "
-"axés sur le développement des compétences,\n"
-"                    la cohésion d'équipe et la croissance "
-"organisationnelle.\n"
+"                    Modules d'apprentissage sur mesure pour les entreprises, axés sur le développement des compétences,\n"
+"                    la cohésion d'équipe et la croissance organisationnelle.\n"
 "                    "
 msgstr ""
 "\n"
@@ -1081,10 +993,8 @@ msgstr "Apoyo a educadores"
 #: templates/pages/home.html:277
 msgid ""
 "\n"
-"                    Des outils, ressources et formations pour aider les "
-"enseignants à perfectionner leurs compétences\n"
-"                    pédagogiques et à intégrer la technologie dans leurs "
-"pratiques éducatives.\n"
+"                    Des outils, ressources et formations pour aider les enseignants à perfectionner leurs compétences\n"
+"                    pédagogiques et à intégrer la technologie dans leurs pratiques éducatives.\n"
 "                    "
 msgstr ""
 "\n"
@@ -1105,10 +1015,8 @@ msgstr "Evaluación y validación de habilidades"
 #: templates/pages/home.html:291
 msgid ""
 "\n"
-"                    Options d'évaluation sécurisées, en ligne et hybrides, "
-"pour valider les résultats d'apprentissage et\n"
-"                    les compétences, avec des points de service accrédités "
-"pour des évaluations en présentiel.\n"
+"                    Options d'évaluation sécurisées, en ligne et hybrides, pour valider les résultats d'apprentissage et\n"
+"                    les compétences, avec des points de service accrédités pour des évaluations en présentiel.\n"
 "                    "
 msgstr ""
 "\n"
@@ -1129,17 +1037,13 @@ msgstr "Actividades de compromiso comunitario"
 #: templates/pages/home.html:305
 msgid ""
 "\n"
-"                    Programmes récréatifs et pratiques, tels que des "
-"tournois d'échecs en ligne, des initiatives\n"
-"                    sportives et des ateliers agricoles, conçus pour "
-"compléter l'apprentissage formel.\n"
+"                    Programmes récréatifs et pratiques, tels que des tournois d'échecs en ligne, des initiatives\n"
+"                    sportives et des ateliers agricoles, conçus pour compléter l'apprentissage formel.\n"
 "                    "
 msgstr ""
 "\n"
-"                    Programas recreativos y prácticos, como torneos de "
-"ajedrez en línea, iniciativas\n"
-"                    deportivas y talleres agrícolas, diseñados para "
-"complementar el aprendizaje formal.\n"
+"                    Programas recreativos y prácticos, como torneos de ajedrez en línea, iniciativas\n"
+"                    deportivas y talleres agrícolas, diseñados para complementar el aprendizaje formal.\n"
 "                    "
 
 #: templates/pages/home.html:315
@@ -1153,8 +1057,7 @@ msgstr "Asociaciones para el desarrollo de contenido"
 #: templates/pages/home.html:319
 msgid ""
 "\n"
-"                    Collaborez avec nous pour créer et publier des contenus "
-"éducatifs culturellement pertinents et\n"
+"                    Collaborez avec nous pour créer et publier des contenus éducatifs culturellement pertinents et\n"
 "                    percutants.\n"
 "                    "
 msgstr ""
@@ -1171,17 +1074,11 @@ msgstr "Testimonios"
 #: templates/pages/home.html:358
 msgid ""
 "\n"
-"                                    KouLakay a transformé mon parcours "
-"éducatif. Les cours sont faciles à suivre, et apprendre en créole haïtien "
-"rend l'expérience tellement plus accessible. Je me sens enfin connecté à des "
-"ressources éducatives de qualité qui répondent à mes besoins.\n"
+"                                    KouLakay a transformé mon parcours éducatif. Les cours sont faciles à suivre, et apprendre en créole haïtien rend l'expérience tellement plus accessible. Je me sens enfin connecté à des ressources éducatives de qualité qui répondent à mes besoins.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    KouLakay ha transformado mi trayectoria "
-"educativa. Los cursos son fáciles de seguir, y aprender en criollo haitiano "
-"hace que la experiencia sea mucho más accesible. Finalmente me siento "
-"conectado a recursos educativos de calidad que satisfacen mis necesidades.\n"
+"                                    KouLakay ha transformado mi trayectoria educativa. Los cursos son fáciles de seguir, y aprender en criollo haitiano hace que la experiencia sea mucho más accesible. Finalmente me siento conectado a recursos educativos de calidad que satisfacen mis necesidades.\n"
 "                                    "
 
 #: templates/pages/home.html:364
@@ -1197,16 +1094,11 @@ msgstr "Estudiante de secundaria"
 #: templates/pages/home.html:376
 msgid ""
 "\n"
-"                                    Les programmes de formation continue de "
-"KouLakay sont incroyablement utiles. Les compétences pratiques que j'ai "
-"acquises ont renforcé ma confiance et m'ont permis de progresser dans ma "
-"carrière.\n"
+"                                    Les programmes de formation continue de KouLakay sont incroyablement utiles. Les compétences pratiques que j'ai acquises ont renforcé ma confiance et m'ont permis de progresser dans ma carrière.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    Los programas de educación continua de "
-"KouLakay son increíblemente útiles. Las habilidades prácticas que adquirí "
-"fortalecieron mi confianza y me permitieron avanzar en mi carrera.\n"
+"                                    Los programas de educación continua de KouLakay son increíblemente útiles. Las habilidades prácticas que adquirí fortalecieron mi confianza y me permitieron avanzar en mi carrera.\n"
 "                                    "
 
 #: templates/pages/home.html:385
@@ -1216,17 +1108,11 @@ msgstr "Analista de negocios"
 #: templates/pages/home.html:395
 msgid ""
 "\n"
-"                                    Notre organisation a collaboré avec "
-"KouLakay pour former nos employés, et les résultats ont été exceptionnels. "
-"Les cours sur mesure et les certifications ont permis à notre équipe "
-"d'améliorer ses compétences et de travailler plus efficacement.\n"
+"                                    Notre organisation a collaboré avec KouLakay pour former nos employés, et les résultats ont été exceptionnels. Les cours sur mesure et les certifications ont permis à notre équipe d'améliorer ses compétences et de travailler plus efficacement.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    Nuestra organización se asoció con "
-"KouLakay para capacitar a nuestros empleados, y los resultados fueron "
-"excepcionales. Los cursos personalizados y las certificaciones permitieron a "
-"nuestro equipo mejorar sus habilidades y trabajar de manera más eficiente.\n"
+"                                    Nuestra organización se asoció con KouLakay para capacitar a nuestros empleados, y los resultados fueron excepcionales. Los cursos personalizados y las certificaciones permitieron a nuestro equipo mejorar sus habilidades y trabajar de manera más eficiente.\n"
 "                                    "
 
 #: templates/pages/home.html:404
@@ -1236,15 +1122,11 @@ msgstr "Gerente de Recursos Humanos"
 #: templates/pages/home.html:414
 msgid ""
 "\n"
-"                                    Je recommande vivement KouLakay pour sa "
-"flexibilité. J'ai pu apprendre à mon rythme, et les certificats obtenus ont "
-"apporté une vraie valeur ajoutée à mon CV.\n"
+"                                    Je recommande vivement KouLakay pour sa flexibilité. J'ai pu apprendre à mon rythme, et les certificats obtenus ont apporté une vraie valeur ajoutée à mon CV.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    Recomiendo mucho KouLakay por su "
-"flexibilidad. Pude aprender a mi propio ritmo, y los certificados que obtuve "
-"aportaron un verdadero valor a mi currículum.\n"
+"                                    Recomiendo mucho KouLakay por su flexibilidad. Pude aprender a mi propio ritmo, y los certificados que obtuve aportaron un verdadero valor a mi currículum.\n"
 "                                    "
 
 #: templates/pages/home.html:423
@@ -1254,17 +1136,11 @@ msgstr "Reciente Graduada"
 #: templates/pages/home.html:433
 msgid ""
 "\n"
-"                                    Les solutions de formation B2B proposées "
-"par KouLakay ont parfaitement répondu aux besoins de notre organisation. "
-"L'intégration d'exercices pratiques et d'activités d'équipe a rendu le "
-"processus d'apprentissage engageant et efficace.\n"
+"                                    Les solutions de formation B2B proposées par KouLakay ont parfaitement répondu aux besoins de notre organisation. L'intégration d'exercices pratiques et d'activités d'équipe a rendu le processus d'apprentissage engageant et efficace.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    Las soluciones de formación B2B "
-"ofrecidas por KouLakay respondieron perfectamente a las necesidades de "
-"nuestra organización. La integración de ejercicios prácticos y actividades "
-"en equipo hizo que el proceso de aprendizaje fuera atractivo y efectivo.\n"
+"                                    Las soluciones de formación B2B ofrecidas por KouLakay respondieron perfectamente a las necesidades de nuestra organización. La integración de ejercicios prácticos y actividades en equipo hizo que el proceso de aprendizaje fuera atractivo y efectivo.\n"
 "                                    "
 
 #: templates/pages/home.html:442
@@ -1282,15 +1158,11 @@ msgstr "Cerrar"
 #: templates/partials/footer.html:53
 msgid ""
 "\n"
-"                            In aliquam, augue a gravida rutrum, ante nisl "
-"fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
-"finibus tortor fermentum, tempor lacus.\n"
+"                            In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum, tempor lacus.\n"
 "                        "
 msgstr ""
 "\n"
-"                            In aliquam, augue a gravida rutrum, ante nisl "
-"fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
-"finibus tortor fermentum, tempor lacus.\n"
+"                            In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum, tempor lacus.\n"
 "                        "
 
 #: templates/partials/footer.html:63
@@ -1338,21 +1210,153 @@ msgstr "Cerrar"
 msgid "Profil de cours"
 msgstr "Perfil del curso"
 
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement par carte"
+msgstr "Pago con tarjeta"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement par carte bancaire"
+msgstr "Pago con tarjeta bancaria"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Vos informations sont protégées par Stripe"
+msgstr "Su información está protegida por Stripe"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Résumé"
+msgstr "Resumen"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Total"
+msgstr "Total"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Informations de paiement"
+msgstr "Información de pago"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Payer"
+msgstr "Pagar"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Annuler et retourner aux cours"
+msgstr "Cancelar y volver a los cursos"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement SSL sécurisé · Stripe"
+msgstr "Pago SSL seguro · Stripe"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Erreur de connexion à Stripe. Veuillez réessayer."
+msgstr "Error de conexión con Stripe. Por favor intente de nuevo."
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Une erreur inattendue est survenue."
+msgstr "Se produjo un error inesperado."
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Choisir un paiement"
+msgstr "Elegir un pago"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Choisissez votre paiement"
+msgstr "Elige tu método de pago"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Toutes les méthodes sont sécurisées et disponibles 24h/24"
+msgstr "Todos los métodos son seguros y disponibles las 24h"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Méthodes de paiement disponibles"
+msgstr "Métodos de pago disponibles"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement mobile Digicel"
+msgstr "Pago móvil Digicel"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Haïti · Instant"
+msgstr "Haití · Instantáneo"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement mobile Natcom"
+msgstr "Pago móvil Natcom"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Carte bancaire"
+msgstr "Tarjeta bancaria"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "International · 3D Secure"
+msgstr "Internacional · 3D Secure"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Sélectionné"
+msgstr "Seleccionado"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Retour au cours"
+msgstr "Volver al curso"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Payer maintenant"
+msgstr "Pagar ahora"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement SSL sécurisé"
+msgstr "Pago SSL seguro"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "MonCash (Digicel)"
+msgstr "MonCash (Digicel)"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "NatCash (Natcom)"
+msgstr "NatCash (Natcom)"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Carte bancaire (Stripe)"
+msgstr "Tarjeta bancaria (Stripe)"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Veuillez sélectionner une méthode de paiement."
+msgstr "Por favor seleccione un método de pago."
+
 #~ msgid ""
 #~ "\n"
-#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum "
-#~ "nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
-#~ "finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent "
-#~ "finibus risus facilisis ultricies. Etiam eu purus nec eros varius "
-#~ "luctus.\n"
+#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus facilisis ultricies. Etiam eu purus nec eros varius luctus.\n"
 #~ "\t\t\t\t\t\t\t"
 #~ msgstr ""
 #~ "\n"
-#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum "
-#~ "nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
-#~ "finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent "
-#~ "finibus risus facilisis ultricies. Etiam eu purus nec eros varius "
-#~ "luctus.\n"
+#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus facilisis ultricies. Etiam eu purus nec eros varius luctus.\n"
 #~ "\t\t\t\t\t\t\t"
 
 #~ msgid "Image de l\\"

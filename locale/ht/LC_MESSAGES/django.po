@@ -171,16 +171,13 @@ msgstr "Èske ou vrèman vle efase adrès imèl seleksyone a?"
 #: templates/account/email/account_already_exists_message.txt:4
 #, python-format
 msgid ""
-"You are receiving this e-mail because you or someone else tried to signup "
-"for an\n"
+"You are receiving this e-mail because you or someone else tried to signup for an\n"
 "account using e-mail address:\n"
 "\n"
 "%(email)s\n"
 "\n"
-"However, an account using that e-mail address already exists.  In case you "
-"have\n"
-"forgotten about this, please use the password forgotten procedure to "
-"recover\n"
+"However, an account using that e-mail address already exists.  In case you have\n"
+"forgotten about this, please use the password forgotten procedure to recover\n"
 "your account:\n"
 "\n"
 "%(password_reset_url)s"
@@ -228,13 +225,11 @@ msgstr ""
 #: templates/account/email/email_confirmation_message.txt:5
 #, python-format
 msgid ""
-"You're receiving this e-mail because user %(user_display)s has given your e-"
-"mail address to register an account on %(site_domain)s.\n"
+"You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
 "\n"
 "To confirm this is correct, go to %(activate_url)s"
 msgstr ""
-"Ou ap resevwa imèl sa a paske itilizatè %(user_display)s te bay adrès imèl "
-"ou pou anrejistre yon kont sou %(site_domain)s.\n"
+"Ou ap resevwa imèl sa a paske itilizatè %(user_display)s te bay adrès imèl ou pou anrejistre yon kont sou %(site_domain)s.\n"
 "\n"
 "Pou konfime ke sa a kòrèk, ale nan %(activate_url)s"
 
@@ -245,10 +240,8 @@ msgstr "Tanpri Konfime Adrès Imèl Ou"
 #: templates/account/email/password_reset_key_message.html:4
 #: templates/account/email/password_reset_key_message.txt:4
 msgid ""
-"You're receiving this e-mail because you or someone else has requested a "
-"password for your user account.\n"
-"It can be safely ignored if you did not request a password reset. Click the "
-"link below to reset your password."
+"You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
 msgstr ""
 "Ou ap resevwa imèl sa a paske ou oswa yon lòt moun te mande yon\n"
 "modpas pou kont itilizatè ou a.\n"
@@ -271,8 +264,7 @@ msgstr "Imèl Rekòmanse Modpas"
 #, python-format
 msgid ""
 "You are receiving this e-mail because you or someone else has requested a\n"
-"password for your user account. However, we do not have any record of a "
-"user\n"
+"password for your user account. However, we do not have any record of a user\n"
 "with email %(email)s in our database.\n"
 "\n"
 "This mail can be safely ignored if you did not request a password reset.\n"
@@ -322,12 +314,10 @@ msgstr "Konekte"
 #: templates/account/login.html:16
 #, python-format
 msgid ""
-"Veuillez vous connecter avec l'un de vos comptes tiers existants. Ou, <a "
-"style=\"color: #f15922;\" href=\"%(signup_url)s\">inscrivez-vous</a>\n"
+"Veuillez vous connecter avec l'un de vos comptes tiers existants. Ou, <a style=\"color: #f15922;\" href=\"%(signup_url)s\">inscrivez-vous</a>\n"
 "pour un compte %(site_name)s et connectez-vous ci-dessous:"
 msgstr ""
-"Tanpri konekte avèk youn nan kont twazyèm pati ou yo ki egziste deja. Oswa, "
-"<a style=\"color: #f15922;\" href=\"%(signup_url)s\">enskri</a>\n"
+"Tanpri konekte avèk youn nan kont twazyèm pati ou yo ki egziste deja. Oswa, <a style=\"color: #f15922;\" href=\"%(signup_url)s\">enskri</a>\n"
 "pou yon kont %(site_name)s epi konekte anba a:"
 
 #: templates/account/login.html:25
@@ -422,8 +412,8 @@ msgid ""
 "dessous, et nous vous enverrons un e-mail pour vous permettre de le "
 "réinitialiser."
 msgstr ""
-"Ou bliye modpas ou? Antre adrès imèl ou anba a, e nou pral voye yon imèl pou "
-"pèmèt ou reyinisyalize li."
+"Ou bliye modpas ou? Antre adrès imèl ou anba a, e nou pral voye yon imèl pou"
+" pèmèt ou reyinisyalize li."
 
 #: templates/account/password_reset.html:21
 msgid "Réinitialiser mon mot de passe"
@@ -464,11 +454,11 @@ msgstr "Token Envalab"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
+"reset</a>."
 msgstr ""
-"Lyèn pou reyinisyalize modpas la te envalab, posibman paske li deja itilize. "
-"Tanpri mande yon <a href=\"%(passwd_reset_url)s\">nouvo reyinisyalizasyon "
+"Lyèn pou reyinisyalize modpas la te envalab, posibman paske li deja itilize."
+" Tanpri mande yon <a href=\"%(passwd_reset_url)s\">nouvo reyinisyalizasyon "
 "modpas</a>."
 
 #: templates/account/password_reset_from_key.html:18
@@ -565,9 +555,7 @@ msgstr ""
 #: templates/account/verified_email_required.html:16
 msgid ""
 "We have sent an e-mail to you for\n"
-"verification. Please click on the link inside that e-mail. If you do not see "
-"the verification e-mail in your main inbox, check your spam folder. "
-"Otherwise\n"
+"verification. Please click on the link inside that e-mail. If you do not see the verification e-mail in your main inbox, check your spam folder. Otherwise\n"
 "contact us if you do not receive it within a few minutes."
 msgstr ""
 "Nou te voye yon imèl pou ou pou\n"
@@ -579,8 +567,8 @@ msgstr ""
 #: templates/account/verified_email_required.html:20
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
-"mail address</a>."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
+"e-mail address</a>."
 msgstr ""
 "<strong>Nòt:</strong> ou toujou ka <a href=\"%(email_url)s\">chanje adrès "
 "imèl ou</a>."
@@ -597,30 +585,13 @@ msgstr "Misyon Nou"
 #: templates/pages/about.html:36
 msgid ""
 "\n"
-"                Notre mission chez KouLakay est de rendre l'éducation de "
-"qualité accessible à tous, en permettant à chacun de réaliser son plein "
-"potentiel. Nous sommes dédiés à la création d'une expérience d'apprentissage "
-"transformative en proposant des ressources éducatives engageantes, "
-"culturellement pertinentes et pratiques.\n"
-"                En combinant innovation, inclusion et collaboration, "
-"KouLakay vise à combler les lacunes éducatives, à promouvoir l'apprentissage "
-"tout au long de la vie, et à fournir aux apprenants les connaissances et les "
-"compétences nécessaires pour prospérer dans un monde en constante évolution. "
-"Par des partenariats avec des éducateurs, des institutions et des "
-"communautés, nous nous engageons à façonner un avenir où l'éducation est un "
-"droit, non un privilège.\n"
+"                Notre mission chez KouLakay est de rendre l'éducation de qualité accessible à tous, en permettant à chacun de réaliser son plein potentiel. Nous sommes dédiés à la création d'une expérience d'apprentissage transformative en proposant des ressources éducatives engageantes, culturellement pertinentes et pratiques.\n"
+"                En combinant innovation, inclusion et collaboration, KouLakay vise à combler les lacunes éducatives, à promouvoir l'apprentissage tout au long de la vie, et à fournir aux apprenants les connaissances et les compétences nécessaires pour prospérer dans un monde en constante évolution. Par des partenariats avec des éducateurs, des institutions et des communautés, nous nous engageons à façonner un avenir où l'éducation est un droit, non un privilège.\n"
 "                "
 msgstr ""
 "\n"
-"                Misyon nou nan KouLakay se fè edikasyon kalite aksesib pou "
-"tout moun, pèmèt chak moun reyalize potansyèl yo. Nou dedye pou kreye yon "
-"eksperyans aprantisaj transfòmatè lè nou ofri resous edikatif angaje, "
-"kiltirèlman ki apwopriye ak pratik.\n"
-"                Lè nou konbine inovasyon, enklizyon ak kolaborasyon, "
-"KouLakay vize ranpli twou nan edikasyon, pwomouvwa aprantisaj pandan tout "
-"lavi, e bay aprenan yo konesans ak konpetans nesesè pou briye nan yon mond "
-"ki toujou ap evolye. Atravè patenarya ak edikatè, enstitisyon ak kominote, "
-"nou angaje nou pou fòm yon avni kote edikasyon se yon dwa, pa yon privilèj.\n"
+"                Misyon nou nan KouLakay se fè edikasyon kalite aksesib pou tout moun, pèmèt chak moun reyalize potansyèl yo. Nou dedye pou kreye yon eksperyans aprantisaj transfòmatè lè nou ofri resous edikatif angaje, kiltirèlman ki apwopriye ak pratik.\n"
+"                Lè nou konbine inovasyon, enklizyon ak kolaborasyon, KouLakay vize ranpli twou nan edikasyon, pwomouvwa aprantisaj pandan tout lavi, e bay aprenan yo konesans ak konpetans nesesè pou briye nan yon mond ki toujou ap evolye. Atravè patenarya ak edikatè, enstitisyon ak kominote, nou angaje nou pou fòm yon avni kote edikasyon se yon dwa, pa yon privilèj.\n"
 "                "
 
 #: templates/pages/about.html:46
@@ -630,18 +601,11 @@ msgstr "Vizyon Nou"
 #: templates/pages/about.html:52
 msgid ""
 "\n"
-"                Notre vision chez KouLakay est de devenir la plateforme de "
-"référence pour une éducation inclusive et accessible à travers le monde. "
-"Nous aspirons à transformer la manière d'apprendre en créant une connexion "
-"fluide entre des ressources éducatives de qualité, une technologie innovante "
-"et une communauté d'apprentissage solidaire.\n"
+"                Notre vision chez KouLakay est de devenir la plateforme de référence pour une éducation inclusive et accessible à travers le monde. Nous aspirons à transformer la manière d'apprendre en créant une connexion fluide entre des ressources éducatives de qualité, une technologie innovante et une communauté d'apprentissage solidaire.\n"
 "                "
 msgstr ""
 "\n"
-"                Vizyon nou nan KouLakay se vin tounen platfòm referans pou "
-"yon edikasyon enklizif ak aksesib atravè mond lan. Nou aspire pou transfòme "
-"fason moun aprann pa kreye yon koneksyon fasil ant resous edikatif kalite, "
-"teknoloji inovatif ak yon kominote aprantisaj solidè.\n"
+"                Vizyon nou nan KouLakay se vin tounen platfòm referans pou yon edikasyon enklizif ak aksesib atravè mond lan. Nou aspire pou transfòme fason moun aprann pa kreye yon koneksyon fasil ant resous edikatif kalite, teknoloji inovatif ak yon kominote aprantisaj solidè.\n"
 "                "
 
 #: templates/pages/about.html:65
@@ -668,8 +632,8 @@ msgid ""
 "engageons à éliminer les obstacles à l'apprentissage en proposant des "
 "ressources éducatives accessibles et inclusives."
 msgstr ""
-"Nou kwè ke edikasyon se yon dwa, pa yon privilèj. Nou angaje nou pou elimine "
-"baryè nan aprantisaj lè nou ofri resous edikatif aksesib ak enklizif."
+"Nou kwè ke edikasyon se yon dwa, pa yon privilèj. Nou angaje nou pou elimine"
+" baryè nan aprantisaj lè nou ofri resous edikatif aksesib ak enklizif."
 
 #: templates/pages/about.html:84
 msgid "Innovation"
@@ -683,8 +647,8 @@ msgid ""
 "évolution."
 msgstr ""
 "Lè nou itilize teknoloji avanse, nou fè efò pou kreye eksperyans aprantisaj "
-"dinamik, angaje ak efikas ki enspire kwasans ak adaptabilite nan yon mond ki "
-"toujou ap evolye."
+"dinamik, angaje ak efikas ki enspire kwasans ak adaptabilite nan yon mond ki"
+" toujou ap evolye."
 
 #: templates/pages/about.html:91
 msgid "Collaboration"
@@ -723,8 +687,8 @@ msgid ""
 "objectifs et contribuer de manière significative à la société."
 msgstr ""
 "Nou dedye nou pou ekipe endividi yo ak konesans ak konpetans nesesè pou "
-"libere potansyèl yo, atenn objektif yo ak kontribye de fason siyifikatif nan "
-"sosyete a."
+"libere potansyèl yo, atenn objektif yo ak kontribye de fason siyifikatif nan"
+" sosyete a."
 
 #: templates/pages/about.html:112
 msgid "Excellence"
@@ -733,8 +697,8 @@ msgstr "Ekselans"
 #: templates/pages/about.html:113
 msgid ""
 "Notre engagement envers la qualité nous pousse à fournir des ressources et "
-"des expériences d'apprentissage exceptionnelles qui répondent aux normes les "
-"plus élevées d'intégrité éducative."
+"des expériences d'apprentissage exceptionnelles qui répondent aux normes les"
+" plus élevées d'intégrité éducative."
 msgstr ""
 "Angajman nou pou kalite pouse nou pou founi resous ak eksperyans aprantisaj "
 "eksepsyonèl ki satisfè pi wo estanda entegrite edikatif yo."
@@ -798,16 +762,14 @@ msgstr "Antre nan Kourè"
 #, fuzzy
 #| msgid ""
 #| "\n"
-#| "                                Rejoignez-nous maintenant pour accéder à "
-#| "des cours de qualité qui transformeront votre expérience "
-#| "d'apprentissage.\n"
+#| "                                Rejoignez-nous maintenant pour accéder à des cours de qualité qui transformeront votre expérience d'apprentissage.\n"
 #| "                            "
 msgid ""
 "Rejoignez-nous maintenant pour accéder à des cours de qualité qui "
 "transformeront votre expérience d'apprentissage."
 msgstr ""
-"Rantre nan nou kounye a pou jwenn aksè a kou de kalite "
-"ki pral transfòme eksperyans aprantisaj ou."
+"Rantre nan nou kounye a pou jwenn aksè a kou de kalite ki pral transfòme "
+"eksperyans aprantisaj ou."
 
 #: templates/pages/course_details.html:18 templates/pages/courses.html:101
 #: templates/pages/courses.html:104
@@ -863,44 +825,21 @@ msgstr "Kilès nou ye?"
 #: templates/pages/home.html:102
 msgid ""
 "\n"
-"                KouLakay est une plateforme éducative novatrice conçue pour "
-"démocratiser l'accès à une éducation de qualité pour les élèves, les "
-"professionnels et les apprenants tout au long de la vie. \n"
-"                Ancré dans la conviction que le savoir est une force, "
-"KouLakay propose des contenus interactifs et culturellement pertinents "
-"adaptés aux besoins d'un public diversifié.\n"
-"                Notre mission est de combler le fossé des ressources "
-"éducatives en offrant des cours de haute qualité pour favoriser "
-"l'apprentissage et le développement des compétences. \n"
-"                En exploitant la technologie, nous visons à créer un "
-"environnement d'apprentissage inclusif et dynamique, accessible à tous, quel "
-"que soit l'emplacement ou le contexte.\n"
-"                Chez KouLakay, nous collaborons avec des éducateurs, des "
-"institutions et des leaders de l'industrie pour garantir que nos contenus "
-"soient percutants, pratiques et alignés avec les besoins du monde réel. \n"
-"                Que vous soyez lycéen, diplômé universitaire ou "
-"professionnel à la recherche d'une formation continue, KouLakay est là pour "
-"accompagner votre réussite.\n"
+"                KouLakay est une plateforme éducative novatrice conçue pour démocratiser l'accès à une éducation de qualité pour les élèves, les professionnels et les apprenants tout au long de la vie. \n"
+"                Ancré dans la conviction que le savoir est une force, KouLakay propose des contenus interactifs et culturellement pertinents adaptés aux besoins d'un public diversifié.\n"
+"                Notre mission est de combler le fossé des ressources éducatives en offrant des cours de haute qualité pour favoriser l'apprentissage et le développement des compétences. \n"
+"                En exploitant la technologie, nous visons à créer un environnement d'apprentissage inclusif et dynamique, accessible à tous, quel que soit l'emplacement ou le contexte.\n"
+"                Chez KouLakay, nous collaborons avec des éducateurs, des institutions et des leaders de l'industrie pour garantir que nos contenus soient percutants, pratiques et alignés avec les besoins du monde réel. \n"
+"                Que vous soyez lycéen, diplômé universitaire ou professionnel à la recherche d'une formation continue, KouLakay est là pour accompagner votre réussite.\n"
 "                "
 msgstr ""
 "\n"
-"                KouLakay se yon platfòm edikatif inovatè ki fèt pou "
-"demokratize aksè a yon edikasyon kalite pou elèv yo, pwofesyonèl yo ak "
-"aprenan pandan tout lavi a.\n"
-"                Anchre nan konviksyon ke konesans se yon fòs, KouLakay ofri "
-"kontni entèaktif ak kiltirèlman ki apwopriye adapte ak bezwen yon piblik "
-"divèsifye.\n"
-"                Misyon nou se ranpli twou nan resous edikatif yo lè nou ofri "
-"kourè ki gen gwo kalite pou ankouraje aprantisaj ak devlopman konpetans.\n"
-"                Lè nou itilize teknoloji, nou vize kreye yon anviwònman "
-"aprantisaj enklizif ak dinamik, aksesib pou tout moun, kèlkeswa lokalizasyon "
-"oswa kontèks.\n"
-"                Nan KouLakay, nou kolabore ak edikatè, enstitisyon ak lidè "
-"endistri yo pou garanti ke kontni nou yo gen enpak, pratik ak aliyen ak "
-"bezwen mond reyèl la.\n"
-"                Kit ou se yon elèv segondè, yon diplome inivèsite oswa yon "
-"pwofesyonèl k ap chèche edikasyon kontinye, KouLakay la pou sipòte siksè "
-"ou.\n"
+"                KouLakay se yon platfòm edikatif inovatè ki fèt pou demokratize aksè a yon edikasyon kalite pou elèv yo, pwofesyonèl yo ak aprenan pandan tout lavi a.\n"
+"                Anchre nan konviksyon ke konesans se yon fòs, KouLakay ofri kontni entèaktif ak kiltirèlman ki apwopriye adapte ak bezwen yon piblik divèsifye.\n"
+"                Misyon nou se ranpli twou nan resous edikatif yo lè nou ofri kourè ki gen gwo kalite pou ankouraje aprantisaj ak devlopman konpetans.\n"
+"                Lè nou itilize teknoloji, nou vize kreye yon anviwònman aprantisaj enklizif ak dinamik, aksesib pou tout moun, kèlkeswa lokalizasyon oswa kontèks.\n"
+"                Nan KouLakay, nou kolabore ak edikatè, enstitisyon ak lidè endistri yo pou garanti ke kontni nou yo gen enpak, pratik ak aliyen ak bezwen mond reyèl la.\n"
+"                Kit ou se yon elèv segondè, yon diplome inivèsite oswa yon pwofesyonèl k ap chèche edikasyon kontinye, KouLakay la pou sipòte siksè ou.\n"
 "                "
 
 #: templates/pages/home.html:138
@@ -914,13 +853,11 @@ msgstr "Enskri kounye a!"
 #: templates/pages/home.html:172
 msgid ""
 "\n"
-"                                Rejoignez-nous maintenant pour accéder à des "
-"cours de qualité qui transformeront votre expérience d'apprentissage.\n"
+"                                Rejoignez-nous maintenant pour accéder à des cours de qualité qui transformeront votre expérience d'apprentissage.\n"
 "                            "
 msgstr ""
 "\n"
-"                                Antre nan nou kounye a pou jwenn aksè a "
-"kourè kalite ki pral transfòme eksperyans aprantisaj ou.\n"
+"                                Antre nan nou kounye a pou jwenn aksè a kourè kalite ki pral transfòme eksperyans aprantisaj ou.\n"
 "                            "
 
 #: templates/pages/home.html:178
@@ -941,7 +878,7 @@ msgstr "Sèvis Nou yo"
 
 #: templates/pages/home.html:216
 msgid "Icône d\\'un globe terrestre"
-msgstr ""
+msgstr "Ikòn yon glob tèstè"
 
 #: templates/pages/home.html:218
 msgid "Cours en ligne interactifs"
@@ -950,18 +887,14 @@ msgstr "Kourè sou entènèt entèaktif"
 #: templates/pages/home.html:220
 msgid ""
 "\n"
-"                    Des cours de haute qualité en créole haïtien et dans "
-"d'autres langues, adaptés aux élèves,\n"
-"                    professionnels et apprenants tout au long de la vie. Ils "
-"incluent des vidéos engageantes, des quiz\n"
+"                    Des cours de haute qualité en créole haïtien et dans d'autres langues, adaptés aux élèves,\n"
+"                    professionnels et apprenants tout au long de la vie. Ils incluent des vidéos engageantes, des quiz\n"
 "                    et des activités pratiques.\n"
 "                    "
 msgstr ""
 "\n"
-"                    Kourè ki gen gwo kalite an kreyòl ayisyen ak lòt lang, "
-"adapte pou elèv,\n"
-"                    pwofesyonèl ak aprenan pandan tout lavi. Yo enkli videyo "
-"angaje, kèstyon\n"
+"                    Kourè ki gen gwo kalite an kreyòl ayisyen ak lòt lang, adapte pou elèv,\n"
+"                    pwofesyonèl ak aprenan pandan tout lavi. Yo enkli videyo angaje, kèstyon\n"
 "                    ak aktivite pratik.\n"
 "                    "
 
@@ -978,8 +911,7 @@ msgstr "Pwogram Sètifikasyon Pèsonalize"
 #: templates/pages/home.html:235
 msgid ""
 "\n"
-"                    Obtenez des certificats reconnus qui valident vos "
-"compétences et vos réalisations, renforçant ainsi\n"
+"                    Obtenez des certificats reconnus qui valident vos compétences et vos réalisations, renforçant ainsi\n"
 "                    votre profil professionnel et académique.\n"
 "                    "
 msgstr ""
@@ -1000,16 +932,13 @@ msgstr "Fòmasyon kontinye pou pwofesyonèl"
 #: templates/pages/home.html:249
 msgid ""
 "\n"
-"                    Des programmes spécialisés conçus pour répondre aux "
-"besoins des professionnels et des diplômés\n"
-"                    universitaires cherchant à progresser dans leur carrière "
-"ou à changer de domaine.\n"
+"                    Des programmes spécialisés conçus pour répondre aux besoins des professionnels et des diplômés\n"
+"                    universitaires cherchant à progresser dans leur carrière ou à changer de domaine.\n"
 "                    "
 msgstr ""
 "\n"
 "                    Pwogram espesyalize yo fèt pou reponn\n"
-"                    bezwen pwofesyonèl ak diplome inivèsite k ap chèche "
-"pwogrese nan karyè yo\n"
+"                    bezwen pwofesyonèl ak diplome inivèsite k ap chèche pwogrese nan karyè yo\n"
 "                    oswa chanje domèn.\n"
 "                    "
 
@@ -1024,10 +953,8 @@ msgstr "Solisyon Fòmasyon B2B"
 #: templates/pages/home.html:263
 msgid ""
 "\n"
-"                    Modules d'apprentissage sur mesure pour les entreprises, "
-"axés sur le développement des compétences,\n"
-"                    la cohésion d'équipe et la croissance "
-"organisationnelle.\n"
+"                    Modules d'apprentissage sur mesure pour les entreprises, axés sur le développement des compétences,\n"
+"                    la cohésion d'équipe et la croissance organisationnelle.\n"
 "                    "
 msgstr ""
 "\n"
@@ -1048,15 +975,12 @@ msgstr "Sipò pou edikatè"
 #: templates/pages/home.html:277
 msgid ""
 "\n"
-"                    Des outils, ressources et formations pour aider les "
-"enseignants à perfectionner leurs compétences\n"
-"                    pédagogiques et à intégrer la technologie dans leurs "
-"pratiques éducatives.\n"
+"                    Des outils, ressources et formations pour aider les enseignants à perfectionner leurs compétences\n"
+"                    pédagogiques et à intégrer la technologie dans leurs pratiques éducatives.\n"
 "                    "
 msgstr ""
 "\n"
-"                    Zouti, resous ak fòmasyon pou ede pwofesè yo amelyore "
-"konpetans yo\n"
+"                    Zouti, resous ak fòmasyon pou ede pwofesè yo amelyore konpetans yo\n"
 "                    pedagojik ak entegre teknoloji nan\n"
 "                    pratik edikatif yo.\n"
 "                    "
@@ -1072,10 +996,8 @@ msgstr "Evalyasyon ak validasyon konpetans"
 #: templates/pages/home.html:291
 msgid ""
 "\n"
-"                    Options d'évaluation sécurisées, en ligne et hybrides, "
-"pour valider les résultats d'apprentissage et\n"
-"                    les compétences, avec des points de service accrédités "
-"pour des évaluations en présentiel.\n"
+"                    Options d'évaluation sécurisées, en ligne et hybrides, pour valider les résultats d'apprentissage et\n"
+"                    les compétences, avec des points de service accrédités pour des évaluations en présentiel.\n"
 "                    "
 msgstr ""
 "\n"
@@ -1096,15 +1018,12 @@ msgstr "Aktivite angajman kominotè"
 #: templates/pages/home.html:305
 msgid ""
 "\n"
-"                    Programmes récréatifs et pratiques, tels que des "
-"tournois d'échecs en ligne, des initiatives\n"
-"                    sportives et des ateliers agricoles, conçus pour "
-"compléter l'apprentissage formel.\n"
+"                    Programmes récréatifs et pratiques, tels que des tournois d'échecs en ligne, des initiatives\n"
+"                    sportives et des ateliers agricoles, conçus pour compléter l'apprentissage formel.\n"
 "                    "
 msgstr ""
 "\n"
-"                    Pwogram rekreyatif ak pratik, tankou tounwa echèk sou "
-"entènèt, inisyativ\n"
+"                    Pwogram rekreyatif ak pratik, tankou tounwa echèk sou entènèt, inisyativ\n"
 "                    espòtif ak atelye agrikòl, yo fèt pou\n"
 "                    konplete aprantisaj fòmèl.\n"
 "                    "
@@ -1120,8 +1039,7 @@ msgstr "Patenarya devlopman kontni"
 #: templates/pages/home.html:319
 msgid ""
 "\n"
-"                    Collaborez avec nous pour créer et publier des contenus "
-"éducatifs culturellement pertinents et\n"
+"                    Collaborez avec nous pour créer et publier des contenus éducatifs culturellement pertinents et\n"
 "                    percutants.\n"
 "                    "
 msgstr ""
@@ -1138,17 +1056,11 @@ msgstr "Temwayaj"
 #: templates/pages/home.html:358
 msgid ""
 "\n"
-"                                    KouLakay a transformé mon parcours "
-"éducatif. Les cours sont faciles à suivre, et apprendre en créole haïtien "
-"rend l'expérience tellement plus accessible. Je me sens enfin connecté à des "
-"ressources éducatives de qualité qui répondent à mes besoins.\n"
+"                                    KouLakay a transformé mon parcours éducatif. Les cours sont faciles à suivre, et apprendre en créole haïtien rend l'expérience tellement plus accessible. Je me sens enfin connecté à des ressources éducatives de qualité qui répondent à mes besoins.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    KouLakay te transfòme chemen edikatif "
-"mwen. Kourè yo fasil pou swiv, e aprann nan kreyòl ayisyen fè eksperyans nan "
-"tèlman plis aksesib. Mwen santi mwen finalman konekte ak resous edikatif "
-"kalite ki satisfè bezwen mwen.\n"
+"                                    KouLakay te transfòme chemen edikatif mwen. Kourè yo fasil pou swiv, e aprann nan kreyòl ayisyen fè eksperyans nan tèlman plis aksesib. Mwen santi mwen finalman konekte ak resous edikatif kalite ki satisfè bezwen mwen.\n"
 "                                    "
 
 #: templates/pages/home.html:364
@@ -1164,16 +1076,11 @@ msgstr "Etidyan Segondè"
 #: templates/pages/home.html:376
 msgid ""
 "\n"
-"                                    Les programmes de formation continue de "
-"KouLakay sont incroyablement utiles. Les compétences pratiques que j'ai "
-"acquises ont renforcé ma confiance et m'ont permis de progresser dans ma "
-"carrière.\n"
+"                                    Les programmes de formation continue de KouLakay sont incroyablement utiles. Les compétences pratiques que j'ai acquises ont renforcé ma confiance et m'ont permis de progresser dans ma carrière.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    Pwogram fòmasyon kontinyèl KouLakay yo "
-"itil anpil. Konpetans pratik mwen te aprann yo te ranfòse konfyans mwen e te "
-"pèmèt mwen avanse nan karyè mwen.\n"
+"                                    Pwogram fòmasyon kontinyèl KouLakay yo itil anpil. Konpetans pratik mwen te aprann yo te ranfòse konfyans mwen e te pèmèt mwen avanse nan karyè mwen.\n"
 "                                    "
 
 #: templates/pages/home.html:385
@@ -1183,17 +1090,11 @@ msgstr "Analist biznis"
 #: templates/pages/home.html:395
 msgid ""
 "\n"
-"                                    Notre organisation a collaboré avec "
-"KouLakay pour former nos employés, et les résultats ont été exceptionnels. "
-"Les cours sur mesure et les certifications ont permis à notre équipe "
-"d'améliorer ses compétences et de travailler plus efficacement.\n"
+"                                    Notre organisation a collaboré avec KouLakay pour former nos employés, et les résultats ont été exceptionnels. Les cours sur mesure et les certifications ont permis à notre équipe d'améliorer ses compétences et de travailler plus efficacement.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    Òganizasyon nou an te kolabore ak "
-"KouLakay pou fòme anplwaye nou yo, e rezilta yo te eksepsyonèl. Klas yo "
-"adapte ak bezwen yo ak sètifikasyon yo te pèmèt ekip nou an amelyore "
-"konpetans yo epi travay pi efikas.\n"
+"                                    Òganizasyon nou an te kolabore ak KouLakay pou fòme anplwaye nou yo, e rezilta yo te eksepsyonèl. Klas yo adapte ak bezwen yo ak sètifikasyon yo te pèmèt ekip nou an amelyore konpetans yo epi travay pi efikas.\n"
 "                                    "
 
 #: templates/pages/home.html:404
@@ -1203,15 +1104,11 @@ msgstr "Manadjè Resous Imèn"
 #: templates/pages/home.html:414
 msgid ""
 "\n"
-"                                    Je recommande vivement KouLakay pour sa "
-"flexibilité. J'ai pu apprendre à mon rythme, et les certificats obtenus ont "
-"apporté une vraie valeur ajoutée à mon CV.\n"
+"                                    Je recommande vivement KouLakay pour sa flexibilité. J'ai pu apprendre à mon rythme, et les certificats obtenus ont apporté une vraie valeur ajoutée à mon CV.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    Mwen rekòmande KouLakay anpil pou "
-"fleksibilite li. Mwen te kapab aprann nan pwòp ritm mwen, epi sètifika mwen "
-"te resevwa yo te ajoute yon valè reyèl nan CV mwen.\n"
+"                                    Mwen rekòmande KouLakay anpil pou fleksibilite li. Mwen te kapab aprann nan pwòp ritm mwen, epi sètifika mwen te resevwa yo te ajoute yon valè reyèl nan CV mwen.\n"
 "                                    "
 
 #: templates/pages/home.html:423
@@ -1221,16 +1118,11 @@ msgstr "Gradye resan"
 #: templates/pages/home.html:433
 msgid ""
 "\n"
-"                                    Les solutions de formation B2B proposées "
-"par KouLakay ont parfaitement répondu aux besoins de notre organisation. "
-"L'intégration d'exercices pratiques et d'activités d'équipe a rendu le "
-"processus d'apprentissage engageant et efficace.\n"
+"                                    Les solutions de formation B2B proposées par KouLakay ont parfaitement répondu aux besoins de notre organisation. L'intégration d'exercices pratiques et d'activités d'équipe a rendu le processus d'apprentissage engageant et efficace.\n"
 "                                    "
 msgstr ""
 "\n"
-"                                    Solisyon fòmasyon B2B KouLakay yo te "
-"reponn parfe ak bezwen òganizasyon nou an. Entegrasyon egzèsis pratik ak "
-"aktivite an ekip te fè pwosesis aprantisaj la angaje ak efikas.\n"
+"                                    Solisyon fòmasyon B2B KouLakay yo te reponn parfe ak bezwen òganizasyon nou an. Entegrasyon egzèsis pratik ak aktivite an ekip te fè pwosesis aprantisaj la angaje ak efikas.\n"
 "                                    "
 
 #: templates/pages/home.html:442
@@ -1248,15 +1140,11 @@ msgstr "Fèmen"
 #: templates/partials/footer.html:53
 msgid ""
 "\n"
-"                            In aliquam, augue a gravida rutrum, ante nisl "
-"fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
-"finibus tortor fermentum, tempor lacus.\n"
+"                            In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum, tempor lacus.\n"
 "                        "
 msgstr ""
 "\n"
-"                            In aliquam, augue a gravida rutrum, ante nisl "
-"fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
-"finibus tortor fermentum, tempor lacus.\n"
+"                            In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum, tempor lacus.\n"
 "                        "
 
 #: templates/partials/footer.html:63
@@ -1304,21 +1192,153 @@ msgstr "Fèmen"
 msgid "Profil de cours"
 msgstr "Profil Kourè"
 
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement par carte"
+msgstr "Peman pa kat"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement par carte bancaire"
+msgstr "Peman pa kat bank"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Vos informations sont protégées par Stripe"
+msgstr "Enfòmasyon ou yo pwoteje pa Stripe"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Résumé"
+msgstr "Rezime"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Total"
+msgstr "Total"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Informations de paiement"
+msgstr "Enfòmasyon peman"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Payer"
+msgstr "Peye"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Annuler et retourner aux cours"
+msgstr "Anile epi retounen nan kou yo"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement SSL sécurisé · Stripe"
+msgstr "Peman SSL sekirize · Stripe"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Erreur de connexion à Stripe. Veuillez réessayer."
+msgstr "Erè koneksyon avèk Stripe. Tanpri eseye ankò."
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Une erreur inattendue est survenue."
+msgstr "Yon erè inatandi te rive."
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Choisir un paiement"
+msgstr "Chwazi yon peman"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Choisissez votre paiement"
+msgstr "Chwazi metòd peman ou"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Toutes les méthodes sont sécurisées et disponibles 24h/24"
+msgstr "Tout metòd yo sekirize epi disponib 24h/24"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Méthodes de paiement disponibles"
+msgstr "Metòd peman disponib"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement mobile Digicel"
+msgstr "Peman mobil Digicel"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Haïti · Instant"
+msgstr "Ayiti · Enstantane"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement mobile Natcom"
+msgstr "Peman mobil Natcom"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Carte bancaire"
+msgstr "Kat bank"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "International · 3D Secure"
+msgstr "Entènasyonal · 3D Sekirize"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Sélectionné"
+msgstr "Seleksyone"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Retour au cours"
+msgstr "Retounen nan kou"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Payer maintenant"
+msgstr "Peye kounye a"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Paiement SSL sécurisé"
+msgstr "Peman SSL sekirize"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "MonCash (Digicel)"
+msgstr "MonCash (Digicel)"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "NatCash (Natcom)"
+msgstr "NatCash (Natcom)"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Carte bancaire (Stripe)"
+msgstr "Kat bank (Stripe)"
+
+#: templates/pages/payment_options.html:0
+#: templates/pages/stripe_checkout.html:0
+msgid "Veuillez sélectionner une méthode de paiement."
+msgstr "Tanpri chwazi yon metòd peman."
+
 #~ msgid ""
 #~ "\n"
-#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum "
-#~ "nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
-#~ "finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent "
-#~ "finibus risus facilisis ultricies. Etiam eu purus nec eros varius "
-#~ "luctus.\n"
+#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus facilisis ultricies. Etiam eu purus nec eros varius luctus.\n"
 #~ "\t\t\t\t\t\t\t"
 #~ msgstr ""
 #~ "\n"
-#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum "
-#~ "nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, "
-#~ "finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent "
-#~ "finibus risus facilisis ultricies. Etiam eu purus nec eros varius "
-#~ "luctus.\n"
+#~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus facilisis ultricies. Etiam eu purus nec eros varius luctus.\n"
 #~ "\t\t\t\t\t\t\t"
 
 #~ msgid "Image de l\\"

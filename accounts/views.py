@@ -225,30 +225,35 @@ def thinkific_sso(request):
         messages.error(request, _("Votre compte n'est pas lié à Thinkific."))
         return redirect('home')
 
-    return_to = request.GET.get('return_to', '')
+    return_to = request.GET.get('return_to', '/enrollments')
     site_id = settings.THINKIFIC['SITE_ID']
+    fallback_url = f"https://{site_id}.thinkific.com{return_to}"
 
     try:
         api_url = f"https://api.thinkific.com/api/public/v1/users/{thinkific_user_id}/sso_token"
         headers = {
             "X-Auth-API-Key": settings.THINKIFIC['AUTH_TOKEN'],
             "X-Auth-Subdomain": site_id,
-            "Content-Type": "application/json",
         }
-        response = requests.post(api_url, headers=headers, json={})
+        response = requests.post(api_url, headers=headers, timeout=10)
+
+        # SSO token non disponible sur ce plan → redirect direct vers Thinkific
+        if response.status_code == 404:
+            return redirect(fallback_url)
+
         response.raise_for_status()
 
         token = response.json().get('token')
         if not token:
-            raise ValueError("Token SSO absent de la réponse Thinkific")
+            raise ValueError(f"Token SSO absent — réponse: {response.text[:200]}")
 
-        sso_url = f"https://{site_id}.thinkific.com/api/sso?token={token}"
-        if return_to:
-            sso_url += f"&return_to={return_to}"
+        from urllib.parse import urlencode
+        params = {'token': token, 'return_to': return_to}
+        sso_url = f"https://{site_id}.thinkific.com/api/sso?{urlencode(params)}"
 
         return redirect(sso_url)
 
     except Exception as e:
-        print(f"Erreur SSO Thinkific: {e}")
-        messages.error(request, _("Impossible d'accéder à Thinkific. Veuillez réessayer."))
-        return redirect('home')
+        print(f"[SSO Thinkific] Erreur user={thinkific_user_id}: {e}")
+        # En cas d'erreur, rediriger quand même vers Thinkific plutôt que bloquer
+        return redirect(fallback_url)

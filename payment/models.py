@@ -8,30 +8,30 @@ User = get_user_model()
 
 
 def transaction_number_generator(sender, instance, **kwargs):
-    """Génère un numéro de transaction unique au format KOULKY000001"""
-    if instance.transaction_number is None:
-        def get_transaction_number(next_val):
-            while len(str(next_val)) < 6:
-                next_val = '0' + str(next_val)
-            return 'KOULKY' + next_val
+    """
+    Génère un numéro de transaction unique au format KL-YYYYMMDD-XXXXXXXX
+    Ex: KL-20260311-A3F7K2B8
 
-        last_transaction_number = "KOULKY000000"
-        last_transaction = Transaction.objects.filter(
-            transaction_number__contains="KOULKY"
-        ).order_by('-id').first()
+    Basé sur la date + 8 caractères UUID aléatoires → unique même après
+    reset de base de données ou redéploiement.
+    """
+    if instance.transaction_number is not None:
+        return
 
-        if last_transaction:
-            last_transaction_number = last_transaction.transaction_number
+    import uuid
+    from datetime import date
 
-        next_val = int(last_transaction_number.replace('KOULKY', '')) + 1
-        transaction_number = get_transaction_number(next_val)
+    def make_ref():
+        date_part = date.today().strftime('%Y%m%d')
+        rand_part = uuid.uuid4().hex[:8].upper()
+        return f"KL-{date_part}-{rand_part}"
 
-        # Éviter les doublons
-        while Transaction.objects.filter(transaction_number=transaction_number).exists():
-            next_val += 1
-            transaction_number = get_transaction_number(next_val)
+    ref = make_ref()
+    # Collision extrêmement improbable, mais on vérifie quand même
+    while Transaction.objects.filter(transaction_number=ref).exists():
+        ref = make_ref()
 
-        instance.transaction_number = transaction_number
+    instance.transaction_number = ref
 
 
 class Transaction(models.Model):

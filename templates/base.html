@@ -4,7 +4,8 @@
 {% load dfm_tags %}
 
 <!DOCTYPE html>
-<html lang="fr" class="light">
+{% get_current_language as CURRENT_LANG %}
+<html lang="{{ CURRENT_LANG }}" class="light">
 <head>
     <title>{% block title %}KouLakay{% endblock %}</title>
     <meta charset="utf-8">
