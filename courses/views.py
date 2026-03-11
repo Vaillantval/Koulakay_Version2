@@ -10,13 +10,48 @@ from django.db.models import Count
 import requests
 
 from .monkey_patch.patch_thinkific import ThinkificExtend
-from .models import Enrollment
+from .models import Enrollment, CourseTranslation
 from payment.models import Transaction
 from payment.exchange_service import convert_to_htg
 from pages.models import SiteConfig
 
 # Configuration Thinkific
 thinkific = ThinkificExtend(settings.THINKIFIC['AUTH_TOKEN'], settings.THINKIFIC['SITE_ID'])
+
+
+def apply_course_translations(courses, lang=None):
+    """
+    Remplace name/description des cours Thinkific par les traductions locales
+    enregistrées dans CourseTranslation pour la langue active.
+    Ne fait rien si lang == 'fr' (langue source).
+    courses : dict unique ou liste de dicts.
+    """
+    from django.utils.translation import get_language
+    lang = lang or get_language() or 'fr'
+    if not lang or lang.startswith('fr'):
+        return
+
+    if isinstance(courses, dict):
+        course_list = [courses]
+    else:
+        course_list = list(courses)
+
+    if not course_list:
+        return
+
+    ids = [c['id'] for c in course_list if c.get('id')]
+    translations = {
+        t.course_id: t
+        for t in CourseTranslation.objects.filter(course_id__in=ids, language=lang)
+    }
+
+    for c in course_list:
+        t = translations.get(c.get('id'))
+        if t:
+            if t.name:
+                c['name'] = t.name
+            if t.description:
+                c['description'] = t.description
 
 
 @login_required
@@ -81,11 +116,13 @@ def course_enrollment_step1(request, course_id):
         if site_currency != 'HTG':
             htg_equivalent = convert_to_htg(course_price, site_currency)
 
+        apply_course_translations(course)
         return render(request, 'pages/payment_options.html', {
             'course': course,
             'course_price': course_price,
             'site_currency': site_currency,
             'htg_equivalent': htg_equivalent,
+            'stripe_public_key': settings.STRIPE['PUBLIC_KEY'],
         })
         
     except Exception as e:
@@ -252,34 +289,67 @@ def enroll_user_free(request, course_id, thinkific_user_id, course_name):
 
 @login_required
 def mon_apprentissage(request):
-    """Dashboard 'Mon apprentissage' — cours auxquels l'utilisateur est inscrit"""
-    enrollments = (
-        Enrollment.objects
-        .filter(user=request.user)
-        .select_related('user')
-        .order_by('-activated_at')
-    )
-
+    """
+    Dashboard 'Mon apprentissage'.
+    Source de vérité : API Thinkific (enrollments.list par user_id).
+    Fallback : DB locale si thinkific_user_id absent ou API indisponible.
+    """
+    thinkific_user_id = request.user.thinkific_user_id
+    site_id = settings.THINKIFIC['SITE_ID']
     cours_inscrits = []
-    for enrollment in enrollments:
+
+    # ── Tentative : 1 seul appel API Thinkific ──
+    if thinkific_user_id:
         try:
-            course_data = thinkific.courses.retrieve_course(id=enrollment.course_id)
-            course_data['enrollment'] = enrollment
-            # URL directe sur Thinkific
-            site_id = settings.THINKIFIC['SITE_ID']
-            course_data['thinkific_url'] = f"https://{site_id}.thinkific.com/products/courses/{course_data.get('slug', '')}"
-            cours_inscrits.append(course_data)
-        except Exception:
-            # Si le cours n'existe plus sur Thinkific, on garde une version minimale
+            response = thinkific.enrollments.list(user_id=thinkific_user_id, limit=100)
+            for item in response.get('items', []):
+                course_info = item.get('course') or {}
+                course_id   = item.get('course_id') or course_info.get('id')
+                slug        = course_info.get('slug', '')
+                cours_inscrits.append({
+                    'id':                   course_id,
+                    'name':                 course_info.get('name', f'Cours #{course_id}'),
+                    'slug':                 slug,
+                    'banner_image_url':     course_info.get('banner_image_url'),
+                    'activated_at':         item.get('activated_at'),
+                    'expiry_date':          item.get('expiry_date'),
+                    'percentage_completed': item.get('percentage_completed', 0),
+                    'thinkific_url': (
+                        f"https://{site_id}.thinkific.com/products/courses/{slug}"
+                        if slug else '#'
+                    ),
+                })
+        except Exception as e:
+            print(f"[mon_apprentissage] Erreur API Thinkific: {e}")
+
+    # ── Fallback : DB locale ──
+    if not cours_inscrits:
+        for enrollment in Enrollment.objects.filter(user=request.user).order_by('-activated_at'):
+            slug = ''
+            name = f'Cours #{enrollment.course_id}'
+            banner = None
+            try:
+                cd   = thinkific.courses.retrieve_course(id=enrollment.course_id)
+                slug = cd.get('slug', '')
+                name = cd.get('name', name)
+                banner = cd.get('banner_image_url')
+            except Exception:
+                pass
             cours_inscrits.append({
-                'id': enrollment.course_id,
-                'name': f'Cours #{enrollment.course_id}',
-                'slug': '',
-                'banner_image_url': None,
-                'enrollment': enrollment,
-                'thinkific_url': '#',
+                'id':                   enrollment.course_id,
+                'name':                 name,
+                'slug':                 slug,
+                'banner_image_url':     banner,
+                'activated_at':         enrollment.activated_at,
+                'expiry_date':          enrollment.expiry_date,
+                'percentage_completed': 0,
+                'thinkific_url': (
+                    f"https://{site_id}.thinkific.com/products/courses/{slug}"
+                    if slug else '#'
+                ),
             })
 
+    apply_course_translations(cours_inscrits)
     return render(request, 'pages/mon_apprentissage.html', {
         'cours_inscrits': cours_inscrits,
     })
@@ -356,54 +426,41 @@ def home(request):
     except Exception:
         product_items = []
 
+    enrolled_ids = set()
+    if request.user.is_authenticated:
+        enrolled_ids = set(
+            Enrollment.objects.filter(user=request.user).values_list('course_id', flat=True)
+        )
+
     if top_course_ids:
-        # Cas normal : on a des inscriptions → cours les plus populaires
         for course_id in top_course_ids:
             try:
                 course_data = thinkific.courses.retrieve_course(id=course_id)
-                enroll_count = next((item['num_enrollments'] for item in top_course_ids_queryset if item['course_id'] == course_id), 0)
-                course_data['enrollment_count'] = enroll_count
-
-                course_data['price'] = None
-                for p in product_items:
-                    if p.get('productable_id') == course_id and p.get('price') is not None:
-                        course_data['price'] = p['price']
-                        break
-
-                course_data['enroll'] = False
-                if request.user.is_authenticated:
-                    course_data['enroll'] = Enrollment.objects.filter(
-                        user=request.user, course_id=course_id
-                    ).exists()
-
+                course_data['enrollment_count'] = next(
+                    (item['num_enrollments'] for item in top_course_ids_queryset if item['course_id'] == course_id), 0
+                )
+                course_data['price'] = next(
+                    (p['price'] for p in product_items
+                     if p.get('productable_id') == course_id and p.get('price') is not None), None
+                )
+                course_data['enroll'] = course_id in enrolled_ids
                 popular_courses.append(course_data)
             except Exception as e:
-                print(f"Erreur lors de la récupération du cours populaire {course_id}: {e}")
+                print(f"Erreur cours populaire {course_id}: {e}")
                 continue
     else:
-        # Fallback : aucune inscription encore → afficher les 6 premiers cours de Thinkific
         try:
-            fallback_response = thinkific.courses.list(limit=6)
-            fallback_items = fallback_response.get('items', [])
-            for course_data in fallback_items:
+            for course_data in thinkific.courses.list(limit=6).get('items', []):
                 course_id = course_data.get('id')
                 course_data['enrollment_count'] = 0
-
-                course_data['price'] = None
-                for p in product_items:
-                    if p.get('productable_id') == course_id and p.get('price') is not None:
-                        course_data['price'] = p['price']
-                        break
-
-                course_data['enroll'] = False
-                if request.user.is_authenticated:
-                    course_data['enroll'] = Enrollment.objects.filter(
-                        user=request.user, course_id=course_id
-                    ).exists()
-
+                course_data['price'] = next(
+                    (p['price'] for p in product_items
+                     if p.get('productable_id') == course_id and p.get('price') is not None), None
+                )
+                course_data['enroll'] = course_id in enrolled_ids
                 popular_courses.append(course_data)
         except Exception as e:
-            print(f"Erreur lors de la récupération des cours fallback: {e}")
+            print(f"Erreur cours fallback: {e}")
     
     return render(request, 'pages/home.html', {
         'stats': stats,
@@ -452,32 +509,37 @@ def courses(request):
 
     try:
         category_response = thinkific.collections.list_collections()
-        category_items = category_response.get('items', [])
+        # Exclude the Thinkific "All Products" default collection — duplicates the "Tout" button
+        _all_names = {'all products', 'tous les produits', 'all', 'todo', 'todos los productos'}
+        category_items = [
+            c for c in category_response.get('items', [])
+            if c.get('name', '').strip().lower() not in _all_names
+        ]
     except Exception:
         category_items = []
     
-    # Fonction utilitaire pour traiter les cours
-    def process_course_list(course_list, product_items, request_user):
+    # 1 seule requête pour les cours déjà inscrits
+    enrolled_ids = set()
+    if request.user.is_authenticated:
+        enrolled_ids = set(
+            Enrollment.objects.filter(user=request.user).values_list('course_id', flat=True)
+        )
+
+    def process_course_list(course_list, product_items):
         for c in course_list:
             c['price'] = None
-            product_id = c.get('product_id')
-            
-            if product_id is not None:
+            if c.get('product_id') is not None:
                 for p in product_items:
                     if p.get('productable_id') == c['id'] and p.get('price') is not None:
                         c['price'] = p['price']
                         break
-            
-            c['enroll'] = False
-            if request_user.is_authenticated:
-                c['enroll'] = Enrollment.objects.filter(
-                    user=request_user, 
-                    course_id=c.get('id')
-                ).exists()
+            c['enroll'] = c.get('id') in enrolled_ids
         return course_list
 
-    courses_items = process_course_list(courses_items, product_items, request.user)
-    popular_courses = process_course_list(popular_courses, product_items, request.user)
+    courses_items   = process_course_list(courses_items, product_items)
+    popular_courses = process_course_list(popular_courses, product_items)
+    apply_course_translations(courses_items)
+    apply_course_translations(popular_courses)
     
     # Gestion des filtres POST
     if request.method == "POST":
@@ -584,8 +646,9 @@ def course_details(request, course_id):
     else:
         instructor = {'first_name': 'Instructeur', 'last_name': 'Non Spécifié', 'bio': ''}
     
+    apply_course_translations(course)
     return render(request, 'pages/course_details.html', {
-        'course': course, 
+        'course': course,
         'instructor': instructor,
         'course_content': course_content,
     })

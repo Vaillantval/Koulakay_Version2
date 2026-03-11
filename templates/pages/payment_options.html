@@ -37,12 +37,9 @@
     }
     .pay-logo-box img { width: 100%; height: 100%; object-fit: contain; }
 
-    /* MonCash */
     .pay-card.moncash .pay-logo-box { background: linear-gradient(135deg,#CC0000,#990000); }
-    /* NatCash */
     .pay-card.natcash .pay-logo-box { background: linear-gradient(135deg,#003087,#005BAC); }
-    /* Stripe */
-    .pay-card.stripe .pay-logo-box { background: linear-gradient(135deg,#635BFF,#5148EF); }
+    .pay-card.stripe  .pay-logo-box { background: linear-gradient(135deg,#635BFF,#5148EF); }
 
     /* Radio indicator */
     .pay-radio {
@@ -63,7 +60,7 @@
     }
     .pay-card.selected .pay-radio-dot { opacity: 1; }
 
-    /* Bouton payer -->*/
+    /* Bouton payer */
     .btn-pay {
         background: linear-gradient(135deg,#7C3D0E,#A0663B);
         color: #fff;
@@ -74,6 +71,7 @@
         width: 100%;
         font-size: 1rem;
         letter-spacing: 0.02em;
+        cursor: pointer;
         transition: opacity 0.2s, transform 0.15s;
     }
     .btn-pay:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
@@ -86,6 +84,20 @@
         border-radius: 999px; padding: 4px 12px;
         font-size: 12px; color: #15803D; font-weight: 600;
     }
+
+    /* Stripe inline loading */
+    #stripe-loading {
+        display: flex; align-items: center; justify-content: center;
+        gap: 8px; padding: 20px 0; color: #7C3D0E; font-size: 14px;
+    }
+    .stripe-spinner {
+        width: 18px; height: 18px;
+        border: 2px solid #EDE8E3;
+        border-top-color: #7C3D0E;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 {% endblock %}
 
@@ -186,16 +198,10 @@
                         {% trans "Sélectionné" %} : <strong id="selectionName" class="text-brand-900"></strong>
                     </p>
                 </div>
-
-                <!-- Retour (mobile seulement) -->
-                <a href="{% url 'course_details' course.id %}"
-                   class="lg:hidden mt-4 flex items-center justify-center gap-2 w-full px-5 py-3 border-2 border-brand-200 text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition text-sm">
-                    <i class="fa fa-arrow-left"></i>{% trans "Retour au cours" %}
-                </a>
             </div>
 
             <!-- ══ Colonne droite : résumé + action ══ -->
-            <div class="w-full lg:w-72 lg:sticky lg:top-24">
+            <div class="w-full lg:w-80 lg:sticky lg:top-24">
 
                 <!-- Résumé commande -->
                 <div class="bg-white rounded-2xl border border-brand-100 shadow-sm p-5 mb-4">
@@ -217,15 +223,40 @@
                     </div>
                 </div>
 
-                <!-- Bouton payer -->
-                <button type="submit" id="payBtn" disabled class="btn-pay">
+                <!-- ── Formulaire Stripe inline (affiché quand Stripe sélectionné) ── -->
+                <div id="stripe-inline" class="hidden mb-4">
+                    <div class="bg-white rounded-2xl border border-brand-100 shadow-sm p-5">
+                        <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-4">
+                            {% trans "Informations de paiement" %}
+                        </p>
+                        <!-- Loading -->
+                        <div id="stripe-loading">
+                            <div class="stripe-spinner"></div>
+                            <span>Chargement…</span>
+                        </div>
+                        <!-- Stripe Payment Element -->
+                        <div id="payment-element" class="hidden"></div>
+                        <!-- Erreur -->
+                        <div id="stripe-error" class="hidden mt-3 p-3 rounded-lg text-sm text-red-700"
+                             style="background:#FEE2E2;"></div>
+                    </div>
+
+                    <!-- Bouton Stripe -->
+                    <button type="button" id="stripe-pay-btn" class="btn-pay mt-3" disabled>
+                        <span class="material-symbols-outlined align-middle mr-2" style="font-size:17px;">lock</span>
+                        <span id="stripe-btn-text">{% trans "Payer" %} {{ course_price }} {{ site_currency }}</span>
+                    </button>
+                </div>
+
+                <!-- ── Bouton Payer (méthodes non-Stripe) ── -->
+                <button type="submit" id="payBtn" disabled class="btn-pay hidden">
                     <span class="material-symbols-outlined align-middle mr-2" style="font-size:17px;">lock</span>
                     {% trans "Payer maintenant" %}
                 </button>
 
-                <!-- Retour (desktop seulement) -->
+                <!-- Retour au cours (visible sur mobile ET desktop) -->
                 <a href="{% url 'course_details' course.id %}"
-                   class="hidden lg:flex items-center justify-center gap-2 mt-3 w-full px-5 py-3 border-2 border-brand-200 text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition text-sm">
+                   class="flex items-center justify-center gap-2 mt-3 w-full px-5 py-3 border-2 border-brand-200 text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition text-sm">
                     <i class="fa fa-arrow-left"></i>{% trans "Retour au cours" %}
                 </a>
 
@@ -244,12 +275,21 @@
 </div>
 </div>
 
+<script src="https://js.stripe.com/v3/"></script>
 <script>
 const methodNames = {
     moncash:     '{% trans "MonCash (Digicel)" %}',
     natcash:     '{% trans "NatCash (Natcom)" %}',
     credit_card: '{% trans "Carte bancaire (Stripe)" %}',
 };
+
+const STRIPE_PUBLIC_KEY  = '{{ stripe_public_key }}';
+const INIT_INLINE_URL    = '{% url "payment:stripe_init_inline" %}';
+const CSRF_TOKEN         = '{{ csrf_token }}';
+
+let stripeInstance  = null;
+let stripeElements  = null;
+let stripeReady     = false;
 
 function selectMethod(card) {
     document.querySelectorAll('.pay-card').forEach(c => c.classList.remove('selected'));
@@ -259,10 +299,84 @@ function selectMethod(card) {
     document.getElementById('selectedMethod').value = method;
     document.getElementById('selectionName').textContent = methodNames[method];
     document.getElementById('selectionMsg').classList.remove('hidden');
-    document.getElementById('payBtn').disabled = false;
+
+    if (method === 'credit_card') {
+        // Afficher section Stripe, masquer bouton classique
+        document.getElementById('stripe-inline').classList.remove('hidden');
+        document.getElementById('payBtn').classList.add('hidden');
+        initStripeInline();
+    } else {
+        // Masquer Stripe, afficher bouton classique
+        document.getElementById('stripe-inline').classList.add('hidden');
+        document.getElementById('payBtn').classList.remove('hidden');
+        document.getElementById('payBtn').disabled = false;
+    }
 }
 
-// URL générée par Django avec le bon préfixe de langue (/fr/, /en/, etc.)
+async function initStripeInline() {
+    if (stripeReady) return;
+
+    try {
+        const resp = await fetch(INIT_INLINE_URL, {
+            method: 'POST',
+            headers: {'X-CSRFToken': CSRF_TOKEN, 'Content-Type': 'application/json'},
+        });
+        const data = await resp.json();
+
+        if (!resp.ok || data.error) {
+            showStripeError(data.error || '{% trans "Erreur de connexion à Stripe. Veuillez réessayer." %}');
+            return;
+        }
+
+        stripeInstance = Stripe(STRIPE_PUBLIC_KEY);
+        stripeElements = stripeInstance.elements({clientSecret: data.client_secret});
+
+        const payEl = stripeElements.create('payment', {layout: 'tabs'});
+        document.getElementById('stripe-loading').classList.add('hidden');
+        const elContainer = document.getElementById('payment-element');
+        elContainer.classList.remove('hidden');
+        payEl.mount('#payment-element');
+
+        payEl.on('ready', () => {
+            document.getElementById('stripe-pay-btn').disabled = false;
+        });
+
+        window._stripeSuccessUrl = data.success_url;
+        stripeReady = true;
+
+    } catch (err) {
+        showStripeError('{% trans "Une erreur inattendue est survenue." %}');
+        console.error(err);
+    }
+}
+
+function showStripeError(msg) {
+    const el = document.getElementById('stripe-error');
+    el.textContent = msg;
+    el.classList.remove('hidden');
+    document.getElementById('stripe-loading').classList.add('hidden');
+}
+
+document.getElementById('stripe-pay-btn').addEventListener('click', async () => {
+    if (!stripeInstance || !stripeElements) return;
+
+    const btn = document.getElementById('stripe-pay-btn');
+    btn.disabled = true;
+    document.getElementById('stripe-btn-text').textContent = '…';
+
+    const {error} = await stripeInstance.confirmPayment({
+        elements: stripeElements,
+        confirmParams: {return_url: window._stripeSuccessUrl},
+    });
+
+    if (error) {
+        showStripeError(error.message);
+        btn.disabled = false;
+        document.getElementById('stripe-btn-text').textContent = '{% trans "Payer" %} {{ course_price }} {{ site_currency }}';
+    }
+});
+
+// Soumission du formulaire pour méthodes non-Stripe
 const enrollPaymentBaseUrl = "{% url 'course_enrollment_payment' 'METHODE' %}";
 
 document.getElementById('payForm').addEventListener('submit', function(e) {
@@ -270,6 +384,10 @@ document.getElementById('payForm').addEventListener('submit', function(e) {
     if (!method) {
         e.preventDefault();
         alert('{% trans "Veuillez sélectionner une méthode de paiement." %}');
+        return;
+    }
+    if (method === 'credit_card') {
+        e.preventDefault(); // Géré par Stripe
         return;
     }
     this.action = enrollPaymentBaseUrl.replace('METHODE', method);

@@ -72,6 +72,7 @@ if _extra_origins:
 
 INSTALLED_APPS = [
     'jazzmin',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -410,6 +411,9 @@ LANGUAGES = [
 ]
 
 LANGUAGE_CODE = 'fr'
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'fr'
+MODELTRANSLATION_LANGUAGES = ('fr', 'en', 'es', 'ht')
 
 USE_I18N = True
 

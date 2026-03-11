@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+from modeltranslation.admin import TabbedTranslationAdmin
 from .models import SiteConfig, HeroSlide
 
 
 @admin.register(HeroSlide)
-class HeroSlideAdmin(admin.ModelAdmin):
+class HeroSlideAdmin(TabbedTranslationAdmin):
     list_display = ("order", "title", "is_active", "image_preview")
     list_display_links = ("title",)
     list_editable = ("order", "is_active")
@@ -25,7 +26,7 @@ class HeroSlideAdmin(admin.ModelAdmin):
 
 
 @admin.register(SiteConfig)
-class SiteConfigAdmin(admin.ModelAdmin):
+class SiteConfigAdmin(TabbedTranslationAdmin):
     """
     Admin pour la configuration globale du site.
     - Une seule instance possible (singleton)

@@ -565,6 +565,95 @@ def stripe_success(request):
     return redirect('course_details', course_id=course_id) if course_id else redirect('courses')
 
 
+@login_required
+def stripe_init_inline(request):
+    """
+    AJAX POST — crée Transaction + PaymentIntent depuis enrollment_data de session.
+    Utilisé pour le paiement Stripe inline directement dans payment_options.html.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    enrollment_data = request.session.get('enrollment_data')
+    if not enrollment_data:
+        return JsonResponse({'error': 'Session expirée'}, status=400)
+
+    # Réutiliser transaction + PI existants si dispo (rechargement de page)
+    tx_number = request.session.get('stripe_transaction_number')
+    if tx_number:
+        try:
+            tx = Transaction.objects.get(
+                transaction_number=tx_number,
+                user=request.user,
+                status=Transaction.Status.PENDING,
+            )
+            if tx.external_transaction_id and tx.external_transaction_id.startswith('pi_'):
+                import stripe as _stripe
+                _stripe.api_key = settings.STRIPE['SECRET_KEY']
+                intent = _stripe.PaymentIntent.retrieve(tx.external_transaction_id)
+                if intent.status in ('requires_payment_method', 'requires_confirmation', 'requires_action'):
+                    return JsonResponse({
+                        'client_secret': intent.client_secret,
+                        'success_url': request.build_absolute_uri(reverse('payment:stripe_success')),
+                    })
+        except Transaction.DoesNotExist:
+            pass
+
+    from decimal import Decimal
+    from pages.models import SiteConfig
+    from payment.exchange_service import convert_to_htg, get_htg_rate
+
+    course_id = enrollment_data['course_id']
+    course_price = Decimal(str(enrollment_data['course_price']))
+    product_id = enrollment_data.get('product_id')
+    thinkific_user_id = enrollment_data['thinkific_user_id']
+    course_name = enrollment_data['course_name']
+
+    site_currency = SiteConfig.get().currency
+    if site_currency == 'USD':
+        montant_usd = float(course_price)
+    else:
+        htg_amount = convert_to_htg(course_price, site_currency)
+        if htg_amount:
+            usd_rate = get_htg_rate('USD')
+            montant_usd = round(htg_amount / usd_rate, 2) if usd_rate else float(course_price)
+        else:
+            montant_usd = float(course_price)
+
+    tx = Transaction.objects.create(
+        user=request.user,
+        price=Decimal(str(montant_usd)),
+        currency=Transaction.Currencies.USD,
+        status=Transaction.Status.PENDING,
+        payment_method='credit_card',
+        meta_data={
+            "course": {"course_id": course_id, "course_name": course_name, "product_id": product_id},
+            "user": {"id": request.user.pk, "email": request.user.email, "thinkific_user_id": thinkific_user_id},
+        },
+    )
+
+    from .stripe_service import StripeService
+    stripe_svc = StripeService()
+    result = stripe_svc.create_payment_intent(
+        amount_usd=montant_usd,
+        transaction_number=tx.transaction_number,
+        metadata={'course_id': str(course_id), 'user_email': request.user.email},
+    )
+
+    if not result['success']:
+        tx.delete()
+        return JsonResponse({'error': result['error']}, status=500)
+
+    tx.external_transaction_id = result['payment_intent_id']
+    tx.save(update_fields=['external_transaction_id'])
+    request.session['stripe_transaction_number'] = tx.transaction_number
+
+    return JsonResponse({
+        'client_secret': result['client_secret'],
+        'success_url': request.build_absolute_uri(reverse('payment:stripe_success')),
+    })
+
+
 @csrf_exempt
 def stripe_webhook(request):
     """

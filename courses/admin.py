@@ -32,3 +32,11 @@ def _register(model, admin_class):
 
 
 _register(models.Enrollment, EnrollmentAdmin)
+
+
+@admin.register(models.CourseTranslation)
+class CourseTranslationAdmin(admin.ModelAdmin):
+    list_display = ('course_id', 'language', 'name')
+    list_filter = ('language',)
+    search_fields = ('course_id', 'name')
+    ordering = ('course_id', 'language')

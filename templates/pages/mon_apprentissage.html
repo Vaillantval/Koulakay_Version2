@@ -44,14 +44,22 @@
                             <i class="fa fa-book-open text-5xl text-brand-300"></i>
                         </div>
                     {% endif %}
-                    <!-- Badge accès -->
+                    <!-- Badge accès actif -->
+                    {% if course.expiry_date %}
                     <div class="absolute top-2 right-2">
-                        {% if course.enrollment.expiry_date %}
-                            <span class="text-xs bg-green-500 text-white px-2 py-0.5 rounded-full font-medium">
-                                {% trans "Actif" %}
-                            </span>
-                        {% endif %}
+                        <span class="text-xs bg-green-500 text-white px-2 py-0.5 rounded-full font-medium shadow">
+                            {% trans "Actif" %}
+                        </span>
                     </div>
+                    {% endif %}
+                    <!-- Badge progression -->
+                    {% if course.percentage_completed %}
+                    <div class="absolute bottom-2 left-2">
+                        <span class="text-xs bg-brand-800/80 text-white px-2 py-0.5 rounded-full font-medium backdrop-blur-sm">
+                            {{ course.percentage_completed }}% {% trans "complété" %}
+                        </span>
+                    </div>
+                    {% endif %}
                 </div>
 
                 <!-- Contenu -->
@@ -60,22 +68,34 @@
                         {{ course.name }}
                     </h2>
 
+                    <!-- Barre de progression -->
+                    {% if course.percentage_completed %}
+                    <div class="w-full bg-brand-100 rounded-full h-1.5">
+                        <div class="bg-brand-600 h-1.5 rounded-full transition-all"
+                             style="width: {{ course.percentage_completed }}%"></div>
+                    </div>
+                    {% endif %}
+
                     <!-- Dates -->
                     <div class="text-xs text-brand-400 space-y-1">
+                        {% if course.activated_at %}
                         <div class="flex items-center gap-1.5">
                             <i class="fa fa-calendar-check text-green-500"></i>
                             <span>
                                 {% trans "Inscrit le" %}
-                                {{ course.enrollment.activated_at|date:"d/m/Y" }}
+                                {{ course.activated_at|date:"d/m/Y" }}
                             </span>
                         </div>
+                        {% endif %}
+                        {% if course.expiry_date %}
                         <div class="flex items-center gap-1.5">
                             <i class="fa fa-clock text-brand-400"></i>
                             <span>
                                 {% trans "Accès jusqu'au" %}
-                                {{ course.enrollment.expiry_date|date:"d/m/Y" }}
+                                {{ course.expiry_date|date:"d/m/Y" }}
                             </span>
                         </div>
+                        {% endif %}
                     </div>
 
                     <!-- Bouton accès -->

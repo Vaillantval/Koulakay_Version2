@@ -16,7 +16,7 @@ def home(request):
 
     # ── Imports locaux pour éviter les imports circulaires ──
     from courses.models import Enrollment
-    from courses.views import thinkific
+    from courses.views import thinkific, apply_course_translations
 
     try:
         courses_response = thinkific.courses.list(limit=1)
@@ -59,8 +59,13 @@ def home(request):
         )
         top_ids = [item['course_id'] for item in top_qs]
 
+        enrolled_ids = set()
+        if request.user.is_authenticated:
+            enrolled_ids = set(
+                Enrollment.objects.filter(user=request.user).values_list('course_id', flat=True)
+            )
+
         if top_ids:
-            # Cours classés par popularité
             for course_id in top_ids:
                 try:
                     c = thinkific.courses.retrieve_course(id=course_id)
@@ -69,36 +74,27 @@ def home(request):
                     )
                     c['price'] = next(
                         (p['price'] for p in product_items
-                         if p.get('productable_id') == course_id and p.get('price') is not None),
-                        None
+                         if p.get('productable_id') == course_id and p.get('price') is not None), None
                     )
-                    c['enroll'] = (
-                        request.user.is_authenticated and
-                        Enrollment.objects.filter(user=request.user, course_id=course_id).exists()
-                    )
+                    c['enroll'] = course_id in enrolled_ids
                     popular_courses.append(c)
                 except Exception:
                     continue
         else:
-            # Fallback : aucune inscription → 6 premiers cours Thinkific
-            fallback = thinkific.courses.list(limit=6).get('items', [])
-            for c in fallback:
+            for c in thinkific.courses.list(limit=6).get('items', []):
                 cid = c.get('id')
                 c['enrollment_count'] = 0
                 c['price'] = next(
                     (p['price'] for p in product_items
-                     if p.get('productable_id') == cid and p.get('price') is not None),
-                    None
+                     if p.get('productable_id') == cid and p.get('price') is not None), None
                 )
-                c['enroll'] = (
-                    request.user.is_authenticated and
-                    Enrollment.objects.filter(user=request.user, course_id=cid).exists()
-                )
+                c['enroll'] = cid in enrolled_ids
                 popular_courses.append(c)
 
     except Exception as e:
         print(f"[home] Erreur cours populaires: {e}")
 
+    apply_course_translations(popular_courses)
     site_currency = SiteConfig.get().currency
 
     return render(request, 'pages/home.html', {

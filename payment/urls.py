@@ -17,5 +17,6 @@ urlpatterns = [
     # Stripe Elements
     path('stripe/checkout/', views.stripe_checkout, name='stripe_checkout'),
     path('stripe/create-intent/', views.stripe_create_intent, name='stripe_create_intent'),
+    path('stripe/init-inline/', views.stripe_init_inline, name='stripe_init_inline'),
     path('stripe/success/', views.stripe_success, name='stripe_success'),
 ]

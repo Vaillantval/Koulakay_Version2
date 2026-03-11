@@ -1328,6 +1328,10 @@ msgstr "Bank Card (Stripe)"
 msgid "Veuillez sélectionner une méthode de paiement."
 msgstr "Please select a payment method."
 
+#: templates/pages/courses.html:55
+msgid "Tout"
+msgstr "All"
+
 #~ msgid ""
 #~ "\n"
 #~ "\t\t\t\t\t\t\tIn aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum. Etiam eu purus nec eros varius luctus. Praesent finibus risus facilisis ultricies. Etiam eu purus nec eros varius luctus.\n"

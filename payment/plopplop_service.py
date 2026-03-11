@@ -27,10 +27,13 @@ class PlopPlopService:
         Returns:
             dict: { 'success': bool, 'url': str, 'transaction_id': str, 'error': str }
         """
+
+
+        import math
         payload = {
             'client_id': self.client_id,
             'refference_id': str(refference_id),
-            'montant': float(montant),
+            'montant': math.ceil(float(montant)),
             'payment_method': payment_method,
         }
 
