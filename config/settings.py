@@ -157,7 +157,7 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.github',
     # 'allauth.socialaccount.providers.gitlab',
     # 'allauth.socialaccount.providers.globus',
-    # 'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.google',
     # 'allauth.socialaccount.providers.gumroad',
     # 'allauth.socialaccount.providers.hubic',
     # 'allauth.socialaccount.providers.instagram',
@@ -392,8 +392,20 @@ ACCOUNT_FORMS = {
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
 
-SOCIALACCOUNT_LOGIN_ON_GET = True 
+SOCIALACCOUNT_LOGIN_ON_GET = True
 ACCOUNT_LOGOUT_ON_GET = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.environ.get('GOOGLE_CLIENT_ID', ''),
+            'secret':    os.environ.get('GOOGLE_CLIENT_SECRET', ''),
+            'key':       '',
+        },
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    }
+}
 
 LOGIN_REDIRECT_URL = "/"           # fallback si pas de ?next=
 LOGIN_URL = '/accounts/login/'
