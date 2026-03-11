@@ -22,7 +22,8 @@
       "Read(//c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/**)",
       "Bash(echo \"EXISTS: $s\")",
       "Bash(echo \"MISSING: $s\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(find \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\\\\payment\" -name \"views.py\" -o -name \"urls.py\" | xargs wc -l)"
     ]
   }
 }
