@@ -1,7 +1,7 @@
 from allauth.socialaccount.signals import social_account_added, social_account_updated
 from django.dispatch import receiver
 
-from .adapters import _create_thinkific_account, _generate_password
+from .adapters import _get_or_create_thinkific_account, _generate_password
 
 
 def _ensure_thinkific_linked(user):
@@ -13,7 +13,7 @@ def _ensure_thinkific_linked(user):
         return  # Déjà lié
 
     raw_password = _generate_password(user.email)
-    thinkific_user_id = _create_thinkific_account(user, raw_password)
+    thinkific_user_id = _get_or_create_thinkific_account(user, raw_password)
 
     if thinkific_user_id:
         user.thinkific_user_id = thinkific_user_id

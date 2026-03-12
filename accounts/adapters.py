@@ -24,13 +24,28 @@ def _generate_password(email: str) -> str:
     return f"{prefix}_{suffix}"
 
 
-def _create_thinkific_account(user, raw_password: str):
+def _get_or_create_thinkific_account(user, raw_password: str):
     """
-    Crée ou retrouve le compte Thinkific de l'utilisateur.
-    Retourne l'ID Thinkific ou None en cas d'échec.
+    Même logique que l'admin :
+    1. Cherche d'abord le user dans Thinkific par email
+    2. Si trouvé → retourne son ID (sans rien modifier)
+    3. Si absent → crée le compte → retourne l'ID
+    Retourne None en cas d'échec.
     """
     tk = Thinkific(settings.THINKIFIC['AUTH_TOKEN'], settings.THINKIFIC['SITE_ID'])
+
     try:
+        # 1. Chercher par email dans Thinkific
+        result = tk.users.list(email=user.email)
+        for u in result.get('items', []):
+            if u.get('email', '').lower() == user.email.lower():
+                return u.get('id')  # trouvé → on retourne l'ID directement
+    except Exception as e:
+        print(f"[Thinkific] Erreur recherche par email ({user.email}): {e}")
+        return None
+
+    try:
+        # 2. Pas trouvé → créer le compte
         thinkific_user = tk.users.create_user({
             'email': user.email,
             'first_name': user.first_name or '',
@@ -39,23 +54,9 @@ def _create_thinkific_account(user, raw_password: str):
             'send_welcome_email': False,
         })
         return thinkific_user.get('id') if thinkific_user else None
-
-    except requests.exceptions.HTTPError as e:
-        # 422 = utilisateur déjà existant dans Thinkific → récupérer son ID
-        if e.response is not None and e.response.status_code == 422:
-            try:
-                result = tk.users.list(email=user.email)
-                for u in result.get('items', []):
-                    if u.get('email', '').lower() == user.email.lower():
-                        return u.get('id')
-            except Exception as inner:
-                print(f"[Google OAuth] Erreur récupération user Thinkific: {inner}")
-        else:
-            print(f"[Google OAuth] Erreur création Thinkific: {e}")
     except Exception as e:
-        print(f"[Google OAuth] Erreur inattendue Thinkific: {e}")
-
-    return None
+        print(f"[Thinkific] Erreur création compte ({user.email}): {e}")
+        return None
 
 
 def _send_credentials_email(request, user, raw_password: str):
@@ -115,8 +116,8 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
         user.set_password(raw_password)
         user.save(update_fields=['password'])
 
-        # Créer le compte Thinkific
-        thinkific_user_id = _create_thinkific_account(user, raw_password)
+        # Chercher ou créer le compte Thinkific
+        thinkific_user_id = _get_or_create_thinkific_account(user, raw_password)
         if thinkific_user_id:
             user.thinkific_user_id = thinkific_user_id
             user.save(update_fields=['thinkific_user_id'])
