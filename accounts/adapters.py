@@ -114,11 +114,12 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
         """
         super().pre_social_login(request, sociallogin)
 
-        # Seulement pour les utilisateurs déjà existants dans Django
-        if not sociallogin.is_existing:
+        user = sociallogin.user
+
+        # user.pk est None si c'est un tout nouvel utilisateur → save_user() s'en charge
+        if not user.pk:
             return
 
-        user = sociallogin.user
         if user.thinkific_user_id:
             return  # Déjà lié, rien à faire
 
