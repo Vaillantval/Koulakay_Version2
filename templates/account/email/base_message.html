@@ -2,66 +2,57 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <title>Next Generation IT Academy</title>
-    <meta charset="utf-8">
-    
-    <style>
-        .footer {
-            background-color: #f2f2f2;
-            padding: 20px;
-            text-align: center;
-        }
-        .footer img {
-            max-width: 100%;
-            height: auto;
-        }
-        .footer a {
-            color: #666;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            color: #222;
-        }
-        .footer p {
-            margin: 0;
-            font-size: 14px;
-        }
-        .footer .icons {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-        .footer .icons a {
-            margin: 0 10px;
-        }
-    </style>
-  </head>
-  <body>
-    <div>
-      <p style="text-align:center ;"><img src="https://{{current_site.domain}}{% static 'logo/Jhonny-01-.png' %}" alt="Next Generation IT Academy" style="width:200px; height:69px; "></p>
-      
-        <h4>{% autoescape off %}{% blocktrans with site_name=current_site.name %}Hello from {{ site_name }}!{% endblocktrans %}</h4>
-        
-        <p>
-            {% block content %}{% endblock %}
-        </p>
-
-        <p>
-            {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Thank you for using {{ site_name }}!
-            {{ site_domain }}{% endblocktrans %}
-            {% endautoescape %}
-        </p>
+  <meta charset="utf-8">
+  <title>KouLakay</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 30px auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .header { background-color: #1a3c5e; padding: 24px; text-align: center; }
+    .header img { height: 50px; }
+    .body { padding: 32px; color: #333333; font-size: 15px; line-height: 1.6; }
+    .body h4 { color: #1a3c5e; margin-top: 0; font-size: 18px; }
+    .footer { background-color: #f2f2f2; padding: 16px; text-align: center; font-size: 12px; color: #999999; }
+    .footer .icons { display: flex; justify-content: center; margin-bottom: 10px; gap: 12px; }
+    .footer .icons a img { width: 25px; height: 25px; }
+    .footer a { color: #666; text-decoration: none; }
+    .footer a:hover { color: #222; }
+    .footer p { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://{{ current_site.domain }}{% static 'logo/koulakay.png' %}" alt="KouLakay">
     </div>
+
+    <div class="body">
+      <h4>{% autoescape off %}{% blocktrans with site_name=current_site.name %}Bonjour depuis {{ site_name }} !{% endblocktrans %}</h4>
+
+      <p>{% block content %}{% endblock %}</p>
+
+      <p>
+        {% autoescape off %}
+        {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+        Merci d'utiliser {{ site_name }} !<br>{{ site_domain }}
+        {% endblocktrans %}
+        {% endautoescape %}
+      </p>
+    </div>
+
     <div class="footer">
       <div class="icons">
-        <a href="https://www.instagram.com/netxgenerationitacademy/"><img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-instagram-new-circle-512.png" alt="Instagram" style="width:25px;height:25px;"></a>
-        <a href="https://www.facebook.com/netxgenerationitacademy"><img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-facebook-circle-512.png" alt="Facebook" style="width:25px;height:25px;"></a>
-        <a href="https://www.linkedin.com/company/netxgenerationitacademy"><img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-linkedin-circle-512.png" alt="LinkedIn"style="width:25px;height:25px;" ></a>
+        <a href="https://www.facebook.com/koulakay">
+          <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-facebook-circle-512.png" alt="Facebook">
+        </a>
+        <a href="https://www.instagram.com/koulakay">
+          <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-instagram-new-circle-512.png" alt="Instagram">
+        </a>
       </div>
-      <p><img src="https://{{current_site.domain}}{% static 'logo/Jhonny-01-.png' %}" alt="Next Generation IT Academy" style="width:200px; height:69px; "></p>
-      <p>Next Generation IT Academy<br>1234 Main Street<br>Anytown, USA 12345<br><a href="tel:+1234567890">123-456-7890</a></p>
+      <p>KouLakay &mdash; {{ current_site.domain }}</p>
+      <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
     </div>
-  </body>
+  </div>
+</body>
 </html>
