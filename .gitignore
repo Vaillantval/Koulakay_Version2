@@ -286,4 +286,4 @@ dmypy.json
 
 # Node
 # Dependency directories
-node_modules/
+node_modules/.claude/
