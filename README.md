@@ -96,10 +96,16 @@ Railway détecte le push
 
 ### Authentification
 - Inscription / connexion par **email** (pas de username)
-- **Google OAuth** via django-allauth socialaccount
-- Création automatique du compte **Thinkific** à l'inscription
+- **Google OAuth** via django-allauth socialaccount (`CustomSocialAccountAdapter`)
+  - **Sign up Google (nouvel utilisateur) :**
+    - Mot de passe auto-généré (`prefixeEmail_XXXXX`) sauvegardé dans Django
+    - Compte Thinkific créé automatiquement · `thinkific_user_id` lié
+    - Email de credentials envoyé → le user peut aussi se connecter email/password
+  - **Sign in Google (utilisateur existant) :**
+    - Si `thinkific_user_id` absent : recherche dans Thinkific par email, crée si inexistant, lie l'ID dans Django
+- Création automatique du compte **Thinkific** à l'inscription (email ou Google)
 - SSO transparent vers Thinkific (`/accounts/thinkific-sso/`)
-- Réinitialisation de mot de passe par email (Mailjet)
+- Réinitialisation de mot de passe par email (Mailjet) — page stylée + email HTML branded
 
 ### Catalogue de cours
 - Affichage des cours depuis l'**API Thinkific** (paginé)
@@ -159,6 +165,7 @@ Django_KouLakay/
 │   ├── models.py               # User (email-based, thinkific_user_id)
 │   ├── views.py                # ThinkificSignupView, ThinkificLoginView, SSO
 │   ├── forms.py                # CustomSignupForm (first_name, last_name)
+│   ├── adapters.py             # CustomSocialAccountAdapter (Google OAuth → Thinkific + email)
 │   └── urls.py
 │
 ├── pages/                      # Pages publiques & config site
@@ -415,6 +422,8 @@ Copier **Client ID** et **Client Secret** → variables Railway `GOOGLE_CLIENT_I
 □ https://urls.lat/fr/admin/       → interface admin accessible
 □ Connexion email                   → fonctionne
 □ Connexion Google                  → fonctionne (si configuré)
+□ Sign up Google → email credentials reçu · thinkific_user_id visible dans l'admin
+□ Sign in Google → thinkific_user_id lié si manquant
 □ Inscription → compte Thinkific créé automatiquement
 □ Paiement MonCash → inscription cours → email de confirmation reçu
 □ Paiement Stripe → inscription cours → email de confirmation reçu
