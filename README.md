@@ -2,7 +2,7 @@
 
 > Plateforme e-learning complète intégrant Thinkific LMS, des paiements locaux haïtiens (MonCash, NatCash) et internationaux (Stripe), avec support multilingue (FR · EN · ES · HT).
 
-**Production :** [urls.lat](https://urls.lat) · **GitHub :** [Vaillantval/Koulakay_Version2](https://github.com/Vaillantval/Koulakay_Version2)
+**Production :** [koulakay.ht](https://koulakay.ht) · **GitHub :** [Vaillantval/Koulakay_Version2](https://github.com/Vaillantval/Koulakay_Version2)
 
 ---
 
@@ -28,7 +28,7 @@
 KouLakay est une plateforme éducative conçue pour le marché haïtien. Elle permet aux étudiants de s'inscrire à des formations hébergées sur **Thinkific**, de payer via les méthodes locales (**MonCash**, **NatCash**) ou par carte bancaire internationale (**Stripe**), et d'accéder à leurs cours via un SSO transparent.
 
 ```
-Visiteur → urls.lat → Catalogue de cours → Inscription → Paiement → Accès Thinkific
+Visiteur → koulakay.ht → Catalogue de cours → Inscription → Paiement → Accès Thinkific
 ```
 
 ---
@@ -58,7 +58,7 @@ Visiteur → urls.lat → Catalogue de cours → Inscription → Paiement → Ac
 
 ```
                           ┌─────────────────────────┐
-                          │   Cloudflare (urls.lat)  │
+                          │   Cloudflare (koulakay.ht)  │
                           │  DNS · SSL · DDoS · CDN  │
                           └────────────┬────────────┘
                                        │ HTTPS
@@ -273,7 +273,7 @@ THINKIFIC_WEBHOOK_SECRET=votre-webhook-secret
 
 # ── PlopPlop (paiements haïtiens) ───────────────────────────────────────────
 PLOPPLOP_CLIENT_ID=votre-client-id
-PLOPPLOP_RETURN_URL=https://urls.lat/payment/retour/
+PLOPPLOP_RETURN_URL=https://koulakay.ht/payment/retour/
 
 # ── Stripe (carte bancaire internationale) ──────────────────────────────────
 STRIPE_PUBLIC_KEY=pk_live_...
@@ -301,7 +301,7 @@ GOOGLE_CLIENT_SECRET=GOCSPX-xxxxx
 ### Vue d'ensemble
 
 ```
-Registrar (urls.lat) → Cloudflare (DNS · SSL · CDN) → Railway (Django + PostgreSQL)
+Registrar (koulakay.ht) → Cloudflare (DNS · SSL · CDN) → Railway (Django + PostgreSQL)
 ```
 
 ---
@@ -328,13 +328,13 @@ Dans **Service → Variables** :
 | `DEBUG` | `False` |
 | `PRODUCTION` | `True` |
 | `SECRET_KEY` | *(clé générée, min. 50 caractères)* |
-| `ALLOWED_HOSTS` | `urls.lat,www.urls.lat` |
-| `CSRF_TRUSTED_ORIGINS` | `https://urls.lat,https://www.urls.lat` |
+| `ALLOWED_HOSTS` | `koulakay.ht,www.koulakay.ht` |
+| `CSRF_TRUSTED_ORIGINS` | `https://koulakay.ht,https://www.koulakay.ht` |
 | `SITE_ID` | *(subdomain Thinkific)* |
 | `THINKIFIC_SECRET_KEY` | *(clé API Thinkific)* |
 | `THINKIFIC_WEBHOOK_SECRET` | *(depuis Thinkific → Settings → Webhooks)* |
 | `PLOPPLOP_CLIENT_ID` | *(client ID PlopPlop)* |
-| `PLOPPLOP_RETURN_URL` | `https://urls.lat/payment/retour/` |
+| `PLOPPLOP_RETURN_URL` | `https://koulakay.ht/payment/retour/` |
 | `STRIPE_PUBLIC_KEY` | `pk_live_...` |
 | `STRIPE_SECRET_KEY` | `sk_live_...` |
 | `STRIPE_WEBHOOK_SECRET` | `whsec_...` |
@@ -349,8 +349,8 @@ Dans **Service → Variables** :
 
 **Service → Settings → Networking → Custom Domain :**
 ```
-urls.lat
-www.urls.lat
+koulakay.ht
+www.koulakay.ht
 ```
 Railway affiche les enregistrements DNS CNAME à copier dans Cloudflare.
 
@@ -360,7 +360,7 @@ Railway affiche les enregistrements DNS CNAME à copier dans Cloudflare.
 
 #### 1. Ajouter le domaine
 
-- Aller sur [cloudflare.com](https://cloudflare.com) → **Add a Site** → `urls.lat`
+- Aller sur [cloudflare.com](https://cloudflare.com) → **Add a Site** → `koulakay.ht`
 - Plan **Free** suffisant
 - Changer les nameservers chez le registrar vers ceux fournis par Cloudflare
 
@@ -387,15 +387,15 @@ Dans [Google Cloud Console](https://console.cloud.google.com) :
 
 **Origines JavaScript autorisées :**
 ```
-https://urls.lat
+https://koulakay.ht
 ```
 
 **URIs de redirection autorisées :**
 ```
-https://urls.lat/fr/accounts/google/login/callback/
-https://urls.lat/en/accounts/google/login/callback/
-https://urls.lat/es/accounts/google/login/callback/
-https://urls.lat/ht/accounts/google/login/callback/
+https://koulakay.ht/fr/accounts/google/login/callback/
+https://koulakay.ht/en/accounts/google/login/callback/
+https://koulakay.ht/es/accounts/google/login/callback/
+https://koulakay.ht/ht/accounts/google/login/callback/
 http://localhost:8000/fr/accounts/google/login/callback/
 ```
 
@@ -409,8 +409,8 @@ Copier **Client ID** et **Client Secret** → variables Railway `GOOGLE_CLIENT_I
 
 | Service | URL | Événement |
 |---|---|---|
-| **Stripe** | `https://urls.lat/payment/webhook/stripe/` | `payment_intent.succeeded` |
-| **Thinkific** | `https://urls.lat/payment/webhook/thinkific/` | *(selon config Thinkific)* |
+| **Stripe** | `https://koulakay.ht/payment/webhook/stripe/` | `payment_intent.succeeded` |
+| **Thinkific** | `https://koulakay.ht/payment/webhook/thinkific/` | *(selon config Thinkific)* |
 | **PlopPlop** | configuré via `PLOPPLOP_RETURN_URL` | *(return URL automatique)* |
 
 ---
@@ -418,8 +418,8 @@ Copier **Client ID** et **Client Secret** → variables Railway `GOOGLE_CLIENT_I
 ### Checklist post-déploiement
 
 ```
-□ https://urls.lat/                → page d'accueil accessible
-□ https://urls.lat/fr/admin/       → interface admin accessible
+□ https://koulakay.ht/                → page d'accueil accessible
+□ https://koulakay.ht/fr/admin/       → interface admin accessible
 □ Connexion email                   → fonctionne
 □ Connexion Google                  → fonctionne (si configuré)
 □ Sign up Google → email credentials reçu · thinkific_user_id visible dans l'admin
@@ -462,7 +462,7 @@ Copier **Client ID** et **Client Secret** → variables Railway `GOOGLE_CLIENT_I
 
 ### Mailjet (Emails)
 - **Backend :** `django-anymail`
-- **Expéditeur :** `KouLakay <noreply@urls.lat>`
+- **Expéditeur :** `KouLakay <noreply@koulakay.ht>`
 - **Fallback :** `console.EmailBackend` si les clés sont absentes (développement)
 
 ### Taux de change
@@ -571,7 +571,7 @@ po.save_as_mofile('locale/en/LC_MESSAGES/django.mo')
 
 ## Administration
 
-Accès : `https://urls.lat/fr/admin/`
+Accès : `https://koulakay.ht/fr/admin/`
 
 | Section | Description |
 |---|---|
@@ -594,7 +594,7 @@ Accès : `https://urls.lat/fr/admin/`
 | Cloudflare | Free | $0 |
 | Mailjet | Free (6 000 emails/mois) | $0 |
 | Thinkific | Basic | ~$39 |
-| Domaine urls.lat | — | ~$1 |
+| Domaine koulakay.ht | — | ~$1 |
 | **Total** | | **~$45** |
 
 ---
