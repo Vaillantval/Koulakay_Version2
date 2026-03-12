@@ -25,7 +25,8 @@
       "Bash(done)",
       "Bash(find \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\\\\payment\" -name \"views.py\" -o -name \"urls.py\" | xargs wc -l)",
       "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates -type f \\\\\\( -name \"*login*\" -o -name \"*signup*\" -o -name \"*auth*\" -o -name \"*account*\" \\\\\\) 2>/dev/null | head -20)",
-      "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates -type f -name \"*password*\" -o -name \"*email*\" -o -name \"*social*\" 2>/dev/null | head -20)"
+      "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates -type f -name \"*password*\" -o -name \"*email*\" -o -name \"*social*\" 2>/dev/null | head -20)",
+      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && sed -i 's/urls\\\\.lat/koulakay.ht/g' README.md && grep -c \"urls.lat\" README.md)"
     ]
   }
 }
