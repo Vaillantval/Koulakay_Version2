@@ -102,12 +102,38 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     """
     Adapter allauth pour les comptes sociaux (Google, etc.).
 
-    Lors de la CRÉATION d'un nouvel utilisateur via Google :
-    - Génère un mot de passe aléatoire (prefixe email + 5 chars)
-    - Le sauvegarde dans Django (le user peut aussi se connecter email/password)
-    - Crée le compte dans Thinkific et stocke le thinkific_user_id
-    - Envoie les credentials par email au nouvel utilisateur
+    save_user()        → NOUVEL utilisateur : génère password, crée Thinkific, envoie email credentials
+    pre_social_login() → UTILISATEUR EXISTANT qui se connecte : s'assure que thinkific_user_id
+                         est bien en Django (cherche dans Thinkific, crée si absent)
     """
+
+    def pre_social_login(self, request, sociallogin):
+        """
+        Appelé à chaque connexion Google (sign in), avant authentification.
+        Pour les users déjà en Django : vérifie/lie/crée leur compte Thinkific.
+        """
+        super().pre_social_login(request, sociallogin)
+
+        # Seulement pour les utilisateurs déjà existants dans Django
+        if not sociallogin.is_existing:
+            return
+
+        user = sociallogin.user
+        if user.thinkific_user_id:
+            return  # Déjà lié, rien à faire
+
+        # Générer un password pour Thinkific si on doit créer le compte
+        # (si le user existe déjà dans Thinkific, _create_thinkific_account
+        #  retourne son ID sans utiliser ce password)
+        raw_password = _generate_password(user.email)
+        thinkific_user_id = _create_thinkific_account(user, raw_password)
+
+        if thinkific_user_id:
+            user.thinkific_user_id = thinkific_user_id
+            user.save(update_fields=['thinkific_user_id'])
+            print(f"[Google sign-in] thinkific_user_id={thinkific_user_id} lié à {user.email}")
+        else:
+            print(f"[Google sign-in] thinkific_user_id non obtenu pour {user.email}")
 
     def save_user(self, request, sociallogin, form=None):
         user = super().save_user(request, sociallogin, form)
