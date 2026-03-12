@@ -107,35 +107,6 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
                          est bien en Django (cherche dans Thinkific, crée si absent)
     """
 
-    def pre_social_login(self, request, sociallogin):
-        """
-        Appelé à chaque connexion Google (sign in), avant authentification.
-        Pour les users déjà en Django : vérifie/lie/crée leur compte Thinkific.
-        """
-        super().pre_social_login(request, sociallogin)
-
-        user = sociallogin.user
-
-        # user.pk est None si c'est un tout nouvel utilisateur → save_user() s'en charge
-        if not user.pk:
-            return
-
-        if user.thinkific_user_id:
-            return  # Déjà lié, rien à faire
-
-        # Générer un password pour Thinkific si on doit créer le compte
-        # (si le user existe déjà dans Thinkific, _create_thinkific_account
-        #  retourne son ID sans utiliser ce password)
-        raw_password = _generate_password(user.email)
-        thinkific_user_id = _create_thinkific_account(user, raw_password)
-
-        if thinkific_user_id:
-            user.thinkific_user_id = thinkific_user_id
-            user.save(update_fields=['thinkific_user_id'])
-            print(f"[Google sign-in] thinkific_user_id={thinkific_user_id} lié à {user.email}")
-        else:
-            print(f"[Google sign-in] thinkific_user_id non obtenu pour {user.email}")
-
     def save_user(self, request, sociallogin, form=None):
         user = super().save_user(request, sociallogin, form)
 
