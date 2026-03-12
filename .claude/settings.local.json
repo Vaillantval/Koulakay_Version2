@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:plopplop.solutionip.app)",
+      "Bash(\"C:/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/.venv/Scripts/pip.exe\" install:*)",
+      "Bash(\".venv/Scripts/python.exe\":*)",
+      "Bash(python:*)",
+      "Bash(.venv/Scripts/python.exe:*)",
+      "Bash(rm:*)",
+      "Bash(.venv/Scripts/python:*)",
+      "Bash(.venv/Scripts/pip install:*)",
+      "Bash(.venv/Scripts/pip show:*)",
+      "Bash(grep:*)",
+      "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates/pages -type f -name \"*.html\" 2>/dev/null | head -10)",
+      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip show stripe 2>&1 | head -3)",
+      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip install stripe 2>&1 | tail -3)",
+      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && pip show stripe 2>&1 | grep -E \"Name|Version\")",
+      "Bash(msgfmt --version 2>&1; which msgfmt 2>&1)",
+      "Bash(POFILE=\"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\\\\locale\\\\en\\\\LC_MESSAGES\\\\django.po\")",
+      "Bash(for s:*)",
+      "Bash(do)",
+      "Read(//c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/**)",
+      "Bash(echo \"EXISTS: $s\")",
+      "Bash(echo \"MISSING: $s\")",
+      "Bash(done)",
+      "Bash(find \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\\\\payment\" -name \"views.py\" -o -name \"urls.py\" | xargs wc -l)",
+      "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates -type f \\\\\\( -name \"*login*\" -o -name \"*signup*\" -o -name \"*auth*\" -o -name \"*account*\" \\\\\\) 2>/dev/null | head -20)",
+      "Bash(find /c/Users/wind/Desktop/TRANSVERSAL/Document-KouLakay/Django_KouLakay/templates -type f -name \"*password*\" -o -name \"*email*\" -o -name \"*social*\" 2>/dev/null | head -20)",
+      "Bash(cd \"C:\\\\Users\\\\wind\\\\Desktop\\\\TRANSVERSAL\\\\Document-KouLakay\\\\Django_KouLakay\" && sed -i 's/urls\\\\.lat/koulakay.ht/g' README.md && grep -c \"urls.lat\" README.md)"
+    ]
+  }
+}
