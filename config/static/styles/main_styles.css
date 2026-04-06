@@ -289,7 +289,7 @@ section
 	-o-transform: translateX(-50%);
 	transform: translateX(-50%);
 	width: 1318px;
-	height: 75px;
+	height: 90px;
 	background: #FFFFFF;
 	z-index: 1000;
 	-webkit-transition: all 200ms ease;

@@ -2,93 +2,57 @@
 {% load i18n %}
 <footer class="footer">
     <div class="container">
-        
-        <!-- Newsletter -->
-
-        <div class="newsletter">
-            <div class="row">
-                <div class="col">
-                    <div class="section_title text-center">
-                        <h1></h1>
-                        {% comment %} <h1>{% trans 'Abonnez-vous à la newsletter' %} </h1> {% endcomment %}
-                    </div>
-                </div>
-            </div>
-
-            {% comment %} <div class="row">
-                <div class="col text-center">
-                    <div class="newsletter_form_container mx-auto">
-                        <form action="post">
-                            <div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-center">
-                                <input id="newsletter_email" class="newsletter_email" type="email" placeholder="Adresse e-mail" required="required" data-error="Un email valide est requis.">
-                                <button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Soumettre">{% trans "S'abonner" %} </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> {% endcomment %}
-
-        </div>
 
         <!-- Footer Content -->
-
         <div class="footer_content">
             <div class="row">
 
-                <!-- Footer Column - About -->
+                <!-- Footer Column - Logos & À propos -->
                 <div class="col-lg-4 footer_col">
-
-                    <!-- Logo -->
-                    <div class="logo_container">
-                        <div class="logo">
-                            <img  class="" src="{% static 'logo/koulakay.png' %}" alt="" style="height:40px">
-                            {% comment %} <span>course</span> {% endcomment %}
+                    <div class="logo_container mb-3">
+                        <div class="logo d-flex align-items-center" style="gap:12px;">
+                            <img src="{% static 'logo/koulakay_white.png' %}" alt="KouLakay" style="height:52px;width:auto;">
+                            <span style="width:1px;height:36px;background:rgba(255,255,255,0.25);display:inline-block;flex-shrink:0;"></span>
+                            <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" style="height:48px;width:auto;border-radius:8px;background:#fff;padding:3px;">
                         </div>
                     </div>
-
-                    <!-- <p class="footer_about_text">
-                        {% blocktrans %}
-                            In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum, tempor lacus.
-                        {% endblocktrans %}
-                    </p> -->
-
+                    <p style="color:rgba(255,255,255,0.65);font-size:0.85rem;line-height:1.6;margin-top:12px;">
+                        {% trans "Plateforme éducative haïtienne — apprenez à votre rythme avec des certifications reconnues." %}
+                    </p>
                 </div>
 
                 <!-- Footer Column - Menu -->
-
                 <div class="col-lg-4 footer_col">
-                    <div class="footer_column_title">{% trans 'Menu' %} </div>
+                    <div class="footer_column_title">{% trans 'Navigation' %}</div>
                     <div class="footer_column_content">
                         <ul>
-                            <li class="footer_list_item"><a href="#">{% trans 'Accueil' %} </a></li>
-                            <li class="footer_list_item"><a href="courses.html">{% trans 'Cours' %} </a></li>
-                            <li class="footer_list_item"><a href="contact.html">{% trans 'Contact' %} </a></li>
+                            <li class="footer_list_item"><a href="{% url 'home' %}">{% trans 'Accueil' %}</a></li>
+                            <li class="footer_list_item"><a href="{% url 'about' %}">{% trans 'À propos' %}</a></li>
+                            <li class="footer_list_item"><a href="{% url 'courses' %}">{% trans 'Cours' %}</a></li>
+                            <li class="footer_list_item"><a href="{% url 'contact' %}">{% trans 'Contact' %}</a></li>
+                            {% if user.is_authenticated %}
+                            <li class="footer_list_item"><a href="{% url 'mon_apprentissage' %}">{% trans 'Mon apprentissage' %}</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
 
                 <!-- Footer Column - Contact -->
-
                 <div class="col-lg-4 footer_col">
-                    <div class="footer_column_title">{% trans 'Contact' %} </div>
+                    <div class="footer_column_title">{% trans 'Contact' %}</div>
                     <div class="footer_column_content">
                         <ul>
                             <li class="footer_contact_item">
-                                <div class="footer_contact_icon">
-                                    <i class="fa fa-map"></i>
-                                </div>
-                                Blvd Libertad, 34 m05200 Arévalo
+                                <div class="footer_contact_icon"><i class="fa fa-map-marker-alt"></i></div>
+                                Port-au-Prince, Haïti
                             </li>
                             <li class="footer_contact_item">
-                                <div class="footer_contact_icon">
-                                    <i class="fa fa-phone"></i>
-                                </div>
-                                0034 37483 2445 322
+                                <div class="footer_contact_icon"><i class="fa fa-envelope"></i></div>
+                                <a href="mailto:info@koulakay.ht" style="color:inherit;">info@koulakay.ht</a>
                             </li>
                             <li class="footer_contact_item">
-                                <div class="footer_contact_icon">
-                                    <i class="fa fa-envelope"></i>
-                                </div>info@koulakay.com
+                                <div class="footer_contact_icon"><i class="fa fa-globe"></i></div>
+                                <a href="https://koulakay.ht" style="color:inherit;">koulakay.ht</a>
                             </li>
                         </ul>
                     </div>
@@ -98,20 +62,16 @@
         </div>
 
         <!-- Footer Copyright -->
-
         <div class="footer_bar d-flex flex-column flex-sm-row align-items-center">
             <div class="footer_copyright">
-                <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                {% trans 'Copyright' %}  &copy;<script>document.write(new Date().getFullYear());</script> {% trans 'Tous droits réservés' %} 
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
+                <span>{% trans 'Copyright' %} &copy;<script>document.write(new Date().getFullYear());</script> KouLakay — {% trans 'Tous droits réservés' %}</span>
             </div>
             <div class="footer_social ml-sm-auto">
                 <ul class="menu_social">
-                    <li class="menu_social_item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
-                    <li class="menu_social_item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                     <li class="menu_social_item"><a href="#"><i class="fab fa-instagram"></i></a></li>
                     <li class="menu_social_item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                     <li class="menu_social_item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    <li class="menu_social_item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                 </ul>
             </div>
         </div>
