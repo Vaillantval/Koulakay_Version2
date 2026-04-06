@@ -298,6 +298,26 @@ def mon_apprentissage(request):
     site_id = settings.THINKIFIC['SITE_ID']
     cours_inscrits = []
 
+    def _parse_date(val):
+        """Convertit une string ISO Thinkific en datetime aware, ou retourne la valeur telle quelle."""
+        if not val or not isinstance(val, str):
+            return val
+        try:
+            return datetime.fromisoformat(val.replace('Z', '+00:00'))
+        except (ValueError, AttributeError):
+            return val
+
+    # ── 1 appel : tous les produits pour construire la map prix ──
+    price_map = {}  # course_id → price (float)
+    try:
+        product_items = thinkific.products.list().get('items', [])
+        for p in product_items:
+            cid = p.get('productable_id')
+            if cid and p.get('price') is not None:
+                price_map[cid] = float(p['price'])
+    except Exception:
+        pass
+
     # ── Tentative : 1 seul appel API Thinkific (enrollments) ──
     if thinkific_user_id:
         try:
@@ -310,10 +330,11 @@ def mon_apprentissage(request):
                     'id':                   course_id,
                     'name':                 course_info.get('name', f'Cours #{course_id}'),
                     'slug':                 slug,
-                    'banner_image_url':     None,   # enrichi ci-dessous
+                    'banner_image_url':     None,
                     'description':          '',
-                    'activated_at':         item.get('activated_at'),
-                    'expiry_date':          item.get('expiry_date'),
+                    'price':                price_map.get(course_id),
+                    'activated_at':         _parse_date(item.get('activated_at')),
+                    'expiry_date':          _parse_date(item.get('expiry_date')),
                     'percentage_completed': item.get('percentage_completed', 0),
                     'thinkific_url': (
                         f"https://{site_id}.thinkific.com/products/courses/{slug}"
@@ -360,6 +381,7 @@ def mon_apprentissage(request):
                 'name':                 name,
                 'slug':                 slug,
                 'banner_image_url':     banner,
+                'price':                price_map.get(enrollment.course_id),
                 'activated_at':         enrollment.activated_at,
                 'expiry_date':          enrollment.expiry_date,
                 'percentage_completed': 0,

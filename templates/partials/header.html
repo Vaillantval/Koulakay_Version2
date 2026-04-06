@@ -6,13 +6,25 @@
     <div class="header_content d-flex flex-row align-items-center">
         <!-- Logo -->
         <div class="logo_container">
-            <div class="logo">
-                <a class="" href="{% url 'home' %}">
-                    <img class="" src="{% static 'logo/koulakay.png' %}" alt="{% trans 'Logo de Koulakay' %}" style="height:40px;width:auto">
+            <div class="logo d-flex align-items-center" style="gap:10px;">
+                <a href="{% url 'home' %}">
+                    {% if site_config.logo_principal %}
+                        <img src="{{ site_config.logo_principal.url }}" alt="{% trans 'Logo de Koulakay' %}" style="height:40px;width:auto">
+                    {% else %}
+                        <img src="{% static 'logo/koulakay.png' %}" alt="{% trans 'Logo de Koulakay' %}" style="height:40px;width:auto">
+                    {% endif %}
                 </a>
-                <a class="d-md-none" href="{% url 'home' %}">
-                    {% comment %} <img class="d-md-none" src="{% static 'logo/koulaka.png' %}" alt="{% trans 'Logo de Koulakay mobile' %}" style="height:30px"> {% endcomment %}
+                {% if site_config.logo_partenaire %}
+                <span style="width:1px;height:28px;background:rgba(255,255,255,0.3);display:inline-block;flex-shrink:0;"></span>
+                <a href="{% url 'home' %}">
+                    <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" style="height:36px;width:auto;border-radius:6px;">
                 </a>
+                {% else %}
+                <span style="width:1px;height:28px;background:rgba(255,255,255,0.3);display:inline-block;flex-shrink:0;"></span>
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" style="height:36px;width:auto;border-radius:6px;">
+                </a>
+                {% endif %}
             </div>
         </div>
 

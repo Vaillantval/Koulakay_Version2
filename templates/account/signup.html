@@ -75,8 +75,18 @@ header, footer {
     <div class="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10" style="background:rgba(196,133,58,0.4);transform:translate(30%,-30%);"></div>
     <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-10" style="background:rgba(196,133,58,0.4);transform:translate(-30%,30%);"></div>
 
-    <a href="{% url 'home' %}" class="flex flex-col items-center gap-4 mb-10 relative z-10">
-      <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-20 w-auto drop-shadow-lg">
+    <a href="{% url 'home' %}" class="flex flex-row items-center gap-4 mb-10 relative z-10">
+      {% if site_config.logo_principal %}
+        <img src="{{ site_config.logo_principal.url }}" alt="KouLakay" class="h-16 w-auto drop-shadow-lg">
+      {% else %}
+        <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-16 w-auto drop-shadow-lg">
+      {% endif %}
+      <span style="width:1px;height:44px;background:rgba(255,255,255,0.25);display:inline-block;flex-shrink:0;"></span>
+      {% if site_config.logo_partenaire %}
+        <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;">
+      {% else %}
+        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;">
+      {% endif %}
     </a>
 
     <div class="relative z-10 text-center">
@@ -114,9 +124,21 @@ header, footer {
     <div class="w-full max-w-lg py-8">
 
       <!-- Logo mobile -->
-      <div class="flex justify-center mb-6 lg:hidden">
+      <div class="flex justify-center items-center gap-3 mb-6 lg:hidden">
         <a href="{% url 'home' %}">
-          <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-14 w-auto">
+          {% if site_config.logo_principal %}
+            <img src="{{ site_config.logo_principal.url }}" alt="KouLakay" class="h-12 w-auto">
+          {% else %}
+            <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto">
+          {% endif %}
+        </a>
+        <span style="width:1px;height:32px;background:#CFA472;display:inline-block;flex-shrink:0;"></span>
+        <a href="{% url 'home' %}">
+          {% if site_config.logo_partenaire %}
+            <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-12 w-auto" style="border-radius:8px;">
+          {% else %}
+            <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-12 w-auto" style="border-radius:8px;">
+          {% endif %}
         </a>
       </div>
 

@@ -22,14 +22,19 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 
+from django.http import JsonResponse
 from pages.views import redirect_to_default_language
 from payment.views import payment_return, confirm as thinkific_webhook, stripe_webhook
+
+def health_check(request):
+    return JsonResponse({"status": "ok"})
 
 admin.autodiscover()
 
 from  django.contrib.sitemaps.views import sitemap
 
 urlpatterns = [
+    path("health/", health_check, name="health_check"),
     path("sitemap.xml", sitemap, name="sitemap-xml"),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

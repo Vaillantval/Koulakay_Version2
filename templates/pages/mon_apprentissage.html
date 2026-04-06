@@ -69,7 +69,21 @@
                     </h2>
 
                     {% if course.description %}
-                    <p class="text-xs text-brand-400 line-clamp-2">{{ course.description }}</p>
+                    <p class="text-xs text-brand-400 line-clamp-2">{{ course.description|striptags }}</p>
+                    {% endif %}
+
+                    <!-- Prix -->
+                    {% if course.price is not None %}
+                    <div class="flex items-center gap-1.5">
+                        <i class="fa fa-tag text-brand-300 text-xs"></i>
+                        {% if course.price == 0 %}
+                            <span class="text-xs font-semibold text-green-600">{% trans "Gratuit" %}</span>
+                        {% else %}
+                            <span class="text-xs font-semibold text-brand-600">
+                                {{ site_currency }} {{ course.price|floatformat:2 }}
+                            </span>
+                        {% endif %}
+                    </div>
                     {% endif %}
 
                     <!-- Barre de progression -->
@@ -91,19 +105,13 @@
                         {% if course.activated_at %}
                         <div class="flex items-center gap-1.5">
                             <i class="fa fa-calendar-check text-green-500"></i>
-                            <span>
-                                {% trans "Inscrit le" %}
-                                {{ course.activated_at|date:"d/m/Y" }}
-                            </span>
+                            <span>{% trans "Inscrit le" %} {{ course.activated_at|date:"d/m/Y" }}</span>
                         </div>
                         {% endif %}
                         {% if course.expiry_date %}
                         <div class="flex items-center gap-1.5">
                             <i class="fa fa-clock text-brand-400"></i>
-                            <span>
-                                {% trans "Accès jusqu'au" %}
-                                {{ course.expiry_date|date:"d/m/Y" }}
-                            </span>
+                            <span>{% trans "Accès jusqu'au" %} {{ course.expiry_date|date:"d/m/Y" }}</span>
                         </div>
                         {% endif %}
                     </div>

@@ -105,7 +105,7 @@ INSTALLED_APPS = [
     'pages',
     'courses',
     'payment',
-    # "anymail",
+    "anymail",
 
     # Optional -- requires install using `django-allauth[socialaccount]`.
     # 'allauth.socialaccount',
@@ -498,13 +498,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"
 
-#Valcin
-#EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
-
-# ANYMAIL = {
-#     "MAILJET_API_KEY": os.getenv('MAILJET_API_KEY','14bc4be8813fb712bcf5871ec6664225'),
-#     "MAILJET_SECRET_KEY":os.getenv('MAILJET_SECRET_KEY','17bd4d39407fb21719b674f187d591c2'),
-# }
 THINKIFIC = {
     'AUTH_TOKEN': os.getenv('THINKIFIC_SECRET_KEY', 'c1699f4b4498b1c1fefd7b86604f9e68'),
     'SITE_ID': os.getenv('SITE_ID', 'koulakay'),
@@ -528,18 +521,16 @@ STRIPE = {
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'KouLakay <noreply@koulakay.ht>')
 SERVER_EMAIL       = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@koulakay.ht')
 
-# En développement sans clés Mailjet réelles → console. En prod → anymail/mailjet.
-_mailjet_key    = os.getenv('MAILJET_API_KEY', '')
-_mailjet_secret = os.getenv('MAILJET_SECRET_KEY', '')
+# Email via Resend (anymail) — fallback console en dev si pas de clé
+_resend_key = os.getenv('RESEND_API_KEY', '')
 
-if _mailjet_key and _mailjet_secret and _mailjet_key != 'test':
-    EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
+if _resend_key:
+    EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
     ANYMAIL = {
-        "MAILJET_API_KEY":    _mailjet_key,
-        "MAILJET_SECRET_KEY": _mailjet_secret,
+        "RESEND_API_KEY": _resend_key,
     }
 else:
-    # Pas de clés réelles → affiche les emails dans la console (dev)
+    # Pas de clé Resend → affiche les emails dans la console (dev)
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 if DEBUG:

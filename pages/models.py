@@ -49,6 +49,22 @@ class SiteConfig(models.Model):
     tagline = models.CharField(_("Slogan"), max_length=255, blank=True,
                                default="Rendre l'éducation de qualité accessible à tous.")
 
+    # ── Logos ──
+    logo_principal = models.ImageField(
+        _("Logo principal"),
+        upload_to="logos/",
+        blank=True,
+        help_text=_("Logo KouLakay affiché dans le header et les pages de connexion. "
+                    "Format PNG recommandé, fond transparent.")
+    )
+    logo_partenaire = models.ImageField(
+        _("Logo partenaire"),
+        upload_to="logos/",
+        blank=True,
+        help_text=_("Logo du partenaire (ex: Exam Haiti) affiché à côté du logo principal. "
+                    "Format PNG ou JPEG, hauteur recommandée : 80px minimum.")
+    )
+
     # ── Coordonnées ──
     address = models.CharField(_("Adresse"), max_length=255, blank=True,
                                default="Port-au-Prince, Haïti")
