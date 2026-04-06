@@ -6,23 +6,22 @@
     <div class="header_content d-flex flex-row align-items-center">
         <!-- Logo -->
         <div class="logo_container">
-            <div class="logo d-flex align-items-center" style="gap:10px;">
+            <div class="logo d-flex align-items-center" style="gap:12px;">
                 <a href="{% url 'home' %}">
                     {% if site_config.logo_principal %}
-                        <img src="{{ site_config.logo_principal.url }}" alt="{% trans 'Logo de Koulakay' %}" style="height:40px;width:auto">
+                        <img src="{{ site_config.logo_principal.url }}" alt="{% trans 'Logo de Koulakay' %}" style="height:56px;width:auto">
                     {% else %}
-                        <img src="{% static 'logo/koulakay.png' %}" alt="{% trans 'Logo de Koulakay' %}" style="height:40px;width:auto">
+                        <img src="{% static 'logo/koulakay_white.png' %}" alt="{% trans 'Logo de Koulakay' %}" style="height:56px;width:auto">
                     {% endif %}
                 </a>
+                <span style="width:1px;height:36px;background:rgba(255,255,255,0.3);display:inline-block;flex-shrink:0;"></span>
                 {% if site_config.logo_partenaire %}
-                <span style="width:1px;height:28px;background:rgba(255,255,255,0.3);display:inline-block;flex-shrink:0;"></span>
                 <a href="{% url 'home' %}">
-                    <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" style="height:36px;width:auto;border-radius:6px;">
+                    <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" style="height:50px;width:auto;border-radius:8px;background:#fff;padding:4px;">
                 </a>
                 {% else %}
-                <span style="width:1px;height:28px;background:rgba(255,255,255,0.3);display:inline-block;flex-shrink:0;"></span>
                 <a href="{% url 'home' %}">
-                    <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" style="height:36px;width:auto;border-radius:6px;">
+                    <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" style="height:50px;width:auto;border-radius:8px;background:#fff;padding:4px;">
                 </a>
                 {% endif %}
             </div>

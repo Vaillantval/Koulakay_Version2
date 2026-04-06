@@ -73,13 +73,13 @@ header, footer {
       {% if site_config.logo_principal %}
         <img src="{{ site_config.logo_principal.url }}" alt="KouLakay" class="h-16 w-auto drop-shadow-lg">
       {% else %}
-        <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-16 w-auto drop-shadow-lg">
+        <img src="{% static 'logo/koulakay_white.png' %}" alt="KouLakay" class="h-16 w-auto drop-shadow-lg">
       {% endif %}
       <span style="width:1px;height:44px;background:rgba(255,255,255,0.25);display:inline-block;flex-shrink:0;"></span>
       {% if site_config.logo_partenaire %}
-        <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;">
+        <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;background:#fff;padding:4px;">
       {% else %}
-        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;">
+        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;background:#fff;padding:4px;">
       {% endif %}
     </a>
     <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-2">
