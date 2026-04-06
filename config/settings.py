@@ -53,6 +53,10 @@ _railway_domain = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '')
 if _railway_domain:
     ALLOWED_HOSTS.append(_railway_domain)
 
+# Nécessaire pour que le healthcheck GET /health/ ne soit pas bloqué par Django.
+# Railway envoie les requêtes healthcheck depuis healthcheck.railway.app.
+ALLOWED_HOSTS += ['0.0.0.0', 'healthcheck.railway.app']
+
 # Domaines supplémentaires définis manuellement (séparés par virgule dans l'env)
 _extra_hosts = os.environ.get('ALLOWED_HOSTS', '')
 if _extra_hosts:

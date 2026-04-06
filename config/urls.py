@@ -27,7 +27,8 @@ from pages.views import redirect_to_default_language
 from payment.views import payment_return, confirm as thinkific_webhook, stripe_webhook
 
 def health_check(request):
-    return JsonResponse({"status": "ok"})
+    """GET /health/ — utilisé par Railway pour vérifier que l'app est vivante."""
+    return JsonResponse({"status": "ok", "service": "KouLakay"})
 
 admin.autodiscover()
 
