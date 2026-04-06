@@ -356,6 +356,8 @@ def mon_apprentissage(request):
                     full.get('banner_image_url') or full.get('course_card_image_url')
                 )
                 c['description'] = full.get('description', '')
+                if full.get('name'):
+                    c['name'] = full['name']
                 if not c['slug']:
                     c['slug'] = full.get('slug', '')
                     if c['slug']:
