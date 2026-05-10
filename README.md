@@ -45,7 +45,7 @@ Visiteur → koulakay.ht → Catalogue de cours → Inscription → Paiement →
 | LMS | Thinkific API v1 |
 | Paiement local | PlopPlop (MonCash · NatCash · Kashpaw) |
 | Paiement international | Stripe Elements |
-| Email | Mailjet via django-anymail |
+| Email | Resend via django-anymail |
 | Taux de change | open.er-api.com (cache 1h) |
 | Admin | Jazzmin (django-jazzmin) |
 | Traductions | django-modeltranslation · gettext |
@@ -72,7 +72,7 @@ Visiteur → koulakay.ht → Catalogue de cours → Inscription → Paiement →
           ┌──────────────┬─────────────┼──────────────┬──────────────┐
           │              │             │              │              │
   ┌───────▼──────┐ ┌─────▼─────┐ ┌────▼────┐ ┌──────▼─────┐ ┌──────▼────┐
-  │  Thinkific   │ │  PlopPlop │ │  Stripe │ │  Mailjet   │ │  Google   │
+  │  Thinkific   │ │  PlopPlop │ │  Stripe │ │   Resend   │ │  Google   │
   │  LMS API     │ │ MonCash   │ │  Cards  │ │  Emails    │ │  OAuth    │
   │  Enrollments │ │ NatCash   │ │ 3DSecure│ │  Anymail   │ │  Login    │
   └──────────────┘ └───────────┘ └─────────┘ └────────────┘ └───────────┘
@@ -105,7 +105,7 @@ Railway détecte le push
     - Si `thinkific_user_id` absent : recherche dans Thinkific par email, crée si inexistant, lie l'ID dans Django
 - Création automatique du compte **Thinkific** à l'inscription (email ou Google)
 - SSO transparent vers Thinkific (`/accounts/thinkific-sso/`)
-- Réinitialisation de mot de passe par email (Mailjet) — page stylée + email HTML branded
+- Réinitialisation de mot de passe par email (Resend) — page stylée + email HTML branded
 
 ### Catalogue de cours
 - Affichage des cours depuis l'**API Thinkific** (paginé)
@@ -190,7 +190,7 @@ Django_KouLakay/
 │   ├── plopplop_service.py     # Client PlopPlop (MonCash / NatCash / Kashpaw)
 │   ├── stripe_service.py       # Client Stripe (PaymentIntent)
 │   ├── exchange_service.py     # Conversion devises (USD ↔ HTG, cache 1h)
-│   ├── email_service.py        # Emails de confirmation (Mailjet)
+│   ├── email_service.py        # Emails de confirmation (Resend)
 │   └── urls.py
 │
 ├── templates/                  # Templates HTML
@@ -280,9 +280,8 @@ STRIPE_PUBLIC_KEY=pk_live_...
 STRIPE_SECRET_KEY=sk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 
-# ── Mailjet (emails transactionnels) ────────────────────────────────────────
-MAILJET_API_KEY=votre-api-key
-MAILJET_SECRET_KEY=votre-secret-key
+# ── Resend (emails transactionnels) ─────────────────────────────────────────
+RESEND_API_KEY=votre-api-key
 
 # ── Google OAuth (optionnel) ────────────────────────────────────────────────
 GOOGLE_CLIENT_ID=xxxxx.apps.googleusercontent.com
@@ -338,8 +337,7 @@ Dans **Service → Variables** :
 | `STRIPE_PUBLIC_KEY` | `pk_live_...` |
 | `STRIPE_SECRET_KEY` | `sk_live_...` |
 | `STRIPE_WEBHOOK_SECRET` | `whsec_...` |
-| `MAILJET_API_KEY` | *(clé Mailjet)* |
-| `MAILJET_SECRET_KEY` | *(secret Mailjet)* |
+| `RESEND_API_KEY` | *(clé API Resend)* |
 | `GOOGLE_CLIENT_ID` | *(optionnel)* |
 | `GOOGLE_CLIENT_SECRET` | *(optionnel)* |
 
@@ -460,10 +458,10 @@ Copier **Client ID** et **Client Secret** → variables Railway `GOOGLE_CLIENT_I
 - **Flux :** `PaymentIntent` créé côté serveur → Stripe Elements côté client → confirmation → webhook `payment_intent.succeeded`
 - **Devise :** USD
 
-### Mailjet (Emails)
+### Resend (Emails)
 - **Backend :** `django-anymail`
 - **Expéditeur :** `KouLakay <noreply@koulakay.ht>`
-- **Fallback :** `console.EmailBackend` si les clés sont absentes (développement)
+- **Fallback :** `console.EmailBackend` si la clé est absente (développement)
 
 ### Taux de change
 - **Source :** `open.er-api.com` (gratuit, sans clé API)
@@ -592,7 +590,7 @@ Accès : `https://koulakay.ht/fr/admin/`
 | Railway | Hobby | ~$5 |
 | PostgreSQL | Railway plugin | inclus |
 | Cloudflare | Free | $0 |
-| Mailjet | Free (6 000 emails/mois) | $0 |
+| Resend | Free (3 000 emails/mois) | $0 |
 | Thinkific | Basic | ~$39 |
 | Domaine koulakay.ht | — | ~$1 |
 | **Total** | | **~$45** |
