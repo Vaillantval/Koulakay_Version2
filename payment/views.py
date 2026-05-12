@@ -236,7 +236,7 @@ def create_thinkific_external_order(transaction, thinkific_user_id, product_id):
     try:
         api_url = "https://api.thinkific.com/api/public/v1/external_orders"
         headers = {
-            "X-Auth-API-Key": settings.THINKIFIC['AUTH_TOKEN'],
+            "Authorization": f"Bearer {settings.THINKIFIC['AUTH_TOKEN']}",
             "X-Auth-Subdomain": settings.THINKIFIC['SITE_ID'],
             "Content-Type": "application/json"
         }
@@ -369,7 +369,7 @@ def create_thinkific_refund(external_order_id, amount, currency, reference):
     try:
         api_url = f"https://api.thinkific.com/api/public/v1/external_orders/{external_order_id}/transactions/refund"
         headers = {
-            "X-Auth-API-Key": settings.THINKIFIC['AUTH_TOKEN'],
+            "Authorization": f"Bearer {settings.THINKIFIC['AUTH_TOKEN']}",
             "X-Auth-Subdomain": settings.THINKIFIC['SITE_ID'],
             "Content-Type": "application/json"
         }

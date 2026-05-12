@@ -665,7 +665,7 @@ def course_details(request, course_id):
     try:
         api_url = f"https://api.thinkific.com/api/v2/courses/{course_id}/content"
         headers = {
-            "X-Auth-Token": settings.THINKIFIC['AUTH_TOKEN'],
+            "Authorization": f"Bearer {settings.THINKIFIC['AUTH_TOKEN']}",
             "X-Auth-Subdomain": settings.THINKIFIC['SITE_ID'],
             "Content-Type": "application/json"
         }
