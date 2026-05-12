@@ -142,7 +142,7 @@
                 {% for c in courses %}
                 <div class="course-card bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100"
                      data-course-card
-                     data-name="{{ c.name|lower|escapejs }}"
+                     data-name="{{ c.name|lower }}"
                      data-free="{{ c.is_free|yesno:'true,false' }}"
                      data-price="{{ c.price|default:0 }}"
                      data-popular="{{ c.enrollment_count }}"
@@ -249,6 +249,11 @@
     let query        = '';
     let debounceTimer;
 
+    // Normalise les accents : "réseaux" → "reseaux"
+    function norm(s) {
+        return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
     // ── Init pills ───────────────────────────────────────────────────
     function setPill(active) {
         pills.forEach(btn => {
@@ -271,7 +276,7 @@
 
         let visible = [];
         cards.forEach(card => {
-            const nameMatch   = !query || card.dataset.name.includes(query);
+            const nameMatch   = !query || norm(card.dataset.name).includes(norm(query));
             const filterMatch = activeFilter === 'all'
                 || (activeFilter === 'free' && card.dataset.free === 'true')
                 || (activeFilter === 'paid' && card.dataset.free === 'false');
@@ -309,6 +314,14 @@
         clearBtn.classList.toggle('hidden', query === '');
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(applyFilters, 200);
+    });
+
+    searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            clearTimeout(debounceTimer);
+            query = this.value.trim().toLowerCase();
+            applyFilters();
+        }
     });
 
     if (searchBtn) {
