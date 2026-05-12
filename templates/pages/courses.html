@@ -7,23 +7,16 @@
 {% block head %}
 <style>
     .course-card {
-        transition: transform 0.26s cubic-bezier(.34,1.56,.64,1), box-shadow 0.26s, opacity 0.2s;
+        transition: transform 0.26s cubic-bezier(.34,1.56,.64,1), box-shadow 0.26s;
     }
     .course-card:hover {
         transform: translateY(-6px);
         box-shadow: 0 20px 40px rgba(124,61,14,0.18);
     }
-    .course-card.hidden-card {
-        display: none;
-    }
-    .filter-pill {
-        transition: background 0.18s, color 0.18s, border-color 0.18s, box-shadow 0.18s;
-        cursor: pointer;
-    }
-    .filter-pill:hover { background: #C4853A; color: white; border-color: #C4853A; }
-    .filter-pill.active  { background: #7C3D0E; color: white; border-color: #7C3D0E; box-shadow: 0 2px 8px rgba(124,61,14,0.25); }
+    .course-card.hidden-card { display: none; }
     .price-badge { background: rgba(30,10,0,0.72); backdrop-filter: blur(4px); }
-    #search-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(196,133,58,0.35); }
+    .search-wrap:focus-within { border-color: #C4853A; box-shadow: 0 0 0 3px rgba(196,133,58,0.25); }
+    #search-input:focus { outline: none; }
 </style>
 {% endblock %}
 
@@ -40,14 +33,22 @@
             <p class="text-lg text-amber-100 mb-7">{% trans "Des formations expertes pour votre réussite professionnelle" %}</p>
 
             <!-- Barre de recherche -->
-            <div class="max-w-xl mx-auto relative">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-brand-500 pointer-events-none select-none">search</span>
-                <input id="search-input" type="text" autocomplete="off"
-                       placeholder="{% trans 'Rechercher un cours...' %}"
-                       class="w-full h-12 pl-12 pr-10 rounded-xl border-0 bg-white/95 text-brand-900 placeholder-brand-400 shadow-lg text-sm transition">
-                <button id="search-clear" class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-300 hover:text-brand-600 hidden" title="{% trans 'Effacer' %}">
-                    <span class="material-symbols-outlined" style="font-size:20px;">close</span>
-                </button>
+            <div class="max-w-2xl mx-auto">
+                <div class="search-wrap flex items-center bg-white rounded-2xl border-2 border-transparent shadow-xl transition-all overflow-hidden">
+                    <span class="material-symbols-outlined pl-5 text-brand-400 select-none pointer-events-none text-2xl">search</span>
+                    <input id="search-input" type="text" autocomplete="off"
+                           placeholder="{% trans 'Rechercher un cours...' %}"
+                           class="flex-1 h-14 px-4 text-brand-900 placeholder-brand-300 bg-transparent text-base">
+                    <button id="search-clear" class="px-3 text-brand-300 hover:text-brand-500 hidden transition" title="{% trans 'Effacer' %}">
+                        <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+                    </button>
+                    <div class="w-px h-8 bg-brand-100 mx-1 shrink-0"></div>
+                    <button id="search-btn"
+                            class="h-14 px-6 bg-brand-700 hover:bg-brand-800 text-white font-semibold text-sm flex items-center gap-2 transition shrink-0">
+                        <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+                        <span class="hidden sm:inline">{% trans "Rechercher" %}</span>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
@@ -57,11 +58,11 @@
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center gap-3">
             <!-- Pills -->
             <div class="flex gap-2 flex-wrap">
-                <button class="filter-pill active px-4 py-1.5 rounded-full text-sm font-semibold border border-brand-300 text-brand-700 bg-white"
+                <button class="filter-pill px-4 py-1.5 rounded-full text-sm font-semibold border transition-all"
                         data-filter="all">{% trans "Tout" %}</button>
-                <button class="filter-pill px-4 py-1.5 rounded-full text-sm font-semibold border border-brand-300 text-brand-700 bg-white"
+                <button class="filter-pill px-4 py-1.5 rounded-full text-sm font-semibold border transition-all"
                         data-filter="free">{% trans "Gratuit" %}</button>
-                <button class="filter-pill px-4 py-1.5 rounded-full text-sm font-semibold border border-brand-300 text-brand-700 bg-white"
+                <button class="filter-pill px-4 py-1.5 rounded-full text-sm font-semibold border transition-all"
                         data-filter="paid">{% trans "Payant" %}</button>
             </div>
 
@@ -228,36 +229,46 @@
 
 <script>
 (function () {
+    const PILL_ACTIVE   = ['bg-brand-700', 'border-brand-700', 'text-white',      'shadow-sm'];
+    const PILL_INACTIVE = ['bg-white',      'border-brand-200', 'text-brand-600'];
+
     const cards       = Array.from(document.querySelectorAll('[data-course-card]'));
     const grid        = document.getElementById('courses-grid');
     const noResults   = document.getElementById('no-results');
     const searchInput = document.getElementById('search-input');
     const clearBtn    = document.getElementById('search-clear');
+    const searchBtn   = document.getElementById('search-btn');
     const sortSelect  = document.getElementById('sort-select');
     const resultLabel = document.getElementById('result-label');
     const popularSec  = document.getElementById('popular-section');
     const sectionTitle= document.getElementById('section-title');
+    const pills       = Array.from(document.querySelectorAll('.filter-pill'));
 
     let activeFilter = 'all';
     let sortMode     = 'default';
     let query        = '';
     let debounceTimer;
 
-    // ── Filtrage principal ──────────────────────────────────────────
+    // ── Init pills ───────────────────────────────────────────────────
+    function setPill(active) {
+        pills.forEach(btn => {
+            const isActive = btn.dataset.filter === active;
+            btn.classList.remove(...PILL_ACTIVE, ...PILL_INACTIVE);
+            btn.classList.add(...(isActive ? PILL_ACTIVE : PILL_INACTIVE));
+        });
+    }
+    setPill('all');
+
+    // ── Filtrage ─────────────────────────────────────────────────────
     function applyFilters() {
         const isFiltering = query !== '' || activeFilter !== 'all';
-
-        // Masquer/afficher la section populaire
         if (popularSec) popularSec.classList.toggle('hidden', isFiltering);
-
-        // Titre de section
         if (sectionTitle) {
             sectionTitle.textContent = isFiltering
                 ? '{% trans "Résultats" %}'
                 : '{% trans "Tous les cours" %}';
         }
 
-        // Filtrer
         let visible = [];
         cards.forEach(card => {
             const nameMatch   = !query || card.dataset.name.includes(query);
@@ -269,42 +280,43 @@
             if (show) visible.push(card);
         });
 
-        // Tri
         sortCards(visible);
 
-        // Compteur
         const total = cards.length;
         resultLabel.textContent = isFiltering
             ? `${visible.length} / ${total} {% trans "cours" %}`
             : `${total} {% trans "cours" %}`;
 
-        // État vide
         noResults.classList.toggle('hidden', visible.length > 0);
     }
 
-    // ── Tri ─────────────────────────────────────────────────────────
+    // ── Tri ──────────────────────────────────────────────────────────
     function sortCards(visible) {
         if (sortMode === 'default') return;
-
         visible.sort((a, b) => {
-            if (sortMode === 'alpha') return a.dataset.name.localeCompare(b.dataset.name);
-            if (sortMode === 'popular') return Number(b.dataset.popular) - Number(a.dataset.popular);
-            if (sortMode === 'price-asc') return Number(a.dataset.price) - Number(b.dataset.price);
-            if (sortMode === 'price-desc') return Number(b.dataset.price) - Number(a.dataset.price);
+            if (sortMode === 'alpha')       return a.dataset.name.localeCompare(b.dataset.name);
+            if (sortMode === 'popular')     return Number(b.dataset.popular) - Number(a.dataset.popular);
+            if (sortMode === 'price-asc')   return Number(a.dataset.price)   - Number(b.dataset.price);
+            if (sortMode === 'price-desc')  return Number(b.dataset.price)   - Number(a.dataset.price);
             return 0;
         });
-
-        // Réorganiser dans le DOM
         visible.forEach(card => grid.appendChild(card));
     }
 
-    // ── Événements ──────────────────────────────────────────────────
+    // ── Événements ───────────────────────────────────────────────────
     searchInput.addEventListener('input', function () {
         query = this.value.trim().toLowerCase();
         clearBtn.classList.toggle('hidden', query === '');
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(applyFilters, 200);
     });
+
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+            query = searchInput.value.trim().toLowerCase();
+            applyFilters();
+        });
+    }
 
     clearBtn.addEventListener('click', function () {
         searchInput.value = '';
@@ -314,11 +326,10 @@
         applyFilters();
     });
 
-    document.querySelectorAll('.filter-pill').forEach(btn => {
+    pills.forEach(btn => {
         btn.addEventListener('click', function () {
-            document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
             activeFilter = this.dataset.filter;
+            setPill(activeFilter);
             applyFilters();
         });
     });
@@ -336,12 +347,10 @@
         activeFilter = 'all';
         sortMode = 'default';
         sortSelect.value = 'default';
-        document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
-        document.querySelector('[data-filter="all"]').classList.add('active');
+        setPill('all');
         applyFilters();
     };
 
-    // Init
     applyFilters();
 })();
 </script>
