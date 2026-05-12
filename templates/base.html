@@ -211,6 +211,53 @@
             border-radius: 4px;
         }
 
+        /* ── Nav : Mon apprentissage — glow + sonar ── */
+        @keyframes nav-glow-pulse {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(196,133,58,0.55), 0 0 18px rgba(196,133,58,0.28);
+                background: rgba(196,133,58,0.14);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255,180,60,1), 0 0 40px rgba(196,133,58,0.75), 0 0 60px rgba(196,133,58,0.35);
+                background: rgba(196,133,58,0.30);
+            }
+        }
+        @keyframes sonar-ring {
+            0%   { transform: scale(1);   opacity: 0.8; }
+            100% { transform: scale(2.4); opacity: 0;   }
+        }
+        .nav-apprentissage {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 9px;
+            border: 1.5px solid rgba(196,133,58,0.6);
+            color: #F2E8DC;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            animation: nav-glow-pulse 2.4s ease-in-out infinite;
+            transition: color 0.2s, background 0.2s;
+        }
+        .nav-apprentissage:hover {
+            color: #fff;
+            animation-play-state: paused;
+            background: rgba(196,133,58,0.38) !important;
+            box-shadow: 0 0 22px rgba(255,180,60,1), 0 0 44px rgba(196,133,58,0.8);
+        }
+        .nav-apprentissage::before,
+        .nav-apprentissage::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border: 1.5px solid rgba(196,133,58,0.85);
+            border-radius: 11px;
+            pointer-events: none;
+            animation: sonar-ring 2.4s ease-out infinite;
+        }
+        .nav-apprentissage::after { animation-delay: 1.2s; }
+
         /* ── Logos : animations ── */
         @keyframes logo-from-left {
             from { opacity: 0; transform: translateX(-20px); }
@@ -316,7 +363,7 @@
                     <a class="kl-nav-link" href="{% url 'home' %}">{% trans "Accueil" %}</a>
                     <a class="kl-nav-link" href="{% url 'courses' %}">{% trans "Cours" %}</a>
                     {% if user.is_authenticated %}
-                    <a class="kl-nav-link" href="{% url 'mon_apprentissage' %}">{% trans "Mon apprentissage" %}</a>
+                    <a class="nav-apprentissage" href="{% url 'mon_apprentissage' %}">{% trans "Mon apprentissage" %}</a>
                     {% endif %}
                     <a class="kl-nav-link" href="{% url 'about' %}">{% trans "À propos" %}</a>
                     <a class="kl-nav-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
@@ -379,7 +426,7 @@
                     <a class="kl-nav-link" href="{% url 'home' %}">{% trans "Accueil" %}</a>
                     <a class="kl-nav-link" href="{% url 'courses' %}">{% trans "Cours" %}</a>
                     {% if user.is_authenticated %}
-                    <a class="kl-nav-link" href="{% url 'mon_apprentissage' %}">{% trans "Mon apprentissage" %}</a>
+                    <a class="nav-apprentissage" href="{% url 'mon_apprentissage' %}">{% trans "Mon apprentissage" %}</a>
                     {% endif %}
                     <a class="kl-nav-link" href="{% url 'about' %}">{% trans "À propos" %}</a>
                     <a class="kl-nav-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
