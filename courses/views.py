@@ -42,6 +42,18 @@ def _sync_user_enrollments(user, request=None):
     try:
         from django.utils import timezone as dj_timezone
         response = thinkific.enrollments.list(user_id=thinkific_user_id, limit=100)
+
+        # Auto-correction : si 0 résultat, le thinkific_user_id en DB est peut-être faux.
+        # On re-vérifie par email et on corrige.
+        if not response.get('items'):
+            from accounts.views import get_thinkific_user_by_email
+            tk_user = get_thinkific_user_by_email(user.email)
+            if tk_user and tk_user.get('id') and tk_user['id'] != thinkific_user_id:
+                thinkific_user_id = tk_user['id']
+                user.thinkific_user_id = thinkific_user_id
+                user.save(update_fields=['thinkific_user_id'])
+                response = thinkific.enrollments.list(user_id=thinkific_user_id, limit=100)
+
         for item in response.get('items', []):
             course_id = item.get('course_id')
             if not course_id:
