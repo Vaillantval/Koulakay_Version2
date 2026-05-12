@@ -210,6 +210,52 @@
             outline-offset: 3px;
             border-radius: 4px;
         }
+
+        /* ── Logos : animations ── */
+        @keyframes logo-from-left {
+            from { opacity: 0; transform: translateX(-20px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes logo-from-right {
+            from { opacity: 0; transform: translateX(20px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes logo-spring {
+            0%   { transform: scale(1); }
+            20%  { transform: scale(0.87); }
+            55%  { transform: scale(1.09); }
+            80%  { transform: scale(0.97); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shimmer-run {
+            from { left: -75%; }
+            to   { left: 130%; }
+        }
+        .logo-kl { animation: logo-from-left  0.55s cubic-bezier(.22,.68,0,1.2) 0.10s both; }
+        .logo-pt { animation: logo-from-right 0.55s cubic-bezier(.22,.68,0,1.2) 0.28s both; }
+        .logo-click { animation: logo-spring 0.4s ease both !important; }
+
+        /* Wrapper shimmer */
+        .logo-wrap {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            border-radius: 8px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        .logo-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -75%;
+            width: 50%; height: 100%;
+            background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.38) 50%, transparent 80%);
+            transform: skewX(-12deg);
+            pointer-events: none;
+        }
+        .logo-wrap:hover::after {
+            animation: shimmer-run 0.55s ease forwards;
+        }
     </style>
     {% block head %}{% endblock head %}
 </head>
@@ -226,9 +272,9 @@
                 <div class="flex items-center gap-3 shrink-0">
                     <a href="{% url 'home' %}" class="flex items-center gap-2">
                         {% if site_config.logo_principal %}
-                            <img src="{{ site_config.logo_principal.url }}" alt="KouLakay" class="h-12 w-auto drop-shadow-md">
+                            <span class="logo-wrap"><img src="{{ site_config.logo_principal.url }}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl"></span>
                         {% else %}
-                            <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto drop-shadow-md">
+                            <span class="logo-wrap"><img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl"></span>
                         {% endif %}
                         <span class="hidden sm:block text-xl font-bold tracking-tight text-white drop-shadow">
                             Kou<span class="text-gold-400">Lakay</span>
@@ -237,13 +283,13 @@
                     <span style="width:1px;height:34px;background:rgba(255,255,255,0.3);display:inline-block;flex-shrink:0;"></span>
                     <a href="{% url 'home' %}" class="flex items-center">
                         {% if site_config.logo_partenaire %}
-                            <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire"
-                                 class="h-11 w-auto drop-shadow-md"
-                                 style="border-radius:8px; background:#fff; padding:3px 6px;">
+                            <span class="logo-wrap" style="background:#fff;padding:3px 6px;border-radius:8px;">
+                                <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-11 w-auto drop-shadow-md logo-pt">
+                            </span>
                         {% else %}
-                            <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti"
-                                 class="h-11 w-auto drop-shadow-md"
-                                 style="border-radius:8px; background:#fff; padding:3px 6px;">
+                            <span class="logo-wrap" style="background:#fff;padding:3px 6px;border-radius:8px;">
+                                <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-11 w-auto drop-shadow-md logo-pt">
+                            </span>
                         {% endif %}
                     </a>
                 </div>
@@ -346,18 +392,18 @@
             <!-- Logos partenaires -->
             <div class="flex flex-wrap items-center gap-5 mb-10 pb-8"
                  style="border-bottom:1px solid rgba(255,255,255,0.1);">
-                <img src="{% static 'logo/koulakay_white.png' %}" alt="KouLakay"
+                <span class="logo-wrap"><img src="{% static 'logo/koulakay_white.png' %}" alt="KouLakay"
                      class="h-12 w-auto"
-                     onerror="this.src='{% static 'logo/koulakay.png' %}'">
+                     onerror="this.src='{% static 'logo/koulakay.png' %}'"></span>
                 <span style="width:1px;height:40px;background:rgba(255,255,255,0.2);flex-shrink:0;"></span>
                 {% if site_config.logo_partenaire %}
-                    <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire"
-                         class="h-11 w-auto"
-                         style="border-radius:8px;background:#fff;padding:4px 8px;">
+                    <span class="logo-wrap" style="background:#fff;padding:4px 8px;border-radius:8px;">
+                        <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-11 w-auto">
+                    </span>
                 {% else %}
-                    <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti"
-                         class="h-11 w-auto"
-                         style="border-radius:8px;background:#fff;padding:4px 8px;">
+                    <span class="logo-wrap" style="background:#fff;padding:4px 8px;border-radius:8px;">
+                        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-11 w-auto">
+                    </span>
                 {% endif %}
                 <p class="text-sm text-brand-300 leading-relaxed ml-2 max-w-xs">
                     {% trans "Rendre l'éducation de qualité accessible à tous en Haïti et dans la diaspora." %}
@@ -591,6 +637,20 @@
         easing: "ease-out-cubic",
         once: true,
         offset: 60,
+    });
+
+    // Spring au clic sur les logos
+    document.querySelectorAll('.logo-wrap').forEach(function(wrap) {
+        wrap.addEventListener('click', function() {
+            var img = this.querySelector('img');
+            if (!img) return;
+            img.classList.remove('logo-click');
+            void img.offsetWidth; // force reflow
+            img.classList.add('logo-click');
+            img.addEventListener('animationend', function() {
+                img.classList.remove('logo-click');
+            }, { once: true });
+        });
     });
 
     // Transition sortie de page (au clic sur les liens internes)
