@@ -236,13 +236,11 @@ def thinkific_sso(request):
         return redirect(fallback_url)
 
     try:
-        # Thinkific's SSO server runs ~3h behind UTC (timezone misconfiguration on their end).
-        # Subtracting 10800s makes the iat fall within their acceptance window.
         payload = {
             'email': user.email,
             'first_name': user.first_name or '',
             'last_name': user.last_name or '',
-            'iat': int(time.time()) - 10800,
+            'iat': int(time.time()),
         }
         token = pyjwt.encode(payload, sso_secret, algorithm='HS256')
         params = {'jwt': token, 'return_to': return_to}
