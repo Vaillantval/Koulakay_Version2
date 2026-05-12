@@ -191,19 +191,12 @@
                 {% trans "Découvrez nos formations et commencez votre parcours d'apprentissage dès aujourd'hui." %}
             </p>
 
-            <!-- Boutons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{% url 'courses' %}"
-                   class="empty-primary-btn kl-btn-cta px-7 py-3 rounded-xl text-white font-semibold inline-flex items-center gap-2">
-                    <i class="fa fa-search"></i>
-                    {% trans "Voir les cours disponibles" %}
-                </a>
-                <a href="{% url 'courses' %}"
-                   class="empty-sec-btn btn-kl-secondary px-7 py-3 rounded-xl font-semibold inline-flex items-center gap-2">
-                    <i class="fa fa-compass"></i>
-                    {% trans "Explorer d'autres cours" %}
-                </a>
-            </div>
+            <!-- Bouton -->
+            <a href="{% url 'courses' %}"
+               class="empty-primary-btn kl-btn-cta px-7 py-3 rounded-xl text-white font-semibold inline-flex items-center gap-2">
+                <i class="fa fa-search"></i>
+                {% trans "Voir les cours disponibles" %}
+            </a>
 
         </div>
     {% endif %}

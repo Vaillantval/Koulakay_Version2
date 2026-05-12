@@ -7,7 +7,7 @@
 {% get_current_language as CURRENT_LANG %}
 <html lang="{{ CURRENT_LANG }}" class="light">
 <head>
-    <script>(function(){var t=localStorage.getItem('kl-theme');if(t==='dark'||(t===null&&matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.replace('light','dark');}})();</script>
+    <script>(function(){if(localStorage.getItem('kl-theme')==='dark'){document.documentElement.classList.replace('light','dark');}})();</script>
     <title>{% block title %}KouLakay{% endblock %}</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
