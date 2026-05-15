@@ -21,6 +21,8 @@ from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
+from django.urls import re_path
+from django.views.static import serve
 
 from django.http import JsonResponse
 from pages.views import redirect_to_default_language
@@ -58,8 +60,10 @@ urlpatterns += i18n_patterns(
     path('courses/', include('courses.urls')),
 )
 
-# Servir les fichiers media
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Servir les fichiers media en dev ET en production (volume Railway /app/media)
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]
 
 # En développement, servir les fichiers statiques
 if settings.DEBUG:
