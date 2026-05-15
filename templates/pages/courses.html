@@ -42,6 +42,8 @@
         background-size: 800px 100%;
     }
     html.dark #skeleton-grid .bg-white { background: #18191F !important; border-color: rgba(148,163,184,0.08) !important; }
+    /* dark — category pills inactives */
+    html.dark .category-pill.bg-white { background: #18191F !important; border-color: rgba(124,131,245,0.25) !important; color: #A5B4FC !important; }
 </style>
 {% endblock %}
 
@@ -93,6 +95,19 @@
 
             <!-- Séparateur -->
             <div class="hidden sm:block w-px h-6 bg-brand-200 mx-1"></div>
+
+            <!-- Pills Catégories -->
+            {% if categories %}
+            <div class="flex gap-2 flex-wrap">
+                {% for cat in categories %}
+                <button class="category-pill px-4 py-1.5 rounded-full text-sm font-semibold border transition-all"
+                        data-category="{{ cat.slug }}">
+                    <i class="fa {{ cat.icon }} mr-1"></i>{{ cat.name }}
+                </button>
+                {% endfor %}
+            </div>
+            <div class="hidden sm:block w-px h-6 bg-brand-200 mx-1"></div>
+            {% endif %}
 
             <!-- Tri -->
             <div class="flex items-center gap-2 ml-auto">
@@ -211,6 +226,7 @@
                      data-free="{{ c.is_free|yesno:'true,false' }}"
                      data-price="{{ c.price|default:0 }}"
                      data-popular="{{ c.enrollment_count }}"
+                     data-categories="{{ c.categories|join:',' }}"
                      data-aos="fade-up">
 
                     <div class="relative h-44" style="background: linear-gradient(135deg,#C4853A,#7C3D0E);">
@@ -308,11 +324,13 @@
     const popularSec   = document.getElementById('popular-section');
     const sectionTitle = document.getElementById('section-title');
     const pills        = Array.from(document.querySelectorAll('.filter-pill'));
+    const catPills     = Array.from(document.querySelectorAll('.category-pill'));
     const skeletonGrid = document.getElementById('skeleton-grid');
 
-    let activeFilter = 'all';
-    let sortMode     = 'default';
-    let query        = '';
+    let activeFilter   = 'all';
+    let activeCategory = '';
+    let sortMode       = 'default';
+    let query          = '';
     let debounceTimer;
 
     // Normalise les accents : "réseaux" → "reseaux"
@@ -328,11 +346,30 @@
             btn.classList.add(...(isActive ? PILL_ACTIVE : PILL_INACTIVE));
         });
     }
+
+    function setCatPill(slug) {
+        catPills.forEach(btn => {
+            const isActive = btn.dataset.category === slug && slug !== '';
+            btn.classList.remove('text-white', 'shadow-sm', 'bg-white', 'border-brand-200', 'text-brand-600');
+            if (isActive) {
+                const color = btn.dataset.color || '#6366F1';
+                btn.style.background = color;
+                btn.style.borderColor = color;
+                btn.classList.add('text-white', 'shadow-sm');
+            } else {
+                btn.style.background = '';
+                btn.style.borderColor = '';
+                btn.classList.add('bg-white', 'border-brand-200', 'text-brand-600');
+            }
+        });
+    }
+
     setPill('all');
+    setCatPill('');
 
     // ── Filtrage ─────────────────────────────────────────────────────
     function applyFilters() {
-        const isFiltering = query !== '' || activeFilter !== 'all';
+        const isFiltering = query !== '' || activeFilter !== 'all' || activeCategory !== '';
         if (popularSec) popularSec.classList.toggle('hidden', isFiltering);
         if (sectionTitle) {
             sectionTitle.textContent = isFiltering
@@ -346,7 +383,9 @@
             const filterMatch = activeFilter === 'all'
                 || (activeFilter === 'free' && card.dataset.free === 'true')
                 || (activeFilter === 'paid' && card.dataset.free === 'false');
-            const show = nameMatch && filterMatch;
+            const catMatch    = !activeCategory
+                || (card.dataset.categories || '').split(',').includes(activeCategory);
+            const show = nameMatch && filterMatch && catMatch;
             card.classList.toggle('hidden-card', !show);
             if (show) visible.push(card);
         });
@@ -425,6 +464,15 @@
         });
     });
 
+    catPills.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const slug = this.dataset.category;
+            activeCategory = activeCategory === slug ? '' : slug;
+            setCatPill(activeCategory);
+            triggerFilter();
+        });
+    });
+
     sortSelect.addEventListener('change', function () {
         sortMode = this.value;
         triggerFilter();
@@ -436,11 +484,20 @@
         query = '';
         clearBtn.classList.add('hidden');
         activeFilter = 'all';
+        activeCategory = '';
         sortMode = 'default';
         sortSelect.value = 'default';
         setPill('all');
+        setCatPill('');
         triggerFilter();
     };
+
+    // ── Pré-sélection depuis URL ?category=slug ──────────────────────
+    const urlCat = new URLSearchParams(window.location.search).get('category');
+    if (urlCat) {
+        activeCategory = urlCat;
+        setCatPill(urlCat);
+    }
 
     applyFilters();
 })();

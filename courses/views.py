@@ -10,7 +10,7 @@ from django.db.models import Count
 import requests
 
 from .monkey_patch.patch_thinkific import ThinkificExtend
-from .models import Enrollment, CourseTranslation
+from .models import Enrollment, CourseTranslation, CourseCategory, CourseCategoryMembership
 from payment.models import Transaction
 from payment.exchange_service import convert_to_htg
 from pages.models import SiteConfig
@@ -588,6 +588,11 @@ def courses(request):
         if p.get('productable_id') and p.get('price') is not None
     }
 
+    categories = list(CourseCategory.objects.filter(is_active=True).order_by('order', 'name'))
+    course_categories_map = {}
+    for m in CourseCategoryMembership.objects.select_related('category').filter(category__is_active=True):
+        course_categories_map.setdefault(m.course_id, []).append(m.category.slug)
+
     for c in courses_items:
         cid = c.get('id')
         price = price_map.get(cid)
@@ -595,14 +600,16 @@ def courses(request):
         c['is_free'] = price is None or float(price) == 0
         c['enroll'] = cid in enrolled_ids
         c['enrollment_count'] = popular_counts.get(cid, 0)
+        c['categories'] = course_categories_map.get(cid, [])
 
     apply_course_translations(courses_items)
 
     context = {
         'courses': courses_items,
+        'categories': categories,
         'site_currency': SiteConfig.get().currency,
     }
-    
+
     return render(request, 'pages/courses.html', context)
 
 

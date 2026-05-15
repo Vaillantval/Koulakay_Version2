@@ -15,7 +15,7 @@ def home(request):
     }
 
     # ── Imports locaux pour éviter les imports circulaires ──
-    from courses.models import Enrollment
+    from courses.models import Enrollment, CourseCategory
     from courses.views import thinkific, apply_course_translations
 
     try:
@@ -96,12 +96,14 @@ def home(request):
 
     apply_course_translations(popular_courses)
     site_currency = SiteConfig.get().currency
+    categories = list(CourseCategory.objects.filter(is_active=True).order_by('order', 'name'))
 
     return render(request, 'pages/home.html', {
         'hero_slides':   hero_slides,
         'courses':       popular_courses,
         'stats':         stats,
         'site_currency': site_currency,
+        'categories':    categories,
     })
 
 
