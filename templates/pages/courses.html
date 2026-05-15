@@ -399,6 +399,11 @@
             : `${total} {% trans "cours" %}`;
 
         noResults.classList.toggle('hidden', visible.length > 0);
+
+        // Force AOS : les cartes visibles après filtrage doivent apparaître
+        // immédiatement même si elles n'ont pas encore "scrollé" dans le viewport.
+        visible.forEach(card => card.classList.add('aos-animate'));
+        if (typeof AOS !== 'undefined') AOS.refresh();
     }
 
     // ── Skeleton flash then filter ────────────────────────────────────
@@ -501,6 +506,10 @@
     }
 
     applyFilters();
+
+    // Au chargement, les cartes dans le viewport doivent s'animer immédiatement
+    // sans attendre le scroll (AOS offset peut les bloquer sinon).
+    if (typeof AOS !== 'undefined') AOS.refresh();
 })();
 </script>
 
