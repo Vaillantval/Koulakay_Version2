@@ -41,8 +41,8 @@ class PlopPlopService:
         try:
             response = requests.post(
                 f"{self.BASE_URL}/api/paiement-marchand",
-                data=payload,
-                timeout=30,
+                json=payload,
+                timeout=60,
             )
             try:
                 data = response.json()
@@ -59,7 +59,7 @@ class PlopPlopService:
             return {'success': False, 'error': data.get('message', 'Erreur inconnue')}
 
         except requests.exceptions.Timeout:
-            return {'success': False, 'error': 'Délai de connexion dépassé'}
+            return {'success': False, 'error': 'Le service MonCash est temporairement indisponible. Réessayez dans quelques minutes.'}
         except requests.exceptions.RequestException as e:
             return {'success': False, 'error': str(e)}
 
@@ -81,8 +81,8 @@ class PlopPlopService:
         try:
             response = requests.post(
                 f"{self.BASE_URL}/api/paiement-verify",
-                data=payload,
-                timeout=30,
+                json=payload,
+                timeout=60,
             )
             try:
                 data = response.json()
