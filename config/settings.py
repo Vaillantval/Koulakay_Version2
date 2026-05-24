@@ -390,6 +390,7 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'
 
 SOCIALACCOUNT_PROVIDERS = {

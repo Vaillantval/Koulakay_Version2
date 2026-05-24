@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.translation import gettext_lazy as _
 
+from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
 import requests
@@ -97,6 +98,21 @@ def _send_credentials_email(request, user, raw_password: str):
 
     except Exception as e:
         print(f"[Google OAuth] Erreur envoi email credentials: {e}")
+
+
+class CustomAccountAdapter(DefaultAccountAdapter):
+    """
+    Surcharge send_mail pour envoyer les emails allauth en HTML + texte brut.
+    """
+
+    def send_mail(self, template_prefix, email, context):
+        msg = self.render_mail(template_prefix, email, context)
+        try:
+            html = render_to_string(f"{template_prefix}_message.html", context)
+            msg.attach_alternative(html, "text/html")
+        except Exception:
+            pass
+        msg.send()
 
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
