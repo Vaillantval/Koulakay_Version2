@@ -28,7 +28,7 @@
     </div>
 
     <div class="body">
-      <h4>{% autoescape off %}{% blocktrans with site_name=current_site.name %}Bonjour depuis {{ site_name }} !{% endblocktrans %}</h4>
+      <h4>{% blocktrans with site_name=current_site.name %}Bonjour depuis {{ site_name }} !{% endblocktrans %}</h4>
 
       <p>{% block content %}{% endblock %}</p>
 

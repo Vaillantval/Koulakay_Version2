@@ -1,12 +1,51 @@
-{% extends "account/base.html" %}
+{% extends "base.html" %}
+{% load i18n static %}
 
-{% load i18n %}
+{% block head_title %}{% trans "Vérifiez votre e-mail" %}{% endblock %}
 
-{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+{% block head %}
+<style>
+header, footer { display: none !important; }
+main { padding-top: 0 !important; }
+body { font-family: 'Lexend', sans-serif; background: #FBF7F4; }
+</style>
+{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Verify Your E-mail Address" %}</h1>
+<div class="min-h-screen flex items-center justify-center px-4 py-16" style="background:#FBF7F4;">
+  <div class="w-full max-w-md text-center">
 
-    <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification e-mail in your main inbox, check your spam folder. Please contact us if you do not receive the verification e-mail within a few minutes.{% endblocktrans %}</p>
+    <!-- Logo -->
+    <a href="{% url 'home' %}" class="inline-block mb-8">
+      <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto mx-auto">
+    </a>
 
+    <!-- Icône -->
+    <div class="mx-auto mb-6 flex items-center justify-center w-20 h-20 rounded-full"
+         style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2);">
+      <span class="material-symbols-outlined text-4xl" style="color:#C4853A;">mark_email_unread</span>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-md border border-brand-200 p-8">
+      <h1 class="text-2xl font-bold text-brand-800 mb-2">{% trans "Vérifiez votre e-mail" %}</h1>
+      <p class="text-brand-500 text-sm mb-6">
+        {% blocktrans %}
+          Un e-mail de confirmation vous a été envoyé. Cliquez sur le lien dans cet e-mail pour activer votre compte.
+        {% endblocktrans %}
+      </p>
+
+      <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-800 text-left mb-6">
+        <span class="material-symbols-outlined text-base align-middle mr-1">info</span>
+        {% trans "Si vous ne voyez pas l'e-mail, vérifiez votre dossier spam." %}
+      </div>
+
+      <a href="{% url 'home' %}"
+         class="inline-flex items-center gap-1.5 text-sm text-brand-600 hover:text-brand-800 font-medium transition group">
+        <span class="material-symbols-outlined text-base group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+        {% trans "Retour à l'accueil" %}
+      </a>
+    </div>
+
+  </div>
+</div>
 {% endblock %}
