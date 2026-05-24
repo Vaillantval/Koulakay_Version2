@@ -258,6 +258,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #0C0D12 0%, #1A1B2E 60%
           </button>
         </form>
 
+        {% comment %}
         <!-- Social providers -->
         {% get_providers as socialaccount_providers %}
         {% if socialaccount_providers %}
@@ -290,6 +291,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #0C0D12 0%, #1A1B2E 60%
           {% endfor %}
         </div>
         {% endif %}
+        {% endcomment %}
 
         <p class="mt-6 text-center text-xs text-brand-400">
           {% trans "En vous inscrivant, vous acceptez nos" %}

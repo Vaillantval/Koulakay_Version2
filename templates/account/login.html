@@ -171,6 +171,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #0C0D12 0%, #1A1B2E 60%
         <h1 class="text-2xl font-bold text-brand-800 mb-1">{% trans "Bienvenue" %}</h1>
         <p class="text-brand-500 text-sm mb-6">{% trans "Connectez-vous pour continuer à apprendre." %}</p>
 
+        {% comment %}
         {% get_providers as socialaccount_providers %}
 
         {% if socialaccount_providers %}
@@ -186,6 +187,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #0C0D12 0%, #1A1B2E 60%
           {% endblocktrans %}
         </p>
         {% endif %}
+        {% endcomment %}
 
         <form method="POST" action="{% url 'account_login' %}" class="flex flex-col gap-4">
           {% csrf_token %}
@@ -249,6 +251,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #0C0D12 0%, #1A1B2E 60%
           </button>
         </form>
 
+        {% comment %}
         <!-- Social providers -->
         {% if socialaccount_providers %}
         <div class="my-6 flex items-center gap-3">
@@ -282,6 +285,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #0C0D12 0%, #1A1B2E 60%
         {% endif %}
 
         {% include "socialaccount/snippets/login_extra.html" %}
+        {% endcomment %}
 
         <p class="mt-6 text-center text-sm text-brand-500">
           {% trans "Pas encore de compte ?" %}
