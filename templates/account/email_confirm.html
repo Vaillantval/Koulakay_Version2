@@ -1,31 +1,83 @@
-{% extends "account/base.html" %}
+{% extends "base.html" %}
+{% load i18n static account %}
 
-{% load i18n %}
-{% load account %}
+{% block head_title %}{% trans "Confirmation de votre e-mail" %}{% endblock %}
 
-{% block head_title %}{% trans "Confirm E-mail Address" %}{% endblock %}
-
+{% block head %}
+<style>
+header, footer { display: none !important; }
+main { padding-top: 0 !important; }
+body { font-family: 'Lexend', sans-serif; background: #FBF7F4; }
+.kl-btn {
+  background: linear-gradient(135deg, #C4853A, #7C3D0E);
+  transition: opacity 0.2s;
+}
+.kl-btn:hover { opacity: 0.88; }
+</style>
+{% endblock %}
 
 {% block content %}
-<h1>{% trans "Confirm E-mail Address" %}</h1>
+<div class="min-h-screen flex items-center justify-center px-4 py-16" style="background:#FBF7F4;">
+  <div class="w-full max-w-md text-center">
 
-{% if confirmation %}
+    <!-- Logo -->
+    <a href="{% url 'home' %}" class="inline-block mb-8">
+      <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto mx-auto">
+    </a>
 
-{% user_display confirmation.email_address.user as user_display %}
+    <div class="bg-white rounded-2xl shadow-md border border-brand-200 p-8">
 
-<p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endblocktrans %}</p>
+      {% if confirmation %}
 
-<form method="post" action="{% url 'account_confirm_email' confirmation.key %}" class="col-12 business">
-{% csrf_token %}
-    <button class="btn btn-success" type="submit">{% trans 'Confirm' %}</button>
-</form>
+        <!-- Succès -->
+        <div class="mx-auto mb-5 flex items-center justify-center w-16 h-16 rounded-full"
+             style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0);">
+          <span class="material-symbols-outlined text-3xl" style="color:#059669;">check_circle</span>
+        </div>
 
-{% else %}
+        <h1 class="text-2xl font-bold text-brand-800 mb-2">{% trans "E-mail confirmé !" %}</h1>
 
-{% url 'account_email' as email_url %}
+        {% user_display confirmation.email_address.user as user_display %}
+        <p class="text-brand-500 text-sm mb-6">
+          {% blocktrans %}
+            Votre adresse e-mail a bien été vérifiée. Votre compte est maintenant actif.
+          {% endblocktrans %}
+        </p>
 
-<p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
+        <a href="{% url 'home' %}"
+           class="kl-btn inline-flex items-center justify-center gap-2 w-full h-12 rounded-xl text-white font-bold text-sm shadow-md">
+          <span class="material-symbols-outlined text-base">home</span>
+          {% trans "Aller à l'accueil" %}
+        </a>
 
-{% endif %}
+      {% else %}
 
+        <!-- Lien invalide ou expiré -->
+        <div class="mx-auto mb-5 flex items-center justify-center w-16 h-16 rounded-full"
+             style="background:linear-gradient(135deg,#FEE2E2,#FECACA);">
+          <span class="material-symbols-outlined text-3xl" style="color:#DC2626;">error</span>
+        </div>
+
+        <h1 class="text-2xl font-bold text-brand-800 mb-2">{% trans "Lien invalide ou expiré" %}</h1>
+        <p class="text-brand-500 text-sm mb-6">
+          {% trans "Ce lien de confirmation est invalide ou a expiré. Demandez un nouveau lien depuis votre espace e-mail." %}
+        </p>
+
+        <a href="{% url 'account_email' %}"
+           class="kl-btn inline-flex items-center justify-center gap-2 w-full h-12 rounded-xl text-white font-bold text-sm shadow-md">
+          {% trans "Renvoyer un lien de confirmation" %}
+        </a>
+
+      {% endif %}
+
+    </div>
+
+    <a href="{% url 'home' %}"
+       class="inline-flex items-center gap-1.5 text-sm text-brand-600 hover:text-brand-800 font-medium mt-6 transition group">
+      <span class="material-symbols-outlined text-base group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+      {% trans "Retour à l'accueil" %}
+    </a>
+
+  </div>
+</div>
 {% endblock %}
