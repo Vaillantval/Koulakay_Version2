@@ -538,7 +538,14 @@ def bundle_enrollment_step1(request, bundle_id):
             'thinkific_user_id': thinkific_user_id,
         }
 
-        bundle_courses = _fetch_bundle_courses(bundle_id)
+        # _fetch_bundle_courses est optionnel : sert uniquement à l'affichage
+        # dans le résumé de payment_options. Une erreur ici ne doit pas bloquer le paiement.
+        try:
+            bundle_courses = _fetch_bundle_courses(bundle_id)
+        except Exception as e:
+            print(f"[bundle_step1] _fetch_bundle_courses ignoré: {e}")
+            bundle_courses = []
+
         bundle_obj = {
             'name': bundle_name,
             'course_card_image_url': bundle_info.get('bundle_card_image_url') or '',

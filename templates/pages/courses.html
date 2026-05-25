@@ -241,7 +241,7 @@
                             </form>
                             {% endif %}
                             <button type="button"
-                                    onclick="toggleBundle('bundle-{{ b.id }}')"
+                                    onclick="toggleBundle('bundle-detail-{{ forloop.counter }}')"
                                     class="px-3 py-2 border rounded-lg text-xs font-semibold transition"
                                     style="border-color:#7C3AED;color:#7C3AED;"
                                     title="{% trans 'Voir les cours inclus' %}">
@@ -250,7 +250,7 @@
                         </div>
 
                         <!-- Liste des cours (repliable) -->
-                        <div id="bundle-{{ b.id }}" class="hidden mt-3 border-t border-brand-100 pt-3">
+                        <div id="bundle-detail-{{ forloop.counter }}" class="hidden mt-3 border-t border-brand-100 pt-3">
                             <p class="text-xs font-bold text-brand-500 uppercase tracking-wide mb-2">{% trans "Cours inclus" %} :</p>
                             {% for course in b.courses %}
                             <div class="flex items-start gap-2 mb-2">
