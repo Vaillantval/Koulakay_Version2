@@ -515,13 +515,21 @@ def home(request):
     except Exception as e:
         print(f"Erreur lors de la récupération des statistiques: {e}")
     
+    # Cours masqués par l'admin
+    hidden_ids = set(
+        CourseVisibility.objects.filter(is_visible=False).values_list('course_id', flat=True)
+    )
+
     # Récupérer les cours populaires (top 6 pour la homepage)
     popular_courses = []
     top_course_ids_queryset = Enrollment.objects.values('course_id') \
                                              .annotate(num_enrollments=Count('course_id')) \
-                                             .order_by('-num_enrollments')[:6]
+                                             .order_by('-num_enrollments')[:12]
 
-    top_course_ids = [item['course_id'] for item in top_course_ids_queryset]
+    top_course_ids = [
+        item['course_id'] for item in top_course_ids_queryset
+        if item['course_id'] not in hidden_ids
+    ][:6]
 
     # Récupérer les détails des produits
     try:
@@ -554,8 +562,10 @@ def home(request):
                 continue
     else:
         try:
-            for course_data in thinkific.courses.list(limit=6).get('items', []):
+            for course_data in thinkific.courses.list(limit=100).get('items', []):
                 course_id = course_data.get('id')
+                if course_id in hidden_ids:
+                    continue
                 course_data['enrollment_count'] = 0
                 course_data['price'] = next(
                     (p['price'] for p in product_items
@@ -563,6 +573,8 @@ def home(request):
                 )
                 course_data['enroll'] = course_id in enrolled_ids
                 popular_courses.append(course_data)
+                if len(popular_courses) >= 6:
+                    break
         except Exception as e:
             print(f"Erreur cours fallback: {e}")
     
