@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
+
 from django.utils.translation import gettext_lazy as _
 
 from allauth.account.adapter import DefaultAccountAdapter
@@ -102,17 +103,11 @@ def _send_credentials_email(request, user, raw_password: str):
 
 class CustomAccountAdapter(DefaultAccountAdapter):
     """
-    Surcharge send_mail pour envoyer les emails allauth en HTML + texte brut.
+    Adapter allauth pour les emails de compte (confirmation, etc.).
+    allauth 65+ détecte automatiquement les templates _message.html et les attache
+    en HTML — pas besoin de surcharger send_mail.
     """
-
-    def send_mail(self, template_prefix, email, context):
-        msg = self.render_mail(template_prefix, email, context)
-        try:
-            html = render_to_string(f"{template_prefix}_message.html", context)
-            msg.attach_alternative(html, "text/html")
-        except Exception:
-            pass
-        msg.send()
+    pass
 
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
