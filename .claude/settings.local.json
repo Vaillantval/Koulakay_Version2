@@ -58,7 +58,11 @@
       "Read(//Users/vaillant/Desktop/**)",
       "Read(//Users/vaillant/**)",
       "Bash(lsof -ti:8001)",
-      "Bash(pip show *)"
+      "Bash(pip show *)",
+      "Bash(sed -i '' -e 's/html\\\\.dark \\\\.pay-card { border-color: rgba\\(124,58,237,0\\\\.15\\); background: #ffffff; color: #1C0A00; }/html.dark .pay-card { border-color: rgba\\(124,58,237,0.15\\); background: #160e2a; }/' -e 's/background: #f5f3ff;/background: #1d1235;/g' -e 's/background: #f5f3ff !important;/background: #1d1235 !important;/g' /Users/vaillant/Desktop/Transversal/koulakay/Koulakay_Version2/templates/pages/payment_options.html)",
+      "Bash(sed -i '' -e 's/html\\\\.dark \\\\.search-wrap { background: #ffffff !important;/html.dark .search-wrap { background: #160e2a !important;/' -e 's/html\\\\.dark #skeleton-grid \\\\.bg-white { background: #ffffff !important;/html.dark #skeleton-grid .bg-white { background: #160e2a !important;/' -e 's/html\\\\.dark \\\\.category-pill\\\\.bg-white { background: #ffffff !important; border-color: rgba\\(124,58,237,0\\\\.25\\) !important; color: #5b21b6 !important; }/html.dark .category-pill.bg-white { background: #160e2a !important; border-color: rgba\\(124,58,237,0.25\\) !important; color: #a78bfa !important; }/' /Users/vaillant/Desktop/Transversal/koulakay/Koulakay_Version2/templates/pages/courses.html)",
+      "Bash(sed -i '' -e 's/html\\\\.dark \\\\.stripe-card { background: #ffffff;/html.dark .stripe-card { background: #160e2a;/' -e 's/colorBackground: '\\\\''#ffffff'\\\\''/colorBackground: '\\\\''#160e2a'\\\\''/' /Users/vaillant/Desktop/Transversal/koulakay/Koulakay_Version2/templates/pages/stripe_checkout.html)",
+      "Bash(sed -i '' -e 's/html\\\\.dark \\\\.modal-inner { background: #ffffff !important; }/html.dark .modal-inner { background: #160e2a !important; }/' -e 's/html\\\\.dark \\\\.chapter-row:hover { background: #f5f3ff; }/html.dark .chapter-row:hover { background: #1d1235; }/' /Users/vaillant/Desktop/Transversal/koulakay/Koulakay_Version2/templates/pages/course_details.html)"
     ]
   }
 }
