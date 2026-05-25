@@ -29,13 +29,13 @@ def _format_price(raw):
 
 def _format_access_duration(days):
     """
-    None → None (accès à vie)
+    None → '6 mois' (défaut affiché)
     365 → '1 an', 730 → '2 ans'
     180 → '6 mois', 30 → '1 mois'
     14  → '14 jours'
     """
     if days is None:
-        return None
+        return '6 mois'
     days = int(days)
     if days >= 365 and days % 365 == 0:
         y = days // 365
