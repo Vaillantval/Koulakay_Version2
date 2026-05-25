@@ -654,8 +654,47 @@ def mon_apprentissage(request):
             })
 
     apply_course_translations(cours_inscrits)
+
+    # ── Bundles achetés ──
+    # Construit depuis les transactions COMPLETED avec meta_data['bundle']
+    course_to_bundle = {}  # course_id → {'bundle_id', 'bundle_name'}
+    mes_bundles = []
+    seen_bundle_ids = set()
+    try:
+        txs = Transaction.objects.filter(user=request.user, status=Transaction.Status.COMPLETED)
+        for tx in txs:
+            bundle = tx.meta_data.get('bundle')
+            if not bundle:
+                continue
+            bid = bundle.get('bundle_id')
+            if not bid or bid in seen_bundle_ids:
+                continue
+            seen_bundle_ids.add(bid)
+            bname = bundle.get('bundle_name', f'Bundle #{bid}')
+            bcourse_ids = set(bundle.get('bundle_course_ids', []))
+            for cid in bcourse_ids:
+                course_to_bundle[cid] = {'bundle_id': bid, 'bundle_name': bname}
+            # Cours du bundle qui sont dans les enrollments de l'utilisateur
+            bundle_courses = [c for c in cours_inscrits if c['id'] in bcourse_ids]
+            total_pct = sum(c.get('percentage_completed', 0) for c in bundle_courses)
+            avg_progress = round(total_pct / len(bundle_courses)) if bundle_courses else 0
+            mes_bundles.append({
+                'id': bid,
+                'name': bname,
+                'courses': bundle_courses,
+                'avg_progress': avg_progress,
+                'course_count': len(bcourse_ids),
+            })
+    except Exception as e:
+        print(f"[mon_apprentissage] Erreur bundles: {e}")
+
+    # Annote chaque cours avec le bundle auquel il appartient
+    for course in cours_inscrits:
+        course['bundle_info'] = course_to_bundle.get(course['id'])
+
     return render(request, 'pages/mon_apprentissage.html', {
         'cours_inscrits':  cours_inscrits,
+        'mes_bundles':     mes_bundles,
         'site_currency':   SiteConfig.get().currency,
     })
 

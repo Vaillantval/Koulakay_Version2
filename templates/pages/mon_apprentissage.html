@@ -76,6 +76,89 @@
         </a>
     </div>
 
+    <!-- ── Mes Offres Groupées ── -->
+    {% if mes_bundles %}
+    <div class="mb-10">
+        <h2 class="text-lg font-bold text-brand-800 mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-brand-500" style="font-size:20px;">inventory_2</span>
+            {% trans "Mes Offres Groupées" %}
+        </h2>
+        <div class="flex flex-col gap-4">
+            {% for bundle in mes_bundles %}
+            <div class="bg-white border border-brand-100 rounded-2xl shadow-sm overflow-hidden"
+                 data-aos="fade-up">
+                <!-- En-tête du bundle -->
+                <div class="flex items-center justify-between px-5 py-4 border-b border-brand-50 cursor-pointer select-none"
+                     onclick="toggleBundleSection('bsec-{{ forloop.counter }}', this)">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                             style="background:linear-gradient(135deg,#5B21B6,#7C3AED);">
+                            <span class="material-symbols-outlined text-white" style="font-size:18px;">inventory_2</span>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="font-semibold text-brand-800 text-sm leading-tight truncate">{{ bundle.name }}</p>
+                            <p class="text-xs text-brand-400 mt-0.5">
+                                {{ bundle.course_count }} {% trans "cours inclus" %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0">
+                        <!-- Barre de progression -->
+                        <div class="hidden sm:flex items-center gap-2">
+                            <div class="w-28 h-1.5 bg-brand-100 rounded-full overflow-hidden">
+                                <div class="h-full rounded-full" style="width:{{ bundle.avg_progress }}%; background:linear-gradient(90deg,#7C3D0E,#C4853A);"></div>
+                            </div>
+                            <span class="text-xs font-semibold text-brand-600">{{ bundle.avg_progress }}%</span>
+                        </div>
+                        <i class="fa fa-chevron-down text-brand-400 text-xs transition-transform duration-200 bundle-chevron"></i>
+                    </div>
+                </div>
+                <!-- Cours du bundle (expandable) -->
+                <div id="bsec-{{ forloop.counter }}" class="hidden">
+                    <div class="divide-y divide-brand-50">
+                        {% for course in bundle.courses %}
+                        <div class="flex items-center gap-3 px-5 py-3 hover:bg-brand-50/50 transition-colors">
+                            <!-- Miniature -->
+                            <div class="w-12 h-12 rounded-lg overflow-hidden bg-brand-100 flex-shrink-0">
+                                {% if course.banner_image_url %}
+                                <img src="{{ course.banner_image_url }}" alt="" class="w-full h-full object-cover">
+                                {% else %}
+                                <div class="flex items-center justify-center h-full">
+                                    <i class="fa fa-book-open text-brand-300 text-sm"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <!-- Info -->
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-brand-800 truncate">{{ course.name }}</p>
+                                {% if course.percentage_completed %}
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <div class="w-20 h-1 bg-brand-100 rounded-full overflow-hidden">
+                                        <div class="h-full rounded-full bg-brand-600" style="width:{{ course.percentage_completed }}%;"></div>
+                                    </div>
+                                    <span class="text-xs text-brand-400">{{ course.percentage_completed }}%</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <!-- Bouton -->
+                            <a href="{% url 'thinkific_sso' %}{% if course.slug %}?return_to=/courses/take/{{ course.slug }}{% endif %}"
+                               class="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white"
+                               style="background:linear-gradient(135deg,#7C3D0E,#A0663B);">
+                                <i class="fa fa-play-circle"></i>
+                                {% trans "Accéder" %}
+                            </a>
+                        </div>
+                        {% empty %}
+                        <p class="text-xs text-brand-400 px-5 py-4">{% trans "Aucun cours trouvé dans ce bundle." %}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     {% if cours_inscrits %}
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {% for course in cours_inscrits %}
@@ -105,6 +188,16 @@
                         </span>
                         {% endif %}
                     </div>
+                    <!-- Badge bundle -->
+                    {% if course.bundle_info %}
+                    <div class="absolute top-2 left-2">
+                        <span class="inline-flex items-center gap-1 text-xs text-white px-2 py-0.5 rounded-full font-medium shadow"
+                              style="background:linear-gradient(135deg,#5B21B6,#7C3AED);">
+                            <span class="material-symbols-outlined" style="font-size:11px;">inventory_2</span>
+                            {% trans "Bundle" %}
+                        </span>
+                    </div>
+                    {% endif %}
                     <!-- Badge progression (non vide) -->
                     {% if course.percentage_completed and course.percentage_completed > 0 %}
                     <div class="absolute bottom-2 left-2">
@@ -216,4 +309,14 @@
     {% endif %}
 
 </section>
+
+<script>
+function toggleBundleSection(id, header) {
+    const section = document.getElementById(id);
+    const chevron = header.querySelector('.bundle-chevron');
+    const isOpen = !section.classList.contains('hidden');
+    section.classList.toggle('hidden', isOpen);
+    if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
 {% endblock %}
