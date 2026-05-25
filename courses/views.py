@@ -19,6 +19,14 @@ from pages.models import SiteConfig
 thinkific = ThinkificExtend(settings.THINKIFIC['AUTH_TOKEN'], settings.THINKIFIC['SITE_ID'])
 
 
+def _format_price(raw):
+    """25.0 → '25', 25.50 → '25.50', None → None."""
+    if raw is None:
+        return None
+    f = float(raw)
+    return str(int(f)) if f == int(f) else f'{f:.2f}'
+
+
 def _sync_user_enrollments(user, request=None):
     """
     Lit les enrollments Thinkific de l'utilisateur et crée les entrées manquantes
@@ -551,10 +559,12 @@ def home(request):
                 course_data['enrollment_count'] = next(
                     (item['num_enrollments'] for item in top_course_ids_queryset if item['course_id'] == course_id), 0
                 )
-                course_data['price'] = next(
+                raw_price = next(
                     (p['price'] for p in product_items
                      if p.get('productable_id') == course_id and p.get('price') is not None), None
                 )
+                course_data['price'] = _format_price(raw_price)
+                course_data['is_free'] = raw_price is None or float(raw_price) == 0
                 course_data['enroll'] = course_id in enrolled_ids
                 popular_courses.append(course_data)
             except Exception as e:
@@ -567,10 +577,12 @@ def home(request):
                 if course_id in hidden_ids:
                     continue
                 course_data['enrollment_count'] = 0
-                course_data['price'] = next(
+                raw_price = next(
                     (p['price'] for p in product_items
                      if p.get('productable_id') == course_id and p.get('price') is not None), None
                 )
+                course_data['price'] = _format_price(raw_price)
+                course_data['is_free'] = raw_price is None or float(raw_price) == 0
                 course_data['enroll'] = course_id in enrolled_ids
                 popular_courses.append(course_data)
                 if len(popular_courses) >= 6:
@@ -632,9 +644,9 @@ def courses(request):
 
     for c in courses_items:
         cid = c.get('id')
-        price = price_map.get(cid)
-        c['price'] = price
-        c['is_free'] = price is None or float(price) == 0
+        raw_price = price_map.get(cid)
+        c['price'] = _format_price(raw_price)
+        c['is_free'] = raw_price is None or float(raw_price) == 0
         c['enroll'] = cid in enrolled_ids
         c['enrollment_count'] = popular_counts.get(cid, 0)
         c['categories'] = course_categories_map.get(cid, [])

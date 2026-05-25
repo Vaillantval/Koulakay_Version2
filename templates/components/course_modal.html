@@ -102,9 +102,10 @@ function openCourseModal(enrollUrl, detailsUrl, name, desc, price, imgUrl) {
     // Prix — devise configurée dans l'admin
     var siteCurrency = '{{ site_currency|default:"USD" }}';
     var priceNum = parseFloat(price);
+    var priceFormatted = (priceNum % 1 === 0) ? priceNum.toFixed(0) : priceNum.toFixed(2);
     var priceText = (priceNum === 0 || isNaN(priceNum))
         ? '{% trans "Gratuit" %}'
-        : priceNum.toFixed(0) + ' ' + siteCurrency;
+        : priceFormatted + ' ' + siteCurrency;
     document.getElementById('modalPrice').textContent = priceText;
     document.getElementById('modalPriceBadge').textContent = priceText;
 
