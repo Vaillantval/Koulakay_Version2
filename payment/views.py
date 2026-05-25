@@ -181,6 +181,7 @@ def process_successful_payment(transaction, payload):
                     payment_method=transaction.payment_method or 'mobile',
                     activated_at=activated_at,
                     expiry_date=None,
+                    is_bundle=True,
                 )
             except Exception as e:
                 print(f"[KouLakay] Email confirmation bundle échoué : {e}")

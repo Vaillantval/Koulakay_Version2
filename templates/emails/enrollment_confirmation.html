@@ -58,7 +58,7 @@
         </h1>
         <p style="margin:0;font-size:15px;color:#6B4226;text-align:center;line-height:1.6;">
           Bonjour <strong>{{ user.get_full_name|default:user.email }}</strong>,<br>
-          votre paiement a été reçu et votre accès au cours est activé.
+          {% if is_bundle %}votre paiement a été reçu et vos cours sont activés.{% else %}votre paiement a été reçu et votre accès au cours est activé.{% endif %}
         </p>
       </td>
     </tr>
@@ -68,7 +68,7 @@
       <td style="padding:24px 40px 0;">
         <div style="background:linear-gradient(135deg,#3D1C04,#7C3D0E);border-radius:12px;padding:20px 24px;">
           <div style="font-size:10px;color:#D4AA7D;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">
-            Cours inscrit
+            {% if is_bundle %}Offre groupée{% else %}Cours inscrit{% endif %}
           </div>
           <div style="font-size:18px;font-weight:800;color:#ffffff;line-height:1.3;">
             {{ course_name }}
@@ -149,7 +149,7 @@
                   color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;
                   padding:14px 36px;border-radius:10px;
                   box-shadow:0 4px 16px rgba(124,61,14,0.35);">
-          Accéder à mon cours →
+          {% if is_bundle %}Accéder à mes cours →{% else %}Accéder à mon cours →{% endif %}
         </a>
         <p style="margin:16px 0 0;font-size:12px;color:#A06030;">
           Lien : {{ thinkific_url }}

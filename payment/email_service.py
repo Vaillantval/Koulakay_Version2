@@ -36,6 +36,7 @@ def _draw_receipt_pdf(
     payment_method: str,
     activated_at,
     expiry_date,
+    is_bundle: bool = False,
 ) -> bytes:
     """
     Génère un reçu PDF professionnel et retourne les bytes.
@@ -105,11 +106,11 @@ def _draw_receipt_pdf(
     c.setLineWidth(1)
     c.line(card_left, y, card_left + card_w, y)
 
-    # Section : Cours
+    # Section : Cours / Offre groupée
     y -= 10 * mm
     c.setFillColor(ESPRESSO)
     c.setFont('Helvetica-Bold', 9)
-    c.drawString(card_left, y, 'COURS')
+    c.drawString(card_left, y, 'OFFRE GROUPÉE' if is_bundle else 'COURS')
     y -= 6 * mm
     c.setFont('Helvetica-Bold', 14)
     c.setFillColor(black)
@@ -167,7 +168,8 @@ def _draw_receipt_pdf(
     y -= 10 * mm
     c.setFont('Helvetica', 10)
     c.setFillColor(GRAY_TEXT)
-    c.drawCentredString(w / 2, y, "Accédez à votre cours dès maintenant sur koulakay.thinkific.com")
+    msg_acces = "Accédez à vos cours dès maintenant sur koulakay.thinkific.com" if is_bundle else "Accédez à votre cours dès maintenant sur koulakay.thinkific.com"
+    c.drawCentredString(w / 2, y, msg_acces)
 
     # ── Footer ────────────────────────────────────────────────────────────────────
     footer_h = 18 * mm
@@ -197,6 +199,7 @@ def send_enrollment_confirmation(
     payment_method: str,
     activated_at=None,
     expiry_date=None,
+    is_bundle: bool = False,
 ):
     """
     Envoie un email de confirmation d'inscription avec le reçu PDF en pièce jointe.
@@ -218,6 +221,7 @@ def send_enrollment_confirmation(
         'payment_method':     payment_method,
         'activated_at':       activated_at,
         'expiry_date':        expiry_date,
+        'is_bundle':          is_bundle,
         'site_name':          'KouLakay',
         'site_url':           'https://koulakay.ht',
         'thinkific_url':      'https://koulakay.thinkific.com',
@@ -229,13 +233,20 @@ def send_enrollment_confirmation(
     to_email   = [user.email]
 
     html_body  = render_to_string('emails/enrollment_confirmation.html', context)
+    if is_bundle:
+        item_label = f"l'offre groupée « {course_name} »"
+        access_label = "Accédez à vos cours"
+    else:
+        item_label = f"le cours « {course_name} »"
+        access_label = "Accédez à votre cours"
+
     text_body  = (
         f"Bonjour {getattr(user, 'first_name', '') or user.email},\n\n"
-        f"Votre inscription au cours « {course_name} » est confirmée.\n"
+        f"Votre inscription à {item_label} est confirmée.\n"
         f"Référence : {transaction_number}\n"
         f"Montant payé : {amount} {currency}\n"
         f"Méthode : {payment_method}\n\n"
-        f"Accédez à votre cours : https://koulakay.thinkific.com\n\n"
+        f"{access_label} : https://koulakay.thinkific.com\n\n"
         f"— L'équipe KouLakay"
     )
 
@@ -250,6 +261,7 @@ def send_enrollment_confirmation(
             payment_method=payment_method,
             activated_at=activated_at,
             expiry_date=expiry_date,
+            is_bundle=is_bundle,
         )
     except Exception as e:
         print(f"[KouLakay] Erreur génération PDF reçu : {e}")
