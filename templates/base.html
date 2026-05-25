@@ -430,7 +430,7 @@
 
         /* ── Modal ── */
         html.dark .modal-content {
-            background: #160e2a !important;
+            background: #ffffff !important;
             border: 1px solid rgba(124,58,237,0.2) !important;
             box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(124,58,237,0.12) !important;
         }
@@ -438,12 +438,12 @@
 
         /* ── Forms ── */
         html.dark input, html.dark textarea, html.dark select {
-            background-color: #160e2a !important;
-            border-color: rgba(124,58,237,0.2) !important;
-            color: #EDF0F7 !important;
+            background-color: #f5f3ff !important;
+            border-color: rgba(124,58,237,0.25) !important;
+            color: #1C0A00 !important;
         }
         html.dark input::placeholder, html.dark textarea::placeholder {
-            color: rgba(167,139,250,0.35) !important;
+            color: rgba(109,40,217,0.4) !important;
         }
         html.dark input:focus, html.dark textarea:focus {
             border-color: #7c3aed !important;
@@ -451,10 +451,11 @@
         }
 
         /* ── Backgrounds ── */
-        html.dark .bg-white     { background-color: #160e2a !important; }
-        html.dark .bg-brand-50  { background-color: #120b22 !important; }
-        html.dark .bg-brand-100 { background-color: #160e2a !important; }
-        html.dark .bg-brand-200 { background-color: #1d1235 !important; }
+        /* Cartes/panneaux : blancs comme en light mode — contraste avec le fond sombre */
+        html.dark .bg-white     { background-color: #ffffff !important; }
+        html.dark .bg-brand-50  { background-color: #FBF7F4 !important; }
+        html.dark .bg-brand-100 { background-color: #F3EDE8 !important; }
+        html.dark .bg-brand-200 { background-color: #E8DDD4 !important; }
         html.dark .bg-brand-600 { background-color: #6d28d9 !important; }
         html.dark .bg-brand-700 { background-color: #5b21b6 !important; }
         html.dark .bg-brand-800 { background-color: #4c1d95 !important; }
@@ -484,6 +485,24 @@
         html.dark .text-gray-600  { color: #9BA3B8 !important; }
         html.dark .text-gray-500  { color: #52586A !important; }
         html.dark .text-yellow-700 { color: #FCD34D !important; }
+
+        /* ── Texte restauré dans les zones blanches/crème (plus haute spécificité) ── */
+        html.dark .bg-white .text-brand-900,
+        html.dark .bg-white .text-brand-800 { color: #1C0A00 !important; }
+        html.dark .bg-white .text-brand-700 { color: #3D1C04 !important; }
+        html.dark .bg-white .text-brand-600 { color: #7C3D0E !important; }
+        html.dark .bg-white .text-brand-500 { color: #A0663B !important; }
+        html.dark .bg-white .text-brand-400 { color: #C4853A !important; }
+        html.dark .bg-white .text-brand-300 { color: #D4A068 !important; }
+        html.dark .bg-white .text-gray-800  { color: #1C0A00 !important; }
+        html.dark .bg-white .text-gray-600  { color: #4A2800 !important; }
+        html.dark .bg-white .text-gray-500  { color: #7C3D0E !important; }
+        html.dark .bg-brand-50 .text-brand-900,
+        html.dark .bg-brand-50 .text-brand-800 { color: #1C0A00 !important; }
+        html.dark .bg-brand-50 .text-brand-700 { color: #3D1C04 !important; }
+        html.dark .bg-brand-50 .text-brand-600 { color: #7C3D0E !important; }
+        html.dark .bg-brand-50 .text-brand-500 { color: #A0663B !important; }
+        html.dark .bg-brand-50 .text-brand-400 { color: #C4853A !important; }
 
         /* ── Borders ── */
         html.dark .border-brand-50  { border-color: rgba(124,58,237,0.08) !important; }
