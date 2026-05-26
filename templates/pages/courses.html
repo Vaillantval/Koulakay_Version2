@@ -201,6 +201,66 @@
         </div>
         {% endwith %}
 
+        <!-- ── Collections ── -->
+        {% if course_groups %}
+        <div id="groups-section" class="mb-14">
+            <div class="flex items-center gap-3 mb-6" data-aos="fade-up">
+                <span class="w-1 h-7 rounded-full inline-block" style="background:#7c3aed;"></span>
+                <h2 class="text-2xl font-bold text-brand-800">{% trans "Collections" %}</h2>
+                <span class="ml-2 px-2 py-0.5 rounded-full text-xs font-mono font-bold"
+                      style="background:rgba(124,58,237,0.12);color:#7c3aed;border:1px solid rgba(124,58,237,0.25);">
+                    {{ course_groups|length }}
+                </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {% for gd in course_groups %}
+                <div class="group-card relative overflow-hidden rounded-2xl cursor-pointer select-none"
+                     style="min-height:200px;"
+                     data-group-card
+                     data-category="{{ gd.group.category.slug|default:'' }}"
+                     data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00"
+                     onclick="openGroupModal({{ gd.group.id }}, '{{ gd.group.name|escapejs }}', '{{ gd.group.description|escapejs }}')">
+                    <div class="absolute inset-0">
+                        {% if gd.group.image %}
+                        <img src="{{ gd.group.image.url }}" alt="{{ gd.group.name }}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0" style="background:linear-gradient(160deg,rgba(13,11,23,0.55) 0%,rgba(13,11,23,0.88) 100%);"></div>
+                        {% else %}
+                        <div class="absolute inset-0" style="background:linear-gradient(135deg,#160e2a 0%,#1d1235 60%,#12082a 100%);">
+                            <div class="absolute inset-0" style="background:radial-gradient(rgba(124,58,237,0.12) 1px,transparent 1px);background-size:22px 22px;"></div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="group-card-border absolute inset-0 rounded-2xl pointer-events-none"
+                         style="border:1.5px solid rgba(124,58,237,0.25);transition:border-color .25s;"></div>
+                    <div class="relative flex flex-col justify-between p-6 h-full" style="min-height:200px;">
+                        <div class="flex items-start justify-between">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center"
+                                 style="background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.35);">
+                                <span class="material-symbols-outlined text-lg" style="color:#a78bfa;">folder_open</span>
+                            </div>
+                            <span class="px-2 py-1 rounded-md text-xs font-mono font-bold"
+                                  style="background:rgba(124,58,237,0.18);border:1px solid rgba(124,58,237,0.3);color:#c4b5fd;">
+                                {{ gd.count }} cours
+                            </span>
+                        </div>
+                        <div class="mt-6">
+                            <div class="w-8 h-px mb-3" style="background:#7c3aed;"></div>
+                            <h3 class="text-white font-bold text-lg leading-snug mb-1">{{ gd.group.name }}</h3>
+                            {% if gd.group.description %}
+                            <p class="text-white/55 text-sm line-clamp-2 mb-4">{{ gd.group.description }}</p>
+                            {% else %}<div class="mb-4"></div>{% endif %}
+                            <div class="flex items-center gap-1.5 text-sm font-semibold" style="color:#a78bfa;">
+                                <span>{% trans "Voir les cours" %}</span>
+                                <span class="material-symbols-outlined text-base">arrow_forward</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         <!-- ── Offres Groupées (Bundles) ── -->
         {% if bundles %}
         <div class="mb-12" id="bundles-section">
@@ -305,102 +365,32 @@
         </div>
         {% endif %}
 
-        <!-- ── Collections ── -->
-        {% if course_groups %}
-        <div id="groups-section" class="mb-14">
-            <div class="flex items-center gap-3 mb-6" data-aos="fade-up">
-                <span class="w-1 h-7 rounded-full inline-block" style="background:#7c3aed;"></span>
-                <h2 class="text-2xl font-bold text-brand-800">{% trans "Collections" %}</h2>
-                <span class="ml-2 px-2 py-0.5 rounded-full text-xs font-mono font-bold"
-                      style="background:rgba(124,58,237,0.12);color:#7c3aed;border:1px solid rgba(124,58,237,0.25);">
-                    {{ course_groups|length }}
-                </span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {% for gd in course_groups %}
-                <div class="group-card relative overflow-hidden rounded-2xl cursor-pointer select-none"
-                     style="min-height:200px;"
-                     data-group-card
-                     data-category="{{ gd.group.category.slug|default:'' }}"
-                     data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00"
-                     onclick="openGroupModal({{ gd.group.id }}, '{{ gd.group.name|escapejs }}', '{{ gd.group.description|escapejs }}')">
-
-                    <!-- Fond -->
-                    <div class="absolute inset-0">
-                        {% if gd.group.image %}
-                        <img src="{{ gd.group.image.url }}" alt="{{ gd.group.name }}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0" style="background:linear-gradient(160deg,rgba(13,11,23,0.55) 0%,rgba(13,11,23,0.88) 100%);"></div>
-                        {% else %}
-                        <div class="absolute inset-0" style="background:linear-gradient(135deg,#160e2a 0%,#1d1235 60%,#12082a 100%);">
-                            <div class="absolute inset-0" style="background:radial-gradient(rgba(124,58,237,0.12) 1px,transparent 1px);background-size:22px 22px;"></div>
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Bordure violette animée au hover -->
-                    <div class="group-card-border absolute inset-0 rounded-2xl pointer-events-none"
-                         style="border:1.5px solid rgba(124,58,237,0.25);transition:border-color .25s;"></div>
-
-                    <!-- Contenu -->
-                    <div class="relative flex flex-col justify-between p-6 h-full" style="min-height:200px;">
-                        <!-- Haut -->
-                        <div class="flex items-start justify-between">
-                            <div class="w-10 h-10 rounded-lg flex items-center justify-center"
-                                 style="background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.35);">
-                                <span class="material-symbols-outlined text-lg" style="color:#a78bfa;">folder_open</span>
-                            </div>
-                            <span class="px-2 py-1 rounded-md text-xs font-mono font-bold"
-                                  style="background:rgba(124,58,237,0.18);border:1px solid rgba(124,58,237,0.3);color:#c4b5fd;">
-                                {{ gd.count }} cours
-                            </span>
-                        </div>
-                        <!-- Bas -->
-                        <div class="mt-6">
-                            <div class="w-8 h-px mb-3" style="background:#7c3aed;"></div>
-                            <h3 class="text-white font-bold text-lg leading-snug mb-1">{{ gd.group.name }}</h3>
-                            {% if gd.group.description %}
-                            <p class="text-white/55 text-sm line-clamp-2 mb-4">{{ gd.group.description }}</p>
-                            {% else %}<div class="mb-4"></div>{% endif %}
-                            <div class="flex items-center gap-1.5 text-sm font-semibold" style="color:#a78bfa;">
-                                <span>{% trans "Voir les cours" %}</span>
-                                <span class="material-symbols-outlined text-base">arrow_forward</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- ── CTA Voir tous les cours ── -->
+        <!-- ── CTA toggle Tous les cours ── -->
         <div id="all-courses-cta" class="relative py-20 mb-2 text-center overflow-hidden" data-aos="fade-up">
-            <!-- Ligne décorative -->
             <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px pointer-events-none"
                  style="background:linear-gradient(90deg,transparent,rgba(124,58,237,0.18) 25%,rgba(124,58,237,0.18) 75%,transparent);"></div>
 
             <div class="relative inline-flex flex-col items-center gap-5">
-                <!-- Bouton avec sonar -->
                 <div class="relative flex items-center justify-center">
-                    <span class="cta-sonar-ring absolute rounded-full pointer-events-none"
+                    <span id="cta-ring-1" class="cta-sonar-ring absolute rounded-full pointer-events-none"
                           style="inset:-18px;border:1.5px solid rgba(124,58,237,0.45);animation:ctaSonar 2.4s ease-out infinite;"></span>
-                    <span class="cta-sonar-ring absolute rounded-full pointer-events-none"
+                    <span id="cta-ring-2" class="cta-sonar-ring absolute rounded-full pointer-events-none"
                           style="inset:-18px;border:1.5px solid rgba(124,58,237,0.3);animation:ctaSonar 2.4s ease-out infinite .9s;"></span>
-                    <span class="cta-sonar-ring absolute rounded-full pointer-events-none"
+                    <span id="cta-ring-3" class="cta-sonar-ring absolute rounded-full pointer-events-none"
                           style="inset:-18px;border:1.5px solid rgba(124,58,237,0.15);animation:ctaSonar 2.4s ease-out infinite 1.8s;"></span>
 
-                    <button onclick="revealAllCourses()"
-                            id="reveal-courses-btn"
+                    <button onclick="toggleAllCourses()"
+                            id="toggle-courses-btn"
                             class="relative z-10 px-10 py-4 rounded-full font-bold text-white text-base flex items-center gap-3 transition-transform hover:scale-105 active:scale-95"
                             style="background:linear-gradient(135deg,#7c3aed 0%,#5b21b6 100%);box-shadow:0 8px 32px rgba(124,58,237,0.35);">
                         <span class="material-symbols-outlined text-xl">school</span>
-                        {% trans "Voir tous les cours" %}
+                        <span id="cta-btn-label">{% trans "Voir tous les cours" %}</span>
                         <span class="font-mono text-purple-200 text-sm opacity-80">({{ courses|length }})</span>
-                        <span class="material-symbols-outlined text-xl" style="animation:ctaArrow 1.6s ease-in-out infinite;">keyboard_arrow_down</span>
+                        <span id="cta-btn-icon" class="material-symbols-outlined text-xl"
+                              style="animation:ctaArrow 1.6s ease-in-out infinite;">keyboard_arrow_down</span>
                     </button>
                 </div>
-
-                <p class="text-sm" style="color:rgba(124,58,237,0.55);">{% trans "Explorez l'ensemble du catalogue" %}</p>
+                <p id="cta-sub" class="text-sm" style="color:rgba(124,58,237,0.55);">{% trans "Explorez l'ensemble du catalogue" %}</p>
             </div>
         </div>
 
@@ -700,16 +690,10 @@
         const isFiltering = query !== '' || activeFilter !== 'all' || activeCategory !== '';
         if (popularSec) popularSec.classList.toggle('hidden', isFiltering);
 
-        // Si un filtre est actif → révéler la grille automatiquement (sans animation fancy)
-        const wrapper = document.getElementById('courses-section-wrapper');
-        const cta     = document.getElementById('all-courses-cta');
-        if (isFiltering && wrapper && !wrapper._revealed) {
-            wrapper._revealed = true;
-            if (cta) cta.classList.add('hidden');
-            wrapper.classList.remove('hidden');
+        // Si un filtre est actif → révéler la grille automatiquement
+        if (isFiltering && !coursesVisible) {
+            toggleAllCourses(true);
         }
-        // CTA masqué dès que la grille est révélée
-        if (wrapper && wrapper._revealed && cta) cta.classList.add('hidden');
 
         // Groupes : visibles uniquement si pas de recherche/filtre libre/payant
         // Quand une catégorie est active → on montre uniquement les groupes de cette catégorie
@@ -897,25 +881,40 @@
     if (typeof AOS !== 'undefined') AOS.refresh();
 })();
 
-// ── Révéler la grille "Tous les cours" ────────────────────────────────────
-function revealAllCourses() {
-    const cta     = document.getElementById('all-courses-cta');
+// ── Toggle "Tous les cours" (réversible) ──────────────────────────────────
+let coursesVisible = false;
+
+function toggleAllCourses(forceShow) {
     const wrapper = document.getElementById('courses-section-wrapper');
-    if (!wrapper || wrapper._revealed) return;
-    wrapper._revealed = true;
+    const label   = document.getElementById('cta-btn-label');
+    const icon    = document.getElementById('cta-btn-icon');
+    const sub     = document.getElementById('cta-sub');
+    const rings   = document.querySelectorAll('.cta-sonar-ring');
+    if (!wrapper) return;
 
-    // Masquer le bouton CTA avec fondu
-    if (cta) {
-        cta.style.transition = 'opacity .25s, transform .25s';
-        cta.style.opacity = '0';
-        cta.style.transform = 'translateY(-8px)';
-        setTimeout(() => cta.classList.add('hidden'), 260);
+    coursesVisible = forceShow === true ? true : !coursesVisible;
+
+    if (coursesVisible) {
+        wrapper.classList.remove('hidden');
+        wrapper.classList.add('revealing');
+        wrapper.addEventListener('animationend', () => wrapper.classList.remove('revealing'), { once: true });
+        if (label) label.textContent = '{% trans "Masquer les cours" %}';
+        if (icon)  { icon.textContent = 'keyboard_arrow_up'; icon.style.animation = ''; }
+        if (sub)   sub.textContent = '{% trans "Cliquez pour replier" %}';
+        rings.forEach(r => r.style.animationPlayState = 'paused');
+    } else {
+        wrapper.style.transition = 'opacity .22s, transform .22s';
+        wrapper.style.opacity = '0';
+        wrapper.style.transform = 'translateY(12px)';
+        setTimeout(() => {
+            wrapper.classList.add('hidden');
+            wrapper.style.cssText = '';
+        }, 230);
+        if (label) label.textContent = '{% trans "Voir tous les cours" %}';
+        if (icon)  { icon.textContent = 'keyboard_arrow_down'; icon.style.animation = 'ctaArrow 1.6s ease-in-out infinite'; }
+        if (sub)   sub.textContent = '{% trans "Explorez l\'ensemble du catalogue" %}';
+        rings.forEach(r => r.style.animationPlayState = 'running');
     }
-
-    // Révéler la grille avec animation
-    wrapper.classList.remove('hidden');
-    wrapper.classList.add('revealing');
-    wrapper.addEventListener('animationend', () => wrapper.classList.remove('revealing'), { once: true });
 
     if (typeof AOS !== 'undefined') AOS.refresh();
 }
