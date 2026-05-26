@@ -53,14 +53,6 @@
         0%, 100% { transform: translateY(0);   }
         50%       { transform: translateY(5px); }
     }
-    /* reveal animation */
-    #courses-section-wrapper.revealing {
-        animation: ctaReveal 0.4s ease-out forwards;
-    }
-    @keyframes ctaReveal {
-        from { opacity: 0; transform: translateY(18px); }
-        to   { opacity: 1; transform: translateY(0);    }
-    }
     /* dark — CTA */
     html.dark #all-courses-cta p { color: rgba(167,139,250,0.5) !important; }
     /* dark — group section title */
@@ -622,6 +614,8 @@
 {% include 'components/course_modal.html' %}
 
 <script>
+var coursesVisible = false;
+
 (function () {
     const PILL_ACTIVE   = ['bg-brand-700', 'border-brand-700', 'text-white',      'shadow-sm'];
     const PILL_INACTIVE = ['bg-white',      'border-brand-200', 'text-brand-600'];
@@ -882,38 +876,46 @@
 })();
 
 // ── Toggle "Tous les cours" (réversible) ──────────────────────────────────
-let coursesVisible = false;
-
 function toggleAllCourses(forceShow) {
-    const wrapper = document.getElementById('courses-section-wrapper');
-    const label   = document.getElementById('cta-btn-label');
-    const icon    = document.getElementById('cta-btn-icon');
-    const sub     = document.getElementById('cta-sub');
-    const rings   = document.querySelectorAll('.cta-sonar-ring');
+    var wrapper = document.getElementById('courses-section-wrapper');
+    var label   = document.getElementById('cta-btn-label');
+    var icon    = document.getElementById('cta-btn-icon');
+    var sub     = document.getElementById('cta-sub');
+    var rings   = document.querySelectorAll('.cta-sonar-ring');
     if (!wrapper) return;
 
-    coursesVisible = forceShow === true ? true : !coursesVisible;
+    coursesVisible = (forceShow === true) ? true : !coursesVisible;
 
     if (coursesVisible) {
-        wrapper.classList.remove('hidden');
-        wrapper.classList.add('revealing');
-        wrapper.addEventListener('animationend', () => wrapper.classList.remove('revealing'), { once: true });
-        if (label) label.textContent = '{% trans "Masquer les cours" %}';
-        if (icon)  { icon.textContent = 'keyboard_arrow_up'; icon.style.animation = ''; }
-        if (sub)   sub.textContent = '{% trans "Cliquez pour replier" %}';
-        rings.forEach(r => r.style.animationPlayState = 'paused');
-    } else {
-        wrapper.style.transition = 'opacity .22s, transform .22s';
+        // Afficher avec animation slide-in
+        wrapper.style.display = 'block';
         wrapper.style.opacity = '0';
-        wrapper.style.transform = 'translateY(12px)';
-        setTimeout(() => {
-            wrapper.classList.add('hidden');
+        wrapper.style.transform = 'translateY(18px)';
+        wrapper.style.transition = 'none';
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                wrapper.style.transition = 'opacity .35s ease, transform .35s ease';
+                wrapper.style.opacity    = '1';
+                wrapper.style.transform  = 'translateY(0)';
+            });
+        });
+        if (label) label.textContent = '{% trans "Masquer les cours" %}';
+        if (icon)  { icon.textContent = 'keyboard_arrow_up'; icon.style.animation = 'none'; }
+        if (sub)   sub.textContent = '{% trans "Cliquez pour replier" %}';
+        rings.forEach(function(r) { r.style.animationPlayState = 'paused'; });
+    } else {
+        // Masquer avec fade-out
+        wrapper.style.transition = 'opacity .22s ease, transform .22s ease';
+        wrapper.style.opacity    = '0';
+        wrapper.style.transform  = 'translateY(12px)';
+        setTimeout(function() {
+            wrapper.style.display = 'none';
             wrapper.style.cssText = '';
-        }, 230);
+        }, 240);
         if (label) label.textContent = '{% trans "Voir tous les cours" %}';
         if (icon)  { icon.textContent = 'keyboard_arrow_down'; icon.style.animation = 'ctaArrow 1.6s ease-in-out infinite'; }
         if (sub)   sub.textContent = '{% trans "Explorez l\'ensemble du catalogue" %}';
-        rings.forEach(r => r.style.animationPlayState = 'running');
+        rings.forEach(function(r) { r.style.animationPlayState = 'running'; });
     }
 
     if (typeof AOS !== 'undefined') AOS.refresh();
