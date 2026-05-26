@@ -887,38 +887,19 @@ function toggleAllCourses(forceShow) {
     coursesVisible = (forceShow === true) ? true : !coursesVisible;
 
     if (coursesVisible) {
-        // Afficher avec animation slide-in
-        wrapper.style.display = 'block';
-        wrapper.style.opacity = '0';
-        wrapper.style.transform = 'translateY(18px)';
-        wrapper.style.transition = 'none';
-        requestAnimationFrame(function() {
-            requestAnimationFrame(function() {
-                wrapper.style.transition = 'opacity .35s ease, transform .35s ease';
-                wrapper.style.opacity    = '1';
-                wrapper.style.transform  = 'translateY(0)';
-            });
-        });
+        wrapper.classList.remove('hidden');
         if (label) label.textContent = '{% trans "Masquer les cours" %}';
         if (icon)  { icon.textContent = 'keyboard_arrow_up'; icon.style.animation = 'none'; }
         if (sub)   sub.textContent = '{% trans "Cliquez pour replier" %}';
         rings.forEach(function(r) { r.style.animationPlayState = 'paused'; });
+        if (typeof AOS !== 'undefined') AOS.refresh();
     } else {
-        // Masquer avec fade-out
-        wrapper.style.transition = 'opacity .22s ease, transform .22s ease';
-        wrapper.style.opacity    = '0';
-        wrapper.style.transform  = 'translateY(12px)';
-        setTimeout(function() {
-            wrapper.style.display = 'none';
-            wrapper.style.cssText = '';
-        }, 240);
+        wrapper.classList.add('hidden');
         if (label) label.textContent = '{% trans "Voir tous les cours" %}';
         if (icon)  { icon.textContent = 'keyboard_arrow_down'; icon.style.animation = 'ctaArrow 1.6s ease-in-out infinite'; }
         if (sub)   sub.textContent = '{% trans "Explorez l\'ensemble du catalogue" %}';
         rings.forEach(function(r) { r.style.animationPlayState = 'running'; });
     }
-
-    if (typeof AOS !== 'undefined') AOS.refresh();
 }
 
 // ── Groupes de cours — modal ───────────────────────────────────────────────
