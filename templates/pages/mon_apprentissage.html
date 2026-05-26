@@ -11,9 +11,9 @@
         50%       { transform: translateY(-13px) rotate(4deg) scale(1.1); }
     }
     @keyframes empty-sonar {
-        0%   { box-shadow: 0 0 0 0    rgba(196,133,58,0.5); }
-        70%  { box-shadow: 0 0 0 24px rgba(196,133,58,0); }
-        100% { box-shadow: 0 0 0 0    rgba(196,133,58,0); }
+        0%   { box-shadow: 0 0 0 0    rgba(109,40,217,0.5); }
+        70%  { box-shadow: 0 0 0 24px rgba(109,40,217,0); }
+        100% { box-shadow: 0 0 0 0    rgba(109,40,217,0); }
     }
     @keyframes empty-in {
         from { opacity: 0; transform: translateY(20px) scale(0.88); }
@@ -46,8 +46,8 @@
     html.dark .empty-icon-circle { background: #1d1235 !important; animation-name: empty-sonar-dark; }
     html.dark .empty-cap { color: #7c3aed; }
     /* progress ring */
-    .progress-ring-bg   { stroke: #E8DFDA; }
-    .progress-ring-fill { stroke: #7C3D0E; transition: stroke-dasharray 0.6s ease; }
+    .progress-ring-bg   { stroke: #ABB3F9; }
+    .progress-ring-fill { stroke: url(#progressGradient); transition: stroke-dasharray 0.6s ease; }
     html.dark .progress-ring-bg   { stroke: rgba(124,58,237,0.15); }
     html.dark .progress-ring-fill { stroke: #7c3aed; }
 </style>
@@ -106,7 +106,7 @@
                         <!-- Barre de progression -->
                         <div class="hidden sm:flex items-center gap-2">
                             <div class="w-28 h-1.5 bg-brand-100 rounded-full overflow-hidden">
-                                <div class="h-full rounded-full" style="width:{{ bundle.avg_progress }}%; background:linear-gradient(90deg,#7C3D0E,#C4853A);"></div>
+                                <div class="h-full rounded-full" style="width:{{ bundle.avg_progress }}%; background:linear-gradient(90deg,#3B4BC8,#6D28D9);"></div>
                             </div>
                             <span class="text-xs font-semibold text-brand-600">{{ bundle.avg_progress }}%</span>
                         </div>
@@ -143,7 +143,7 @@
                             <!-- Bouton -->
                             <a href="{% url 'thinkific_sso' %}{% if course.slug %}?return_to=/courses/take/{{ course.slug }}{% endif %}"
                                class="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white"
-                               style="background:linear-gradient(135deg,#7C3D0E,#A0663B);">
+                               style="background:linear-gradient(135deg,#3B4BC8,#6D28D9);">
                                 <i class="fa fa-play-circle"></i>
                                 {% trans "Accéder" %}
                             </a>

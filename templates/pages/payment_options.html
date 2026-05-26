@@ -6,10 +6,10 @@
 
 {% block head %}
 <style>
-    body { background: #FBF7F4; }
+    body { background: #F5F3FF; }
 
     .pay-card {
-        border: 2px solid #EDE8E3;
+        border: 2px solid #DDD6FE;
         border-radius: 14px;
         cursor: pointer;
         transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
@@ -19,11 +19,11 @@
         gap: 14px;
         padding: 14px 16px;
     }
-    .pay-card:hover { border-color: #C4853A; box-shadow: 0 4px 16px rgba(124,61,14,0.10); }
+    .pay-card:hover { border-color: #3B4BC8; box-shadow: 0 4px 16px rgba(59,75,200,0.15); }
     .pay-card.selected {
-        border-color: #7C3D0E;
-        background: #FBF7F4;
-        box-shadow: 0 0 0 3px rgba(124,61,14,0.12);
+        border-color: #3B4BC8;
+        background: #ECEFFE;
+        box-shadow: 0 0 0 3px rgba(59,75,200,0.15);
     }
 
     .pay-logo-box {
@@ -42,13 +42,13 @@
     .pay-radio {
         width: 20px; height: 20px;
         border-radius: 50%;
-        border: 2px solid #C4853A;
+        border: 2px solid #3B4BC8;
         flex-shrink: 0;
         margin-left: auto;
         display: flex; align-items: center; justify-content: center;
         transition: background 0.2s;
     }
-    .pay-card.selected .pay-radio { background: #7C3D0E; border-color: #7C3D0E; }
+    .pay-card.selected .pay-radio { background: linear-gradient(135deg,#3B4BC8,#6D28D9); border-color: #3B4BC8; }
     .pay-radio-dot {
         width: 8px; height: 8px; border-radius: 50%;
         background: #fff;
@@ -58,7 +58,7 @@
     .pay-card.selected .pay-radio-dot { opacity: 1; }
 
     .btn-pay {
-        background: linear-gradient(135deg,#7C3D0E,#A0663B);
+        background: linear-gradient(135deg,#3B4BC8,#6D28D9);
         color: #fff;
         font-weight: 700;
         border: none;
@@ -183,7 +183,7 @@
 
                 <!-- Message sélection -->
                 <div id="selectionMsg" class="hidden mt-4 p-3 rounded-xl border flex items-center gap-3 bg-brand-50"
-                     style="border-color:#C4853A;">
+                     style="border-color:#3B4BC8;">
                     <span class="material-symbols-outlined text-brand-500" style="font-size:18px;">check_circle</span>
                     <p class="text-brand-700 text-sm">
                         {% trans "Sélectionné" %} : <strong id="selectionName" class="text-brand-900"></strong>

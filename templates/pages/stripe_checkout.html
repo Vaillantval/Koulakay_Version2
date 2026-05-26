@@ -7,7 +7,7 @@
 {% block head %}
 <script src="https://js.stripe.com/v3/"></script>
 <style>
-    body { background: #FBF7F4; }
+    body { background: #F5F3FF; }
 
     .stripe-card {
         background: #fff;
@@ -28,7 +28,7 @@
     }
 
     .btn-pay {
-        background: linear-gradient(135deg, #7C3D0E, #A0663B);
+        background: linear-gradient(135deg, #3B4BC8, #6D28D9);
         color: #fff;
         font-weight: 700;
         border: none;
@@ -188,9 +188,9 @@ async function initStripe() {
             } : {
                 theme: 'stripe',
                 variables: {
-                    colorPrimary: '#7C3D0E',
-                    colorBackground: '#160e2a',
-                    colorText: '#3D1C04',
+                    colorPrimary: '#3B4BC8',
+                    colorBackground: '#0F1240',
+                    colorText: '#1A2466',
                     colorDanger: '#DC2626',
                     fontFamily: 'system-ui, sans-serif',
                     borderRadius: '10px',

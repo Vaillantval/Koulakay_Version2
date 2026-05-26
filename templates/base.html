@@ -28,20 +28,20 @@
                 extend: {
                     colors: {
                         brand: {
-                            50:  "#FBF7F4",
-                            100: "#F2E8DC",
-                            200: "#E2C9A8",
-                            300: "#CFA472",
-                            400: "#C4853A",
-                            500: "#A0663B",
-                            600: "#7C3D0E",
-                            700: "#5E2D08",
-                            800: "#3D1C04",
-                            900: "#200F02",
+                            50:  "#ECEFFE",
+                            100: "#D5D9FC",
+                            200: "#ABB3F9",
+                            300: "#7B88F5",
+                            400: "#5668F0",
+                            500: "#3B4BC8",
+                            600: "#5035CC",
+                            700: "#6D28D9",
+                            800: "#5B21B6",
+                            900: "#1A2466",
                         },
                         gold: {
-                            400: "#D4A05A",
-                            500: "#B8842A",
+                            400: "#6878F7",
+                            500: "#3B4BC8",
                         }
                     },
                     fontFamily: {
@@ -68,20 +68,20 @@
 
     <style>
         * { font-family: 'Lexend', sans-serif; }
-        body { background-color: #FBF7F4; }
+        body { background-color: #F5F3FF; }
 
         /* ── Scrollbar ── */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #F2E8DC; }
-        ::-webkit-scrollbar-thumb { background: #C4853A; border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: #D5D9FC; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #3B4BC8, #6D28D9); border-radius: 3px; }
 
         /* ── Header ── */
         .kl-header {
-            background: linear-gradient(135deg, #4A2810 0%, #7C3D0E 60%, #9B5116 100%);
-            box-shadow: 0 2px 12px rgba(124,61,14,0.25);
+            background: linear-gradient(135deg, #1A2466 0%, #3B4BC8 55%, #6D28D9 100%);
+            box-shadow: 0 2px 12px rgba(59,75,200,0.3);
         }
         .kl-nav-link {
-            color: #F2E8DC;
+            color: #EDE9FE;
             font-size: 0.9rem;
             font-weight: 500;
             letter-spacing: 0.02em;
@@ -99,55 +99,57 @@
             font-weight: 600;
         }
         .btn-kl-primary {
-            background: #C4853A;
+            background: linear-gradient(135deg, #3B4BC8, #6D28D9);
             color: #ffffff;
             font-weight: 600;
             border-radius: 8px;
             padding: 8px 18px;
             font-size: 0.875rem;
-            transition: background 0.2s, transform 0.15s;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
             border: none;
         }
         .btn-kl-primary:hover {
-            background: #A0663B;
+            background: linear-gradient(135deg, #2E3DA8, #5B21B6);
             transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(59,75,200,0.35);
         }
         .btn-kl-secondary {
             background: transparent;
-            color: #7C3D0E;
+            color: #3B4BC8;
             font-weight: 600;
             border-radius: 8px;
             padding: 8px 18px;
             font-size: 0.875rem;
-            border: 2px solid #C4853A;
+            border: 2px solid #3B4BC8;
             transition: background 0.22s, color 0.22s, transform 0.15s, box-shadow 0.22s;
         }
         .btn-kl-secondary:hover {
-            background: #C4853A;
+            background: linear-gradient(135deg, #3B4BC8, #6D28D9);
             color: #ffffff;
+            border-color: transparent;
             transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(196,133,58,0.35);
+            box-shadow: 0 4px 14px rgba(59,75,200,0.35);
         }
         .btn-kl-outline {
             background: transparent;
-            color: #F2E8DC;
+            color: #EDE9FE;
             font-weight: 500;
             border-radius: 8px;
             padding: 7px 17px;
             font-size: 0.875rem;
-            border: 1.5px solid rgba(242,232,220,0.5);
+            border: 1.5px solid rgba(237,233,254,0.5);
             transition: border-color 0.2s, background 0.2s;
         }
         .btn-kl-outline:hover {
-            border-color: #F2E8DC;
+            border-color: #EDE9FE;
             background: rgba(255,255,255,0.08);
             color: #ffffff;
         }
 
         /* ── Footer ── */
         .kl-footer {
-            background: linear-gradient(135deg, #2D1A0A 0%, #3D1C04 100%);
-            color: #E2C9A8;
+            background: linear-gradient(135deg, #0F1240 0%, #1A2466 60%, #2E1065 100%);
+            color: #D5D9FC;
         }
 
         /* ── Modal ── */
@@ -168,10 +170,10 @@
 
         /* ── Bouton CTA principal ("Acheter ce cours", "S inscrire", etc.) ── */
         .kl-btn-cta {
-            background: linear-gradient(135deg, #7C3D0E, #C4853A);
+            background: linear-gradient(135deg, #3B4BC8, #6D28D9);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(124,61,14,0.35);
+            box-shadow: 0 4px 15px rgba(59,75,200,0.4);
             transition: box-shadow 0.3s, transform 0.2s;
         }
         .kl-btn-cta::before {
@@ -185,15 +187,15 @@
         }
         .kl-btn-cta:hover::before { transform: translateX(100%); }
         .kl-btn-cta:hover {
-            box-shadow: 0 8px 25px rgba(124,61,14,0.5);
+            box-shadow: 0 8px 25px rgba(59,75,200,0.55);
             transform: translateY(-2px);
         }
         .kl-btn-cta:active { transform: translateY(0); }
 
         /* ── Pulse discret sur les boutons importants ── */
         @keyframes pulse-brand {
-            0%, 100% { box-shadow: 0 4px 15px rgba(124,61,14,0.35); }
-            50%       { box-shadow: 0 4px 25px rgba(196,133,58,0.6); }
+            0%, 100% { box-shadow: 0 4px 15px rgba(59,75,200,0.4); }
+            50%       { box-shadow: 0 4px 25px rgba(109,40,217,0.65); }
         }
         .kl-btn-cta { animation: pulse-brand 3s ease-in-out infinite; }
         .kl-btn-cta:hover { animation: none; }
@@ -207,7 +209,7 @@
             position: absolute;
             bottom: 2px; left: 50%; right: 50%;
             height: 2px;
-            background: #D4A05A;
+            background: linear-gradient(90deg, #6878F7, #A78BFA);
             border-radius: 2px;
             transition: left 0.25s, right 0.25s;
         }
@@ -223,7 +225,7 @@
 
         /* ── Focus visible accessible ── */
         :focus-visible {
-            outline: 2px solid #C4853A;
+            outline: 2px solid #3B4BC8;
             outline-offset: 3px;
             border-radius: 4px;
         }
@@ -231,12 +233,12 @@
         /* ── Nav : Mon apprentissage — glow + sonar ── */
         @keyframes nav-glow-pulse {
             0%, 100% {
-                box-shadow: 0 0 8px rgba(196,133,58,0.55), 0 0 18px rgba(196,133,58,0.28);
-                background: rgba(196,133,58,0.14);
+                box-shadow: 0 0 8px rgba(59,75,200,0.55), 0 0 18px rgba(109,40,217,0.28);
+                background: rgba(59,75,200,0.14);
             }
             50% {
-                box-shadow: 0 0 20px rgba(255,180,60,1), 0 0 40px rgba(196,133,58,0.75), 0 0 60px rgba(196,133,58,0.35);
-                background: rgba(196,133,58,0.30);
+                box-shadow: 0 0 20px rgba(104,120,247,1), 0 0 40px rgba(109,40,217,0.75), 0 0 60px rgba(59,75,200,0.35);
+                background: rgba(59,75,200,0.30);
             }
         }
         @keyframes sonar-ring {
@@ -249,8 +251,8 @@
             align-items: center;
             padding: 6px 14px;
             border-radius: 9px;
-            border: 1.5px solid rgba(196,133,58,0.6);
-            color: #F2E8DC;
+            border: 1.5px solid rgba(59,75,200,0.65);
+            color: #D5D9FC;
             font-weight: 600;
             font-size: 0.875rem;
             text-decoration: none;
@@ -260,15 +262,15 @@
         .nav-apprentissage:hover {
             color: #fff;
             animation-play-state: paused;
-            background: rgba(196,133,58,0.38) !important;
-            box-shadow: 0 0 22px rgba(255,180,60,1), 0 0 44px rgba(196,133,58,0.8);
+            background: rgba(59,75,200,0.38) !important;
+            box-shadow: 0 0 22px rgba(104,120,247,1), 0 0 44px rgba(109,40,217,0.8);
         }
         .nav-apprentissage::before,
         .nav-apprentissage::after {
             content: '';
             position: absolute;
             inset: -2px;
-            border: 1.5px solid rgba(196,133,58,0.85);
+            border: 1.5px solid rgba(59,75,200,0.85);
             border-radius: 11px;
             pointer-events: none;
             animation: sonar-ring 2.4s ease-out infinite;
@@ -349,7 +351,7 @@
             transition: transform 0.25s cubic-bezier(.22,.68,0,1.3), background 0.25s ease !important;
         }
         .footer-social:hover {
-            background: #C4853A !important;
+            background: linear-gradient(135deg, #3B4BC8, #6D28D9) !important;
             transform: rotate(18deg) scale(1.22) !important;
         }
         @keyframes footer-social-in {
@@ -365,14 +367,14 @@
             transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
         .footer-contact-icon:hover {
-            box-shadow: 0 0 14px rgba(196,133,58,0.6), 0 0 5px rgba(196,133,58,0.35);
+            box-shadow: 0 0 14px rgba(59,75,200,0.6), 0 0 5px rgba(109,40,217,0.4);
             transform: scale(1.12);
         }
 
         /* ══ Dark mode — Graphite Mist ══ */
         /* Palette : #111216 body · #18191F cards · #1F2130 elevated
            #EDF0F7 text · #9BA3B8 muted · #52586A subtle
-           #7c3aed violet accent · #6d28d9 dark violet · #C4853A gold CTA (brand conservé) */
+           #3B4BC8 blue accent · #6d28d9 dark violet · #7B88F5 light accent */
 
         /* ═══════════════════════════════════════════════════════
            DARK MODE — KouLakay · Violet Tech Palette
@@ -534,7 +536,7 @@
             border-radius: 50%;
             background: rgba(255,255,255,0.1);
             border: 1.5px solid rgba(255,255,255,0.2);
-            color: #F2E8DC;
+            color: #EDE9FE;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             font-size: 14px; flex-shrink: 0;
@@ -600,33 +602,25 @@
             box-shadow: 0 8px 28px rgba(124,58,237,0.6) !important;
         }
 
-        /* ── Global inline-style brown → violet overrides ── */
-        html.dark [style*="background:#7C3D0E"],
-        html.dark [style*="background: #7C3D0E"] { background: #5b21b6 !important; }
-        html.dark [style*="background:#C4853A"],
-        html.dark [style*="background: #C4853A"] { background: rgba(124,58,237,0.2) !important; }
-        html.dark [style*="background:linear-gradient(135deg,#C4853A"],
-        html.dark [style*="background: linear-gradient(135deg,#C4853A"],
-        html.dark [style*="background:linear-gradient(135deg, #C4853A"],
-        html.dark [style*="background: linear-gradient(135deg, #C4853A"] { background: linear-gradient(135deg, #5b21b6, #7c3aed) !important; }
-        html.dark [style*="background:linear-gradient(135deg,#7C3D0E"],
-        html.dark [style*="background: linear-gradient(135deg,#7C3D0E"],
-        html.dark [style*="background:linear-gradient(135deg, #7C3D0E"],
-        html.dark [style*="background: linear-gradient(135deg, #7C3D0E"] { background: linear-gradient(135deg, #5b21b6, #7c3aed) !important; }
-        html.dark [style*="background:linear-gradient(135deg,#3D1C04"],
-        html.dark [style*="background: linear-gradient(135deg,#3D1C04"],
-        html.dark [style*="background:linear-gradient(135deg, #3D1C04"],
-        html.dark [style*="background: linear-gradient(135deg, #3D1C04"] { background: linear-gradient(135deg, #0d0b17, #1d1235) !important; }
-        html.dark [style*="background:rgba(196,133,58"],
-        html.dark [style*="background: rgba(196,133,58"] { background: rgba(124,58,237,0.12) !important; }
-        html.dark [style*="color:#7C3D0E"],
-        html.dark [style*="color: #7C3D0E"] { color: #a78bfa !important; }
-        html.dark [style*="color:#C4853A"],
-        html.dark [style*="color: #C4853A"] { color: #a78bfa !important; }
-        html.dark [style*="background:#FBF7F4"],
-        html.dark [style*="background: #FBF7F4"] { background: #0d0b17 !important; }
-        html.dark [style*="background:#E2C9A8"],
-        html.dark [style*="background: #E2C9A8"] { background: rgba(124,58,237,0.2) !important; }
+        /* ── Global inline-style → violet overrides (dark mode) ── */
+        html.dark [style*="background:#6D28D9"],
+        html.dark [style*="background: #6D28D9"] { background: #5b21b6 !important; }
+        html.dark [style*="background:#8B5CF6"],
+        html.dark [style*="background: #8B5CF6"] { background: rgba(124,58,237,0.2) !important; }
+        html.dark [style*="background:linear-gradient(135deg,#8B5CF6"],
+        html.dark [style*="background: linear-gradient(135deg,#8B5CF6"],
+        html.dark [style*="background:linear-gradient(135deg, #8B5CF6"],
+        html.dark [style*="background: linear-gradient(135deg, #8B5CF6"] { background: linear-gradient(135deg, #5b21b6, #7c3aed) !important; }
+        html.dark [style*="background:linear-gradient(135deg,#4C1D95"],
+        html.dark [style*="background: linear-gradient(135deg,#4C1D95"],
+        html.dark [style*="background:linear-gradient(135deg, #4C1D95"],
+        html.dark [style*="background: linear-gradient(135deg, #4C1D95"] { background: linear-gradient(135deg, #0d0b17, #1d1235) !important; }
+        html.dark [style*="background:rgba(109,40,217"],
+        html.dark [style*="background: rgba(109,40,217"] { background: rgba(124,58,237,0.12) !important; }
+        html.dark [style*="background:#F5F3FF"],
+        html.dark [style*="background: #F5F3FF"] { background: #0d0b17 !important; }
+        html.dark [style*="background:#DDD6FE"],
+        html.dark [style*="background: #DDD6FE"] { background: rgba(124,58,237,0.2) !important; }
 
         /* ── Smooth transition on toggle ── */
         html.dark-transition, html.dark-transition * {
@@ -665,7 +659,7 @@
                             </span>
                         {% else %}
                             <span class="logo-wrap" style="background:#fff;padding:3px 6px;border-radius:8px;">
-                                <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-11 w-auto drop-shadow-md logo-pt">
+                                <img src="{% static 'logo/examh.png' %}" alt="Exam H" class="h-11 w-auto drop-shadow-md logo-pt">
                             </span>
                         {% endif %}
                     </a>
@@ -717,10 +711,10 @@
                             <i class="fa fa-angle-down text-xs ml-1"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right mt-1 px-1 py-1 rounded-lg shadow-lg"
-                             style="background:#FBF7F4; min-width:180px;">
+                             style="background:#F5F3FF; min-width:180px;">
                             {% for language in languages %}
                                 <a class="dropdown-item rounded-md flex items-center gap-2 py-2 text-sm {% if language.code == LANGUAGE_CODE %}font-bold text-brand-600{% else %}text-brand-800{% endif %}"
-                                   {% if language.code == LANGUAGE_CODE %}style="background:#E2C9A8;"{% endif %}
+                                   {% if language.code == LANGUAGE_CODE %}style="background:#DDD6FE;"{% endif %}
                                    href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
                                     <img src="{% static 'images/flags/'|add:language.code|add:'.png' %}" class="h-4 w-auto">
                                     {{ language.name_local }}
@@ -773,7 +767,7 @@
     <!-- ══════════ FOOTER ══════════ -->
     <footer class="kl-footer">
         <!-- Bande supérieure décorative -->
-        <div class="footer-stripe-bar" style="height:3px;background:linear-gradient(90deg,#7C3D0E,#C4853A,#D4A05A,#C4853A,#7C3D0E);"></div>
+        <div class="footer-stripe-bar" style="height:3px;background:linear-gradient(90deg,#1A2466,#3B4BC8,#6D28D9,#3B4BC8,#1A2466);"></div>
 
         <div class="max-w-7xl mx-auto px-4 pt-14 pb-10">
 
@@ -790,7 +784,7 @@
                     </span>
                 {% else %}
                     <span class="logo-wrap" style="background:#fff;padding:4px 8px;border-radius:8px;">
-                        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-11 w-auto">
+                        <img src="{% static 'logo/examh.png' %}" alt="Exam H" class="h-11 w-auto">
                     </span>
                 {% endif %}
                 <p class="text-sm text-brand-300 leading-relaxed ml-2 max-w-xs">
@@ -804,7 +798,7 @@
                 <!-- Navigation -->
                 <div data-aos="fade-up" data-aos-delay="0">
                     <h3 class="font-bold uppercase tracking-widest text-xs mb-5"
-                        style="color:#C4853A;letter-spacing:.12em;">{% trans "Navigation" %}</h3>
+                        style="color:#6878F7;letter-spacing:.12em;">{% trans "Navigation" %}</h3>
                     <ul class="space-y-3 text-sm">
                         <li>
                             <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'home' %}">
@@ -844,7 +838,7 @@
                 <!-- Mon compte -->
                 <div data-aos="fade-up" data-aos-delay="100">
                     <h3 class="font-bold uppercase tracking-widest text-xs mb-5"
-                        style="color:#C4853A;letter-spacing:.12em;">{% trans "Mon compte" %}</h3>
+                        style="color:#6878F7;letter-spacing:.12em;">{% trans "Mon compte" %}</h3>
                     <ul class="space-y-3 text-sm">
                         {% if user.is_authenticated %}
                         <li>
@@ -873,13 +867,13 @@
                 <!-- Contact + Réseaux -->
                 <div data-aos="fade-up" data-aos-delay="200">
                     <h3 class="font-bold uppercase tracking-widest text-xs mb-5"
-                        style="color:#C4853A;letter-spacing:.12em;">{% trans "Contact" %}</h3>
+                        style="color:#6878F7;letter-spacing:.12em;">{% trans "Contact" %}</h3>
                     <ul class="space-y-3 text-sm mb-6">
                         {% if site_config.email %}
                         <li class="flex items-start gap-3">
                             <span class="footer-contact-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                                  style="background:rgba(196,133,58,0.15);">
-                                <i class="fa fa-envelope" style="color:#C4853A;font-size:13px;"></i>
+                                  style="background:rgba(59,75,200,0.15);">
+                                <i class="fa fa-envelope" style="color:#6878F7;font-size:13px;"></i>
                             </span>
                             <a href="mailto:{{ site_config.email }}"
                                class="text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.email }}</a>
@@ -888,8 +882,8 @@
                         {% if site_config.phone_1 %}
                         <li class="flex items-start gap-3">
                             <span class="footer-contact-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                                  style="background:rgba(196,133,58,0.15);">
-                                <i class="fa fa-phone" style="color:#C4853A;font-size:13px;"></i>
+                                  style="background:rgba(59,75,200,0.15);">
+                                <i class="fa fa-phone" style="color:#6878F7;font-size:13px;"></i>
                             </span>
                             <a href="tel:{{ site_config.phone_1 }}"
                                class="text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.phone_1 }}</a>
@@ -898,16 +892,16 @@
                         {% if site_config.address %}
                         <li class="flex items-start gap-3">
                             <span class="footer-contact-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                                  style="background:rgba(196,133,58,0.15);">
-                                <i class="fa fa-map-marker-alt" style="color:#C4853A;font-size:13px;"></i>
+                                  style="background:rgba(59,75,200,0.15);">
+                                <i class="fa fa-map-marker-alt" style="color:#6878F7;font-size:13px;"></i>
                             </span>
                             <span class="text-brand-200 mt-1">{{ site_config.address }}</span>
                         </li>
                         {% else %}
                         <li class="flex items-start gap-3">
                             <span class="footer-contact-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                                  style="background:rgba(196,133,58,0.15);">
-                                <i class="fa fa-map-marker-alt" style="color:#C4853A;font-size:13px;"></i>
+                                  style="background:rgba(59,75,200,0.15);">
+                                <i class="fa fa-map-marker-alt" style="color:#6878F7;font-size:13px;"></i>
                             </span>
                             <span class="text-brand-200 mt-1">Port-au-Prince, Haïti</span>
                         </li>
@@ -956,7 +950,7 @@
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content shadow-2xl overflow-hidden">
             <!-- Header modal -->
-            <div class="px-5 py-4 user-modal-header" style="background: linear-gradient(135deg, #4A2810, #7C3D0E);">
+            <div class="px-5 py-4 user-modal-header" style="background: linear-gradient(135deg, #1A2466, #3B4BC8, #6D28D9);">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">

@@ -6,11 +6,11 @@
 
 {% block head %}
 <style>
-    .tab-btn { position:relative; transition: color 0.2s; padding-bottom:10px; font-weight:500; color:#6B4226; }
-    .tab-btn.active { color:#7C3D0E; font-weight:700; }
-    .tab-btn.active::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:#7C3D0E; border-radius:3px 3px 0 0; }
+    .tab-btn { position:relative; transition: color 0.2s; padding-bottom:10px; font-weight:500; color:#5668F0; }
+    .tab-btn.active { color:#3B4BC8; font-weight:700; }
+    .tab-btn.active::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#3B4BC8,#6D28D9); border-radius:3px 3px 0 0; }
     .chapter-row { transition: background 0.15s; cursor:pointer; }
-    .chapter-row:hover { background: #FBF7F4; }
+    .chapter-row:hover { background: #F5F3FF; }
     .toggle-icon { transition: transform 0.3s; }
     .toggle-icon.open { transform: rotate(180deg); }
     .sticky-card { position: sticky; top: 1.5rem; }
@@ -130,7 +130,7 @@
                              data-target="ch-{{ chapter.id }}">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold"
-                                     style="background:#C4853A;">
+                                     style="background:linear-gradient(135deg,#3B4BC8,#6D28D9);">
                                     {{ forloop.counter }}
                                 </div>
                                 <span class="font-semibold text-brand-800 text-sm">{{ chapter.name }}</span>
@@ -175,7 +175,7 @@
             <div class="sticky-card bg-white rounded-2xl shadow-lg border border-brand-100 overflow-hidden mb-5" data-aos="fade-left" data-aos-delay="200">
 
                 <!-- Bannière prix -->
-                <div class="px-6 py-5" style="background: linear-gradient(135deg,#3D1C04,#7C3D0E);">
+                <div class="px-6 py-5" style="background: linear-gradient(135deg,#1A2466,#3B4BC8,#6D28D9);">
                     {% if course.price is None or course.price == 0 %}
                     <div class="text-center">
                         <span class="text-3xl font-bold text-white">{% trans "GRATUIT" %}</span>
@@ -204,7 +204,7 @@
                         {% else %}
                         <button id="enrollBtn"
                                 class="enroll-btn w-full mb-3 px-5 py-3 text-white font-bold rounded-xl transition"
-                                style="background:#7C3D0E;"
+                                style="background:linear-gradient(135deg,#3B4BC8,#6D28D9);"
                                 data-free="{% if course.price is None or course.price == 0 %}true{% else %}false{% endif %}">
                             {% if course.price is None or course.price == 0 %}
                                 {% trans "S'inscrire gratuitement" %}
@@ -223,7 +223,7 @@
                     {% else %}
                     <a href="{% url 'account_login' %}?next={% url 'course_details' course.id %}"
                        class="block w-full mb-3 px-5 py-3 text-white text-center font-bold rounded-xl transition"
-                       style="background:#7C3D0E;">
+                       style="background:linear-gradient(135deg,#3B4BC8,#6D28D9);">
                         <span class="material-symbols-outlined align-middle mr-1" style="font-size:18px;">lock</span>
                         {% trans "Connexion pour s'inscrire" %}
                     </a>
@@ -258,7 +258,7 @@
                 <h4 class="font-bold text-brand-800 mb-4">{% trans "Votre instructeur" %}</h4>
                 <div class="flex flex-col items-center text-center">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold mb-3"
-                         style="background: linear-gradient(135deg,#C4853A,#7C3D0E);">
+                         style="background: linear-gradient(135deg,#3B4BC8,#6D28D9);">
                         {% if instructor.first_name and instructor.last_name %}
                             {{ instructor.first_name|first }}{{ instructor.last_name|first }}
                         {% else %}
@@ -319,7 +319,7 @@
                 {% csrf_token %}
                 <button type="submit"
                         class="enroll-btn w-full px-4 py-3 text-white font-bold rounded-xl transition"
-                        style="background:#7C3D0E;">
+                        style="background:linear-gradient(135deg,#3B4BC8,#6D28D9);">
                     {% if course.price is None or course.price == 0 %}
                         {% trans "Confirmer" %}
                     {% else %}

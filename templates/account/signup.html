@@ -10,7 +10,7 @@
 <style>
 body {
   font-family: 'Lexend', sans-serif;
-  background: #FBF7F4;
+  background: #F5F3FF;
 }
 
 /* Cache le header et footer de base.html */
@@ -22,11 +22,11 @@ main { padding-top: 0 !important; }
 .super_container { min-height: 100vh; }
 
 .hero-bg {
-  background: linear-gradient(135deg, #3D1C04 0%, #7C3D0E 60%, #9B5116 100%);
+  background: linear-gradient(135deg, #1A2466 0%, #3B4BC8 60%, #6D28D9 100%);
 }
 
 .kl-btn {
-  background: linear-gradient(135deg, #C4853A, #7C3D0E);
+  background: linear-gradient(135deg, #3B4BC8, #6D28D9);
   transition: opacity 0.2s;
 }
 .kl-btn:hover { opacity: 0.88; }
@@ -39,28 +39,28 @@ main { padding-top: 0 !important; }
   padding: 0 1rem;
   font-size: 0.95rem;
   font-family: 'Lexend', sans-serif;
-  color: #3D1C04;
-  background-color: #FBF7F4;
-  border: 1px solid #CFA472;
+  color: #1A2466;
+  background-color: #F5F3FF;
+  border: 1px solid #ABB3F9;
   border-radius: 0.75rem;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 #id_first_name:focus, #id_last_name:focus, #id_email:focus,
 #id_password1:focus, #id_password2:focus {
-  border-color: #7C3D0E;
-  box-shadow: 0 0 0 3px rgba(124,61,14,0.18);
+  border-color: #3B4BC8;
+  box-shadow: 0 0 0 3px rgba(59,75,200,0.18);
 }
 #id_first_name::placeholder, #id_last_name::placeholder,
 #id_email::placeholder, #id_password1::placeholder, #id_password2::placeholder {
-  color: #A0663B;
+  color: #5668F0;
 }
 
 #id_password1, #id_password2 { padding-right: 3rem; }
 
 .helptext {
   font-size: 0.72rem;
-  color: #A0663B;
+  color: #5668F0;
   margin-top: 0.25rem;
 }
 .helptext ul { list-style: disc; padding-left: 1.25rem; }
@@ -82,7 +82,7 @@ html.dark #id_email::placeholder, html.dark #id_password1::placeholder, html.dar
   color: rgba(155,163,184,0.45);
 }
 html.dark .helptext { color: #9BA3B8; }
-html.dark .kl-btn { background: linear-gradient(135deg, #6d28d9, #7c3aed); }
+html.dark .kl-btn { background: linear-gradient(135deg, #3B4BC8, #6D28D9); }
 html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%, #1e1033 100%) !important; }
 </style>
 {% endblock %}
@@ -93,8 +93,8 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
   <!-- ── Panneau gauche — branding ── -->
   <div class="hero-bg hidden lg:flex lg:w-5/12 flex-col items-center justify-center p-12 text-white relative overflow-hidden">
     <!-- Décoration -->
-    <div class="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10" style="background:rgba(196,133,58,0.4);transform:translate(30%,-30%);"></div>
-    <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-10" style="background:rgba(196,133,58,0.4);transform:translate(-30%,30%);"></div>
+    <div class="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10" style="background:rgba(59,75,200,0.4);transform:translate(30%,-30%);"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-10" style="background:rgba(59,75,200,0.4);transform:translate(-30%,30%);"></div>
 
     <a href="{% url 'home' %}" class="flex flex-row items-center gap-4 mb-10 relative z-10">
       {% if site_config.logo_principal %}
@@ -106,7 +106,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
       {% if site_config.logo_partenaire %}
         <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;background:#fff;padding:4px;">
       {% else %}
-        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;background:#fff;padding:4px;">
+        <img src="{% static 'logo/examh.png' %}" alt="Exam H" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;background:#fff;padding:4px;">
       {% endif %}
     </a>
 
@@ -141,7 +141,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
   </div>
 
   <!-- ── Panneau droit — formulaire ── -->
-  <div class="w-full lg:w-7/12 flex items-center justify-center p-6 sm:p-10 overflow-y-auto" style="background:#FBF7F4;">
+  <div class="w-full lg:w-7/12 flex items-center justify-center p-6 sm:p-10 overflow-y-auto" style="background:#F5F3FF;">
     <div class="w-full max-w-lg py-8">
 
       <!-- Logo mobile -->
@@ -153,12 +153,12 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
             <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto">
           {% endif %}
         </a>
-        <span style="width:1px;height:32px;background:#CFA472;display:inline-block;flex-shrink:0;"></span>
+        <span style="width:1px;height:32px;background:#ABB3F9;display:inline-block;flex-shrink:0;"></span>
         <a href="{% url 'home' %}">
           {% if site_config.logo_partenaire %}
             <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-12 w-auto" style="border-radius:8px;">
           {% else %}
-            <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-12 w-auto" style="border-radius:8px;">
+            <img src="{% static 'logo/examh.png' %}" alt="Exam H" class="h-12 w-auto" style="border-radius:8px;">
           {% endif %}
         </a>
       </div>
@@ -175,7 +175,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
 
       <p class="text-xs text-brand-500 mb-6">
         {% blocktrans %}
-        Vous avez déjà un compte ? <a style="color:#7C3D0E;font-weight:600;" href="{{ login_url }}">Connectez-vous</a>.
+        Vous avez déjà un compte ? <a style="color:#3B4BC8;font-weight:600;" href="{{ login_url }}">Connectez-vous</a>.
         {% endblocktrans %}
       </p>
 

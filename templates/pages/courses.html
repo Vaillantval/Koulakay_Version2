@@ -11,11 +11,11 @@
     }
     .course-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 20px 40px rgba(124,61,14,0.18);
+        box-shadow: 0 20px 40px rgba(109,40,217,0.18);
     }
     .course-card.hidden-card { display: none; }
-    .price-badge { background: rgba(30,10,0,0.72); backdrop-filter: blur(4px); }
-    .search-wrap:focus-within { border-color: #C4853A; box-shadow: 0 0 0 3px rgba(196,133,58,0.25); }
+    .price-badge { background: rgba(20,6,0,0.72); backdrop-filter: blur(4px); }
+    .search-wrap:focus-within { border-color: #6D28D9; box-shadow: 0 0 0 3px rgba(109,40,217,0.25); }
     #search-input:focus { outline: none; }
     /* dark */
     html.dark .search-wrap { background: #160e2a !important; border-color: rgba(124,58,237,0.2) !important; }
@@ -51,7 +51,7 @@
 <div>
 
     <!-- ── Hero ── -->
-    <section style="background: linear-gradient(135deg, #3D1C04 0%, #7C3D0E 60%, #9B5116 100%);" class="py-14 mb-0">
+    <section style="background: linear-gradient(135deg, #1E1B4B 0%, #4C1D95 60%, #6D28D9 100%);" class="py-14 mb-0">
         <div class="max-w-7xl mx-auto px-4 text-center" data-aos="fade-up" data-aos-duration="700">
             <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-white/15 border border-white/25 text-amber-200 mb-4">
                 {% trans "Catalogue" %}
@@ -142,7 +142,7 @@
                 {% if c.enrollment_count > 0 and forloop.counter <= 4 %}
                 <div class="course-card bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100"
                      data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-                    <div class="relative h-36" style="background: linear-gradient(135deg,#C4853A,#7C3D0E);">
+                    <div class="relative h-36" style="background: linear-gradient(135deg,#3B4BC8,#6D28D9);">
                         {% if c.course_card_image_url %}
                         <img src="{{ c.course_card_image_url }}" alt="{{ c.name }}" class="w-full h-full object-cover" loading="lazy">
                         {% endif %}
@@ -161,7 +161,7 @@
                         <h3 class="text-sm font-bold text-brand-800 mb-3 line-clamp-2 min-h-[2.5rem]">{{ c.name }}</h3>
                         <a href="{% url 'course_details' c.id %}"
                            class="course-link-btn block w-full text-center px-3 py-2 rounded-lg text-sm font-semibold text-white transition"
-                           style="background:#7C3D0E;">
+                           style="background:linear-gradient(135deg,#3B4BC8,#6D28D9);">
                             {% trans "Voir le cours" %}
                         </a>
                     </div>
@@ -334,7 +334,7 @@
                      data-categories="{{ c.categories|join:',' }}"
                      data-aos="fade-up">
 
-                    <div class="relative h-44" style="background: linear-gradient(135deg,#C4853A,#7C3D0E);">
+                    <div class="relative h-44" style="background: linear-gradient(135deg,#3B4BC8,#6D28D9);">
                         {% if c.course_card_image_url %}
                         <img src="{{ c.course_card_image_url }}" alt="{{ c.name }}"
                              class="w-full h-full object-cover" loading="lazy">
@@ -401,7 +401,7 @@
                 <p class="text-brand-400 text-sm mb-4">{% trans "Essayez un autre mot-clé ou réinitialisez les filtres." %}</p>
                 <button onclick="resetFilters()"
                         class="inline-block px-5 py-2 text-white font-semibold rounded-lg"
-                        style="background:#7C3D0E;">
+                        style="background:linear-gradient(135deg,#3B4BC8,#6D28D9);">
                     {% trans "Voir tous les cours" %}
                 </button>
             </div>
