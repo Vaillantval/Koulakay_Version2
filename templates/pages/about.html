@@ -27,20 +27,82 @@
         background: linear-gradient(135deg,#C4853A,#7C3D0E);
         color: white;
     }
-    /* dark */
-    html.dark .val-icon { color: #17c5d8; background: rgba(23,197,216,0.1); }
-    html.dark .val-card:hover { box-shadow: 0 16px 36px rgba(0,0,0,0.5); }
-    /* dark — val cards */
-    html.dark .val-card { background: #0c1e3d !important; border-color: rgba(23,197,216,0.15) !important; }
+    /* ── DARK MODE ── */
+
+    /* Sections : fonds marins distincts */
+    html.dark section.py-16.bg-white  { background: #0a1828 !important; }
+    html.dark section.py-16.bg-brand-50 { background: #071630 !important; }
+
+    /* Textes dans les sections sombres */
+    html.dark section.bg-white .text-brand-900,
+    html.dark section.bg-white .text-brand-800 { color: #EDF0F7 !important; }
+    html.dark section.bg-white .text-brand-700 { color: #C8CDD8 !important; }
+    html.dark section.bg-white .text-brand-600 { color: #9BA3B8 !important; }
+    html.dark section.bg-white .text-brand-500 { color: #8a94a8 !important; }
+
+    html.dark section.bg-brand-50 .text-brand-900,
+    html.dark section.bg-brand-50 .text-brand-800 { color: #EDF0F7 !important; }
+    html.dark section.bg-brand-50 .text-brand-700 { color: #C8CDD8 !important; }
+    html.dark section.bg-brand-50 .text-brand-600 { color: #9BA3B8 !important; }
+    html.dark section.bg-brand-50 .text-brand-500 { color: #8a94a8 !important; }
+
+    /* Badges pill dans les sections */
+    html.dark section.bg-white .bg-brand-50,
+    html.dark section.bg-brand-50 .bg-brand-50 {
+        background: rgba(23,197,216,0.12) !important;
+        border-color: rgba(23,197,216,0.25) !important;
+    }
+    html.dark section.bg-white .bg-brand-50 .text-brand-600,
+    html.dark section.bg-brand-50 .bg-brand-50 .text-brand-600 { color: #67e8f9 !important; }
+    html.dark section.bg-brand-50 .bg-white.border { background: rgba(23,197,216,0.1) !important; }
+    html.dark section.bg-brand-50 .bg-white.border .text-brand-600 { color: #67e8f9 !important; }
+
+    /* Cartes statistiques mission */
+    html.dark .bg-brand-50.rounded-2xl {
+        background: rgba(23,197,216,0.1) !important;
+        border-color: rgba(23,197,216,0.2) !important;
+    }
+    html.dark .bg-brand-50.rounded-2xl p.text-brand-700 { color: #17c5d8 !important; }
+    html.dark .bg-brand-50.rounded-2xl p.text-brand-500 { color: #67e8f9 !important; }
+    html.dark .bg-amber-50.rounded-2xl {
+        background: rgba(196,133,58,0.12) !important;
+        border-color: rgba(196,133,58,0.2) !important;
+    }
+    html.dark .bg-amber-50.rounded-2xl p.text-amber-700 { color: #fbbf24 !important; }
+    html.dark .bg-amber-50.rounded-2xl p.text-amber-500 { color: #fcd34d !important; }
+
+    /* Carte vision */
+    html.dark .bg-white.rounded-3xl {
+        background: #0c1e3d !important;
+        border-color: rgba(23,197,216,0.15) !important;
+        box-shadow: 0 1px 24px rgba(0,0,0,0.35) !important;
+    }
+    html.dark .bg-white.rounded-3xl .text-brand-600 { color: #9BA3B8 !important; }
+
+    /* Val cards : élevées sur le fond sombre */
+    html.dark .val-card {
+        background: #0f2847 !important;
+        border-color: rgba(23,197,216,0.18) !important;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.4) !important;
+    }
     html.dark .val-card h3 { color: #EDF0F7 !important; }
-    html.dark .val-card p { color: rgba(155,163,184,0.65) !important; }
-    /* dark — sections */
-    html.dark section.py-16.bg-white { background: #f8f6ff !important; }
-    html.dark section.py-16.bg-brand-50 { background: #f0eeff !important; }
-    html.dark .bg-white.rounded-3xl { background: #0c1e3d !important; }
-    /* dark — stat cards */
-    html.dark .bg-brand-50.rounded-2xl { background: rgba(23,197,216,0.08) !important; border-color: rgba(23,197,216,0.2) !important; }
-    html.dark .bg-amber-50.rounded-2xl { background: rgba(196,133,58,0.08) !important; border-color: rgba(196,133,58,0.15) !important; }
+    html.dark .val-card p  { color: #9BA3B8 !important; }
+    html.dark .val-card:hover { box-shadow: 0 16px 36px rgba(0,0,0,0.55) !important; }
+    html.dark .val-icon { color: #17c5d8 !important; background: rgba(23,197,216,0.12) !important; }
+    html.dark .val-card:hover .val-icon {
+        background: linear-gradient(135deg, #0891a8, #17c5d8) !important;
+        color: white !important;
+    }
+
+    /* CTA section */
+    html.dark .cta-about {
+        background: linear-gradient(135deg, #060d1a 0%, #0c1e3d 60%, #0f2847 100%);
+    }
+    html.dark .cta-about a {
+        background: #17c5d8 !important;
+        color: #ffffff !important;
+    }
+    html.dark .cta-about a:hover { background: #0bbcd4 !important; }
 
     .hero-about {
         background: linear-gradient(rgba(30,10,0,0.45), rgba(20,6,0,0.65)),
@@ -50,9 +112,8 @@
         min-height: 400px;
     }
     .cta-about { background: linear-gradient(135deg,#3D1C04 0%,#7C3D0E 60%,#9B5116 100%); }
-    html.dark .cta-about { background: linear-gradient(135deg, #09071a 0%, #130e29 60%, #1e1033 100%); }
     html.dark .hero-about {
-        background: linear-gradient(rgba(109,40,217,0.55), rgba(76,29,149,0.72)),
+        background: linear-gradient(rgba(6,13,26,0.6), rgba(10,30,61,0.88)),
                     url("{% static 'images/background_1.JPG' %}");
         background-size: cover;
         background-position: center;
