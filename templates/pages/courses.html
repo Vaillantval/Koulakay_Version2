@@ -45,10 +45,6 @@
     /* dark — category pills inactives */
     html.dark .category-pill.bg-white { background: #160e2a !important; border-color: rgba(124,58,237,0.25) !important; color: #a78bfa !important; }
     /* CTA animations */
-    @keyframes ctaSonar {
-        0%   { transform: scale(1);   opacity: 1; }
-        100% { transform: scale(2.4); opacity: 0; }
-    }
     @keyframes ctaArrow {
         0%, 100% { transform: translateY(0);   }
         50%       { transform: translateY(5px); }
@@ -364,13 +360,6 @@
 
             <div class="relative inline-flex flex-col items-center gap-5">
                 <div class="relative flex items-center justify-center">
-                    <span id="cta-ring-1" class="cta-sonar-ring absolute rounded-full pointer-events-none"
-                          style="inset:-18px;border:1.5px solid rgba(124,58,237,0.45);animation:ctaSonar 2.4s ease-out infinite;"></span>
-                    <span id="cta-ring-2" class="cta-sonar-ring absolute rounded-full pointer-events-none"
-                          style="inset:-18px;border:1.5px solid rgba(124,58,237,0.3);animation:ctaSonar 2.4s ease-out infinite .9s;"></span>
-                    <span id="cta-ring-3" class="cta-sonar-ring absolute rounded-full pointer-events-none"
-                          style="inset:-18px;border:1.5px solid rgba(124,58,237,0.15);animation:ctaSonar 2.4s ease-out infinite 1.8s;"></span>
-
                     <button onclick="toggleAllCourses()"
                             id="toggle-courses-btn"
                             class="relative z-10 px-10 py-4 rounded-full font-bold text-white text-base flex items-center gap-3 transition-transform hover:scale-105 active:scale-95"
@@ -881,7 +870,6 @@ function toggleAllCourses(forceShow) {
     var label   = document.getElementById('cta-btn-label');
     var icon    = document.getElementById('cta-btn-icon');
     var sub     = document.getElementById('cta-sub');
-    var rings   = document.querySelectorAll('.cta-sonar-ring');
     if (!wrapper) return;
 
     coursesVisible = (forceShow === true) ? true : !coursesVisible;
@@ -891,14 +879,12 @@ function toggleAllCourses(forceShow) {
         if (label) label.textContent = '{% trans "Masquer les cours" %}';
         if (icon)  { icon.textContent = 'keyboard_arrow_up'; icon.style.animation = 'none'; }
         if (sub)   sub.textContent = '{% trans "Cliquez pour replier" %}';
-        rings.forEach(function(r) { r.style.animationPlayState = 'paused'; });
         if (typeof AOS !== 'undefined') AOS.refresh();
     } else {
         wrapper.classList.add('hidden');
         if (label) label.textContent = '{% trans "Voir tous les cours" %}';
         if (icon)  { icon.textContent = 'keyboard_arrow_down'; icon.style.animation = 'ctaArrow 1.6s ease-in-out infinite'; }
-        if (sub)   sub.textContent = '{% trans "Explorez l\'ensemble du catalogue" %}';
-        rings.forEach(function(r) { r.style.animationPlayState = 'running'; });
+        if (sub)   sub.textContent = "Explorez l'ensemble du catalogue";
     }
 }
 
