@@ -382,7 +382,7 @@
 
         html.dark body {
             background-color: #ffffff;
-            color: #EDF0F7;
+            color: #1a1827;
             /* Dot-grid tech texture */
             background-image: radial-gradient(rgba(124,58,237,0.07) 1px, transparent 1px);
             background-size: 28px 28px;
@@ -466,24 +466,57 @@
         html.dark .bg-red-50    { background-color: rgba(239,68,68,0.07) !important; }
         html.dark .bg-yellow-50 { background-color: rgba(234,179,8,0.07) !important; }
 
-        /* ── Text ── */
+        /* ── Text — fond body blanc, textes foncés lisibles ── */
         html.dark .text-brand-900,
-        html.dark .text-brand-800 { color: #EDF0F7 !important; }
-        html.dark .text-brand-700 { color: #C8CDD8 !important; }
-        html.dark .text-brand-600 { color: #9BA3B8 !important; }
-        html.dark .text-brand-500 { color: #9BA3B8 !important; }
-        html.dark .text-brand-400 { color: #52586A !important; }
-        html.dark .text-brand-300 { color: #52586A !important; }
+        html.dark .text-brand-800 { color: #1a1827 !important; }
+        html.dark .text-brand-700 { color: #2d2a45 !important; }
+        html.dark .text-brand-600 { color: #4a4778 !important; }
+        html.dark .text-brand-500 { color: #5e5b8a !important; }
+        html.dark .text-brand-400 { color: #6b6890 !important; }
+        html.dark .text-brand-300 { color: #7a789e !important; }
         html.dark .text-amber-700,
         html.dark .text-amber-500,
-        html.dark .text-amber-600 { color: #a78bfa !important; }
+        html.dark .text-amber-600 { color: #92400e !important; }
         html.dark .text-green-600,
-        html.dark .text-green-500 { color: #4ade80 !important; }
-        html.dark .text-green-800 { color: #86efac !important; }
-        html.dark .text-gray-800  { color: #C8CDD8 !important; }
-        html.dark .text-gray-600  { color: #9BA3B8 !important; }
-        html.dark .text-gray-500  { color: #52586A !important; }
-        html.dark .text-yellow-700 { color: #FCD34D !important; }
+        html.dark .text-green-500 { color: #15803d !important; }
+        html.dark .text-green-800 { color: #14532d !important; }
+        html.dark .text-gray-800  { color: #1a1827 !important; }
+        html.dark .text-gray-600  { color: #4a4778 !important; }
+        html.dark .text-gray-500  { color: #6b6890 !important; }
+        html.dark .text-yellow-700 { color: #a16207 !important; }
+
+        /* ── Texte à l'intérieur des cartes sombres (bg-white → #160e2a) ── */
+        html.dark .bg-white .text-brand-900,
+        html.dark .bg-white .text-brand-800 { color: #EDF0F7 !important; }
+        html.dark .bg-white .text-brand-700 { color: #C8CDD8 !important; }
+        html.dark .bg-white .text-brand-600 { color: #9BA3B8 !important; }
+        html.dark .bg-white .text-brand-500 { color: #9BA3B8 !important; }
+        html.dark .bg-white .text-brand-400 { color: #52586A !important; }
+        html.dark .bg-white .text-brand-300 { color: #52586A !important; }
+        html.dark .bg-white .text-green-600,
+        html.dark .bg-white .text-green-500 { color: #4ade80 !important; }
+        html.dark .bg-white .text-green-800 { color: #86efac !important; }
+        html.dark .bg-white .text-amber-700,
+        html.dark .bg-white .text-amber-500,
+        html.dark .bg-white .text-amber-600 { color: #a78bfa !important; }
+        html.dark .bg-white .text-gray-800  { color: #C8CDD8 !important; }
+        html.dark .bg-white .text-gray-600  { color: #9BA3B8 !important; }
+        html.dark .bg-white .text-yellow-700 { color: #FCD34D !important; }
+        /* bg-brand-50 / bg-brand-100 deviennent aussi sombres */
+        html.dark .bg-brand-50 .text-brand-900,
+        html.dark .bg-brand-50 .text-brand-800,
+        html.dark .bg-brand-100 .text-brand-900,
+        html.dark .bg-brand-100 .text-brand-800 { color: #EDF0F7 !important; }
+        html.dark .bg-brand-50 .text-brand-700,
+        html.dark .bg-brand-100 .text-brand-700 { color: #C8CDD8 !important; }
+        html.dark .bg-brand-50 .text-brand-600,
+        html.dark .bg-brand-50 .text-brand-500,
+        html.dark .bg-brand-100 .text-brand-600,
+        html.dark .bg-brand-100 .text-brand-500 { color: #9BA3B8 !important; }
+        html.dark .bg-brand-50 .text-brand-400,
+        html.dark .bg-brand-100 .text-brand-400 { color: #52586A !important; }
+        html.dark .bg-brand-50 .text-green-600,
+        html.dark .bg-brand-100 .text-green-600 { color: #4ade80 !important; }
 
         /* ── Borders ── */
         html.dark .border-brand-50  { border-color: rgba(124,58,237,0.08) !important; }
