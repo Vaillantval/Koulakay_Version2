@@ -261,15 +261,18 @@ def course_enrollment_step1(request, course_id):
         }
         
         site_currency = SiteConfig.get().currency
+        disp_price_str, disp_currency = _price_in_currency(
+            float(course_price), course_id, _build_currency_map(), site_currency
+        )
         htg_equivalent = None
-        if site_currency != 'HTG':
-            htg_equivalent = convert_to_htg(course_price, site_currency)
+        if disp_currency != 'HTG':
+            htg_equivalent = convert_to_htg(course_price, 'USD')
 
         apply_course_translations(course)
         return render(request, 'pages/payment_options.html', {
             'course': course,
-            'course_price': course_price,
-            'site_currency': site_currency,
+            'course_price': disp_price_str,
+            'site_currency': disp_currency,
             'htg_equivalent': htg_equivalent,
             'stripe_public_key': settings.STRIPE['PUBLIC_KEY'],
         })
@@ -642,6 +645,9 @@ def mon_apprentissage(request):
     except Exception:
         pass
 
+    _site_currency = SiteConfig.get().currency
+    _currency_map  = _build_currency_map()
+
     # ── Enrollments Thinkific ──
     if thinkific_user_id:
         try:
@@ -655,13 +661,16 @@ def mon_apprentissage(request):
                 full        = course_map.get(course_id, {})
                 slug        = full.get('slug') or course_info.get('slug', '')
                 expiry      = _parse_date(item.get('expiry_date'))
+                raw_p = price_map.get(course_id)
+                p_str, p_curr = _price_in_currency(raw_p, course_id, _currency_map, _site_currency)
                 cours_inscrits.append({
                     'id':                   course_id,
                     'name':                 full.get('name') or course_info.get('name', f'Cours #{course_id}'),
                     'slug':                 slug,
                     'banner_image_url':     full.get('banner_image_url') or full.get('course_card_image_url'),
                     'description':          full.get('description', ''),
-                    'price':                price_map.get(course_id),
+                    'price':                p_str,
+                    'display_currency':     p_curr,
                     'activated_at':         _parse_date(item.get('activated_at')),
                     'expiry_date':          expiry,
                     'lifetime':             expiry is None,
@@ -675,13 +684,16 @@ def mon_apprentissage(request):
         for enrollment in Enrollment.objects.filter(user=request.user).order_by('-activated_at'):
             full  = course_map.get(enrollment.course_id, {})
             slug  = full.get('slug', '')
+            raw_p = price_map.get(enrollment.course_id)
+            p_str, p_curr = _price_in_currency(raw_p, enrollment.course_id, _currency_map, _site_currency)
             cours_inscrits.append({
                 'id':                   enrollment.course_id,
                 'name':                 full.get('name', f'Cours #{enrollment.course_id}'),
                 'slug':                 slug,
                 'banner_image_url':     full.get('banner_image_url') or full.get('course_card_image_url'),
                 'description':          full.get('description', ''),
-                'price':                price_map.get(enrollment.course_id),
+                'price':                p_str,
+                'display_currency':     p_curr,
                 'activated_at':         enrollment.activated_at,
                 'expiry_date':          enrollment.expiry_date,
                 'lifetime':             False,

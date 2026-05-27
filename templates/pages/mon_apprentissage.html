@@ -233,7 +233,7 @@
                             <span class="text-xs font-semibold text-green-600">{% trans "Gratuit" %}</span>
                         {% else %}
                             <span class="text-xs font-semibold text-brand-600">
-                                {{ site_currency }} {{ course.price|floatformat:2 }}
+                                {{ course.price }} {{ course.display_currency }}
                             </span>
                         {% endif %}
                     </div>

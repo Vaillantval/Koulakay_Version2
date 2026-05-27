@@ -109,18 +109,18 @@ html.dark #courseModalBox .hover\:bg-brand-50:hover { background: rgba(23,197,21
 
 <script>
 // Ouvrir le modal — les URLs sont passées directement depuis les data-attrs du bouton
-function openCourseModal(enrollUrl, detailsUrl, name, desc, price, imgUrl, accessDuration) {
+function openCourseModal(enrollUrl, detailsUrl, name, desc, price, imgUrl, accessDuration, currency) {
     // Textes
     document.getElementById('modalTitle').textContent = name;
     document.getElementById('modalDesc').textContent = desc || '{% trans "Découvrez ce cours exceptionnel conçu par des experts." %}';
 
-    // Prix — devise configurée dans l'admin
-    var siteCurrency = '{{ site_currency|default:"USD" }}';
+    // Prix — devise par cours (passée en paramètre) ou fallback global
+    var displayCurrency = currency || '{{ site_currency|default:"USD" }}';
     var priceNum = parseFloat(price);
     var priceFormatted = (priceNum % 1 === 0) ? priceNum.toFixed(0) : priceNum.toFixed(2);
     var priceText = (priceNum === 0 || isNaN(priceNum))
         ? '{% trans "Gratuit" %}'
-        : priceFormatted + ' ' + siteCurrency;
+        : priceFormatted + ' ' + displayCurrency;
     document.getElementById('modalPrice').textContent = priceText;
     document.getElementById('modalPriceBadge').textContent = priceText;
 
