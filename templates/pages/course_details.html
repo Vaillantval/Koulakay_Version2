@@ -89,6 +89,7 @@
     html.dark .instructor-card .instructor-email { color: #4d6a87 !important; }
     html.dark .instructor-card .instructor-bio   { color: #9BA3B8 !important; }
     html.dark .instructor-avatar { background: linear-gradient(135deg,#0891a8,#17c5d8) !important; }
+    html.dark .instructor-card .border-t { border-color: rgba(23,197,216,0.10) !important; }
 
     /* Modal */
     html.dark .modal-inner { background: #0c1e3d !important; border: 1px solid rgba(23,197,216,0.18); }
@@ -371,6 +372,19 @@
                     {% endif %}
                     {% if instructor.bio %}
                     <p class="instructor-bio text-sm text-brand-600 leading-relaxed">{{ instructor.bio|truncatewords:25 }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Logo partenaire -->
+                <div class="mt-4 pt-4 border-t border-brand-100 flex justify-center">
+                    {% if site_config.logo_partenaire %}
+                    <span style="background:#fff;padding:3px 10px;border-radius:8px;display:inline-block;">
+                        <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-10 w-auto">
+                    </span>
+                    {% else %}
+                    <span style="background:#fff;padding:3px 10px;border-radius:8px;display:inline-block;">
+                        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-10 w-auto">
+                    </span>
                     {% endif %}
                 </div>
             </div>
