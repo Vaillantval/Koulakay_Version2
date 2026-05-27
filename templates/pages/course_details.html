@@ -89,7 +89,7 @@
     html.dark .instructor-card .instructor-email { color: #4d6a87 !important; }
     html.dark .instructor-card .instructor-bio   { color: #9BA3B8 !important; }
     html.dark .instructor-avatar { background: linear-gradient(135deg,#0891a8,#17c5d8) !important; }
-    html.dark .instructor-card .border-t { border-color: rgba(23,197,216,0.10) !important; }
+    html.dark .instructor-avatar img { background: #fff !important; }
 
     /* Modal */
     html.dark .modal-inner { background: #0c1e3d !important; border: 1px solid rgba(23,197,216,0.18); }
@@ -358,12 +358,13 @@
             <div class="instructor-card bg-white rounded-2xl shadow-sm border border-brand-100 p-5">
                 <h4 class="font-bold text-brand-800 mb-4">{% trans "Votre instructeur" %}</h4>
                 <div class="flex flex-col items-center text-center">
-                    <div class="instructor-avatar w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold mb-3"
+                    <!-- Avatar : logo partenaire si dispo, sinon initiales -->
+                    <div class="instructor-avatar w-16 h-16 rounded-full overflow-hidden flex items-center justify-center text-white text-xl font-bold mb-3"
                          style="background: linear-gradient(135deg,#C4853A,#7C3D0E);">
-                        {% if instructor.first_name and instructor.last_name %}
-                            {{ instructor.first_name|first }}{{ instructor.last_name|first }}
+                        {% if site_config.logo_partenaire %}
+                            <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="w-full h-full object-contain p-1" style="background:#fff;">
                         {% else %}
-                            <span class="material-symbols-outlined" style="font-size:28px;">person</span>
+                            <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="w-full h-full object-contain p-1" style="background:#fff;">
                         {% endif %}
                     </div>
                     <p class="instructor-name font-bold text-brand-900 mb-0.5">{{ instructor.first_name }} {{ instructor.last_name }}</p>
@@ -372,19 +373,6 @@
                     {% endif %}
                     {% if instructor.bio %}
                     <p class="instructor-bio text-sm text-brand-600 leading-relaxed">{{ instructor.bio|truncatewords:25 }}</p>
-                    {% endif %}
-                </div>
-
-                <!-- Logo partenaire -->
-                <div class="mt-4 pt-4 border-t border-brand-100 flex justify-center">
-                    {% if site_config.logo_partenaire %}
-                    <span style="background:#fff;padding:3px 10px;border-radius:8px;display:inline-block;">
-                        <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-10 w-auto">
-                    </span>
-                    {% else %}
-                    <span style="background:#fff;padding:3px 10px;border-radius:8px;display:inline-block;">
-                        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-10 w-auto">
-                    </span>
                     {% endif %}
                 </div>
             </div>
