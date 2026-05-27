@@ -11,7 +11,27 @@
     body { font-family: 'Lexend', sans-serif; }
 
     /* ── Hero Carousel ── */
-    .hero-carousel-wrap { position: relative; }
+    /*
+     * .hero-carousel-wrap est le conteneur de référence pour les boutons nav
+     * et l'overlay typewriter. On force une hauteur minimale pour éviter que
+     * Owl ne mesure 0px sur les slides photo-only (enfants tous position:absolute).
+     */
+    .hero-carousel-wrap {
+        position: relative;
+        min-height: 560px;
+    }
+    /* Owl ne doit PAS être le contenant (positioned ancestor) des boutons nav :
+       on le passe en static afin que les boutons se positionnent
+       par rapport au wrap directement. */
+    .hero-carousel-wrap .owl-carousel {
+        position: static !important;
+        min-height: 560px;
+    }
+    /* Le stage-outer doit maintenir la hauteur pour que les slides soient visibles */
+    .hero-carousel-wrap .owl-stage-outer {
+        min-height: 560px !important;
+        overflow: hidden;
+    }
 
     .hero-slide {
         position: relative;
@@ -122,8 +142,9 @@
         transform: scale(1.3);
     }
 
-    /* Flèches nav */
-    .hero-carousel-wrap .owl-nav button {
+    /* ── Flèches nav (Owl génère des <div>, pas des <button>) ── */
+    .hero-carousel-wrap .owl-prev,
+    .hero-carousel-wrap .owl-next {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -133,13 +154,18 @@
         border: 1px solid rgba(255,255,255,0.3) !important;
         border-radius: 50% !important;
         width: 44px; height: 44px;
-        display: flex; align-items: center; justify-content: center;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
         transition: background 0.2s !important;
     }
-    .hero-carousel-wrap .owl-nav button:hover {
+    .hero-carousel-wrap .owl-prev:hover,
+    .hero-carousel-wrap .owl-next:hover {
         background: rgba(196,133,58,0.6) !important;
     }
-    .hero-carousel-wrap .owl-nav button span {
+    .hero-carousel-wrap .owl-prev span,
+    .hero-carousel-wrap .owl-next span {
         color: #fff;
         font-size: 22px;
         line-height: 1;
@@ -207,7 +233,8 @@
     /* Carousel */
     html.dark .hero-carousel-wrap .owl-dot.active span,
     html.dark .hero-carousel-wrap .owl-dot:hover span { background: #17c5d8; }
-    html.dark .hero-carousel-wrap .owl-nav button:hover { background: rgba(23,197,216,0.5) !important; }
+    html.dark .hero-carousel-wrap .owl-prev:hover,
+    html.dark .hero-carousel-wrap .owl-next:hover { background: rgba(23,197,216,0.5) !important; }
     html.dark .course-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.55); }
 
     /* Sections — fonds marins distincts, respirants */

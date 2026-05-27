@@ -12,11 +12,13 @@
     /* ── Hero Carousel Contact ── */
     .hero-contact-wrap {
         position: relative;
+        min-height: 380px;
         margin: 1.5rem 1rem 0;
         border-radius: 1rem;
         overflow: hidden;
         box-shadow: 0 4px 24px rgba(0,0,0,0.12);
     }
+    .hero-contact-wrap .owl-stage-outer { min-height: 380px !important; overflow: hidden; }
     .hero-contact-slide {
         position: relative;
         min-height: 380px;
@@ -52,20 +54,25 @@
     .hero-contact-wrap .owl-dot:hover span { background: #C4853A; transform: scale(1.3); }
     html.dark .hero-contact-wrap .owl-dot.active span,
     html.dark .hero-contact-wrap .owl-dot:hover span { background: #17c5d8; }
-    /* Nav arrows */
-    .hero-contact-wrap .owl-nav button {
+    /* Nav arrows (Owl génère des <div>, pas des <button>) */
+    .hero-contact-wrap .owl-prev,
+    .hero-contact-wrap .owl-next {
         position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
         background: rgba(255,255,255,0.15) !important;
         backdrop-filter: blur(6px);
         border: 1px solid rgba(255,255,255,0.3) !important;
         border-radius: 50% !important;
         width: 36px; height: 36px;
-        display: flex; align-items: center; justify-content: center;
+        display: flex !important; align-items: center; justify-content: center;
+        cursor: pointer;
         transition: background 0.2s !important;
     }
-    .hero-contact-wrap .owl-nav button:hover { background: rgba(196,133,58,0.55) !important; }
-    html.dark .hero-contact-wrap .owl-nav button:hover { background: rgba(23,197,216,0.45) !important; }
-    .hero-contact-wrap .owl-nav button span { color: #fff; font-size: 18px; line-height: 1; }
+    .hero-contact-wrap .owl-prev:hover,
+    .hero-contact-wrap .owl-next:hover { background: rgba(196,133,58,0.55) !important; }
+    html.dark .hero-contact-wrap .owl-prev:hover,
+    html.dark .hero-contact-wrap .owl-next:hover { background: rgba(23,197,216,0.45) !important; }
+    .hero-contact-wrap .owl-prev span,
+    .hero-contact-wrap .owl-next span { color: #fff; font-size: 18px; line-height: 1; }
     .hero-contact-wrap .owl-prev { left: 10px; }
     .hero-contact-wrap .owl-next { right: 10px; }
 
