@@ -991,22 +991,48 @@ def course_details(request, course_id):
             course_id=course_id
         ).exists()
 
-    # Contenu du cours
+    # Contenu du cours — chapitres + leçons via SDK
     course_content = []
     try:
-        api_url = f"https://api.thinkific.com/api/v2/courses/{course_id}/content"
-        headers = {
-            "Authorization": f"Bearer {settings.THINKIFIC['AUTH_TOKEN']}",
-            "X-Auth-Subdomain": settings.THINKIFIC['SITE_ID'],
-            "Content-Type": "application/json"
-        }
-        
-        content_response = requests.get(api_url, headers=headers)
-        content_response.raise_for_status()
-        course_content = content_response.json().get('items', [])
-        
+        chapters_response = thinkific.courses.retrieve_chapters(course_id)
+        for chapter in chapters_response.get('items', []):
+            chapter_id = chapter.get('id')
+
+            # Durée du chapitre (en secondes)
+            raw_ch_dur = chapter.get('duration_in_seconds') or 0
+            if raw_ch_dur >= 3600:
+                h = raw_ch_dur // 3600
+                m = (raw_ch_dur % 3600) // 60
+                ch_duration = f"{h}h{m:02d}"
+            elif raw_ch_dur >= 60:
+                ch_duration = f"{raw_ch_dur // 60} min"
+            else:
+                ch_duration = None
+
+            lessons = []
+            try:
+                contents_resp = thinkific.chapters.retrieve_contents_of_chapter(
+                    chapter_id=chapter_id, limit=100
+                )
+                for item in contents_resp.get('items', []):
+                    lessons.append({
+                        'name': item.get('name') or item.get('title', ''),
+                        'content_type': item.get('contentable_type', ''),
+                        'free': item.get('free', False),
+                        'url': item.get('take_url', ''),
+                    })
+            except Exception as e:
+                print(f"Erreur leçons chapitre {chapter_id}: {e}")
+
+            course_content.append({
+                'id': chapter_id,
+                'name': chapter.get('name', ''),
+                'description': chapter.get('description', ''),
+                'duration': ch_duration,
+                'children': lessons,
+            })
     except Exception as e:
-        print(f"Erreur contenu du cours: {e}")
+        print(f"Erreur chapitres du cours: {e}")
         course_content = []
 
     # Instructeur
