@@ -732,8 +732,33 @@ function heroType(phrase) {
     }, 46);
 }
 
+function heroActivateSlide($owl) {
+    /* Récupère le slide actif (filtre les clones Owl en mode loop) */
+    var $slide = $owl.find('.owl-item.active:not(.cloned)').first().find('.hero-slide');
+    if (!$slide.length) {
+        $slide = $owl.find('.owl-item.active').first().find('.hero-slide');
+    }
+    var phrase   = $slide.attr('data-phrase')   || 'Apprenez à votre rythme';
+    var ctaUrl   = $slide.attr('data-cta-url')   || '{% url "courses" %}';
+    var ctaLabel = $slide.attr('data-cta-label') || 'Explorer les cours';
+
+    heroType(phrase);
+
+    var cta = document.getElementById('hero-main-cta');
+    if (cta) {
+        cta.setAttribute('href', ctaUrl);
+        cta.textContent = ctaLabel;
+    }
+}
+
 $(document).ready(function () {
     var $owl = $('#heroCarousel');
+
+    /* ── Enregistrer changed AVANT owlCarousel() ── */
+    $owl.on('changed.owl.carousel', function () {
+        var $el = $(this);
+        setTimeout(function () { heroActivateSlide($el); }, 60);
+    });
 
     $owl.owlCarousel({
         items: 1,
@@ -750,28 +775,9 @@ $(document).ready(function () {
         ],
     });
 
-    /* ── Déclenche le typewriter à chaque changement de slide ── */
-    $owl.on('initialized.owl.carousel changed.owl.carousel', function () {
-        var $el = $(this);
-        setTimeout(function () {
-            /* filtre les clones Owl (loop mode) */
-            var $slide = $el.find('.owl-item.active:not(.cloned)').first().find('.hero-slide');
-            if (!$slide.length) {
-                $slide = $el.find('.owl-item.active').first().find('.hero-slide');
-            }
-            var phrase   = $slide.attr('data-phrase')   || 'Apprenez à votre rythme';
-            var ctaUrl   = $slide.attr('data-cta-url')   || '{% url "courses" %}';
-            var ctaLabel = $slide.attr('data-cta-label') || 'Explorer les cours';
-
-            heroType(phrase);
-
-            var cta = document.getElementById('hero-main-cta');
-            if (cta) {
-                cta.setAttribute('href', ctaUrl);
-                cta.textContent = ctaLabel;
-            }
-        }, 60);
-    });
+    /* ── 1er slide au chargement : initialized se déclenche PENDANT owlCarousel()
+           donc on déclenche manuellement après un court délai ── */
+    setTimeout(function () { heroActivateSlide($owl); }, 250);
 });
 </script>
 
