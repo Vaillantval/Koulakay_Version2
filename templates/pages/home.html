@@ -289,9 +289,11 @@
 <div class="min-h-screen">
 
     <!-- ── Hero Carousel ── -->
-    {% if hero_slides %}
     <div class="hero-carousel-wrap" id="heroCarouselWrap">
         <div class="owl-carousel owl-theme" id="heroCarousel">
+
+            {% if hero_slides %}
+            {# ── Slides configurés depuis l'admin ── #}
             {% for slide in hero_slides %}
             <div class="hero-slide">
                 <div class="hero-slide-bg"
@@ -305,9 +307,7 @@
                         {{ slide.title }}
                     </h1>
                     {% if slide.subtitle %}
-                    <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto">
-                        {{ slide.subtitle }}
-                    </p>
+                    <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto">{{ slide.subtitle }}</p>
                     {% endif %}
                     <div class="flex flex-col sm:flex-row gap-3 justify-center">
                         {% if slide.cta_label and slide.cta_url %}
@@ -325,43 +325,134 @@
                 </div>
             </div>
             {% endfor %}
+
+            {% else %}
+            {# ── Slides par défaut ── #}
+
+            <!-- Slide 1 — course_2.jpg -->
+            <div class="hero-slide">
+                <div class="hero-slide-bg"
+                     style="background-image: url('{% static 'images/course_2.jpg' %}');"></div>
+                <div class="hero-slide-overlay"></div>
+                <div class="hero-slide-content">
+                    <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-3">
+                        {% trans "Plateforme éducative haïtienne" %}
+                    </p>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                        {% trans "L'éducation est l'arme" %}<br>
+                        <span class="text-yellow-400">{% trans "la plus puissante" %}</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto">
+                        {% trans "Chaque cours est un pas vers la version la plus accomplie de vous-même." %}
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <a href="{% url 'courses' %}" class="kl-btn-cta px-7 py-3 font-bold rounded-xl text-base">
+                            {% trans "Explorer les cours" %}
+                        </a>
+                        {% if not user.is_authenticated %}
+                        <a href="{% url 'account_signup' %}"
+                           class="px-7 py-3 bg-white/15 hover:bg-white/25 border border-white/40 text-white font-bold rounded-xl transition backdrop-blur-sm text-base">
+                            {% trans "Commencer gratuitement" %}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 — slider_1.JPG -->
+            <div class="hero-slide">
+                <div class="hero-slide-bg"
+                     style="background-image: url('{% static 'images/slider_1.JPG' %}');"></div>
+                <div class="hero-slide-overlay"></div>
+                <div class="hero-slide-content">
+                    <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-3">
+                        {% trans "Investissez dans votre avenir" %}
+                    </p>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                        {% trans "La connaissance d'aujourd'hui" %}<br>
+                        <span class="text-yellow-400">{% trans "forge le leader de demain" %}</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto">
+                        {% trans "Des formations conçues pour la jeunesse haïtienne ambitieuse." %}
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <a href="{% url 'courses' %}" class="kl-btn-cta px-7 py-3 font-bold rounded-xl text-base">
+                            {% trans "Voir les formations" %}
+                        </a>
+                        {% if not user.is_authenticated %}
+                        <a href="{% url 'account_signup' %}"
+                           class="px-7 py-3 bg-white/15 hover:bg-white/25 border border-white/40 text-white font-bold rounded-xl transition backdrop-blur-sm text-base">
+                            {% trans "Commencer gratuitement" %}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 — slider_3.JPG -->
+            <div class="hero-slide">
+                <div class="hero-slide-bg"
+                     style="background-image: url('{% static 'images/slider_3.JPG' %}');"></div>
+                <div class="hero-slide-overlay"></div>
+                <div class="hero-slide-content">
+                    <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-3">
+                        {% trans "Apprenez sans frontières" %}
+                    </p>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                        {% trans "Chaque expert a commencé" %}<br>
+                        <span class="text-yellow-400">{% trans "par une première leçon" %}</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto">
+                        {% trans "Apprenez à votre rythme, depuis n'importe où, et progressez chaque jour." %}
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <a href="{% url 'courses' %}" class="kl-btn-cta px-7 py-3 font-bold rounded-xl text-base">
+                            {% trans "Commencer maintenant" %}
+                        </a>
+                        {% if not user.is_authenticated %}
+                        <a href="{% url 'account_signup' %}"
+                           class="px-7 py-3 bg-white/15 hover:bg-white/25 border border-white/40 text-white font-bold rounded-xl transition backdrop-blur-sm text-base">
+                            {% trans "Commencer gratuitement" %}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4 — slider_background.jpg -->
+            <div class="hero-slide">
+                <div class="hero-slide-bg"
+                     style="background-image: url('{% static 'images/slider_background.jpg' %}');"></div>
+                <div class="hero-slide-overlay"></div>
+                <div class="hero-slide-content">
+                    <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-3">
+                        {% trans "Votre potentiel est infini" %}
+                    </p>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                        {% trans "Débloquez votre potentiel," %}<br>
+                        <span class="text-yellow-400">{% trans "construisez votre futur" %}</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto">
+                        {% trans "Rejoignez des milliers d'apprenants qui transforment leur vie par l'éducation." %}
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <a href="{% url 'courses' %}" class="kl-btn-cta px-7 py-3 font-bold rounded-xl text-base">
+                            {% trans "Rejoindre la communauté" %}
+                        </a>
+                        {% if not user.is_authenticated %}
+                        <a href="{% url 'account_signup' %}"
+                           class="px-7 py-3 bg-white/15 hover:bg-white/25 border border-white/40 text-white font-bold rounded-xl transition backdrop-blur-sm text-base">
+                            {% trans "Commencer gratuitement" %}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+
         </div>
     </div>
-    {% else %}
-    {# Fallback si aucun slide configuré dans l'admin #}
-    <section class="hero-section flex items-center justify-center text-white px-4 relative overflow-hidden">
-        <!-- Particules flottantes -->
-        <span class="material-symbols-outlined hero-particle" style="top:14%;left:7%;animation:float-a 7s ease-in-out infinite;">school</span>
-        <span class="material-symbols-outlined hero-particle" style="top:68%;left:5%;animation:float-b 9s ease-in-out infinite 1.2s;">menu_book</span>
-        <span class="material-symbols-outlined hero-particle" style="top:18%;right:9%;animation:float-c 8s ease-in-out infinite 0.6s;">workspace_premium</span>
-        <span class="material-symbols-outlined hero-particle" style="top:62%;right:7%;animation:float-a 10s ease-in-out infinite 2.4s;">lightbulb</span>
-        <span class="material-symbols-outlined hero-particle" style="top:40%;left:3%;animation:float-b 6.5s ease-in-out infinite 0.3s;font-size:1.6rem;">lan</span>
-        <span class="material-symbols-outlined hero-particle" style="top:35%;right:4%;animation:float-c 7.5s ease-in-out infinite 1.8s;font-size:1.6rem;">emoji_events</span>
-
-        <div class="max-w-3xl text-center relative z-10">
-            <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-3">
-                {% trans "Plateforme éducative haïtienne" %}
-            </p>
-            <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
-                {% trans "Débloquez votre" %}<br>
-                <span class="text-yellow-400">{% trans "Potentiel" %}</span>
-            </h1>
-            <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto min-h-[2em] flex items-center justify-center gap-0">
-                <span id="typewriter-text"></span><span class="tw-cursor"></span>
-            </p>
-            <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                <a href="{% url 'courses' %}" class="kl-btn-cta px-7 py-3 font-bold rounded-xl text-base">
-                    {% trans "Explorer les cours" %}
-                </a>
-                {% if not user.is_authenticated %}
-                <a href="{% url 'account_signup' %}"
-                   class="px-7 py-3 bg-white/15 hover:bg-white/25 border border-white/40 text-white font-bold rounded-xl transition backdrop-blur-sm text-base">
-                    {% trans "Commencer gratuitement" %}
-                </a>
-                {% endif %}
-            </div>
-        </div>
-    </section>
     {% endif %}
 
     <!-- ── Stats ── -->
@@ -689,7 +780,6 @@
 <!-- ── Modal Inscription ── -->
 {% include 'components/course_modal.html' %}
 
-{% if hero_slides %}
 <script>
 $(document).ready(function () {
     $("#heroCarousel").owlCarousel({
@@ -710,7 +800,6 @@ $(document).ready(function () {
     });
 });
 </script>
-{% endif %}
 
 <script>
 (function () {
