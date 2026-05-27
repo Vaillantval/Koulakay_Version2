@@ -682,9 +682,13 @@
                 <div class="flex items-center gap-3 shrink-0">
                     <a href="{% url 'home' %}" class="flex items-center gap-2">
                         {% if site_config.logo_principal %}
-                            <span class="logo-wrap"><img src="{{ site_config.logo_principal.url }}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl"></span>
+                            <span class="logo-wrap" style="background:#fff;padding:3px 6px;border-radius:8px;">
+                                <img src="{{ site_config.logo_principal.url }}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl">
+                            </span>
                         {% else %}
-                            <span class="logo-wrap"><img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl"></span>
+                            <span class="logo-wrap" style="background:#fff;padding:3px 6px;border-radius:8px;">
+                                <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl">
+                            </span>
                         {% endif %}
                         <span class="hidden sm:block text-xl font-bold tracking-tight text-white drop-shadow">
                             Kou<span class="text-gold-400">Lakay</span>
