@@ -200,7 +200,7 @@
                             {% if c.is_free %}
                             <span class="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} {{ site_currency }}</span>
+                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} {{ c.display_currency }}</span>
                             {% endif %}
                         </div>
                     </div>
@@ -324,7 +324,7 @@
                             {% if b.is_free %}
                             <span class="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ b.price }} {{ site_currency }}</span>
+                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ b.price }} {{ b.display_currency }}</span>
                             {% endif %}
                         </div>
                     </div>
@@ -473,7 +473,7 @@
                             {% if c.is_free %}
                             <span class="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full shadow">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} {{ site_currency }}</span>
+                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} {{ c.display_currency }}</span>
                             {% endif %}
                         </div>
                         {% if c.enrollment_count > 0 %}
@@ -491,7 +491,7 @@
                             {% if c.is_free %}
                             <span class="text-green-600 font-bold text-sm">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="font-bold text-brand-700 text-sm">{{ c.price }} {{ site_currency }}</span>
+                            <span class="font-bold text-brand-700 text-sm">{{ c.price }} {{ c.display_currency }}</span>
                             {% endif %}
                         </div>
 
@@ -581,7 +581,7 @@
                             {% if c.is_free %}
                             <span class="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full shadow">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} {{ site_currency }}</span>
+                            <span class="price-badge px-2 py-1 text-white text-xs font-bold rounded-full">{{ c.price }} {{ c.display_currency }}</span>
                             {% endif %}
                         </div>
                     </div>
@@ -592,7 +592,7 @@
                             {% if c.is_free %}
                             <span class="text-green-600 font-bold text-sm">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="font-bold text-brand-700 text-sm">{{ c.price }} {{ site_currency }}</span>
+                            <span class="font-bold text-brand-700 text-sm">{{ c.price }} {{ c.display_currency }}</span>
                             {% endif %}
                         </div>
                         <div class="flex gap-2">

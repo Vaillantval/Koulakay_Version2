@@ -198,6 +198,52 @@ class CourseGroupAdmin(admin.ModelAdmin):
             )
 
 
+@admin.register(models.CoursePriceDisplay)
+class CoursePriceDisplayAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/courses/coursepricedisplay/change_list.html'
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        CURRENCIES = [
+            ('USD', 'USD — Dollar américain'),
+            ('HTG', 'HTG — Gourde haïtienne'),
+            ('EUR', 'EUR — Euro'),
+            ('CAD', 'CAD — Dollar canadien'),
+            ('GBP', 'GBP — Livre sterling'),
+        ]
+        if request.method == 'POST':
+            all_courses = _fetch_thinkific_courses()
+            for cid, name in all_courses:
+                chosen = request.POST.get(f'currency_{cid}', 'USD')
+                models.CoursePriceDisplay.objects.update_or_create(
+                    course_id=cid,
+                    defaults={'course_name_cache': name, 'display_currency': chosen},
+                )
+            self.message_user(request, f"Devises mises à jour pour {len(all_courses)} cours.")
+            from django.http import HttpResponseRedirect
+            return HttpResponseRedirect(request.path)
+
+        all_courses = _fetch_thinkific_courses()
+        currency_map = {
+            entry.course_id: entry.display_currency
+            for entry in models.CoursePriceDisplay.objects.all()
+        }
+        courses_with_currency = [
+            {'id': cid, 'name': name, 'currency': currency_map.get(cid, 'USD')}
+            for cid, name in all_courses
+        ]
+        extra = extra_context or {}
+        extra['courses_with_currency'] = courses_with_currency
+        extra['currencies'] = CURRENCIES
+        extra['title'] = 'Devise d\'affichage par cours'
+        return super().changelist_view(request, extra_context=extra)
+
+
 @admin.register(models.CourseVisibility)
 class CourseVisibilityAdmin(admin.ModelAdmin):
     change_list_template = 'admin/courses/coursevisibility/change_list.html'

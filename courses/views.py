@@ -10,9 +10,9 @@ from django.db.models import Count
 import requests
 
 from .monkey_patch.patch_thinkific import ThinkificExtend
-from .models import Enrollment, CourseTranslation, CourseCategory, CourseCategoryMembership, BundleCategoryMembership, CourseVisibility, CourseGroup
+from .models import Enrollment, CourseTranslation, CourseCategory, CourseCategoryMembership, BundleCategoryMembership, CourseVisibility, CourseGroup, CoursePriceDisplay
 from payment.models import Transaction
-from payment.exchange_service import convert_to_htg
+from payment.exchange_service import convert_to_htg, convert_currency
 from pages.models import SiteConfig
 
 # Configuration Thinkific
@@ -25,6 +25,41 @@ def _format_price(raw):
         return None
     f = float(raw)
     return str(int(f)) if f == int(f) else f'{f:.2f}'
+
+
+def _build_currency_map():
+    """
+    Retourne un dict {course_id: display_currency} depuis CoursePriceDisplay.
+    Appelé une fois par requête dans les vues catalogue/détail.
+    """
+    return {
+        entry.course_id: entry.display_currency
+        for entry in CoursePriceDisplay.objects.all()
+    }
+
+
+def _price_in_currency(raw_price_usd, course_id, currency_map, default_currency):
+    """
+    Convertit raw_price_usd (depuis Thinkific, en USD) vers la devise
+    choisie pour ce cours. Retourne (prix_formaté, devise).
+    - Si le cours a une entrée dans currency_map → utilise cette devise.
+    - Sinon → utilise default_currency (SiteConfig).
+    - La conversion échoue (API indispo) → retombe sur USD.
+    """
+    if raw_price_usd is None:
+        return None, default_currency
+
+    target = currency_map.get(course_id, default_currency)
+
+    if target == 'USD':
+        return _format_price(raw_price_usd), 'USD'
+
+    converted = convert_currency(raw_price_usd, 'USD', target)
+    if converted is None:
+        # Taux indisponible — on affiche en USD
+        return _format_price(raw_price_usd), 'USD'
+
+    return _format_price(converted), target
 
 
 def _format_access_duration(days):
@@ -759,6 +794,8 @@ def home(request):
     hidden_ids = set(
         CourseVisibility.objects.filter(is_visible=False).values_list('course_id', flat=True)
     )
+    site_currency = SiteConfig.get().currency
+    currency_map = _build_currency_map()
 
     # Récupérer les cours populaires (top 6 pour la homepage)
     popular_courses = []
@@ -801,7 +838,9 @@ def home(request):
                     (p['price'] for p in product_items
                      if p.get('productable_id') == course_id and p.get('price') is not None), None
                 )
-                course_data['price'] = _format_price(raw_price)
+                price_str, disp_curr = _price_in_currency(raw_price, course_id, currency_map, site_currency)
+                course_data['price'] = price_str
+                course_data['display_currency'] = disp_curr
                 course_data['is_free'] = raw_price is None or float(raw_price) == 0
                 course_data['access_duration'] = access_map_home.get(course_id, '6 mois')
                 course_data['enroll'] = course_id in enrolled_ids
@@ -820,7 +859,9 @@ def home(request):
                     (p['price'] for p in product_items
                      if p.get('productable_id') == course_id and p.get('price') is not None), None
                 )
-                course_data['price'] = _format_price(raw_price)
+                price_str, disp_curr = _price_in_currency(raw_price, course_id, currency_map, site_currency)
+                course_data['price'] = price_str
+                course_data['display_currency'] = disp_curr
                 course_data['is_free'] = raw_price is None or float(raw_price) == 0
                 course_data['access_duration'] = access_map_home.get(course_id, '6 mois')
                 course_data['enroll'] = course_id in enrolled_ids
@@ -881,6 +922,8 @@ def courses(request):
         for p in product_items
         if p.get('productable_id')
     }
+    site_currency = SiteConfig.get().currency
+    currency_map = _build_currency_map()
 
     categories = list(CourseCategory.objects.filter(is_active=True).order_by('order', 'name'))
     course_categories_map = {}
@@ -894,7 +937,9 @@ def courses(request):
     for c in courses_items:
         cid = c.get('id')
         raw_price = price_map.get(cid)
-        c['price'] = _format_price(raw_price)
+        price_str, disp_curr = _price_in_currency(raw_price, cid, currency_map, site_currency)
+        c['price'] = price_str
+        c['display_currency'] = disp_curr
         c['is_free'] = raw_price is None or float(raw_price) == 0
         c['access_duration'] = access_map.get(cid)  # None = à vie
         c['enroll'] = cid in enrolled_ids
@@ -916,13 +961,15 @@ def courses(request):
             raw_price = bp.get('price')
             course_ids = bundle_info.get('course_ids', [])
             all_enrolled = bool(course_ids) and all(cid in enrolled_ids for cid in course_ids)
+            bundle_price_str, bundle_disp_curr = _price_in_currency(raw_price, bundle_id, currency_map, site_currency)
             bundles_data.append({
                 'id': bundle_id,
                 'product_id': bp.get('id'),
                 'name': bundle_info.get('name', f'Bundle #{bundle_id}'),
                 'image_url': bundle_info.get('bundle_card_image_url') or '',
                 'slug': bundle_info.get('slug') or '',
-                'price': _format_price(raw_price),
+                'price': bundle_price_str,
+                'display_currency': bundle_disp_curr,
                 'is_free': raw_price is None or float(raw_price) == 0,
                 'raw_price': float(raw_price) if raw_price is not None else 0,
                 'access_duration': _format_access_duration(bp.get('days_until_expiry')),
@@ -968,7 +1015,9 @@ def course_details(request, course_id):
 
     # Récupérer le prix et la durée d'accès
     course['price'] = None
+    course['display_currency'] = SiteConfig.get().currency
     course['access_duration'] = None  # None = accès à vie
+    _currency_map = _build_currency_map()
     try:
         product_response = thinkific.products.list(limit=100)
         product_items = product_response.get('items', [])
@@ -976,7 +1025,11 @@ def course_details(request, course_id):
         for p in product_items:
             if p.get('productable_id') == course_id:
                 if p.get('price') is not None:
-                    course['price'] = _format_price(p['price'])
+                    price_str, disp_curr = _price_in_currency(
+                        p['price'], course_id, _currency_map, course['display_currency']
+                    )
+                    course['price'] = price_str
+                    course['display_currency'] = disp_curr
                 course['access_duration'] = _format_access_duration(p.get('days_until_expiry'))
                 break
     except Exception as e:

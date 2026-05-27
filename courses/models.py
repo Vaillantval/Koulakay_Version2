@@ -144,6 +144,35 @@ class CourseGroupMembership(models.Model):
         return self.course_name_cache or str(self.course_id)
 
 
+CURRENCY_CHOICES = [
+    ('USD', 'Dollar américain (USD)'),
+    ('EUR', 'Euro (EUR)'),
+    ('CAD', 'Dollar canadien (CAD)'),
+    ('GBP', 'Livre sterling (GBP)'),
+    ('HTG', 'Gourde haïtienne (HTG)'),
+]
+
+
+class CoursePriceDisplay(models.Model):
+    """Devise d'affichage des prix par cours — override du paramètre global SiteConfig."""
+    course_id = models.IntegerField('ID Thinkific', unique=True)
+    course_name_cache = models.CharField('Nom du cours', max_length=255, blank=True)
+    display_currency = models.CharField(
+        "Devise d'affichage",
+        max_length=3,
+        choices=CURRENCY_CHOICES,
+        default='USD',
+    )
+
+    class Meta:
+        verbose_name = 'Devise d\'affichage (cours)'
+        verbose_name_plural = 'Devises d\'affichage (cours)'
+        ordering = ['course_name_cache']
+
+    def __str__(self):
+        return f"{self.course_name_cache or self.course_id} → {self.display_currency}"
+
+
 class BundleCategoryMembership(models.Model):
     category = models.ForeignKey(
         CourseCategory, on_delete=models.CASCADE,

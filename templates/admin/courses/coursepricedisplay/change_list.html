@@ -1,0 +1,103 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<style>
+  .currency-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .currency-table th { background: #417690; color: white; padding: 10px 14px; text-align: left; font-size: 13px; }
+  .currency-table td { padding: 10px 14px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: middle; }
+  .currency-table tr:hover td { background: #f8f8f8; }
+  .currency-select {
+    padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;
+    font-size: 12px; background: #fff; cursor: pointer;
+    accent-color: #417690;
+  }
+  .currency-select:focus { outline: 2px solid #417690; border-color: #417690; }
+  .badge-usd { background: #cfe2ff; color: #084298; }
+  .badge-htg { background: #d1e7dd; color: #0a3622; }
+  .badge-eur { background: #f8d7da; color: #842029; }
+  .badge-cad { background: #fff3cd; color: #664d03; }
+  .badge-gbp { background: #e2d9f3; color: #41296b; }
+  .currency-badge {
+    padding: 2px 9px; border-radius: 10px; font-size: 11px;
+    font-weight: 700; display: inline-block;
+  }
+  .save-bar {
+    position: sticky; top: 0; z-index: 10;
+    background: #fff3cd; border: 1px solid #ffc107;
+    border-radius: 6px; padding: 12px 18px; margin-bottom: 18px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .save-bar p { margin: 0; font-size: 13px; color: #856404; }
+  .info-box {
+    background: #e8f4fd; border: 1px solid #b8d4f0; border-radius: 6px;
+    padding: 10px 16px; margin-bottom: 16px; font-size: 13px; color: #1a3f60;
+  }
+</style>
+
+<div class="info-box">
+  💱 <strong>Les prix Thinkific sont en USD.</strong>
+  Choisissez la devise d'affichage pour chaque cours — la conversion se fait automatiquement
+  via les taux de change en temps réel (cache 1h).
+</div>
+
+<div class="save-bar">
+  <p>Sélectionnez la devise souhaitée pour chaque cours, puis cliquez sur <strong>Enregistrer</strong>.</p>
+  <input type="submit" form="currency-form" value="Enregistrer" class="default" style="margin:0;">
+</div>
+
+<form id="currency-form" method="post">
+  {% csrf_token %}
+  {% if courses_with_currency %}
+    <table class="currency-table">
+      <thead>
+        <tr>
+          <th>Nom du cours</th>
+          <th style="width:80px;">ID</th>
+          <th style="width:130px;">Devise actuelle</th>
+          <th style="width:220px;">Modifier</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in courses_with_currency %}
+        <tr>
+          <td>{{ course.name }}</td>
+          <td style="color:#888; font-family:monospace;">{{ course.id }}</td>
+          <td>
+            <span class="currency-badge badge-{{ course.currency|lower }}" id="badge-{{ course.id }}">
+              {{ course.currency }}
+            </span>
+          </td>
+          <td>
+            <select name="currency_{{ course.id }}"
+                    class="currency-select"
+                    onchange="updateBadge(this, '{{ course.id }}')">
+              {% for code, label in currencies %}
+              <option value="{{ code }}" {% if course.currency == code %}selected{% endif %}>
+                {{ label }}
+              </option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p style="color:#888; margin-top:24px;">Aucun cours disponible dans Thinkific.</p>
+  {% endif %}
+</form>
+
+<script>
+const badgeClasses = {
+  USD: 'badge-usd', HTG: 'badge-htg', EUR: 'badge-eur',
+  CAD: 'badge-cad', GBP: 'badge-gbp'
+};
+function updateBadge(select, courseId) {
+  const badge = document.getElementById('badge-' + courseId);
+  const val = select.value;
+  badge.textContent = val;
+  badge.className = 'currency-badge ' + (badgeClasses[val] || 'badge-usd');
+}
+</script>
+{% endblock %}

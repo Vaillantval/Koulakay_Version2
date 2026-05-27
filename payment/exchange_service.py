@@ -56,6 +56,26 @@ def convert_to_htg(amount, from_currency: str) -> float | None:
     return round(float(amount) * rate, 2)
 
 
+def convert_currency(amount, from_currency: str, to_currency: str) -> float | None:
+    """
+    Convertit `amount` de `from_currency` vers `to_currency`.
+    Utilise HTG comme devise pivot.
+    Ex: convert_currency(25, 'USD', 'HTG')  → 3312.5
+        convert_currency(25, 'USD', 'EUR')  → ~23.1
+    Retourne None si les taux sont indisponibles.
+    """
+    from_currency = from_currency.upper()
+    to_currency = to_currency.upper()
+    if from_currency == to_currency:
+        return round(float(amount), 2)
+    htg = convert_to_htg(amount, from_currency)
+    if htg is None:
+        return None
+    if to_currency == 'HTG':
+        return htg
+    return convert_from_htg(htg, to_currency)
+
+
 def convert_from_htg(amount_htg, to_currency: str) -> float | None:
     """
     Convertit `amount_htg` (en HTG) vers `to_currency`.
