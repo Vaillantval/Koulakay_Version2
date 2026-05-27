@@ -17,8 +17,91 @@
     .sticky-card { position: sticky; top: 1.5rem; }
     .modal-overlay { transition: opacity 0.3s; }
     .modal-inner { transition: transform 0.3s, opacity 0.3s; }
-    .enroll-btn { transition: opacity 0.2s, transform 0.15s; }
-    .enroll-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    /* ── Bouton CTA : glow pulsé + anneaux sonar (même style que nav-apprentissage) ── */
+    @keyframes enroll-glow {
+        0%, 100% {
+            box-shadow: 0 0 10px rgba(124,61,14,0.5), 0 0 22px rgba(124,61,14,0.25);
+        }
+        50% {
+            box-shadow: 0 0 22px rgba(196,133,58,0.95), 0 0 44px rgba(124,61,14,0.6), 0 0 66px rgba(124,61,14,0.25);
+        }
+    }
+    @keyframes enroll-glow-dark {
+        0%, 100% {
+            box-shadow: 0 0 10px rgba(23,197,216,0.45), 0 0 24px rgba(23,197,216,0.2);
+        }
+        50% {
+            box-shadow: 0 0 24px rgba(23,197,216,0.95), 0 0 48px rgba(8,145,168,0.65), 0 0 72px rgba(23,197,216,0.28);
+        }
+    }
+    @keyframes enroll-sonar {
+        0%   { transform: scale(1);   opacity: 0.7; }
+        100% { transform: scale(2.2); opacity: 0;   }
+    }
+
+    .enroll-btn {
+        position: relative;
+        transition: opacity 0.2s, transform 0.15s;
+        animation: enroll-glow 2.6s ease-in-out infinite;
+    }
+    .enroll-btn::before,
+    .enroll-btn::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border: 1.5px solid rgba(196,133,58,0.7);
+        border-radius: 14px;
+        pointer-events: none;
+        animation: enroll-sonar 2.6s ease-out infinite;
+    }
+    .enroll-btn::after { animation-delay: 1.3s; }
+    .enroll-btn:hover {
+        opacity: 0.92;
+        transform: translateY(-2px);
+        animation-play-state: paused;
+        box-shadow: 0 0 28px rgba(196,133,58,1), 0 0 56px rgba(124,61,14,0.7) !important;
+    }
+    .enroll-btn:hover::before,
+    .enroll-btn:hover::after { opacity: 0; }
+
+    /* Dark mode — teal glow */
+    html.dark .enroll-btn {
+        animation-name: enroll-glow-dark;
+    }
+    html.dark .enroll-btn::before,
+    html.dark .enroll-btn::after {
+        border-color: rgba(23,197,216,0.75);
+    }
+    html.dark .enroll-btn:hover {
+        box-shadow: 0 0 28px rgba(23,197,216,1), 0 0 56px rgba(8,145,168,0.75) !important;
+    }
+
+    /* Même animation pour le bouton connexion */
+    .btn-login-enroll {
+        position: relative;
+        animation: enroll-glow 2.6s ease-in-out infinite;
+    }
+    .btn-login-enroll::before,
+    .btn-login-enroll::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border: 1.5px solid rgba(196,133,58,0.7);
+        border-radius: 14px;
+        pointer-events: none;
+        animation: enroll-sonar 2.6s ease-out infinite;
+    }
+    .btn-login-enroll::after { animation-delay: 1.3s; }
+    .btn-login-enroll:hover {
+        animation-play-state: paused;
+        box-shadow: 0 0 28px rgba(196,133,58,1), 0 0 56px rgba(124,61,14,0.7) !important;
+    }
+    html.dark .btn-login-enroll { animation-name: enroll-glow-dark; }
+    html.dark .btn-login-enroll::before,
+    html.dark .btn-login-enroll::after { border-color: rgba(23,197,216,0.75); }
+    html.dark .btn-login-enroll:hover {
+        box-shadow: 0 0 28px rgba(23,197,216,1), 0 0 56px rgba(8,145,168,0.75) !important;
+    }
 
     /* ══ DARK MODE ══ */
 
