@@ -1,7 +1,27 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from modeltranslation.admin import TabbedTranslationAdmin
-from .models import SiteConfig, HeroSlide
+from .models import SiteConfig, HeroSlide, PageSlide
+
+
+@admin.register(PageSlide)
+class PageSlideAdmin(admin.ModelAdmin):
+    list_display  = ('page', 'order', 'is_active', 'image_preview')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('page', 'is_active')
+    ordering      = ('page', 'order')
+    list_per_page = 30
+
+    def image_preview(self, obj):
+        if obj.image:
+            from django.utils.html import format_html
+            return format_html(
+                '<img src="{}" style="height:52px;width:120px;border-radius:6px;'
+                'object-fit:cover;" />',
+                obj.image.url,
+            )
+        return '—'
+    image_preview.short_description = _('Aperçu')
 
 
 @admin.register(HeroSlide)

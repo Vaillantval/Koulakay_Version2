@@ -127,29 +127,27 @@
     <div class="hero-contact-wrap">
         <div class="owl-carousel owl-theme" id="heroContactCarousel">
 
+            {% if contact_slides %}
+            {% for slide in contact_slides %}
             <div class="hero-contact-slide">
                 <div class="hero-contact-bg"
-                     style="background-image: url('{% static 'images/testimonials_user.jpg' %}');"></div>
+                     style="background-image: url('{{ slide.image.url }}');"></div>
                 <div class="hero-contact-overlay"></div>
             </div>
-
+            {% endfor %}
+            {% else %}
+            {# Fallback statique (env sans migration) #}
             <div class="hero-contact-slide">
                 <div class="hero-contact-bg"
                      style="background-image: url('{% static 'images/news_3.jpg' %}');"></div>
                 <div class="hero-contact-overlay"></div>
             </div>
-
-            <div class="hero-contact-slide">
-                <div class="hero-contact-bg"
-                     style="background-image: url('{% static 'images/event_1.jpg' %}');"></div>
-                <div class="hero-contact-overlay"></div>
-            </div>
-
             <div class="hero-contact-slide">
                 <div class="hero-contact-bg"
                      style="background-image: url('{% static 'images/event_2.jpg' %}');"></div>
                 <div class="hero-contact-overlay"></div>
             </div>
+            {% endif %}
 
         </div>
     </div>

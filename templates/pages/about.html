@@ -170,33 +170,27 @@
     <div class="hero-about-wrap">
         <div class="owl-carousel owl-theme" id="heroAboutCarousel">
 
-            <!-- Slide 1 — testimonials_user.jpg -->
+            {% if about_slides %}
+            {% for slide in about_slides %}
+            <div class="hero-about-slide">
+                <div class="hero-about-bg"
+                     style="background-image: url('{{ slide.image.url }}');"></div>
+                <div class="hero-about-overlay"></div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {# Fallback statique (env sans migration) #}
             <div class="hero-about-slide">
                 <div class="hero-about-bg"
                      style="background-image: url('{% static 'images/testimonials_user.jpg' %}');"></div>
                 <div class="hero-about-overlay"></div>
             </div>
-
-            <!-- Slide 2 — news_3.jpg -->
-            <div class="hero-about-slide">
-                <div class="hero-about-bg"
-                     style="background-image: url('{% static 'images/news_3.jpg' %}');"></div>
-                <div class="hero-about-overlay"></div>
-            </div>
-
-            <!-- Slide 3 — event_1.jpg -->
             <div class="hero-about-slide">
                 <div class="hero-about-bg"
                      style="background-image: url('{% static 'images/event_1.jpg' %}');"></div>
                 <div class="hero-about-overlay"></div>
             </div>
-
-            <!-- Slide 4 — event_2.jpg -->
-            <div class="hero-about-slide">
-                <div class="hero-about-bg"
-                     style="background-image: url('{% static 'images/event_2.jpg' %}');"></div>
-                <div class="hero-about-overlay"></div>
-            </div>
+            {% endif %}
 
         </div>
     </div>

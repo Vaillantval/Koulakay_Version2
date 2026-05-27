@@ -118,11 +118,15 @@ def home(request):
 
 
 def contact(request):
-    return render(request, 'pages/contact.html')
+    from pages.models import PageSlide
+    contact_slides = PageSlide.objects.filter(page='contact', is_active=True).order_by('order')
+    return render(request, 'pages/contact.html', {'contact_slides': contact_slides})
 
 
 def about(request):
-    return render(request, 'pages/about.html')
+    from pages.models import PageSlide
+    about_slides = PageSlide.objects.filter(page='about', is_active=True).order_by('order')
+    return render(request, 'pages/about.html', {'about_slides': about_slides})
 
 
 def success_page(request):

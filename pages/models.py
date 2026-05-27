@@ -2,6 +2,39 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+class PageSlide(models.Model):
+    """
+    Slide photo-only pour les pages À propos et Contact.
+    Pas de champ texte — uniquement une image qui défile.
+    """
+    PAGE_CHOICES = [
+        ('about',   _('À propos')),
+        ('contact', _('Contact')),
+    ]
+    page = models.CharField(
+        _('Page'),
+        max_length=20,
+        choices=PAGE_CHOICES,
+        db_index=True,
+        help_text=_('Page sur laquelle ce slide apparaît.'),
+    )
+    image = models.ImageField(
+        _('Image'),
+        upload_to='page_slides/',
+        help_text=_('Recommandé : 1920×800 px minimum'),
+    )
+    order = models.PositiveSmallIntegerField(_("Ordre d'affichage"), default=0)
+    is_active = models.BooleanField(_('Actif'), default=True)
+
+    class Meta:
+        ordering = ['page', 'order']
+        verbose_name = _('Slide de page')
+        verbose_name_plural = _('Slides de pages')
+
+    def __str__(self):
+        return f"[{self.get_page_display()}] Slide {self.order}"
+
+
 class HeroSlide(models.Model):
     """
     Slide du carousel hero sur la page d'accueil.
