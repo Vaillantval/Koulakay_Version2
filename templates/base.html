@@ -7,7 +7,7 @@
 {% get_current_language as CURRENT_LANG %}
 <html lang="{{ CURRENT_LANG }}" class="dark">
 <head>
-    <script>(function(){if(localStorage.getItem('kl-theme')==='light'){document.documentElement.classList.replace('dark','light');}})();</script>
+    <script>(function(){if(localStorage.getItem('kl-theme-v2')==='light'){document.documentElement.classList.replace('dark','light');}})();</script>
     <title>{% block title %}KouLakay{% endblock %}</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -1084,10 +1084,10 @@
                 html.classList.add('dark-transition');
                 if (isDark()) {
                     html.classList.replace('dark', 'light');
-                    localStorage.setItem('kl-theme', 'light');
+                    localStorage.setItem('kl-theme-v2', 'light');
                 } else {
                     html.classList.replace('light', 'dark');
-                    localStorage.setItem('kl-theme', 'dark');
+                    localStorage.setItem('kl-theme-v2', 'dark');
                 }
                 syncIcons();
                 setTimeout(() => html.classList.remove('dark-transition'), 350);
