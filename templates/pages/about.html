@@ -104,38 +104,158 @@
     }
     html.dark .cta-about a:hover { background: #0bbcd4 !important; }
 
-    .hero-about {
-        background: linear-gradient(rgba(30,10,0,0.45), rgba(20,6,0,0.65)),
-                    url("{% static 'images/background_1.JPG' %}");
-        background-size: cover;
-        background-position: center;
-        min-height: 400px;
-    }
     .cta-about { background: linear-gradient(135deg,#3D1C04 0%,#7C3D0E 60%,#9B5116 100%); }
-    html.dark .hero-about {
-        background: linear-gradient(rgba(6,13,26,0.6), rgba(10,30,61,0.88)),
-                    url("{% static 'images/background_1.JPG' %}");
+
+    /* ── Hero Carousel About ── */
+    .hero-about-wrap { position: relative; }
+    .hero-about-slide {
+        position: relative;
+        min-height: 420px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .hero-about-bg {
+        position: absolute;
+        inset: 0;
         background-size: cover;
         background-position: center;
+        transition: transform 8s ease;
     }
+    .owl-item.active .hero-about-bg { transform: scale(1.04); }
+    .hero-about-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(30,10,0,0.45), rgba(20,6,0,0.68));
+    }
+    .hero-about-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 0 1rem;
+        max-width: 52rem;
+        margin: 0 auto;
+        color: #fff;
+    }
+    /* Dots */
+    .hero-about-wrap .owl-dots {
+        position: absolute; bottom: 18px; left: 0; right: 0;
+        display: flex; justify-content: center; gap: 8px; z-index: 10;
+    }
+    .hero-about-wrap .owl-dot span {
+        width: 10px; height: 10px; border-radius: 50%;
+        background: rgba(255,255,255,0.4); display: block;
+        transition: background 0.3s, transform 0.3s;
+    }
+    .hero-about-wrap .owl-dot.active span,
+    .hero-about-wrap .owl-dot:hover span { background: #C4853A; transform: scale(1.3); }
+    /* Nav arrows */
+    .hero-about-wrap .owl-nav button {
+        position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+        background: rgba(255,255,255,0.15) !important;
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        border-radius: 50% !important;
+        width: 44px; height: 44px;
+        display: flex; align-items: center; justify-content: center;
+        transition: background 0.2s !important;
+    }
+    .hero-about-wrap .owl-nav button:hover { background: rgba(196,133,58,0.6) !important; }
+    .hero-about-wrap .owl-nav button span { color: #fff; font-size: 22px; line-height: 1; }
+    .hero-about-wrap .owl-prev { left: 16px; }
+    .hero-about-wrap .owl-next { right: 16px; }
+    /* Dark mode */
+    html.dark .hero-about-wrap .owl-dot.active span,
+    html.dark .hero-about-wrap .owl-dot:hover span { background: #17c5d8; }
+    html.dark .hero-about-wrap .owl-nav button:hover { background: rgba(23,197,216,0.5) !important; }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="min-h-screen">
 
-    <!-- ── Hero ── -->
-    <section class="hero-about flex items-center justify-center text-white px-4">
-        <div class="text-center" data-aos="fade-up" data-aos-duration="900">
-            <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-white/15 border border-white/30 text-amber-200 mb-4">
-                {% trans "Notre histoire" %}
-            </span>
-            <h1 class="text-4xl md:text-6xl font-black mb-3">{% trans "À propos de KouLakay" %}</h1>
-            <p class="text-lg text-slate-200 max-w-xl mx-auto">
-                {% trans "Façonner l'avenir par l'éducation accessible à tous." %}
-            </p>
+    <!-- ── Hero Carousel ── -->
+    <div class="hero-about-wrap">
+        <div class="owl-carousel owl-theme" id="heroAboutCarousel">
+
+            <!-- Slide 1 — testimonials_user.jpg -->
+            <div class="hero-about-slide">
+                <div class="hero-about-bg"
+                     style="background-image: url('{% static 'images/testimonials_user.jpg' %}');"></div>
+                <div class="hero-about-overlay"></div>
+                <div class="hero-about-content">
+                    <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-white/15 border border-white/30 text-amber-200 mb-4">
+                        {% trans "Notre histoire" %}
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">
+                        {% trans "À propos de" %} <span class="text-yellow-400">KouLakay</span>
+                    </h1>
+                    <p class="text-xl text-slate-200 max-w-xl mx-auto">
+                        {% trans "Façonner l'avenir par l'éducation accessible à tous." %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 2 — news_3.jpg -->
+            <div class="hero-about-slide">
+                <div class="hero-about-bg"
+                     style="background-image: url('{% static 'images/news_3.jpg' %}');"></div>
+                <div class="hero-about-overlay"></div>
+                <div class="hero-about-content">
+                    <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-white/15 border border-white/30 text-amber-200 mb-4">
+                        {% trans "Innovation & Savoir" %}
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">
+                        {% trans "La curiosité est le moteur" %}<br>
+                        <span class="text-yellow-400">{% trans "de chaque découverte" %}</span>
+                    </h1>
+                    <p class="text-xl text-slate-200 max-w-xl mx-auto">
+                        {% trans "Rester informé, c'est rester en avance sur son temps." %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 3 — event_1.jpg -->
+            <div class="hero-about-slide">
+                <div class="hero-about-bg"
+                     style="background-image: url('{% static 'images/event_1.jpg' %}');"></div>
+                <div class="hero-about-overlay"></div>
+                <div class="hero-about-content">
+                    <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-white/15 border border-white/30 text-amber-200 mb-4">
+                        {% trans "Communauté" %}
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">
+                        {% trans "Chaque rencontre" %}<br>
+                        <span class="text-yellow-400">{% trans "est une leçon de vie" %}</span>
+                    </h1>
+                    <p class="text-xl text-slate-200 max-w-xl mx-auto">
+                        {% trans "Nos événements rassemblent des apprenants passionnés autour d'un objectif commun." %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 4 — event_2.jpg -->
+            <div class="hero-about-slide">
+                <div class="hero-about-bg"
+                     style="background-image: url('{% static 'images/event_2.jpg' %}');"></div>
+                <div class="hero-about-overlay"></div>
+                <div class="hero-about-content">
+                    <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-white/15 border border-white/30 text-amber-200 mb-4">
+                        {% trans "Vision" %}
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">
+                        {% trans "Ensemble" %}<br>
+                        <span class="text-yellow-400">{% trans "nous bâtissons l'Haïti de demain" %}</span>
+                    </h1>
+                    <p class="text-xl text-slate-200 max-w-xl mx-auto">
+                        {% trans "Une jeunesse éduquée est la plus grande richesse d'une nation." %}
+                    </p>
+                </div>
+            </div>
+
         </div>
-    </section>
+    </div>
 
     <!-- ── Mission ── -->
     <section class="py-16 bg-white">
@@ -299,4 +419,24 @@
     </section>
 
 </div>
+
+<script>
+$(document).ready(function(){
+    $('#heroAboutCarousel').owlCarousel({
+        items: 1,
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 5500,
+        autoplayHoverPause: true,
+        animateOut: 'fadeOut',
+        animateIn: 'fadeIn',
+        nav: true,
+        navText: ['<span>&#8249;</span>','<span>&#8250;</span>'],
+        dots: true,
+        smartSpeed: 800,
+        mouseDrag: true,
+        touchDrag: true,
+    });
+});
+</script>
 {% endblock content %}
