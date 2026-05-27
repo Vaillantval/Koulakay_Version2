@@ -7,6 +7,7 @@ from django.http import Http404
 from datetime import datetime, timezone
 from decimal import Decimal
 from django.db.models import Count
+import math
 import requests
 
 from .monkey_patch.patch_thinkific import ThinkificExtend
@@ -59,7 +60,8 @@ def _price_in_currency(raw_price_usd, course_id, currency_map, default_currency)
         # Taux indisponible — on affiche en USD
         return _format_price(raw_price_usd), 'USD'
 
-    return _format_price(converted), target
+    # Arrondi au plafond : 34.3 → 35, 3312.1 → 3313
+    return _format_price(math.ceil(converted)), target
 
 
 def _format_access_duration(days):
@@ -560,11 +562,10 @@ def bundle_enrollment_step1(request, bundle_id):
             messages.success(request, f"Vous êtes inscrit au bundle {bundle_name} !")
             return redirect('mon_apprentissage')
 
-        # Payant → page de paiement
-        site_currency = SiteConfig.get().currency
-        htg_equivalent = None
-        if site_currency != 'HTG':
-            htg_equivalent = convert_to_htg(bundle_price, site_currency)
+        # Payant → page de paiement — bundle affiché en HTG (cosmétique)
+        htg_converted = convert_currency(float(bundle_price), 'USD', 'HTG')
+        bundle_display_price = _format_price(math.ceil(htg_converted)) if htg_converted else _format_price(bundle_price)
+        htg_equivalent = None  # déjà en HTG, pas besoin d'équivalent séparé
 
         request.session['enrollment_data'] = {
             'is_bundle': True,
@@ -595,8 +596,8 @@ def bundle_enrollment_step1(request, bundle_id):
             'course': bundle_obj,
             'is_bundle': True,
             'bundle_courses': bundle_courses,
-            'course_price': bundle_price,
-            'site_currency': site_currency,
+            'course_price': bundle_display_price,
+            'site_currency': 'HTG',
             'htg_equivalent': htg_equivalent,
             'stripe_public_key': settings.STRIPE['PUBLIC_KEY'],
         })
@@ -973,7 +974,8 @@ def courses(request):
             raw_price = bp.get('price')
             course_ids = bundle_info.get('course_ids', [])
             all_enrolled = bool(course_ids) and all(cid in enrolled_ids for cid in course_ids)
-            bundle_price_str, bundle_disp_curr = _price_in_currency(raw_price, bundle_id, currency_map, site_currency)
+            # Bundles affichés en HTG par défaut (cosmétique)
+            bundle_price_str, bundle_disp_curr = _price_in_currency(raw_price, bundle_id, currency_map, 'HTG')
             bundles_data.append({
                 'id': bundle_id,
                 'product_id': bp.get('id'),
