@@ -149,6 +149,10 @@
             background: linear-gradient(135deg, #2D1A0A 0%, #3D1C04 100%);
             color: #E2C9A8;
         }
+        .footer-col-title  { color: #C4853A; }
+        .footer-copyright  { color: #8A6A4A; border-top: 1px solid rgba(255,255,255,0.08); }
+        .kl-footer .footer-social { background: rgba(255,255,255,0.08); }
+        .kl-footer .footer-social:hover { background: rgba(196,133,58,0.45); }
 
         /* ── Modal ── */
         .modal-content { background: #ffffff; border-radius: 12px; border: none; }
@@ -584,17 +588,58 @@
             box-shadow: 0 0 12px rgba(23,197,216,0.4);
         }
 
-        /* ── Footer dark ── */
+        /* ── Footer dark — tech/pro ── */
         html.dark .kl-footer {
-            background: linear-gradient(135deg, #060d1a 0%, #0a0e1a 100%);
-            border-top: 1px solid rgba(23,197,216,0.15);
+            background: #020b18;
+            background-image:
+                radial-gradient(ellipse at 10% 90%, rgba(23,197,216,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 10%, rgba(15,40,71,0.55) 0%, transparent 50%),
+                repeating-linear-gradient(0deg,   transparent, transparent 47px, rgba(23,197,216,0.022) 48px),
+                repeating-linear-gradient(90deg,  transparent, transparent 47px, rgba(23,197,216,0.022) 48px);
+            border-top: 1px solid rgba(23,197,216,0.2);
         }
-        html.dark .footer-stripe-bar { background: linear-gradient(90deg, #0f2847, #17c5d8, #38d9e8, #17c5d8, #0f2847) !important; }
-        html.dark .kl-footer h3 { color: #67e8f9 !important; }
-        html.dark .footer-contact-icon { background: rgba(23,197,216,0.12) !important; border: 1px solid rgba(23,197,216,0.2) !important; }
-        html.dark .footer-contact-icon i { color: #67e8f9 !important; }
-        html.dark .footer-copyright { color: #52586A !important; }
-        html.dark .footer-social:hover { background: #17c5d8 !important; box-shadow: 0 4px 12px rgba(23,197,216,0.4) !important; }
+        html.dark .footer-stripe-bar {
+            background: linear-gradient(90deg, #0a1f3d, #17c5d8, #38d9e8, #17c5d8, #0a1f3d) !important;
+            box-shadow: 0 0 14px rgba(23,197,216,0.45), 0 0 3px rgba(23,197,216,0.6) !important;
+        }
+        /* Titres de colonnes */
+        html.dark .kl-footer h3,
+        html.dark .footer-col-title { color: #17c5d8 !important; }
+        /* Liens navigation */
+        html.dark .kl-footer .footer-nav-link { color: #7a8a9e !important; }
+        html.dark .kl-footer .footer-nav-link:hover { color: #38d9e8 !important; }
+        html.dark .kl-footer .footer-nav-arrow { color: rgba(23,197,216,0.4) !important; }
+        html.dark .kl-footer .footer-nav-link:hover .footer-nav-arrow { color: #17c5d8 !important; }
+        /* Texte contact (email, tél, adresse) */
+        html.dark .kl-footer .footer-contact-text { color: #7a8a9e !important; }
+        html.dark .kl-footer .footer-contact-text:hover { color: #38d9e8 !important; }
+        /* Icônes de contact */
+        html.dark .footer-contact-icon {
+            background: rgba(23,197,216,0.08) !important;
+            border: 1px solid rgba(23,197,216,0.18) !important;
+        }
+        html.dark .footer-contact-icon i { color: #17c5d8 !important; }
+        /* Réseaux sociaux */
+        html.dark .kl-footer .footer-social {
+            background: rgba(23,197,216,0.07) !important;
+            color: #4ab8cc !important;
+            border: 1px solid rgba(23,197,216,0.16) !important;
+        }
+        html.dark .kl-footer .footer-social:hover {
+            background: #17c5d8 !important;
+            color: #fff !important;
+            border-color: transparent !important;
+            box-shadow: 0 0 18px rgba(23,197,216,0.55), 0 4px 12px rgba(23,197,216,0.3) !important;
+        }
+        /* Tagline partenaires */
+        html.dark .kl-footer .footer-tagline { color: #3d4f65 !important; }
+        /* Séparateur logo */
+        html.dark .footer-logo-row { border-color: rgba(23,197,216,0.1) !important; }
+        /* Copyright */
+        html.dark .footer-copyright {
+            color: #3a4a5c !important;
+            border-color: rgba(23,197,216,0.08) !important;
+        }
         html.dark .user-modal-header { background: linear-gradient(135deg, #0a0e1a, #0f2847) !important; }
 
         /* ── Focus ring ── */
@@ -815,7 +860,7 @@
         <div class="max-w-7xl mx-auto px-4 pt-14 pb-10">
 
             <!-- Logos partenaires -->
-            <div class="flex flex-wrap items-center gap-5 mb-10 pb-8"
+            <div class="footer-logo-row flex flex-wrap items-center gap-5 mb-10 pb-8"
                  style="border-bottom:1px solid rgba(255,255,255,0.1);">
                 <span class="logo-wrap"><img src="{% static 'logo/koulakay_white.png' %}" alt="KouLakay"
                      class="h-12 w-auto"
@@ -830,7 +875,7 @@
                         <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-11 w-auto">
                     </span>
                 {% endif %}
-                <p class="text-sm text-brand-300 leading-relaxed ml-2 max-w-xs">
+                <p class="footer-tagline text-sm text-brand-300 leading-relaxed ml-2 max-w-xs">
                     {% trans "Rendre l'éducation de qualité accessible à tous en Haïti et dans la diaspora." %}
                 </p>
             </div>
@@ -840,37 +885,37 @@
 
                 <!-- Navigation -->
                 <div data-aos="fade-up" data-aos-delay="0">
-                    <h3 class="font-bold uppercase tracking-widest text-xs mb-5"
-                        style="color:#C4853A;letter-spacing:.12em;">{% trans "Navigation" %}</h3>
+                    <h3 class="footer-col-title font-bold uppercase tracking-widest text-xs mb-5"
+                        style="letter-spacing:.12em;">{% trans "Navigation" %}</h3>
                     <ul class="space-y-3 text-sm">
                         <li>
-                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'home' %}">
-                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'home' %}">
+                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Accueil" %}
                             </a>
                         </li>
                         <li>
-                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'courses' %}">
-                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'courses' %}">
+                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Cours" %}
                             </a>
                         </li>
                         <li>
-                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'about' %}">
-                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'about' %}">
+                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "À propos" %}
                             </a>
                         </li>
                         <li>
-                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'contact' %}">
-                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'contact' %}">
+                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Contact" %}
                             </a>
                         </li>
                         {% if user.is_authenticated %}
                         <li>
-                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'mon_apprentissage' %}">
-                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'mon_apprentissage' %}">
+                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Mon apprentissage" %}
                             </a>
                         </li>
@@ -880,25 +925,25 @@
 
                 <!-- Mon compte -->
                 <div data-aos="fade-up" data-aos-delay="100">
-                    <h3 class="font-bold uppercase tracking-widest text-xs mb-5"
-                        style="color:#C4853A;letter-spacing:.12em;">{% trans "Mon compte" %}</h3>
+                    <h3 class="footer-col-title font-bold uppercase tracking-widest text-xs mb-5"
+                        style="letter-spacing:.12em;">{% trans "Mon compte" %}</h3>
                     <ul class="space-y-3 text-sm">
                         {% if user.is_authenticated %}
                         <li>
-                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_logout' %}">
+                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_logout' %}">
                                 <i class="fa fa-sign-out-alt text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Déconnexion" %}
                             </a>
                         </li>
                         {% else %}
                         <li>
-                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_login' %}">
+                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_login' %}">
                                 <i class="fa fa-sign-in-alt text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Connexion" %}
                             </a>
                         </li>
                         <li>
-                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_signup' %}">
+                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_signup' %}">
                                 <i class="fa fa-user-plus text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Inscription" %}
                             </a>
@@ -909,8 +954,8 @@
 
                 <!-- Contact + Réseaux -->
                 <div data-aos="fade-up" data-aos-delay="200">
-                    <h3 class="font-bold uppercase tracking-widest text-xs mb-5"
-                        style="color:#C4853A;letter-spacing:.12em;">{% trans "Contact" %}</h3>
+                    <h3 class="footer-col-title font-bold uppercase tracking-widest text-xs mb-5"
+                        style="letter-spacing:.12em;">{% trans "Contact" %}</h3>
                     <ul class="space-y-3 text-sm mb-6">
                         {% if site_config.email %}
                         <li class="flex items-start gap-3">
@@ -919,7 +964,7 @@
                                 <i class="fa fa-envelope" style="color:#C4853A;font-size:13px;"></i>
                             </span>
                             <a href="mailto:{{ site_config.email }}"
-                               class="text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.email }}</a>
+                               class="footer-contact-text text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.email }}</a>
                         </li>
                         {% endif %}
                         {% if site_config.phone_1 %}
@@ -929,7 +974,7 @@
                                 <i class="fa fa-phone" style="color:#C4853A;font-size:13px;"></i>
                             </span>
                             <a href="tel:{{ site_config.phone_1 }}"
-                               class="text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.phone_1 }}</a>
+                               class="footer-contact-text text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.phone_1 }}</a>
                         </li>
                         {% endif %}
                         {% if site_config.address %}
@@ -938,7 +983,7 @@
                                   style="background:rgba(196,133,58,0.15);">
                                 <i class="fa fa-map-marker-alt" style="color:#C4853A;font-size:13px;"></i>
                             </span>
-                            <span class="text-brand-200 mt-1">{{ site_config.address }}</span>
+                            <span class="footer-contact-text text-brand-200 mt-1">{{ site_config.address }}</span>
                         </li>
                         {% else %}
                         <li class="flex items-start gap-3">
@@ -946,7 +991,7 @@
                                   style="background:rgba(196,133,58,0.15);">
                                 <i class="fa fa-map-marker-alt" style="color:#C4853A;font-size:13px;"></i>
                             </span>
-                            <span class="text-brand-200 mt-1">Port-au-Prince, Haïti</span>
+                            <span class="footer-contact-text text-brand-200 mt-1">Port-au-Prince, Haïti</span>
                         </li>
                         {% endif %}
                     </ul>
@@ -979,7 +1024,7 @@
 
             <!-- Barre de copyright -->
             <div class="footer-copyright mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs"
-                 style="border-top:1px solid rgba(255,255,255,0.08); color:#8A6A4A;">
+                 style="border-top:1px solid rgba(255,255,255,0.08);">
                 <p>© <script>document.write(new Date().getFullYear());</script> KouLakay &amp; Exam Haiti — {% trans "Tous droits réservés" %}</p>
                 <p>{{ site_config.footer_text|default:"Fait avec ❤ en Haïti" }}</p>
             </div>

@@ -779,6 +779,9 @@
 <!-- ── Modal Inscription ── -->
 {% include 'components/course_modal.html' %}
 
+{% endblock content %}
+
+{% block extra_js %}
 <script>
 $(document).ready(function () {
     $("#heroCarousel").owlCarousel({
@@ -852,5 +855,4 @@ $(document).ready(function () {
     }
 })();
 </script>
-
-{% endblock content %}
+{% endblock extra_js %}
