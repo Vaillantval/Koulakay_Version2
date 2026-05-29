@@ -12,18 +12,23 @@
     /* ── Hero Carousel Contact ── */
     .hero-contact-wrap {
         position: relative;
-        min-height: 380px;
-        margin: 1.5rem 1rem 0;
+        min-height: 240px;
+        margin: 1rem 0.75rem 0;
         border-radius: 1rem;
         overflow: hidden;
         box-shadow: 0 4px 24px rgba(0,0,0,0.12);
     }
-    .hero-contact-wrap .owl-stage-outer { min-height: 380px !important; overflow: hidden; }
+    @media (min-width: 640px) {
+        .hero-contact-wrap { min-height: 380px; margin: 1.5rem 1rem 0; }
+    }
+    .hero-contact-wrap .owl-stage-outer { min-height: 240px !important; overflow: hidden; }
+    @media (min-width: 640px) { .hero-contact-wrap .owl-stage-outer { min-height: 380px !important; } }
     .hero-contact-slide {
         position: relative;
-        min-height: 380px;
+        min-height: 240px;
         overflow: hidden;
     }
+    @media (min-width: 640px) { .hero-contact-slide { min-height: 380px; } }
     .hero-contact-bg {
         position: absolute;
         inset: 0;

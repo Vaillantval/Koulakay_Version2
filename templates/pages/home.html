@@ -18,29 +18,35 @@
      */
     .hero-carousel-wrap {
         position: relative;
-        min-height: 560px;
+        min-height: 420px;
     }
+    @media (min-width: 640px) { .hero-carousel-wrap { min-height: 560px; } }
+
     /* Owl ne doit PAS être le contenant (positioned ancestor) des boutons nav :
        on le passe en static afin que les boutons se positionnent
        par rapport au wrap directement. */
     .hero-carousel-wrap .owl-carousel {
         position: static !important;
-        min-height: 560px;
+        min-height: 420px;
     }
+    @media (min-width: 640px) { .hero-carousel-wrap .owl-carousel { min-height: 560px; } }
+
     /* Le stage-outer doit maintenir la hauteur pour que les slides soient visibles */
     .hero-carousel-wrap .owl-stage-outer {
-        min-height: 560px !important;
+        min-height: 420px !important;
         overflow: hidden;
     }
+    @media (min-width: 640px) { .hero-carousel-wrap .owl-stage-outer { min-height: 560px !important; } }
 
     .hero-slide {
         position: relative;
-        min-height: 560px;
+        min-height: 420px;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
     }
+    @media (min-width: 640px) { .hero-slide { min-height: 560px; } }
     .hero-slide-bg {
         position: absolute;
         inset: 0;
@@ -211,8 +217,9 @@
                     url("{% static 'images/slider_1.JPG' %}");
         background-size: cover;
         background-position: center;
-        min-height: 560px;
+        min-height: 420px;
     }
+    @media (min-width: 640px) { .hero-section { min-height: 560px; } }
 
     /* ── Cards ── */
     .course-card {

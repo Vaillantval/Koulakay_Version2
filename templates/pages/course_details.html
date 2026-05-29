@@ -189,7 +189,7 @@
 
 {% block content %}
 <div class="min-h-screen detail-page">
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-8">
 
     <!-- Messages -->
     {% if messages %}
@@ -249,8 +249,8 @@
             </div>
 
             <!-- Onglets -->
-            <div class="tab-bar border-b border-brand-200 mb-6" data-aos="fade-up" data-aos-delay="100">
-                <nav class="flex gap-8">
+            <div class="tab-bar border-b border-brand-200 mb-6 overflow-x-auto" data-aos="fade-up" data-aos-delay="100">
+                <nav class="flex gap-6 min-w-max">
                     <button class="tab-btn active" data-tab="description">{% trans "Description" %}</button>
                     <button class="tab-btn" data-tab="content">{% trans "Contenu" %} ({{ course_content|length }})</button>
                 </nav>
@@ -466,6 +466,49 @@
 </main>
 </div>
 
+<!-- ══ Barre CTA fixe mobile (< lg) ══ -->
+<div class="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 py-3 border-t border-brand-100 shadow-2xl"
+     style="background:rgba(251,247,244,0.97);backdrop-filter:blur(12px);"
+     id="mobile-cta-bar">
+    <div class="flex items-center gap-3 max-w-xl mx-auto">
+        <div class="flex-1 min-w-0">
+            <p class="text-xs font-semibold text-brand-600 truncate">{{ course.name|truncatewords:6 }}</p>
+            {% if course.price is None or course.price == 0 %}
+            <p class="text-sm font-bold text-green-600">{% trans "Gratuit" %}</p>
+            {% else %}
+            <p class="text-sm font-bold text-brand-800">{{ course.price }} {{ course.display_currency }}</p>
+            {% endif %}
+        </div>
+        {% if request.user.is_authenticated %}
+            {% if course.enroll %}
+            <a href="{% url 'thinkific_sso' %}?return_to=/courses/take/{{ course.slug }}"
+               class="shrink-0 flex items-center gap-1.5 px-5 py-2.5 bg-green-600 text-white font-bold rounded-xl text-sm transition">
+                <span class="material-symbols-outlined" style="font-size:15px;">play_circle</span>
+                {% trans "Accéder" %}
+            </a>
+            {% else %}
+            <button class="enroll-btn shrink-0 px-5 py-2.5 text-white font-bold rounded-xl text-sm"
+                    style="background:#7C3D0E;"
+                    onclick="document.getElementById('enrollBtn')?.click()">
+                {% if course.price is None or course.price == 0 %}{% trans "S'inscrire" %}{% else %}{% trans "Acheter" %}{% endif %}
+            </button>
+            {% endif %}
+        {% else %}
+        <a href="{% url 'account_login' %}?next={% url 'course_details' course.id %}"
+           class="shrink-0 px-5 py-2.5 text-white font-bold rounded-xl text-sm kl-btn-cta">
+            {% trans "Se connecter" %}
+        </a>
+        {% endif %}
+    </div>
+</div>
+<!-- dark mode bar -->
+<style>
+html.dark #mobile-cta-bar {
+    background: rgba(12,30,61,0.97) !important;
+    border-color: rgba(23,197,216,0.2) !important;
+}
+</style>
+
 <!-- ══ Modal Confirmation Inscription ══ -->
 {% if request.user.is_authenticated and not course.enroll %}
 <div id="enrollModal" class="modal-overlay fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center opacity-0">
@@ -519,6 +562,18 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // ── Masque la barre CTA mobile quand la sticky-card (sidebar) est visible ──
+    const mobileBar = document.getElementById('mobile-cta-bar');
+    const stickyCard = document.querySelector('.sticky-card');
+    if (mobileBar && stickyCard && window.IntersectionObserver) {
+        new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+                mobileBar.style.transform = e.isIntersecting ? 'translateY(110%)' : 'translateY(0)';
+                mobileBar.style.transition = 'transform 0.3s ease';
+            });
+        }, { threshold: 0.4 }).observe(stickyCard);
+    }
+
     // ── Tabs ──
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', function() {

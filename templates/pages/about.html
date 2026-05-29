@@ -107,13 +107,16 @@
     .cta-about { background: linear-gradient(135deg,#3D1C04 0%,#7C3D0E 60%,#9B5116 100%); }
 
     /* ── Hero Carousel About ── */
-    .hero-about-wrap { position: relative; min-height: 380px; }
-    .hero-about-wrap .owl-stage-outer { min-height: 380px !important; overflow: hidden; }
+    .hero-about-wrap { position: relative; min-height: 240px; }
+    @media (min-width: 640px) { .hero-about-wrap { min-height: 380px; } }
+    .hero-about-wrap .owl-stage-outer { min-height: 240px !important; overflow: hidden; }
+    @media (min-width: 640px) { .hero-about-wrap .owl-stage-outer { min-height: 380px !important; } }
     .hero-about-slide {
         position: relative;
-        min-height: 380px;
+        min-height: 240px;
         overflow: hidden;
     }
+    @media (min-width: 640px) { .hero-about-slide { min-height: 380px; } }
     .hero-about-bg {
         position: absolute;
         inset: 0;
@@ -228,21 +231,21 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-4" data-aos="fade-left" data-aos-duration="800">
-                    <div class="bg-brand-50 rounded-2xl p-6 border border-brand-100 text-center">
-                        <p class="text-4xl font-black text-brand-700 mb-1">500+</p>
-                        <p class="text-sm text-brand-500 font-medium">{% trans "Étudiants actifs" %}</p>
+                    <div class="bg-brand-50 rounded-2xl p-4 sm:p-6 border border-brand-100 text-center">
+                        <p class="text-3xl sm:text-4xl font-black text-brand-700 mb-1">500+</p>
+                        <p class="text-xs sm:text-sm text-brand-500 font-medium">{% trans "Étudiants actifs" %}</p>
                     </div>
-                    <div class="bg-amber-50 rounded-2xl p-6 border border-amber-100 text-center">
-                        <p class="text-4xl font-black text-amber-700 mb-1">20+</p>
-                        <p class="text-sm text-amber-500 font-medium">{% trans "Cours disponibles" %}</p>
+                    <div class="bg-amber-50 rounded-2xl p-4 sm:p-6 border border-amber-100 text-center">
+                        <p class="text-3xl sm:text-4xl font-black text-amber-700 mb-1">20+</p>
+                        <p class="text-xs sm:text-sm text-amber-500 font-medium">{% trans "Cours disponibles" %}</p>
                     </div>
-                    <div class="bg-amber-50 rounded-2xl p-6 border border-amber-100 text-center">
-                        <p class="text-4xl font-black text-amber-700 mb-1">4</p>
-                        <p class="text-sm text-amber-500 font-medium">{% trans "Langues" %}</p>
+                    <div class="bg-amber-50 rounded-2xl p-4 sm:p-6 border border-amber-100 text-center">
+                        <p class="text-3xl sm:text-4xl font-black text-amber-700 mb-1">4</p>
+                        <p class="text-xs sm:text-sm text-amber-500 font-medium">{% trans "Langues" %}</p>
                     </div>
-                    <div class="bg-brand-50 rounded-2xl p-6 border border-brand-100 text-center">
-                        <p class="text-4xl font-black text-brand-700 mb-1">100%</p>
-                        <p class="text-sm text-brand-500 font-medium">{% trans "En ligne" %}</p>
+                    <div class="bg-brand-50 rounded-2xl p-4 sm:p-6 border border-brand-100 text-center">
+                        <p class="text-3xl sm:text-4xl font-black text-brand-700 mb-1">100%</p>
+                        <p class="text-xs sm:text-sm text-brand-500 font-medium">{% trans "En ligne" %}</p>
                     </div>
                 </div>
 

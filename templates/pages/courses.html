@@ -129,50 +129,43 @@
 
     <!-- ── Barre de filtres (sticky) ── -->
     <div class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-brand-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center gap-3">
-            <!-- Pills -->
-            <div class="flex gap-2 flex-wrap">
-                <button class="filter-pill px-4 py-1.5 rounded-full text-sm font-semibold border transition-all"
+        <!-- Ligne 1 : filtres principaux + tri -->
+        <div class="max-w-7xl mx-auto px-4 pt-2.5 pb-2 flex items-center gap-2">
+            <div class="flex gap-1.5 shrink-0">
+                <button class="filter-pill px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-all"
                         data-filter="all">{% trans "Tout" %}</button>
-                <button class="filter-pill px-4 py-1.5 rounded-full text-sm font-semibold border transition-all"
+                <button class="filter-pill px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-all"
                         data-filter="free">{% trans "Gratuit" %}</button>
-                <button class="filter-pill px-4 py-1.5 rounded-full text-sm font-semibold border transition-all"
+                <button class="filter-pill px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-all"
                         data-filter="paid">{% trans "Payant" %}</button>
             </div>
-
-            <!-- Séparateur -->
-            <div class="hidden sm:block w-px h-6 bg-brand-200 mx-1"></div>
-
-            <!-- Pills Catégories -->
-            {% if categories %}
-            <div class="flex gap-2 flex-wrap">
+            <div class="flex items-center gap-2 ml-auto shrink-0">
+                <span class="text-xs text-brand-400 hidden sm:inline">{% trans "Trier" %}</span>
+                <select id="sort-select"
+                        class="text-xs sm:text-sm border border-brand-200 rounded-lg px-2 sm:px-3 py-1.5 text-brand-700 bg-white focus:outline-none focus:ring-2 focus:ring-brand-300 max-w-[110px] sm:max-w-none">
+                    <option value="default">{% trans "Défaut" %}</option>
+                    <option value="alpha">A → Z</option>
+                    <option value="popular">{% trans "Populaire" %}</option>
+                    <option value="price-asc">{% trans "Prix ↑" %}</option>
+                    <option value="price-desc">{% trans "Prix ↓" %}</option>
+                </select>
+                <span id="result-label" class="text-xs text-brand-400 whitespace-nowrap hidden sm:inline"></span>
+            </div>
+        </div>
+        <!-- Ligne 2 : catégories (scroll horizontal sur mobile) -->
+        {% if categories %}
+        <div class="overflow-x-auto pb-2.5 px-4 max-w-7xl mx-auto" style="-webkit-overflow-scrolling:touch;scrollbar-width:none;">
+            <div class="flex gap-2" style="width:max-content;">
                 {% for cat in categories %}
-                <button class="category-pill px-4 py-1.5 rounded-full text-sm font-semibold border transition-all"
+                <button class="category-pill px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-all whitespace-nowrap"
                         data-category="{{ cat.slug }}"
                         data-color="{{ cat.color }}">
                     <i class="fa {{ cat.icon }} mr-1"></i>{{ cat.name }}
                 </button>
                 {% endfor %}
             </div>
-            <div class="hidden sm:block w-px h-6 bg-brand-200 mx-1"></div>
-            {% endif %}
-
-            <!-- Tri -->
-            <div class="flex items-center gap-2 ml-auto">
-                <span class="text-xs text-brand-400 hidden sm:inline">{% trans "Trier" %}</span>
-                <select id="sort-select"
-                        class="text-sm border border-brand-200 rounded-lg px-3 py-1.5 text-brand-700 bg-white focus:outline-none focus:ring-2 focus:ring-brand-300">
-                    <option value="default">{% trans "Par défaut" %}</option>
-                    <option value="alpha">{% trans "A → Z" %}</option>
-                    <option value="popular">{% trans "Populaire" %}</option>
-                    <option value="price-asc">{% trans "Prix ↑" %}</option>
-                    <option value="price-desc">{% trans "Prix ↓" %}</option>
-                </select>
-            </div>
-
-            <!-- Compteur -->
-            <span id="result-label" class="text-xs text-brand-400 whitespace-nowrap"></span>
         </div>
+        {% endif %}
     </div>
 
     <main class="max-w-7xl mx-auto px-4 pb-16 pt-8">
