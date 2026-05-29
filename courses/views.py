@@ -636,13 +636,17 @@ def mon_apprentissage(request):
     except Exception:
         pass
 
-    # ── 1 appel : tous les produits → map prix ──
-    price_map = {}
+    # ── 1 appel : tous les produits → map prix + durée d'accès ──
+    price_map  = {}
+    access_map = {}  # course_id → "6 mois" | "1 an" | None (à vie)
     try:
         for p in thinkific.products.list(limit=100).get('items', []):
             cid = p.get('productable_id')
-            if cid and p.get('price') is not None:
-                price_map[cid] = float(p['price'])
+            if cid:
+                if p.get('price') is not None:
+                    price_map[cid] = float(p['price'])
+                days = p.get('days_until_expiry')
+                access_map[cid] = _format_access_duration(days) if days else None
     except Exception:
         pass
 
@@ -676,6 +680,7 @@ def mon_apprentissage(request):
                     'expiry_date':          expiry,
                     'lifetime':             expiry is None,
                     'percentage_completed': round(float(item.get('percentage_completed') or 0) * 100),
+                    'access_duration':      access_map.get(course_id),
                 })
         except Exception as e:
             print(f"[mon_apprentissage] Erreur API Thinkific: {e}")
@@ -699,6 +704,7 @@ def mon_apprentissage(request):
                 'expiry_date':          enrollment.expiry_date,
                 'lifetime':             False,
                 'percentage_completed': 0,
+                'access_duration':      access_map.get(enrollment.course_id),
             })
 
     apply_course_translations(cours_inscrits)

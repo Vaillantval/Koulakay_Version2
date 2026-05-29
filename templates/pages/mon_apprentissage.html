@@ -257,7 +257,7 @@
                     </div>
                     {% endif %}
 
-                    <!-- Dates -->
+                    <!-- Dates & durée d'accès -->
                     <div class="text-xs text-brand-400 space-y-1">
                         {% if course.activated_at %}
                         <div class="flex items-center gap-1.5">
@@ -265,14 +265,26 @@
                             <span>{% trans "Inscrit le" %} {{ course.activated_at|date:"d/m/Y" }}</span>
                         </div>
                         {% endif %}
+
+                        {% if course.lifetime %}
                         <div class="flex items-center gap-1.5">
-                            <i class="fa fa-clock text-brand-400"></i>
-                            {% if course.lifetime %}
+                            <i class="fa fa-infinity text-brand-500"></i>
                             <span class="text-brand-600 font-medium">{% trans "Accès à vie" %}</span>
-                            {% elif course.expiry_date %}
-                            <span>{% trans "Accès jusqu'au" %} {{ course.expiry_date|date:"d/m/Y" }}</span>
-                            {% endif %}
                         </div>
+                        {% else %}
+                            {% if course.access_duration %}
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa fa-hourglass-half text-brand-400"></i>
+                                <span class="font-medium text-brand-600">{{ course.access_duration }} {% trans "d'accès" %}</span>
+                            </div>
+                            {% endif %}
+                            {% if course.expiry_date %}
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa fa-clock text-brand-400"></i>
+                                <span>{% trans "Expire le" %} {{ course.expiry_date|date:"d/m/Y" }}</span>
+                            </div>
+                            {% endif %}
+                        {% endif %}
                     </div>
 
                     <!-- Bouton accès -->
