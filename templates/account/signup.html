@@ -84,6 +84,34 @@ html.dark #id_email::placeholder, html.dark #id_password1::placeholder, html.dar
 html.dark .helptext { color: #9BA3B8; }
 html.dark .kl-btn { background: linear-gradient(135deg, #0891a8, #17c5d8); }
 html.dark .hero-bg { background: linear-gradient(135deg, #060d1a 0%, #0a1a30 60%, #0c1e3d 100%) !important; }
+
+/* ── Dark mode — panneau formulaire ── */
+/* Le panneau passe en fond sombre ; les règles globales de base.html
+   donnent des couleurs foncées (prévues pour fond clair) → on surcharge. */
+html.dark .su-panel {
+    background: #071630 !important;
+}
+/* Titre principal */
+html.dark .su-panel h1 { color: #EDF0F7 !important; }
+/* Sous-titres et textes de paragraphe */
+html.dark .su-panel > .w-full > p { color: #9BA3B8 !important; }
+/* Lien retour */
+html.dark .su-panel a.su-back { color: #67e8f9 !important; }
+html.dark .su-panel a.su-back:hover { color: #38d9e8 !important; }
+/* Icône retour */
+html.dark .su-panel a.su-back .material-symbols-outlined { color: #67e8f9 !important; }
+/* Liens "Connectez-vous" dans paragraph (inline style color:#7C3D0E géré par base) */
+/* Footer légal dans la carte */
+html.dark .su-panel .su-card p.text-brand-400 { color: #6b7a8d !important; }
+html.dark .su-panel .su-card a.text-brand-600 { color: #67e8f9 !important; }
+html.dark .su-panel .su-card a.text-brand-600:hover { color: #38d9e8 !important; }
+/* Labels dans la carte */
+html.dark .su-panel .su-card label { color: #C8CDD8 !important; }
+/* Erreurs */
+html.dark .su-panel .su-card .text-red-600 { color: #f87171 !important; }
+/* Boutons visibilité mot de passe */
+html.dark .su-panel .su-card .text-brand-400 { color: #4d6a87 !important; }
+html.dark .su-panel .su-card .hover\:text-brand-700:hover { color: #EDF0F7 !important; }
 </style>
 {% endblock %}
 
@@ -141,7 +169,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #060d1a 0%, #0a1a30 60%
   </div>
 
   <!-- ── Panneau droit — formulaire ── -->
-  <div class="w-full lg:w-7/12 flex items-center justify-center p-6 sm:p-10 overflow-y-auto" style="background:#FBF7F4;">
+  <div class="su-panel w-full lg:w-7/12 flex items-center justify-center p-6 sm:p-10 overflow-y-auto" style="background:#FBF7F4;">
     <div class="w-full max-w-lg py-8">
 
       <!-- Logo mobile -->
@@ -165,7 +193,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #060d1a 0%, #0a1a30 60%
 
       <!-- Bouton retour -->
       <a href="{% url 'home' %}"
-         class="inline-flex items-center gap-1.5 text-sm text-brand-600 hover:text-brand-800 font-medium mb-6 transition group">
+         class="su-back inline-flex items-center gap-1.5 text-sm text-brand-600 hover:text-brand-800 font-medium mb-6 transition group">
         <span class="material-symbols-outlined text-base group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
         {% trans "Retour à l'accueil" %}
       </a>
@@ -173,13 +201,13 @@ html.dark .hero-bg { background: linear-gradient(135deg, #060d1a 0%, #0a1a30 60%
       <h1 class="text-3xl font-bold text-brand-800 mb-1">{% trans "Créez votre compte" %}</h1>
       <p class="text-brand-500 text-sm mb-6">{% trans "Commencez votre parcours d'apprentissage dès aujourd'hui." %}</p>
 
-      <p class="text-xs text-brand-500 mb-6">
+      <p class="text-sm text-brand-500 mb-6">
         {% blocktrans %}
-        Vous avez déjà un compte ? <a style="color:#7C3D0E;font-weight:600;" href="{{ login_url }}">Connectez-vous</a>.
+        Vous avez déjà un compte ? <a style="color:#7C3D0E;font-weight:700;" href="{{ login_url }}">Connectez-vous</a>.
         {% endblocktrans %}
       </p>
 
-      <div class="bg-white rounded-2xl shadow-md border border-brand-200 p-8">
+      <div class="su-card bg-white rounded-2xl shadow-md border border-brand-200 p-8">
         <form id="signup_form" method="post" action="{% url 'account_signup' %}" class="flex flex-col gap-4">
           {% csrf_token %}
 
