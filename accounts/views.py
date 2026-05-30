@@ -156,7 +156,7 @@ def thinkific_sso(request):
     """
     import jwt as pyjwt
     import time
-    from urllib.parse import urlencode
+    from urllib.parse import urlencode, quote
 
     user = request.user
     site_id = settings.THINKIFIC['SITE_ID']
@@ -173,15 +173,22 @@ def thinkific_sso(request):
         return redirect(fallback_url)
 
     try:
+        now = int(time.time())
         payload = {
             'email': user.email,
             'first_name': user.first_name or '',
             'last_name': user.last_name or '',
-            'iat': int(time.time()),
+            'iat': now,
+            'exp': now + 300,  # 5 min — requis par certains validateurs JWT (Safari notamment)
         }
         token = pyjwt.encode(payload, sso_secret, algorithm='HS256')
-        params = {'jwt': token, 'return_to': return_to}
-        sso_url = f"https://{site_id}.thinkific.com/api/sso/v2/sso/jwt?{urlencode(params)}"
+        # Ne pas double-encoder return_to : urlencode encode les / en %2F ce que
+        # Thinkific ne décode pas toujours correctement → on construit l'URL manuellement.
+        encoded_return_to = quote(return_to, safe='/-_.')
+        sso_url = (
+            f"https://{site_id}.thinkific.com/api/sso/v2/sso/jwt"
+            f"?jwt={quote(token, safe='')}&return_to={encoded_return_to}"
+        )
         return redirect(sso_url)
 
     except Exception as e:

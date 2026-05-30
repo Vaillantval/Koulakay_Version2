@@ -381,6 +381,7 @@
                     {% if request.user.is_authenticated %}
                         {% if course.enroll %}
                         <a href="{% url 'thinkific_sso' %}?return_to=/courses/take/{{ course.slug }}"
+                           target="_blank" rel="noopener noreferrer"
                            class="btn-access-course block w-full mb-3 px-5 py-3 bg-green-600 hover:bg-green-700 text-white text-center font-bold rounded-xl transition">
                             <span class="material-symbols-outlined align-middle mr-1" style="font-size:18px;">play_circle</span>
                             {% trans "Accéder au cours" %}
@@ -482,6 +483,7 @@
         {% if request.user.is_authenticated %}
             {% if course.enroll %}
             <a href="{% url 'thinkific_sso' %}?return_to=/courses/take/{{ course.slug }}"
+               target="_blank" rel="noopener noreferrer"
                class="shrink-0 flex items-center gap-1.5 px-5 py-2.5 bg-green-600 text-white font-bold rounded-xl text-sm transition">
                 <span class="material-symbols-outlined" style="font-size:15px;">play_circle</span>
                 {% trans "Accéder" %}
