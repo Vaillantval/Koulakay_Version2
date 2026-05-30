@@ -153,7 +153,15 @@ def _sync_user_enrollments(user, request=None):
                 activated_at = datetime.fromisoformat(raw_date.replace('Z', '+00:00')) if raw_date else dj_timezone.now()
             except Exception:
                 activated_at = dj_timezone.now()
-            expiry_date = activated_at.replace(year=activated_at.year + 10)
+            # Utiliser l'expiry_date de Thinkific si disponible, sinon +10 ans
+            raw_expiry = item.get('expiry_date')
+            if raw_expiry:
+                try:
+                    expiry_date = datetime.fromisoformat(raw_expiry.replace('Z', '+00:00'))
+                except Exception:
+                    expiry_date = activated_at.replace(year=activated_at.year + 10)
+            else:
+                expiry_date = activated_at.replace(year=activated_at.year + 10)
             Enrollment.objects.get_or_create(
                 user=user,
                 course_id=course_id,
@@ -219,13 +227,15 @@ def course_enrollment_step1(request, course_id):
         product_response = thinkific.products.list(limit=100)
         product_items = product_response.get('items', [])
 
+        days_until_expiry = None
         for p in product_items:
             if p.get('productable_id') == course_id:
                 if p.get('price') is not None:
                     course_price = Decimal(str(p['price']))
                 product_id = p.get('id')
+                days_until_expiry = p.get('days_until_expiry')
                 break
-        
+
         # Trouver l'ID Thinkific de l'utilisateur (champ local en priorité)
         thinkific_user_id = request.user.thinkific_user_id
         if not thinkific_user_id:
@@ -240,7 +250,7 @@ def course_enrollment_step1(request, course_id):
         if not thinkific_user_id:
             messages.error(request, _("Impossible de trouver votre profil Thinkific."))
             return redirect('course_details', course_id=course_id)
-        
+
         # Sync Thinkific → DB locale avant de vérifier le doublon
         _sync_user_enrollments(request.user, request)
 
@@ -248,10 +258,10 @@ def course_enrollment_step1(request, course_id):
         if Enrollment.objects.filter(user=request.user, course_id=course_id).exists():
             messages.info(request, _("Vous êtes déjà inscrit à ce cours."))
             return redirect('course_details', course_id=course_id)
-        
-        # Si gratuit, inscription directe
+
+        # Si gratuit, inscription directe (passe days_until_expiry pour calcul correct)
         if course_price == 0:
-            return enroll_user_free(request, course_id, thinkific_user_id, course_name)
+            return enroll_user_free(request, course_id, thinkific_user_id, course_name, days_until_expiry)
         
         # Si payant, afficher les options de paiement
         request.session['enrollment_data'] = {
@@ -431,20 +441,27 @@ def course_enrollment_payment(request, payment_method):
         return _err_redirect()
 
 
-def enroll_user_free(request, course_id, thinkific_user_id, course_name):
+def enroll_user_free(request, course_id, thinkific_user_id, course_name, days_until_expiry=None):
     """Inscrit un utilisateur à un cours gratuit"""
     try:
         from django.utils import timezone as dj_timezone
+        from datetime import timedelta
         import uuid
 
         activated_at = dj_timezone.now()
-        local_expiry = activated_at.replace(year=activated_at.year + 10)
+        if days_until_expiry:
+            local_expiry = activated_at + timedelta(days=int(days_until_expiry))
+        else:
+            local_expiry = activated_at.replace(year=activated_at.year + 10)
 
         enrollment_data = {
             "course_id": course_id,
             "user_id": thinkific_user_id,
             "activated_at": activated_at.isoformat(),
         }
+        # Envoyer l'expiry à Thinkific uniquement pour les cours à durée limitée
+        if days_until_expiry:
+            enrollment_data["expiry_date"] = local_expiry.isoformat()
 
         enrollment_result = thinkific.enrollments.create_enrollment(enrollment_data)
 
@@ -637,8 +654,9 @@ def mon_apprentissage(request):
         pass
 
     # ── 1 appel : tous les produits → map prix + durée d'accès ──
-    price_map  = {}
-    access_map = {}  # course_id → "6 mois" | "1 an" | None (à vie)
+    price_map    = {}
+    access_map   = {}  # course_id → "6 mois" | "1 an" | None (à vie)
+    product_days = {}  # course_id → int jours (ex: 180) | None (vraiment à vie)
     try:
         for p in thinkific.products.list(limit=100).get('items', []):
             cid = p.get('productable_id')
@@ -646,7 +664,8 @@ def mon_apprentissage(request):
                 if p.get('price') is not None:
                     price_map[cid] = float(p['price'])
                 days = p.get('days_until_expiry')
-                access_map[cid] = _format_access_duration(days) if days else None
+                product_days[cid] = int(days) if days else None
+                access_map[cid]   = _format_access_duration(days) if days else None
     except Exception:
         pass
 
@@ -663,9 +682,27 @@ def mon_apprentissage(request):
                 if not course_id:
                     continue
                 # Enrichissement depuis la course_map (sans appel supplémentaire)
-                full        = course_map.get(course_id, {})
-                slug        = full.get('slug') or course_info.get('slug', '')
-                expiry      = _parse_date(item.get('expiry_date'))
+                full         = course_map.get(course_id, {})
+                slug         = full.get('slug') or course_info.get('slug', '')
+                activated_at = _parse_date(item.get('activated_at'))
+                expiry       = _parse_date(item.get('expiry_date'))
+
+                # Thinkific ne stocke expiry_date que si on la lui a explicitement
+                # envoyée à la création de l'enrollment. Si elle est absente mais
+                # que le produit a une durée (days_until_expiry), on la recalcule.
+                if expiry is None and course_id in product_days and product_days[course_id]:
+                    if activated_at:
+                        from datetime import timedelta
+                        expiry = activated_at + timedelta(days=product_days[course_id])
+
+                # lifetime = vrai seulement si le produit n'a pas de durée limitée
+                # (product_days[cid] is None). Si le produit est inconnu, on se
+                # rabat sur l'absence d'expiry calculée.
+                if course_id in product_days:
+                    is_lifetime = (product_days[course_id] is None)
+                else:
+                    is_lifetime = (expiry is None)
+
                 raw_p = price_map.get(course_id)
                 p_str, p_curr = _price_in_currency(raw_p, course_id, _currency_map, _site_currency)
                 cours_inscrits.append({
@@ -676,9 +713,9 @@ def mon_apprentissage(request):
                     'description':          full.get('description', ''),
                     'price':                p_str,
                     'display_currency':     p_curr,
-                    'activated_at':         _parse_date(item.get('activated_at')),
+                    'activated_at':         activated_at,
                     'expiry_date':          expiry,
-                    'lifetime':             expiry is None,
+                    'lifetime':             is_lifetime,
                     'percentage_completed': round(float(item.get('percentage_completed') or 0) * 100),
                     'access_duration':      access_map.get(course_id),
                 })
@@ -692,6 +729,18 @@ def mon_apprentissage(request):
             slug  = full.get('slug', '')
             raw_p = price_map.get(enrollment.course_id)
             p_str, p_curr = _price_in_currency(raw_p, enrollment.course_id, _currency_map, _site_currency)
+
+            db_expiry = enrollment.expiry_date
+            if db_expiry is None and enrollment.course_id in product_days and product_days[enrollment.course_id]:
+                if enrollment.activated_at:
+                    from datetime import timedelta
+                    db_expiry = enrollment.activated_at + timedelta(days=product_days[enrollment.course_id])
+
+            if enrollment.course_id in product_days:
+                db_lifetime = (product_days[enrollment.course_id] is None)
+            else:
+                db_lifetime = (db_expiry is None)
+
             cours_inscrits.append({
                 'id':                   enrollment.course_id,
                 'name':                 full.get('name', f'Cours #{enrollment.course_id}'),
@@ -701,8 +750,8 @@ def mon_apprentissage(request):
                 'price':                p_str,
                 'display_currency':     p_curr,
                 'activated_at':         enrollment.activated_at,
-                'expiry_date':          enrollment.expiry_date,
-                'lifetime':             False,
+                'expiry_date':          db_expiry,
+                'lifetime':             db_lifetime,
                 'percentage_completed': 0,
                 'access_duration':      access_map.get(enrollment.course_id),
             })
