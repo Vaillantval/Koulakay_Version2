@@ -664,8 +664,12 @@ def mon_apprentissage(request):
                 if p.get('price') is not None:
                     price_map[cid] = float(p['price'])
                 days = p.get('days_until_expiry')
-                product_days[cid] = int(days) if days else None
-                access_map[cid]   = _format_access_duration(days) if days else None
+                # Ne pas écraser une durée existante avec None : si un cours a
+                # plusieurs produits (payant + bundle), on garde le premier qui
+                # a une durée définie — cohérent avec le break dans course_details.
+                if cid not in product_days or days is not None:
+                    product_days[cid] = int(days) if days else None
+                    access_map[cid]   = _format_access_duration(days) if days else None
     except Exception:
         pass
 
