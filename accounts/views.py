@@ -12,16 +12,34 @@ import requests
 thinkific = Thinkific(settings.THINKIFIC['AUTH_TOKEN'], settings.THINKIFIC['SITE_ID'])
 
 
+def _generate_unique_username(first_name):
+    """Génère un username unique basé sur le prénom, avec suffixe numérique si déjà pris."""
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+    base = (first_name or 'user').lower().strip()
+    username = base
+    counter = 2
+    while User.objects.filter(username=username).exists():
+        username = f"{base}{counter}"
+        counter += 1
+    return username
+
+
 class ThinkificSignupView(SignupView):
     """
     Vue d'inscription — crée le compte Django, le lie à Thinkific et connecte
     l'utilisateur immédiatement (ACCOUNT_EMAIL_VERIFICATION = "none").
+    Le username est auto-généré depuis le prénom (sans le demander à l'user).
     """
 
     def form_valid(self, form):
         response = super().form_valid(form)  # crée le user Django + le connecte
         user = self.user
         try:
+            # Auto-username depuis le prénom
+            if not user.username:
+                user.username = _generate_unique_username(user.first_name)
+                user.save(update_fields=['username'])
             from accounts.signals import _ensure_thinkific_linked, _send_welcome_email
             _ensure_thinkific_linked(user)
             _send_welcome_email(user, self.request)

@@ -364,7 +364,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Nouvelle syntaxe allauth >= 65.x
-ACCOUNT_LOGIN_METHODS = {'email'}
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}
 ACCOUNT_SIGNUP_FIELDS = ['first_name*', 'last_name*', 'email*', 'password1*', 'password2*']
 ACCOUNT_UNIQUE_EMAIL = True
 
@@ -376,7 +376,7 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET=True
 
 AUTH_USER_MODEL = 'accounts.User'
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 
 ACCOUNT_FORMS = {
     'add_email': 'allauth.account.forms.AddEmailForm',

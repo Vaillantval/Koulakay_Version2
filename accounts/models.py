@@ -7,7 +7,7 @@ from .managers import CustomUserManager
 
 class User(AbstractUser):
 
-    username = None
+    username = models.CharField(max_length=150, unique=True, null=True, blank=True)
     email = models.EmailField(_("email address"), unique=True)
     thinkific_user_id = models.IntegerField(null=True, blank=True, db_index=True)
 
