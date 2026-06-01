@@ -1,17 +1,27 @@
-from django.db import migrations
+import unicodedata
+from django.db import migrations, IntegrityError
+
+
+def _normalize(first_name):
+    name = (first_name or 'user').strip()
+    name = unicodedata.normalize('NFD', name)
+    name = ''.join(c for c in name if unicodedata.category(c) != 'Mn')
+    return name.lower() or 'user'
 
 
 def assign_usernames(apps, schema_editor):
     User = apps.get_model('accounts', 'User')
     for user in User.objects.filter(username__isnull=True):
-        base = (user.first_name or 'user').lower().strip()
-        username = base
-        counter = 2
-        while User.objects.filter(username=username).exists():
-            username = f"{base}{counter}"
-            counter += 1
-        user.username = username
-        user.save(update_fields=['username'])
+        base = _normalize(user.first_name)
+        username, counter = base, 2
+        while True:
+            try:
+                user.username = username
+                user.save(update_fields=['username'])
+                break
+            except IntegrityError:
+                username = f"{base}{counter}"
+                counter += 1
 
 
 class Migration(migrations.Migration):

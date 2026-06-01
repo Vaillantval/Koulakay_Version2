@@ -12,17 +12,35 @@ import requests
 thinkific = Thinkific(settings.THINKIFIC['AUTH_TOKEN'], settings.THINKIFIC['SITE_ID'])
 
 
-def _generate_unique_username(first_name):
-    """Génère un username unique basé sur le prénom, avec suffixe numérique si déjà pris."""
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-    base = (first_name or 'user').lower().strip()
-    username = base
-    counter = 2
-    while User.objects.filter(username=username).exists():
-        username = f"{base}{counter}"
-        counter += 1
-    return username
+def _normalize_username_base(first_name: str) -> str:
+    """
+    Convertit un prénom en base de username ASCII minuscule.
+    Élodie → elodie, François → francois, Jean-Pierre → jean-pierre
+    """
+    import unicodedata
+    name = (first_name or 'user').strip()
+    # Décompose les caractères accentués puis supprime les diacritiques
+    name = unicodedata.normalize('NFD', name)
+    name = ''.join(c for c in name if unicodedata.category(c) != 'Mn')
+    return name.lower() or 'user'
+
+
+def _assign_username(user) -> None:
+    """
+    Assigne un username unique (prénom normalisé) directement sur le user.
+    Utilise l'IntegrityError DB comme arbitre — robuste en environnement concurrent.
+    """
+    from django.db import IntegrityError
+    base = _normalize_username_base(user.first_name)
+    username, counter = base, 2
+    while True:
+        try:
+            user.username = username
+            user.save(update_fields=['username'])
+            return
+        except IntegrityError:
+            username = f"{base}{counter}"
+            counter += 1
 
 
 class ThinkificSignupView(SignupView):
@@ -36,10 +54,8 @@ class ThinkificSignupView(SignupView):
         response = super().form_valid(form)  # crée le user Django + le connecte
         user = self.user
         try:
-            # Auto-username depuis le prénom
             if not user.username:
-                user.username = _generate_unique_username(user.first_name)
-                user.save(update_fields=['username'])
+                _assign_username(user)
             from accounts.signals import _ensure_thinkific_linked, _send_welcome_email
             _ensure_thinkific_linked(user)
             _send_welcome_email(user, self.request)
