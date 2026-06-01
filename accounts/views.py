@@ -14,13 +14,20 @@ thinkific = Thinkific(settings.THINKIFIC['AUTH_TOKEN'], settings.THINKIFIC['SITE
 
 class ThinkificSignupView(SignupView):
     """
-    Vue d'inscription — crée uniquement le compte Django local.
-    La synchronisation Thinkific se fait dans accounts/signals.py
-    via le signal email_confirmed, après vérification de l'adresse email.
+    Vue d'inscription — crée le compte Django, le lie à Thinkific et connecte
+    l'utilisateur immédiatement (ACCOUNT_EMAIL_VERIFICATION = "none").
     """
 
     def form_valid(self, form):
-        return super().form_valid(form)
+        response = super().form_valid(form)  # crée le user Django + le connecte
+        user = self.user
+        try:
+            from accounts.signals import _ensure_thinkific_linked, _send_welcome_email
+            _ensure_thinkific_linked(user)
+            _send_welcome_email(user, self.request)
+        except Exception as e:
+            print(f"[Signup] Erreur post-inscription pour {user.email}: {e}")
+        return response
 
 
 class ThinkificLoginView(LoginView):

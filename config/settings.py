@@ -359,7 +359,9 @@ AUTHENTICATION_BACKENDS = [
 
 SOCIALACCOUNT_QUERY_EMAIL = True
 
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# Vérification email désactivée : l'user est authentifié immédiatement après signup.
+# La synchronisation Thinkific + l'email de bienvenue se font dans ThinkificSignupView.form_valid().
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Nouvelle syntaxe allauth >= 65.x
 ACCOUNT_LOGIN_METHODS = {'email'}
@@ -367,6 +369,8 @@ ACCOUNT_SIGNUP_FIELDS = ['first_name*', 'last_name*', 'email*', 'password1*', 'p
 ACCOUNT_UNIQUE_EMAIL = True
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
+# ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION et ACCOUNT_CONFIRM_EMAIL_ON_GET ne s'appliquent
+# plus (email_verification = none), mais on les laisse pour les éventuels anciens liens.
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION=True
 ACCOUNT_CONFIRM_EMAIL_ON_GET=True
 
