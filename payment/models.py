@@ -107,13 +107,22 @@ class Transaction(models.Model):
         default=PaymentMethods.CREDIT_CARD
     )
     
-    # Référence externe (ID de transaction du provider)
+    # Référence externe (ID d'ordre du provider — PlopPlop à l'initiation, Stripe pi_xxx)
     external_transaction_id = models.CharField(
         _('ID transaction externe'),
         max_length=255,
         blank=True,
         null=True,
-        help_text='ID de transaction du fournisseur de paiement'
+        help_text="ID d'ordre du fournisseur de paiement (PlopPlop / Stripe)"
+    )
+
+    # Numéro de transaction du télco (MonCash / NatCash) renvoyé à la confirmation
+    provider_transaction_id = models.CharField(
+        _('ID transaction MonCash/NatCash'),
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Numéro de transaction réel du télco (MonCash/NatCash), capturé à la confirmation"
     )
     
     # ID de commande externe Thinkific

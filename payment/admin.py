@@ -29,6 +29,7 @@ class TransactionAdmin(admin.ModelAdmin):
     search_fields = (
         'transaction_number',
         'external_transaction_id',
+        'provider_transaction_id',
         'user__email',
         'user__first_name',
         'user__last_name',
@@ -60,6 +61,7 @@ class TransactionAdmin(admin.ModelAdmin):
         (_('Références externes'), {
             'fields': (
                 'external_transaction_id',
+                'provider_transaction_id',
                 'thinkific_external_order_id',
             )
         }),

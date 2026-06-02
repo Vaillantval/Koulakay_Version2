@@ -477,6 +477,11 @@ def payment_return(request):
     course_id = transaction.course_id
 
     if result.get('paid'):
+        # Capturer le numéro de transaction réel du télco (MonCash/NatCash)
+        id_tx = result.get('id_transaction')
+        if id_tx and not transaction.provider_transaction_id:
+            transaction.provider_transaction_id = str(id_tx)
+            transaction.save(update_fields=['provider_transaction_id'])
         proc = process_successful_payment(transaction, {})
         if proc['success']:
             bundle_data = transaction.meta_data.get('bundle', {})
