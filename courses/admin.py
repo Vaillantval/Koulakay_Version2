@@ -1,20 +1,9 @@
 from django import forms
-from django.contrib import admin
-from django.http import HttpResponseRedirect
+from django.contrib import admin, messages
+from django.http import HttpResponseRedirect, JsonResponse
+from django.urls import path
 from django.utils.safestring import mark_safe
 import courses.models as models
-
-
-class EnrollmentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'thinkific_user_id', 'course_id', 'activated_at', 'expiry_date')
-    list_filter = ('user', 'activated_at', 'expiry_date', 'id', 'thinkific_user_id', 'course_id')
-
-
-def _register(model, admin_class):
-    admin.site.register(model, admin_class)
-
-
-_register(models.Enrollment, EnrollmentAdmin)
 
 
 @admin.register(models.CourseTranslation)
@@ -58,6 +47,160 @@ def _fetch_thinkific_bundles():
         return sorted(result, key=lambda x: x[1].lower())
     except Exception:
         return []
+
+
+# ── Enrollment ──────────────────────────────────────────────────────────────────
+
+class EnrollmentAdminForm(forms.ModelForm):
+    """course_id devient un menu déroulant des cours Thinkific ; les autres champs
+    techniques sont auto-remplis (thinkific_user_id depuis l'user, dates calculées)."""
+    course_id = forms.TypedChoiceField(
+        label='Cours',
+        coerce=int,
+        choices=[],
+        help_text="L'utilisateur aura accès à ce cours dans Thinkific après enregistrement.",
+    )
+
+    class Meta:
+        model = models.Enrollment
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['course_id'].choices = [('', '— Choisir un cours —')] + _fetch_thinkific_courses()
+        # Auto-remplis → non obligatoires dans le formulaire
+        self.fields['thinkific_user_id'].required = False
+        self.fields['thinkific_user_id'].help_text = "Auto-rempli depuis l'utilisateur sélectionné."
+        self.fields['activated_at'].required = False
+        self.fields['activated_at'].help_text = "Laisser vide = maintenant."
+        self.fields['expiry_date'].required = False
+        self.fields['expiry_date'].help_text = "Laisser vide = calculé selon la durée du cours."
+
+
+@admin.register(models.Enrollment)
+class EnrollmentAdmin(admin.ModelAdmin):
+    form = EnrollmentAdminForm
+    list_display = ('id', 'user', 'thinkific_user_id', 'course_id', 'activated_at', 'expiry_date')
+    list_filter = ('activated_at', 'expiry_date', 'course_id')
+    search_fields = ('user__email', 'thinkific_user_id', 'course_id')
+
+    class Media:
+        js = ('admin/js/enrollment_autofill.js',)
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom = [
+            path(
+                'thinkific-id/<int:user_id>/',
+                self.admin_site.admin_view(self.get_thinkific_id),
+                name='enrollment_thinkific_id',
+            ),
+        ]
+        return custom + urls
+
+    def get_thinkific_id(self, request, user_id):
+        """Endpoint AJAX : renvoie le thinkific_user_id de l'utilisateur sélectionné."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        try:
+            u = User.objects.get(pk=user_id)
+            return JsonResponse({'thinkific_user_id': u.thinkific_user_id})
+        except User.DoesNotExist:
+            return JsonResponse({'thinkific_user_id': None})
+
+    def save_model(self, request, obj, form, change):
+        """Crée l'inscription RÉELLE dans Thinkific, puis enregistre la ligne locale."""
+        from django.utils import timezone
+        from datetime import timedelta
+        from courses.views import thinkific
+        from accounts.views import get_thinkific_user_by_email
+
+        # 1. thinkific_user_id depuis l'utilisateur (source de vérité)
+        tk_id = obj.user.thinkific_user_id
+        if not tk_id:
+            tk_user = get_thinkific_user_by_email(obj.user.email)
+            if tk_user and tk_user.get('id'):
+                tk_id = tk_user['id']
+                obj.user.thinkific_user_id = tk_id
+                obj.user.save(update_fields=['thinkific_user_id'])
+        if not tk_id:
+            messages.error(request, f"Inscription impossible : {obj.user.email} n'a pas de compte Thinkific lié.")
+            return
+        obj.thinkific_user_id = tk_id
+
+        # 2. Dates (durée du produit si dispo, sinon ~à vie)
+        activated_at = obj.activated_at or timezone.now()
+        days = None
+        try:
+            for p in thinkific.products.list(limit=100).get('items', []):
+                if p.get('productable_id') == obj.course_id and p.get('days_until_expiry'):
+                    days = int(p['days_until_expiry'])
+                    break
+        except Exception:
+            pass
+        if obj.expiry_date:
+            expiry = obj.expiry_date
+        elif days:
+            expiry = activated_at + timedelta(days=days)
+        else:
+            expiry = activated_at.replace(year=activated_at.year + 10)
+        obj.activated_at = activated_at
+        obj.expiry_date = expiry
+
+        # 3. Inscription Thinkific réelle
+        enrollment_data = {
+            'user_id':      tk_id,
+            'course_id':    obj.course_id,
+            'activated_at': activated_at.isoformat(),
+        }
+        if days:
+            enrollment_data['expiry_date'] = expiry.isoformat()
+        try:
+            result = thinkific.enrollments.create_enrollment(enrollment_data)
+        except Exception as e:
+            messages.error(request, f"Échec inscription Thinkific : {e}. Enrollment non créé.")
+            return
+        if not result:
+            messages.error(request, "Thinkific n'a pas confirmé l'inscription. Enrollment non créé.")
+            return
+
+        # 4. Enregistrer la ligne locale
+        super().save_model(request, obj, form, change)
+
+        course_name = dict(_fetch_thinkific_courses()).get(obj.course_id, f'Cours #{obj.course_id}')
+        messages.success(request, f"« {course_name} » activé pour {obj.user.email} dans Thinkific ✓")
+
+        # 5. Emails (non bloquant)
+        import uuid
+        ref = f"ADMIN-{activated_at.strftime('%Y%m%d')}-{uuid.uuid4().hex[:6].upper()}"
+        try:
+            from pages.models import SiteConfig
+            from payment.email_service import send_enrollment_confirmation
+            send_enrollment_confirmation(
+                user=obj.user,
+                course_name=course_name,
+                transaction_number=ref,
+                amount=0,
+                currency=SiteConfig.get().currency,
+                payment_method='Inscription manuelle (admin)',
+                activated_at=activated_at,
+                expiry_date=expiry,
+            )
+        except Exception as e:
+            print(f"[Admin Enroll] Email confirmation échoué : {e}")
+        try:
+            from accounts.admin_notify import notify_admin_new_enrollment
+            notify_admin_new_enrollment(
+                user=obj.user,
+                course_name=course_name,
+                is_free=True,
+                payment_method='Inscription manuelle (admin)',
+                transaction_number=ref,
+                activated_at=activated_at,
+                expiry_date=expiry,
+            )
+        except Exception as e:
+            print(f"[Admin Enroll] Notification admin échouée : {e}")
 
 
 class CourseCategoryAdminForm(forms.ModelForm):
