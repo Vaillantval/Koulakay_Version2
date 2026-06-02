@@ -524,6 +524,12 @@ STRIPE = {
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'KouLakay <noreply@koulakay.ht>')
 SERVER_EMAIL       = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@koulakay.ht')
 
+# Adresses notifiées à chaque inscription user et achat de cours.
+# Variable Railway ADMIN_NOTIFY = "a@x.com,b@y.com,c@z.com" → liste nettoyée.
+ADMIN_NOTIFY_EMAILS = [
+    e.strip() for e in os.getenv('ADMIN_NOTIFY', '').split(',') if e.strip()
+]
+
 # Email via Resend (anymail) — fallback console en dev si pas de clé
 _resend_key = os.getenv('RESEND_API_KEY', '')
 

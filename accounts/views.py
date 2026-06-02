@@ -59,6 +59,8 @@ class ThinkificSignupView(SignupView):
             from accounts.signals import _ensure_thinkific_linked, _send_welcome_email
             _ensure_thinkific_linked(user)
             _send_welcome_email(user, self.request)
+            from accounts.admin_notify import notify_admin_new_signup
+            notify_admin_new_signup(user, method='Email / mot de passe')
         except Exception as e:
             print(f"[Signup] Erreur post-inscription pour {user.email}: {e}")
         return response

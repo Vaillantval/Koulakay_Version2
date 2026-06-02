@@ -138,4 +138,11 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
         # Envoyer les credentials par email
         _send_credentials_email(request, user, raw_password)
 
+        # Notifier les admins de la nouvelle inscription
+        try:
+            from accounts.admin_notify import notify_admin_new_signup
+            notify_admin_new_signup(user, method='Google')
+        except Exception as e:
+            print(f"[Google OAuth] Notification admin échouée : {e}")
+
         return user

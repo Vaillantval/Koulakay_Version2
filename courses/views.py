@@ -495,6 +495,20 @@ def enroll_user_free(request, course_id, thinkific_user_id, course_name, days_un
             except Exception as e:
                 print(f"[KouLakay] Email confirmation cours gratuit échoué : {e}")
 
+            # Notifier les admins (non bloquant)
+            try:
+                from accounts.admin_notify import notify_admin_new_enrollment
+                notify_admin_new_enrollment(
+                    user=request.user,
+                    course_name=course_name,
+                    is_free=True,
+                    payment_method='Accès gratuit',
+                    activated_at=activated_at,
+                    expiry_date=local_expiry if days_until_expiry else None,
+                )
+            except Exception as e:
+                print(f"[KouLakay] Notification admin cours gratuit échouée : {e}")
+
             messages.success(request, f"Vous êtes inscrit au cours {course_name}!")
             return redirect('course_details', course_id=course_id)
         else:

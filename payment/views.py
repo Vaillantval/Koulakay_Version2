@@ -186,6 +186,21 @@ def process_successful_payment(transaction, payload):
             except Exception as e:
                 print(f"[KouLakay] Email confirmation bundle échoué : {e}")
 
+            try:
+                from accounts.admin_notify import notify_admin_new_enrollment
+                notify_admin_new_enrollment(
+                    user=user,
+                    course_name=bundle_name,
+                    amount=transaction.price,
+                    currency=transaction.currency,
+                    payment_method=transaction.payment_method or 'mobile',
+                    transaction_number=transaction.transaction_number,
+                    is_bundle=True,
+                    activated_at=activated_at,
+                )
+            except Exception as e:
+                print(f"[KouLakay] Notification admin bundle échouée : {e}")
+
             return {'success': True, 'course_id': None, 'bundle_id': bundle_id, 'enrollment_id': first_enrollment.id}
 
         else:
@@ -236,6 +251,20 @@ def process_successful_payment(transaction, payload):
                 )
             except Exception as e:
                 print(f"[KouLakay] Email confirmation échoué : {e}")
+
+            try:
+                from accounts.admin_notify import notify_admin_new_enrollment
+                notify_admin_new_enrollment(
+                    user=user,
+                    course_name=course_data.get('course_name') or course_data.get('name') or f'Cours #{course_id}',
+                    amount=transaction.price,
+                    currency=transaction.currency,
+                    payment_method=transaction.payment_method or 'mobile',
+                    transaction_number=transaction.transaction_number,
+                    activated_at=activated_at,
+                )
+            except Exception as e:
+                print(f"[KouLakay] Notification admin cours payant échouée : {e}")
 
             return {'success': True, 'course_id': course_id, 'bundle_id': None, 'enrollment_id': enrollment.id}
 
