@@ -329,7 +329,8 @@ def course_enrollment_payment(request, payment_method):
     def _err_redirect():
         return redirect('courses') if is_bundle else redirect('course_details', course_id=course_id)
 
-    valid_methods = ['moncash', 'natcash', 'kashpaw', 'credit_card']
+    # 'credit_card' (Stripe) désactivé temporairement — Stripe en mode sandbox
+    valid_methods = ['moncash', 'natcash', 'kashpaw']  # , 'credit_card'
     if payment_method not in valid_methods:
         messages.error(request, _("Méthode de paiement invalide."))
         return _err_redirect()

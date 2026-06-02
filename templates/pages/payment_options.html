@@ -170,22 +170,23 @@
                         <div class="pay-radio"><div class="pay-radio-dot"></div></div>
                     </div>
 
-                    <!-- Carte bancaire (Stripe) -->
+                    {% comment %} Carte bancaire (Stripe) — désactivée temporairement : Stripe en mode sandbox
                     <div class="pay-card stripe" data-method="credit_card" onclick="selectMethod(this)">
                         <div class="pay-logo-box">
                             <span class="material-symbols-outlined text-white" style="font-size:28px;">credit_card</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="font-bold text-brand-900 text-sm leading-tight">{% trans "Carte bancaire" %}</p>
+                            <p class="font-bold text-brand-900 text-sm leading-tight">Carte bancaire</p>
                             <p class="text-xs text-brand-500 mt-0.5">Visa · Mastercard · Amex</p>
                             <span class="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-full text-xs font-semibold"
                                   style="background:#EDE9FE; color:#5148EF;">
                                 <i class="fa fa-lock text-xs"></i>
-                                {% trans "International · 3D Secure" %}
+                                International · 3D Secure
                             </span>
                         </div>
                         <div class="pay-radio"><div class="pay-radio-dot"></div></div>
                     </div>
+                    {% endcomment %}
 
                 </div>
 
