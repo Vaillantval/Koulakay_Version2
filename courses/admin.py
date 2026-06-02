@@ -75,6 +75,13 @@ class EnrollmentAdminForm(forms.ModelForm):
         self.fields['activated_at'].help_text = "Laisser vide = maintenant."
         self.fields['expiry_date'].required = False
         self.fields['expiry_date'].help_text = "Laisser vide = calculé selon la durée du cours."
+        # URL de l'endpoint AJAX passée au JS via data-attribut (placeholder __UID__)
+        try:
+            from django.urls import reverse
+            url_tpl = reverse('admin:enrollment_thinkific_id', args=[0]).replace('/0/', '/__UID__/')
+            self.fields['thinkific_user_id'].widget.attrs['data-tkurl'] = url_tpl
+        except Exception:
+            pass
 
 
 @admin.register(models.Enrollment)
