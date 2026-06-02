@@ -31,16 +31,22 @@
     }
 
     function bind() {
-        var $ = (window.django && window.django.jQuery) || window.jQuery;
-        if ($) {
-            // Délégation jQuery : capte aussi les change déclenchés par Select2
-            $(document).on('change', '#id_user', function () { fill(this.value); });
-        } else {
-            // Fallback natif (si pas de Select2 / pas de jQuery)
-            document.addEventListener('change', function (e) {
-                if (e.target && e.target.id === 'id_user') fill(e.target.value);
-            });
+        // Select2 (Jazzmin) est attaché à window.jQuery, qui est une instance
+        // DIFFÉRENTE de django.jQuery. Les events change déclenchés par Select2
+        // ne sont captés que par la même instance jQuery → on bind sur toutes.
+        var instances = [];
+        if (window.jQuery && window.jQuery.fn) instances.push(window.jQuery);
+        if (window.django && window.django.jQuery && window.django.jQuery.fn
+            && instances.indexOf(window.django.jQuery) === -1) {
+            instances.push(window.django.jQuery);
         }
+        instances.forEach(function ($) {
+            $(document).on('change', '#id_user', function () { fill(this.value); });
+        });
+        // Fallback natif (cas sans Select2 / sans jQuery)
+        document.addEventListener('change', function (e) {
+            if (e.target && e.target.id === 'id_user') fill(e.target.value);
+        });
         // Remplissage initial si un user est déjà sélectionné (page d'édition)
         var uf = document.getElementById('id_user');
         if (uf && uf.value) fill(uf.value);
