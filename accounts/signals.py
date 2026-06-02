@@ -1,4 +1,4 @@
-from allauth.account.signals import email_confirmed
+from allauth.account.signals import email_confirmed, user_signed_up
 from allauth.socialaccount.signals import social_account_added, social_account_updated
 from django.dispatch import receiver
 from django.core.mail import EmailMultiAlternatives
@@ -61,6 +61,20 @@ def _ensure_thinkific_linked(user):
         print(f"[Signal] thinkific_user_id={thinkific_user_id} lié à {user.email}")
     else:
         print(f"[Signal] thinkific_user_id non obtenu pour {user.email}")
+
+
+@receiver(user_signed_up)
+def on_user_signed_up(sender, request, user, **kwargs):
+    """
+    Déclenché à la fin de toute inscription (email/mdp ET Google), après la
+    création de l'EmailAddress. Comme on n'exige plus la vérification email
+    (ACCOUNT_EMAIL_VERIFICATION = none), on marque l'email comme vérifié.
+    """
+    try:
+        from allauth.account.models import EmailAddress
+        EmailAddress.objects.filter(user=user).update(verified=True)
+    except Exception as e:
+        print(f"[Signal] Erreur marquage email vérifié pour {user.email}: {e}")
 
 
 @receiver(email_confirmed)
