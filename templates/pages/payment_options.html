@@ -58,6 +58,8 @@
     .pay-card.selected .pay-radio-dot { opacity: 1; }
 
     .btn-pay {
+        position: relative;
+        overflow: hidden;
         background: linear-gradient(135deg,#7C3D0E,#A0663B);
         color: #fff;
         font-weight: 700;
@@ -73,6 +75,26 @@
     }
     .btn-pay:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
     .btn-pay:disabled { opacity: 0.45; cursor: not-allowed; }
+    /* Reflet lumineux glissant — uniquement quand le bouton est actif */
+    .btn-pay > span { position: relative; z-index: 1; }
+    .btn-pay:not(:disabled)::after {
+        content: '';
+        position: absolute;
+        top: 0; left: -75%;
+        width: 50%; height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
+        transform: skewX(-20deg);
+        animation: btn-shine 3s ease-in-out infinite;
+        z-index: 0;
+    }
+    @keyframes btn-shine {
+        0%   { left: -75%; }
+        55%  { left: 130%; }
+        100% { left: 130%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .btn-pay:not(:disabled)::after { animation: none; }
+    }
 
     .secure-badge {
         display: inline-flex; align-items: center; gap: 6px;
@@ -334,5 +356,11 @@ document.getElementById('payForm').addEventListener('submit', function(e) {
     }
     this.action = enrollPaymentBaseUrl.replace('METHODE', method);
 });
+
+// MonCash sélectionné par défaut au chargement de la page
+(function() {
+    const defaultCard = document.querySelector('.pay-card[data-method="moncash"]');
+    if (defaultCard) selectMethod(defaultCard);
+})();
 </script>
 {% endblock %}
