@@ -16,6 +16,7 @@
 - [Installation locale](#installation-locale)
 - [Variables d'environnement](#variables-denvironnement)
 - [Déploiement — Railway + Cloudflare](#déploiement--railway--cloudflare)
+- [Performance et capacité](#performance-et-capacité)
 - [Intégrations externes](#intégrations-externes)
 - [Modèles de données](#modèles-de-données)
 - [Internationalisation](#internationalisation)
@@ -468,6 +469,45 @@ Copier **Client ID** et **Client Secret** → variables Railway `GOOGLE_CLIENT_I
 □ Catégories configurées dans l'admin → visibles sur la page d'accueil
 □ Backups PostgreSQL activées       → Railway → PostgreSQL → Backups
 ```
+
+---
+
+## Performance et capacité
+
+> Analyse de capacité (juin 2026). Le facteur limitant **n'est pas le nombre d'utilisateurs inscrits** (PostgreSQL en tient des dizaines de milliers sans problème) mais la **concurrence × la latence des appels API Thinkific synchrones**.
+
+### Capacité actuelle
+
+| Métrique | Valeur |
+|---|---|
+| Utilisateurs **inscrits** supportés | Des dizaines de milliers (non limitant) |
+| Visiteurs **actifs simultanés** avant lenteur | **~20-40** |
+| Risque principal | Un pic (ex. classe entière se connectant pour un examen) sature et fait tomber le site |
+
+### Les deux goulots d'étranglement
+
+1. **Concurrence Gunicorn = 4 requêtes simultanées max**
+   `railway.toml` : `--workers 2 --threads 2 --worker-class gthread`. Au-delà de 4 requêtes en parallèle, les suivantes font la queue (timeout 120 s).
+
+2. **Aucun cache sur les appels Thinkific** (facteur dominant)
+   `CACHES` utilise `LocMemCache` mais il n'est **pas** utilisé pour Thinkific. Chaque page rappelle l'API en direct et en synchrone :
+   - `home` : ~8-10 appels (boucle `retrieve_course` par cours = N+1)
+   - `course_details` : 5-15 appels (chapitres + contenus + instructeur)
+   - `courses` / `mon_apprentissage` : 2-3 appels
+   - Chaque appel Thinkific ≈ 200-800 ms → page = **1,5 à 5 s**.
+
+### Leviers d'optimisation (par impact décroissant)
+
+| Levier | Gain | Effort |
+|---|---|---|
+| **Cacher les réponses Thinkific** (`courses.list`, `products.list`) 5-10 min | 🚀 Énorme — divise les appels API par 10-100× | Moyen |
+| **Redis** partagé au lieu de `LocMemCache` (cache utile entre workers) | Élevé | Faible |
+| **Augmenter workers/threads** (ex. `4×4=16`) selon la RAM Railway | ×4 concurrence | Faible |
+| **Corriger les N+1** (`retrieve_course` en boucle dans `home`) | Pages 2-5× plus rapides | Moyen |
+
+Avec cache Thinkific + Redis + plus de workers, la plateforme passerait à **plusieurs centaines** d'utilisateurs simultanés, car ~90 % du temps de réponse provient des appels Thinkific répétés.
+
+> ⚠️ À noter aussi : le plan **Resend gratuit = 100 emails/jour**, ce qui plafonne le débit d'inscriptions + notifications admin (2-3 emails par signup/achat).
 
 ---
 
