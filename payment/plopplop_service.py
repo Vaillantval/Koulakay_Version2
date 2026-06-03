@@ -96,7 +96,9 @@ class PlopPlopService:
                     'paid': data.get('trans_status') == 'ok',
                     'montant': data.get('montant'),
                     'method': data.get('method'),
-                    'id_transaction': data.get('id_transaction'),
+                    # L'API renvoie le numéro de transaction télco sous 'transaction_id'
+                    # (la doc le nommait 'id_transaction' — incohérence côté PlopPlop).
+                    'id_transaction': data.get('id_transaction') or data.get('transaction_id'),
                     'date': data.get('date'),
                     'heure': data.get('heure'),
                 }
