@@ -212,10 +212,12 @@ def apply_course_translations(courses, lang=None):
 
 @login_required
 def course_enrollment_step1(request, course_id):
-    """Étape 1: Afficher les options de paiement ou inscription directe"""
-    if request.method != 'POST':
-        return redirect('courses')
-    
+    """Étape 1: Afficher les options de paiement ou inscription directe.
+
+    Accepte GET pour permettre la reprise d'achat après login (un visiteur
+    non connecté qui clique « Acheter » est envoyé sur login?next=<cette vue> ;
+    au retour, le navigateur revient en GET). L'affichage du paiement ne mute
+    rien → sûr en GET. L'inscription d'un cours GRATUIT reste en POST (confirmation)."""
     try:
         # Récupérer les détails du cours
         course = thinkific.courses.retrieve_course(id=course_id)
@@ -259,9 +261,13 @@ def course_enrollment_step1(request, course_id):
             messages.info(request, _("Vous êtes déjà inscrit à ce cours."))
             return redirect('course_details', course_id=course_id)
 
-        # Si gratuit, inscription directe (passe days_until_expiry pour calcul correct)
+        # Si gratuit : inscription directe en POST ; en GET (reprise post-login),
+        # on renvoie vers la fiche pour confirmer (pas de mutation sur un GET).
         if course_price == 0:
-            return enroll_user_free(request, course_id, thinkific_user_id, course_name, days_until_expiry)
+            if request.method == 'POST':
+                return enroll_user_free(request, course_id, thinkific_user_id, course_name, days_until_expiry)
+            messages.info(request, _("Vous êtes connecté. Cliquez sur « S'inscrire gratuitement » pour confirmer votre inscription."))
+            return redirect('course_details', course_id=course_id)
         
         # Si payant, afficher les options de paiement
         request.session['enrollment_data'] = {
@@ -524,10 +530,10 @@ def enroll_user_free(request, course_id, thinkific_user_id, course_name, days_un
 
 @login_required
 def bundle_enrollment_step1(request, bundle_id):
-    """Étape 1 d'inscription à un bundle (gratuit → direct, payant → payment_options)"""
-    if request.method != 'POST':
-        return redirect('courses')
+    """Étape 1 d'inscription à un bundle (gratuit → direct, payant → payment_options).
 
+    Accepte GET pour la reprise d'achat après login (cf. course_enrollment_step1).
+    L'affichage du paiement ne mute rien ; l'inscription d'un bundle GRATUIT reste en POST."""
     try:
         product_response = thinkific.products.list(limit=100)
         product_items = product_response.get('items', [])
@@ -571,6 +577,10 @@ def bundle_enrollment_step1(request, bundle_id):
             return redirect('mon_apprentissage')
 
         if bundle_price == 0:
+            # GET (reprise post-login) : ne pas inscrire en silence sur un GET.
+            if request.method != 'POST':
+                messages.info(request, _("Vous êtes connecté. Cliquez sur « Accéder » pour confirmer votre accès au bundle."))
+                return redirect('courses')
             from django.utils import timezone as dj_timezone
             activated_at = dj_timezone.now()
             local_expiry = activated_at.replace(year=activated_at.year + 10)
