@@ -251,13 +251,13 @@
             <!-- Onglets -->
             <div class="tab-bar border-b border-brand-200 mb-6 overflow-x-auto" data-aos="fade-up" data-aos-delay="100">
                 <nav class="flex gap-6 min-w-max">
-                    <button class="tab-btn active" data-tab="description">{% trans "Description" %}</button>
-                    <button class="tab-btn" data-tab="content">{% trans "Contenu" %} ({{ course_content|length }})</button>
+                    <button class="tab-btn" data-tab="description">{% trans "Description" %}</button>
+                    <button class="tab-btn active" data-tab="content">{% trans "Contenu" %} ({{ course_content|length }})</button>
                 </nav>
             </div>
 
             <!-- Tab: Description -->
-            <div id="tab-description" class="tab-content">
+            <div id="tab-description" class="tab-content hidden">
                 <p class="detail-desc text-brand-700 leading-relaxed mb-6 whitespace-pre-wrap">
                     {{ course.description|default:_("Ce cours vous fournira les connaissances nécessaires.") }}
                 </p>
@@ -281,7 +281,7 @@
             </div>
 
             <!-- Tab: Contenu -->
-            <div id="tab-content" class="tab-content hidden">
+            <div id="tab-content" class="tab-content">
                 <h2 class="text-xl font-bold text-brand-800 mb-4">{% trans "Programme du cours" %}</h2>
                 <div class="space-y-2">
                     {% for chapter in course_content %}
@@ -301,9 +301,9 @@
                                     </span>
                                 </div>
                             </div>
-                            <span class="material-symbols-outlined toggle-icon text-brand-400 shrink-0 ml-2" style="font-size:20px;">expand_more</span>
+                            <span class="material-symbols-outlined toggle-icon open text-brand-400 shrink-0 ml-2" style="font-size:20px;">expand_more</span>
                         </div>
-                        <div id="ch-{{ chapter.id }}" class="chapter-divider hidden border-t border-brand-50">
+                        <div id="ch-{{ chapter.id }}" class="chapter-divider border-t border-brand-50">
                             {% if chapter.children %}
                             <ul class="divide-y divide-brand-50">
                                 {% for lesson in chapter.children %}
