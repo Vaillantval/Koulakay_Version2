@@ -112,6 +112,9 @@
     html.dark .pay-radio { border-color: rgba(23,197,216,0.4); }
     html.dark .pay-card.selected .pay-radio { background: #17c5d8; border-color: #17c5d8; }
     html.dark .btn-pay { background: linear-gradient(135deg, #0891a8, #17c5d8); }
+    html.dark #mobile-pay-bar { background: rgba(12,30,61,0.97) !important; border-color: rgba(23,197,216,0.2) !important; }
+    html.dark #mobile-pay-bar .text-brand-900 { color: #EDF0F7 !important; }
+    html.dark #mobile-pay-bar .text-brand-500 { color: #9BA3B8 !important; }
     /* dark — order summary card */
     html.dark .bg-white.rounded-2xl.border.border-brand-100 { background: #0c1e3d !important; border-color: rgba(23,197,216,0.15) !important; }
     /* dark — selection message */
@@ -124,7 +127,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen py-10">
+<div class="min-h-screen pt-10 pb-28 lg:pb-10">
 <div class="max-w-5xl mx-auto px-4">
 
     <!-- Fil d'Ariane -->
@@ -314,6 +317,23 @@
 
             </div>
         </div>
+
+        <!-- Barre de paiement fixe (mobile) -->
+        <div class="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 py-3 border-t border-brand-100 shadow-2xl"
+             style="background:rgba(251,247,244,0.97);backdrop-filter:blur(12px);"
+             id="mobile-pay-bar">
+            <div class="flex items-center gap-3 max-w-xl mx-auto">
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-semibold text-brand-500">{% trans "Total" %}</p>
+                    <p class="text-base font-bold text-brand-900 truncate">{{ course_price }} {{ site_currency }}</p>
+                </div>
+                <button type="submit" id="payBtnMobile" disabled class="btn-pay shrink-0"
+                        style="width:auto;padding:12px 22px;">
+                    <span class="material-symbols-outlined" style="font-size:16px;">lock</span>
+                    <span id="payBtnMobileLabel">{% trans "Sélectionnez une méthode" %}</span>
+                </button>
+            </div>
+        </div>
     </form>
 
 </div>
@@ -345,6 +365,13 @@ function selectMethod(card) {
     const btn = document.getElementById('payBtn');
     btn.disabled = false;
     document.getElementById('payBtnLabel').textContent = methodLabels[method];
+
+    // Bouton fixe mobile : même état + même libellé
+    const btnM = document.getElementById('payBtnMobile');
+    if (btnM) {
+        btnM.disabled = false;
+        document.getElementById('payBtnMobileLabel').textContent = methodLabels[method];
+    }
 }
 
 document.getElementById('payForm').addEventListener('submit', function(e) {
