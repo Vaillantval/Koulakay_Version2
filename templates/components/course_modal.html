@@ -76,9 +76,11 @@
                 <!-- Procéder au paiement -->
                 <form id="modalEnrollForm" method="POST" action="">
                     {% csrf_token %}
-                    <button type="submit" class="w-full kl-btn-cta py-3 font-bold rounded-xl text-base">
-                        <span class="material-symbols-outlined align-middle mr-1 text-lg" style="vertical-align:-3px;">payment</span>
-                        {% trans "Procéder au paiement" %}
+                    <button type="submit" class="w-full kl-btn-cta kl-shine-btn py-3 font-bold rounded-xl text-base">
+                        <span class="kl-shine-label">
+                            <span class="material-symbols-outlined align-middle mr-1 text-lg" style="vertical-align:-3px;">payment</span>
+                            {% trans "Procéder au paiement" %}
+                        </span>
                     </button>
                 </form>
 
@@ -100,6 +102,26 @@
   50%       { box-shadow: 0 0 0 6px rgba(196,133,58,0.18); }
 }
 .kl-access-limited { animation: kl-pulse-glow 2.4s ease-in-out infinite; }
+/* Reflet lumineux glissant sur « Procéder au paiement » (comme le bouton Payer du checkout) */
+.kl-shine-btn { position: relative; overflow: hidden; }
+.kl-shine-btn .kl-shine-label { position: relative; z-index: 1; }
+.kl-shine-btn::after {
+    content: '';
+    position: absolute; top: 0; left: -75%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
+    transform: skewX(-20deg);
+    animation: kl-btn-shine 3s ease-in-out infinite;
+    z-index: 0;
+}
+@keyframes kl-btn-shine {
+    0%   { left: -75%; }
+    55%  { left: 130%; }
+    100% { left: 130%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .kl-shine-btn::after { animation: none; }
+}
 /* dark — modal (bg-white → #0c1e3d via base.html, textes couverts par .bg-white .text-*) */
 html.dark #courseModalBox .border-brand-100 { border-color: rgba(23,197,216,0.15) !important; }
 html.dark #courseModalBox .border-brand-200 { border-color: rgba(23,197,216,0.2) !important; }
