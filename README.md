@@ -97,7 +97,14 @@ Railway détecte le push
 ## Fonctionnalités
 
 ### Authentification
-- Inscription / connexion par **email** (pas de username)
+- **Inscription immédiate sans vérification email** (`ACCOUNT_EMAIL_VERIFICATION = "none"`) :
+  à la soumission du formulaire, le compte Django est créé, lié à Thinkific, l'email
+  est marqué vérifié (signal `user_signed_up`), l'email de bienvenue est envoyé et
+  l'utilisateur est connecté — le tout en une étape.
+- **Connexion par email OU prénom** (`ACCOUNT_LOGIN_METHODS = {'email', 'username'}`) :
+  un `username` est auto-généré depuis le prénom au signup (normalisé sans accents,
+  unicité garantie par retry sur `IntegrityError`). L'utilisateur peut taper son email
+  ou son prénom dans le champ de login.
 - **Google OAuth** via django-allauth socialaccount (`CustomSocialAccountAdapter`)
   - **Sign up Google (nouvel utilisateur) :**
     - Mot de passe auto-généré (`prefixeEmail_XXXXX`) sauvegardé dans Django
@@ -105,13 +112,26 @@ Railway détecte le push
     - Email de credentials envoyé → le user peut aussi se connecter email/password
   - **Sign in Google (utilisateur existant) :**
     - Si `thinkific_user_id` absent : recherche dans Thinkific par email, crée si inexistant, lie l'ID dans Django
+- **Redirection après login/signup** → page des cours (`LOGIN_REDIRECT_URL = 'courses'`),
+  sauf si un `?next=` est présent (flux d'achat → reste dans le paiement).
+- **Notifications admin** (`accounts/admin_notify.py`, non bloquant) envoyées aux adresses
+  de `ADMIN_NOTIFY` à chaque **inscription** et chaque **achat/inscription à un cours**.
 
 ### Catalogue de cours
 - Affichage des cours depuis l'**API Thinkific** (paginé)
 - Filtrage par **catégorie** (modèle `CourseCategory`, affiché sur la page d'accueil et dans le catalogue)
 - Recherche textuelle
-- Bouton **Continuer** si déjà inscrit, **S'inscrire** sinon
+- Bouton **Continuer** si déjà inscrit, **S'inscrire** sinon (+ icône œil « Détails »)
+- **Carte entièrement cliquable** → fiche détail (sauf le bouton d'inscription). Pour les
+  bundles, le clic déplie les cours inclus. Géré par un handler délégué qui ignore les
+  éléments interactifs (`a`, `button`, `form`).
+- **Modal d'inscription** (`components/course_modal.html`) : titre, badge de durée d'accès,
+  prix, et **programme du cours en accordéon scrollable** chargé à la demande via l'endpoint
+  léger `course_content/<id>/` (1 seul cours → n'alourdit pas la liste). Bouton
+  « Procéder au paiement » avec animation *shine*.
 - Visibilité admin par cours via `CourseVisibility` (masquer/afficher sans supprimer)
+- **Page détail** : onglet « Contenu » actif par défaut (au lieu de Description) et chapitres
+  déjà déployés au chargement.
 
 ### Bundles (Offres Groupées)
 
@@ -129,18 +149,30 @@ Les bundles permettent d'acheter plusieurs cours en un seul paiement.
 
 ### Paiement
 
-| Méthode | Gateway | Devise | Marché |
-|---|---|---|---|
-| MonCash | PlopPlop | HTG | Haïti |
-| NatCash | PlopPlop | HTG | Haïti |
-| Kashpaw | PlopPlop | HTG | Haïti |
-| Carte bancaire | Stripe Elements | USD | International |
+| Méthode | Gateway | Devise | Marché | État |
+|---|---|---|---|---|
+| MonCash | PlopPlop | HTG | Haïti | ✅ Actif |
+| NatCash | PlopPlop | HTG | Haïti | ✅ Actif |
+| Kashpaw | PlopPlop | HTG | Haïti | Backend uniquement (non affiché) |
+| Carte bancaire | Stripe Elements | USD | International | ⏸️ **Désactivé** (Stripe en sandbox) |
 
+- **Carte bancaire désactivée temporairement** : commentée dans `payment_options.html`
+  (`{% comment %}`) et retirée de `valid_methods` côté backend. Les routes Stripe restent
+  en place mais inatteignables via l'UI. Réactivation = décommenter + remettre `credit_card`.
+- **Checkout** : **MonCash sélectionné par défaut** ; bouton « Payer » avec animation *shine* ;
+  **barre de paiement fixe en bas sur mobile** qui se masque quand le bouton de la page
+  devient visible (IntersectionObserver, même logique que la page détail).
+- **Reprise d'achat après login** : un visiteur non connecté qui clique « Acheter/Payer » est
+  envoyé sur `login?next=<étape paiement>` ; au retour (GET), il atterrit **directement sur la
+  page de paiement** (les vues `*_enrollment_step1` acceptent le GET pour l'affichage, sans mutation).
 - Conversion automatique USD → HTG (taux de change en temps réel, cache 1h)
-- ID de transaction unique format `KL-YYYYMMDD-XXXXXXXX`
-- Page Stripe dédiée avec résumé de commande
+- ID de transaction unique format `KL-YYYYMMDD-XXXXXXXX` (`external_transaction_id` = réf
+  d'ordre PlopPlop/Stripe ; `provider_transaction_id` = **numéro de transaction télco réel**
+  MonCash/NatCash, capturé à la confirmation via `verify_payment`)
 - Webhooks Stripe et PlopPlop pour confirmation asynchrone
 - Email de confirmation avec PDF reçu (ReportLab) — adapté pour cours ou bundle
+- Commande de maintenance `backfill_provider_tx` pour récupérer a posteriori les numéros
+  télco des transactions passées (via l'API PlopPlop verify)
 
 ### Mon Apprentissage
 - Liste des cours via `enrollments.list()` Thinkific (1 seul appel API)
@@ -172,6 +204,13 @@ Les bundles permettent d'acheter plusieurs cours en un seul paiement.
 - Gestion des inscriptions et traductions de cours
 - **Catégories de cours** : nom, description, image, ordre d'affichage, sélection des cours inclus
 - **Visibilité des cours** : masquer/afficher des cours dans le catalogue et la page d'accueil
+- **Inscription manuelle d'un cours** (`EnrollmentAdmin`) : crée l'inscription **réelle** dans
+  Thinkific (`create_enrollment`), pas seulement une ligne locale. Le `course_id` est un menu
+  déroulant des cours Thinkific ; le `thinkific_user_id` est auto-rempli à la sélection de
+  l'utilisateur (endpoint AJAX `thinkific-id/<user_id>/` + JS bindé sur `window.jQuery`/Select2).
+  Email de confirmation + notification admin envoyés.
+- **Notifications admin** : email à chaque inscription utilisateur et achat de cours, aux
+  adresses listées dans la variable `ADMIN_NOTIFY`.
 - Import / export CSV (django-import-export)
 
 ---
@@ -187,10 +226,11 @@ Django_KouLakay/
 │   └── wsgi.py
 │
 ├── accounts/                   # Gestion utilisateurs
-│   ├── models.py               # User (email-based, thinkific_user_id)
-│   ├── views.py                # ThinkificSignupView, ThinkificLoginView, SSO
-│   ├── forms.py                # CustomSignupForm (first_name, last_name)
+│   ├── models.py               # User (email + username auto, thinkific_user_id)
+│   ├── views.py                # ThinkificSignupView (username auto), ThinkificLoginView, SSO
+│   ├── signals.py              # user_signed_up (email vérifié), email_confirmed (filet)
 │   ├── adapters.py             # CustomSocialAccountAdapter (Google OAuth → Thinkific + email)
+│   ├── admin_notify.py         # Notifications admin (signup + achat) → ADMIN_NOTIFY
 │   └── urls.py
 │
 ├── pages/                      # Pages publiques & config site
@@ -216,11 +256,12 @@ Django_KouLakay/
 │   ├── models.py               # Transaction, Payment
 │   ├── views.py                # stripe_checkout, payment_return, webhooks
 │   │                           # bundle_payment_return (bundles)
-│   ├── plopplop_service.py     # Client PlopPlop (MonCash / NatCash / Kashpaw)
-│   ├── stripe_service.py       # Client Stripe (PaymentIntent)
+│   ├── plopplop_service.py     # Client PlopPlop (verify → id transaction télco)
+│   ├── stripe_service.py       # Client Stripe (PaymentIntent) — désactivé en UI
 │   ├── exchange_service.py     # Conversion devises (USD ↔ HTG, cache 1h)
 │   ├── email_service.py        # Emails de confirmation avec PDF (Resend)
-│   │                           # is_bundle flag → wording adapté
+│   ├── management/commands/
+│   │   └── backfill_provider_tx.py  # Récupère a posteriori les n° télco MonCash/NatCash
 │   └── urls.py
 │
 ├── templates/                  # Templates HTML
@@ -316,11 +357,23 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 
 # ── Resend (emails transactionnels) ─────────────────────────────────────────
 RESEND_API_KEY=votre-api-key
+DEFAULT_FROM_EMAIL=KouLakay <noreply@koulakay.ht>
+
+# ── Notifications admin ──────────────────────────────────────────────────────
+# Adresses (séparées par des virgules) notifiées à chaque inscription user et achat.
+ADMIN_NOTIFY=admin@koulakay.ht,autre@exemple.com
+
+# ── Compte admin initial (créé au démarrage si aucun superuser) ──────────────
+ADMIN_USER=admin@koulakay.ht
+ADMIN_PASSWORD=motdepasse-fort
 
 # ── Google OAuth (optionnel) ────────────────────────────────────────────────
 GOOGLE_CLIENT_ID=xxxxx.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-xxxxx
 ```
+
+> `RESEND_API_KEY` absent → les emails s'affichent dans la console (dev). Le plan Resend
+> gratuit est limité à **100 emails/jour** (à surveiller : 2-3 emails par signup/achat).
 
 > **Générer une `SECRET_KEY` sécurisée :**
 > ```bash
@@ -522,7 +575,10 @@ Avec cache Thinkific + Redis + plus de workers, la plateforme passerait à **plu
   - `collections.list_collections()`
   - `instructors.retrieve_instructor(id)`
   - `GET /bundles/{id}` via `requests` direct (bug SDK sur cet endpoint)
-- **SSO :** JWT signé avec `THINKIFIC_SECRET_KEY` — redirige l'utilisateur directement sur Thinkific sans re-connexion
+- **SSO :** JWT signé (`THINKIFIC_SSO_SECRET`, fallback `THINKIFIC_WEBHOOK_SECRET`) avec `exp`
+  (compat. Safari/WebKit), `return_to` encodé sans double-encodage, liens ouverts en
+  `target="_blank"` pour contourner l'ITP Safari — redirige l'utilisateur directement sur
+  Thinkific sans re-connexion
 - **Inscriptions bundles :** pas d'`expiry_date` envoyé → accès à vie
 
 ### PlopPlop (Mobile Money Haïti)
@@ -532,6 +588,8 @@ Avec cache Thinkific + Redis + plus de workers, la plateforme passerait à **plu
 - **Flux :** création paiement → redirection utilisateur → retour URL → vérification → inscription
 
 ### Stripe (Carte bancaire)
+- ⏸️ **Désactivé temporairement** (mode sandbox) : option masquée dans le checkout et retirée
+  de `valid_methods`. Le code reste en place pour réactivation.
 - **Mode :** Stripe Elements (page dédiée `stripe_checkout.html`)
 - **Flux :** `PaymentIntent` créé côté serveur → Stripe Elements côté client → confirmation → webhook `payment_intent.succeeded`
 - **Devise :** USD
@@ -553,6 +611,7 @@ Avec cache Thinkific + Redis + plus de workers, la plateforme passerait à **plu
 ### `User` (accounts)
 ```
 email              EmailField    unique · USERNAME_FIELD
+username           CharField     unique · null — auto-généré depuis le prénom (login email OU prénom)
 first_name         CharField
 last_name          CharField
 thinkific_user_id  IntegerField  null · index — synchronisé avec Thinkific
@@ -639,7 +698,8 @@ price                        DecimalField
 currency                     CharField    USD · HTG · EUR · GBP
 status                       CharField    PENDING · COMPLETED · FAILED · CANCELLED · REFUNDED
 payment_method               CharField    credit_card · moncash · natcash · kashpaw
-external_transaction_id      CharField    (ID Stripe ou PlopPlop)
+external_transaction_id      CharField    réf d'ordre du fournisseur (PlopPlop à l'init / Stripe pi_xxx)
+provider_transaction_id      CharField    n° de transaction télco réel MonCash/NatCash (capturé à la confirmation)
 thinkific_external_order_id  IntegerField
 meta_data                    JSONField
   # Cours : { course: { id, name, product_id }, user: { id, email, thinkific_user_id } }
