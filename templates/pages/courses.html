@@ -505,6 +505,11 @@
                                 {% trans "S'inscrire" %}
                             </button>
                             {% endif %}
+                            <a href="{% url 'course_details' c.id %}"
+                               class="px-3 py-2 bg-brand-50 border border-brand-200 text-brand-600 rounded-lg hover:bg-brand-100 transition"
+                               title="{% trans 'Détails' %}">
+                                <span class="material-symbols-outlined" style="font-size:18px;line-height:1.4;">visibility</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -601,6 +606,11 @@
                                 {% trans "S'inscrire" %}
                             </button>
                             {% endif %}
+                            <a href="{% url 'course_details' c.id %}"
+                               class="px-3 py-2 bg-brand-50 border border-brand-200 text-brand-600 rounded-lg hover:bg-brand-100 transition"
+                               title="{% trans 'Détails' %}">
+                                <span class="material-symbols-outlined" style="font-size:18px;line-height:1.4;">visibility</span>
+                            </a>
                         </div>
                     </div>
                 </div>
