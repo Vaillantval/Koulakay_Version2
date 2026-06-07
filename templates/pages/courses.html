@@ -181,6 +181,7 @@
                 {% for c in popular %}
                 {% if c.enrollment_count > 0 and forloop.counter <= 4 %}
                 <div class="course-card bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100"
+                     data-href="{% url 'course_details' c.id %}" style="cursor:pointer;"
                      data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
                     <div class="relative h-36" style="background: linear-gradient(135deg,#C4853A,#7C3D0E);">
                         {% if c.course_card_image_url %}
@@ -286,12 +287,13 @@
                 {% for b in bundles %}
                 <div class="bg-white rounded-2xl overflow-hidden shadow-md border-2 border-purple-100"
                      data-bundle-card
+                     data-bundle-toggle="bundle-detail-{{ forloop.counter }}"
                      data-name="{{ b.name|lower }}"
                      data-free="{{ b.is_free|yesno:'true,false' }}"
                      data-price="{{ b.raw_price|default:0 }}"
                      data-categories="{{ b.categories|join:',' }}"
                      data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00"
-                     style="transition:transform 0.26s cubic-bezier(.34,1.56,.64,1),box-shadow 0.26s;">
+                     style="transition:transform 0.26s cubic-bezier(.34,1.56,.64,1),box-shadow 0.26s;cursor:pointer;">
 
                     <!-- Image -->
                     <div class="relative h-44" style="background:linear-gradient(135deg,#5B21B6,#7C3AED);">
@@ -355,7 +357,7 @@
                         </div>
 
                         <!-- Liste des cours (repliable) -->
-                        <div id="bundle-detail-{{ forloop.counter }}" class="hidden mt-3 border-t border-brand-100 pt-3">
+                        <div id="bundle-detail-{{ forloop.counter }}" data-bundle-detail class="hidden mt-3 border-t border-brand-100 pt-3">
                             <p class="text-xs font-bold text-brand-500 uppercase tracking-wide mb-2">{% trans "Cours inclus" %} :</p>
                             {% for course in b.courses %}
                             <div class="flex items-start gap-2 mb-2">
@@ -450,6 +452,8 @@
                 {% for c in courses %}
                 <div class="course-card bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100"
                      data-course-card
+                     data-href="{% url 'course_details' c.id %}"
+                     style="cursor:pointer;"
                      data-name="{{ c.name|lower }}"
                      data-free="{{ c.is_free|yesno:'true,false' }}"
                      data-price="{{ c.price|default:0 }}"
@@ -501,11 +505,6 @@
                                 {% trans "S'inscrire" %}
                             </button>
                             {% endif %}
-                            <a href="{% url 'course_details' c.id %}"
-                               class="px-3 py-2 bg-brand-50 border border-brand-200 text-brand-600 rounded-lg hover:bg-brand-100 transition"
-                               title="{% trans 'Détails' %}">
-                                <span class="material-symbols-outlined" style="font-size:18px;line-height:1.4;">visibility</span>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -564,7 +563,8 @@
             <div id="group-courses-{{ gd.group.id }}"
                  class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {% for c in gd.courses %}
-                <div class="course-card bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100">
+                <div class="course-card bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100"
+                     data-href="{% url 'course_details' c.id %}" style="cursor:pointer;">
                     <div class="relative h-44" style="background:linear-gradient(135deg,#C4853A,#7C3D0E);">
                         {% if c.course_card_image_url %}
                         <img src="{{ c.course_card_image_url }}" alt="{{ c.name }}"
@@ -601,11 +601,6 @@
                                 {% trans "S'inscrire" %}
                             </button>
                             {% endif %}
-                            <a href="{% url 'course_details' c.id %}"
-                               class="px-3 py-2 bg-brand-50 border border-brand-200 text-brand-600 rounded-lg hover:bg-brand-100 transition"
-                               title="{% trans 'Détails' %}">
-                                <span class="material-symbols-outlined" style="font-size:18px;line-height:1.4;">visibility</span>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -858,6 +853,22 @@ var coursesVisible = false;
         const el = document.getElementById(id);
         if (el) el.classList.toggle('hidden');
     };
+
+    // ── Carte entièrement cliquable ──────────────────────────────────
+    // Clic n'importe où sur une carte → détail du cours (ou dépliage du bundle),
+    // SAUF sur les éléments interactifs (boutons, liens, formulaires).
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('a, button, form, input, select, label')) return;
+        const courseCard = e.target.closest('[data-href]');
+        if (courseCard) {
+            window.location.href = courseCard.getAttribute('data-href');
+            return;
+        }
+        const bundleCard = e.target.closest('[data-bundle-toggle]');
+        if (bundleCard && !e.target.closest('[data-bundle-detail]')) {
+            window.toggleBundle(bundleCard.getAttribute('data-bundle-toggle'));
+        }
+    });
 
     // ── Reset global ─────────────────────────────────────────────────
     window.resetFilters = function () {
