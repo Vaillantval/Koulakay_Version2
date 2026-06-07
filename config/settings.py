@@ -410,10 +410,13 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-LOGIN_REDIRECT_URL = "/"           # fallback si pas de ?next=
+# Après login/signup SANS ?next= → page des cours (nom d'URL 'courses',
+# reversé avec le préfixe de langue i18n actif).
+# Le flux de paiement passe un ?next=<étape paiement> qui reste prioritaire,
+# donc l'utilisateur en cours d'achat n'est pas dévié (cf. course_enrollment_step1).
+LOGIN_REDIRECT_URL = 'courses'
+ACCOUNT_SIGNUP_REDIRECT_URL = 'courses'
 LOGIN_URL = '/accounts/login/'
-# Allauth respecte automatiquement ?next= pour login et signup
-# ACCOUNT_SIGNUP_REDIRECT_URL non défini → utilise LOGIN_REDIRECT_URL comme fallback
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
