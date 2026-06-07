@@ -389,5 +389,19 @@ document.getElementById('payForm').addEventListener('submit', function(e) {
     const defaultCard = document.querySelector('.pay-card[data-method="moncash"]');
     if (defaultCard) selectMethod(defaultCard);
 })();
+
+// Masque la barre fixe mobile quand le bouton Payer de la page est visible
+(function() {
+    const mobileBar = document.getElementById('mobile-pay-bar');
+    const pageBtn   = document.getElementById('payBtn');
+    if (mobileBar && pageBtn && window.IntersectionObserver) {
+        mobileBar.style.transition = 'transform 0.3s ease';
+        new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+                mobileBar.style.transform = e.isIntersecting ? 'translateY(110%)' : 'translateY(0)';
+            });
+        }, { threshold: 0.6 }).observe(pageBtn);
+    }
+})();
 </script>
 {% endblock %}
