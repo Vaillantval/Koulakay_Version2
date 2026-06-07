@@ -2,6 +2,7 @@
 <!-- ══════════════════════════════════════════════
      Modal d'inscription à un cours
      Utilisé par: home.html, courses.html
+     Le contenu du cours (chapitres) est chargé en AJAX à l'ouverture.
      ══════════════════════════════════════════════ -->
 
 <!-- Overlay -->
@@ -13,19 +14,17 @@
     <!-- Boîte de dialogue -->
     <div id="courseModalBox"
          class="relative w-full max-w-lg bg-white rounded-3xl overflow-hidden shadow-2xl
-                transform scale-95 opacity-0 transition-all duration-300"
+                transform scale-95 opacity-0 transition-all duration-300 flex flex-col"
          style="max-height:90vh;"
          onclick="event.stopPropagation()">
 
         <!-- Image du cours -->
-        <div class="relative h-48 w-full" style="background:linear-gradient(135deg,#C4853A,#7C3D0E);">
+        <div class="relative h-40 w-full shrink-0" style="background:linear-gradient(135deg,#C4853A,#7C3D0E);">
             <img id="modalImg" src="" alt="" class="w-full h-full object-cover hidden">
-            <!-- Bouton fermer -->
             <button onclick="closeCourseModal()"
                     class="absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition z-10">
                 <span class="material-symbols-outlined text-xl">close</span>
             </button>
-            <!-- Badge prix -->
             <div class="absolute bottom-3 left-4">
                 <span id="modalPriceBadge"
                       class="px-3 py-1 text-sm font-bold text-white rounded-full shadow"
@@ -34,46 +33,32 @@
         </div>
 
         <!-- Corps -->
-        <div class="p-6 overflow-y-auto" style="max-height:calc(90vh - 12rem);">
+        <div class="p-5 flex flex-col min-h-0">
 
-            <!-- Titre -->
-            <h2 id="modalTitle" class="text-xl font-bold text-brand-900 mb-3 leading-snug"></h2>
-
-            <!-- Description -->
-            <p id="modalDesc" class="text-sm text-brand-500 leading-relaxed mb-6"></p>
-
-            <!-- Résumé rapide -->
-            <div class="flex gap-3 mb-6">
-                <div id="modalAccessBadge" class="flex-1 rounded-xl p-3 text-center border">
-                    <span id="modalAccessIcon" class="material-symbols-outlined text-xl block mb-1"></span>
-                    <p id="modalAccessLabel" class="text-xs font-bold leading-tight"></p>
-                    <p id="modalAccessSub" class="text-xs font-medium mt-0.5 opacity-70"></p>
-                </div>
-                <div class="flex-1 bg-brand-50 rounded-xl p-3 text-center border border-brand-100">
-                    <span class="material-symbols-outlined text-brand-500 text-xl block mb-1">workspace_premium</span>
-                    <p class="text-xs text-brand-500 font-medium">{% trans "Certifié" %}</p>
-                </div>
-                <div class="flex-1 bg-brand-50 rounded-xl p-3 text-center border border-brand-100">
-                    <span class="material-symbols-outlined text-brand-500 text-xl block mb-1">support_agent</span>
-                    <p class="text-xs text-brand-500 font-medium">{% trans "Support" %}</p>
+            <!-- Titre + accès + prix (fixe) -->
+            <div class="shrink-0">
+                <h2 id="modalTitle" class="text-lg font-bold text-brand-900 mb-2 leading-snug"></h2>
+                <div class="flex items-center gap-2 flex-wrap mb-4">
+                    <span id="modalAccessPill"
+                          class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"></span>
+                    <span id="modalPrice" class="text-base font-black text-brand-800"></span>
                 </div>
             </div>
 
-            <!-- Prix affiché -->
-            <div class="flex items-center justify-between mb-6 pb-5 border-b border-brand-100">
-                <div>
-                    <p class="text-xs text-brand-400 uppercase tracking-wider font-medium mb-1">{% trans "Prix" %}</p>
-                    <p id="modalPrice" class="text-2xl font-black text-brand-800"></p>
-                </div>
-                <div class="text-right">
-                    <p class="text-xs text-brand-400 uppercase tracking-wider font-medium mb-1">{% trans "Paiement" %}</p>
-                    <p class="text-xs text-brand-600 font-semibold">MonCash · NatCash · Carte</p>
-                </div>
+            <!-- En-tête Programme (fixe) -->
+            <div class="shrink-0 flex items-center justify-between mb-2">
+                <p class="text-xs font-bold text-brand-500 uppercase tracking-wide">{% trans "Programme du cours" %}</p>
+                <span id="modalChapCount" class="text-xs text-brand-400"></span>
             </div>
 
-            <!-- Boutons -->
-            <div class="flex flex-col gap-3">
-                <!-- Procéder au paiement -->
+            <!-- Contenu scrollable (chapitres) -->
+            <div id="modalContent"
+                 class="flex-1 min-h-0 overflow-y-auto rounded-xl border border-brand-100 mb-4"
+                 style="max-height:34vh;">
+            </div>
+
+            <!-- Boutons (fixe) -->
+            <div class="shrink-0 flex flex-col gap-2">
                 <form id="modalEnrollForm" method="POST" action="">
                     {% csrf_token %}
                     <button type="submit" class="w-full kl-btn-cta kl-shine-btn py-3 font-bold rounded-xl text-base">
@@ -83,10 +68,8 @@
                         </span>
                     </button>
                 </form>
-
-                <!-- Plus de détails -->
                 <a id="modalDetailsLink" href="#"
-                   class="w-full text-center py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition text-base">
+                   class="w-full text-center py-2.5 border-2 border-brand-300 text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition text-sm">
                     <span class="material-symbols-outlined align-middle mr-1 text-lg" style="vertical-align:-3px;">info</span>
                     {% trans "Plus de détails" %}
                 </a>
@@ -97,11 +80,6 @@
 </div>
 
 <style>
-@keyframes kl-pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(196,133,58,0.0); }
-  50%       { box-shadow: 0 0 0 6px rgba(196,133,58,0.18); }
-}
-.kl-access-limited { animation: kl-pulse-glow 2.4s ease-in-out infinite; }
 /* Reflet lumineux glissant sur « Procéder au paiement » (comme le bouton Payer du checkout) */
 .kl-shine-btn { position: relative; overflow: hidden; }
 .kl-shine-btn .kl-shine-label { position: relative; z-index: 1; }
@@ -114,29 +92,78 @@
     animation: kl-btn-shine 3s ease-in-out infinite;
     z-index: 0;
 }
-@keyframes kl-btn-shine {
-    0%   { left: -75%; }
-    55%  { left: 130%; }
-    100% { left: 130%; }
-}
-@media (prefers-reduced-motion: reduce) {
-    .kl-shine-btn::after { animation: none; }
-}
-/* dark — modal (bg-white → #0c1e3d via base.html, textes couverts par .bg-white .text-*) */
+@keyframes kl-btn-shine { 0% { left: -75%; } 55% { left: 130%; } 100% { left: 130%; } }
+@media (prefers-reduced-motion: reduce) { .kl-shine-btn::after { animation: none; } }
+
+/* Accordéon chapitres */
+.kl-ch + .kl-ch { border-top: 1px solid #F3EDE8; }
+.kl-ch-row { transition: background 0.15s; }
+.kl-ch-row:hover { background: #FBF7F4; }
+.kl-ch-icon { transition: transform 0.25s; }
+
+/* dark mode */
 html.dark #courseModalBox .border-brand-100 { border-color: rgba(23,197,216,0.15) !important; }
-html.dark #courseModalBox .border-brand-200 { border-color: rgba(23,197,216,0.2) !important; }
 html.dark #courseModalBox .border-brand-300 { border-color: rgba(23,197,216,0.3) !important; }
 html.dark #courseModalBox .hover\:bg-brand-50:hover { background: rgba(23,197,216,0.12) !important; }
+html.dark #modalContent { border-color: rgba(23,197,216,0.15) !important; }
+html.dark #modalContent .text-brand-800 { color: #EDF0F7 !important; }
+html.dark #modalContent .text-brand-600 { color: #9bb3c0 !important; }
+html.dark .kl-ch + .kl-ch { border-color: rgba(23,197,216,0.1) !important; }
+html.dark .kl-ch-row:hover { background: rgba(23,197,216,0.07) !important; }
 </style>
 
 <script>
+function klEscapeHtml(s) {
+    return (s || '').replace(/[&<>"']/g, function (c) {
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+}
+
+function klRenderChapters(chapters) {
+    var box = document.getElementById('modalContent');
+    if (!chapters || !chapters.length) {
+        box.innerHTML = '<p class="text-xs text-brand-400 italic text-center py-8">{% trans "Contenu bientôt disponible" %}</p>';
+        return;
+    }
+    var html = '';
+    chapters.forEach(function (ch, i) {
+        var cnt = (ch.children || []).length;
+        var lessons = (ch.children || []).map(function (l) {
+            return '<li class="flex items-center gap-2 px-3 py-1.5 text-xs text-brand-600">' +
+                   '<span class="material-symbols-outlined text-brand-300" style="font-size:14px;">play_circle</span>' +
+                   '<span class="truncate">' + klEscapeHtml(l.name) + '</span></li>';
+        }).join('');
+        html +=
+        '<div class="kl-ch">' +
+          '<button type="button" class="kl-ch-row w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left">' +
+            '<span class="flex items-center gap-2 min-w-0">' +
+              '<span class="shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-white text-xs font-bold" style="background:#C4853A;">' + (i + 1) + '</span>' +
+              '<span class="text-sm font-semibold text-brand-800 truncate">' + klEscapeHtml(ch.name) + '</span>' +
+            '</span>' +
+            '<span class="flex items-center gap-1.5 shrink-0">' +
+              (cnt ? '<span class="text-xs text-brand-400">' + cnt + ' {% trans "leçon" %}' + (cnt > 1 ? 's' : '') + '</span>' : '') +
+              '<span class="material-symbols-outlined kl-ch-icon text-brand-400" style="font-size:18px;">expand_more</span>' +
+            '</span>' +
+          '</button>' +
+          '<ul class="kl-ch-body hidden pb-1">' + (lessons || '<li class="px-3 py-1.5 text-xs text-brand-400 italic">{% trans "Contenu à venir" %}</li>') + '</ul>' +
+        '</div>';
+    });
+    box.innerHTML = html;
+    box.querySelectorAll('.kl-ch-row').forEach(function (row) {
+        row.addEventListener('click', function () {
+            var body = this.nextElementSibling;
+            var icon = this.querySelector('.kl-ch-icon');
+            body.classList.toggle('hidden');
+            if (icon) icon.style.transform = body.classList.contains('hidden') ? '' : 'rotate(180deg)';
+        });
+    });
+}
+
 // Ouvrir le modal — les URLs sont passées directement depuis les data-attrs du bouton
 function openCourseModal(enrollUrl, detailsUrl, name, desc, price, imgUrl, accessDuration, currency) {
-    // Textes
     document.getElementById('modalTitle').textContent = name;
-    document.getElementById('modalDesc').textContent = desc || '{% trans "Découvrez ce cours exceptionnel conçu par des experts." %}';
 
-    // Prix — devise par cours (passée en paramètre) ou fallback global
+    // Prix
     var displayCurrency = currency || '{{ site_currency|default:"USD" }}';
     var priceNum = parseFloat(price);
     var priceFormatted = (priceNum % 1 === 0) ? priceNum.toFixed(0) : priceNum.toFixed(2);
@@ -146,66 +173,65 @@ function openCourseModal(enrollUrl, detailsUrl, name, desc, price, imgUrl, acces
     document.getElementById('modalPrice').textContent = priceText;
     document.getElementById('modalPriceBadge').textContent = priceText;
 
-    // Badge accès
-    var badge  = document.getElementById('modalAccessBadge');
-    var icon   = document.getElementById('modalAccessIcon');
-    var label  = document.getElementById('modalAccessLabel');
-    var sub    = document.getElementById('modalAccessSub');
-    badge.classList.remove('kl-access-limited');
+    // Badge accès (pill discret)
+    var pill = document.getElementById('modalAccessPill');
     if (!accessDuration || accessDuration === 'null' || accessDuration === '') {
-        // Accès à vie
-        badge.className = 'flex-1 bg-brand-50 rounded-xl p-3 text-center border border-brand-100';
-        icon.className  = 'material-symbols-outlined text-brand-500 text-xl block mb-1';
-        icon.textContent = 'all_inclusive';
-        label.className = 'text-xs text-brand-700 font-bold leading-tight';
-        label.textContent = '{% trans "Accès à vie" %}';
-        sub.textContent = '';
+        pill.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-brand-50 text-brand-600 border border-brand-100';
+        pill.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">all_inclusive</span>{% trans "Accès à vie" %}';
     } else {
-        // Accès limité — animation pulse caramel
-        badge.className = 'kl-access-limited flex-1 bg-amber-50 rounded-xl p-3 text-center border border-amber-200';
-        icon.className  = 'material-symbols-outlined text-amber-500 text-xl block mb-1';
-        icon.textContent = 'timer';
-        label.className = 'text-xs text-amber-700 font-bold leading-tight';
-        label.textContent = accessDuration;
-        sub.textContent = "{% trans "d'accès" %}";
+        pill.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200';
+        pill.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">timer</span>' + klEscapeHtml(accessDuration) + " {% trans "d'accès" %}";
     }
 
     // Image
     var img = document.getElementById('modalImg');
-    if (imgUrl) {
-        img.src = imgUrl;
-        img.alt = name;
-        img.classList.remove('hidden');
-    } else {
-        img.classList.add('hidden');
-    }
+    if (imgUrl) { img.src = imgUrl; img.alt = name; img.classList.remove('hidden'); }
+    else { img.classList.add('hidden'); }
 
     // URLs
     document.getElementById('modalEnrollForm').action = enrollUrl;
-    document.getElementById('modalDetailsLink').href  = detailsUrl;
+    document.getElementById('modalDetailsLink').href = detailsUrl;
+
+    // Contenu du cours — chargé à la demande
+    var box = document.getElementById('modalContent');
+    var countEl = document.getElementById('modalChapCount');
+    box.innerHTML = '<p class="text-xs text-brand-400 text-center py-8">{% trans "Chargement du programme…" %}</p>';
+    countEl.textContent = '';
+    var contentUrl = detailsUrl.replace('/course_details/', '/course_content/');
+    fetch(contentUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+            klRenderChapters(d.chapters);
+            if (d.nb_chapters) {
+                countEl.textContent = d.nb_chapters + ' chap.' + (d.nb_lessons ? ' · ' + d.nb_lessons + ' {% trans "leçons" %}' : '');
+            }
+        })
+        .catch(function () {
+            box.innerHTML = '<p class="text-xs text-brand-400 text-center py-8">{% trans "Programme indisponible pour le moment." %}</p>';
+        });
 
     // Afficher avec animation
     var modal = document.getElementById('courseModal');
-    var box   = document.getElementById('courseModalBox');
+    var modalBox = document.getElementById('courseModalBox');
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    requestAnimationFrame(function() {
-        box.style.transform = 'scale(1)';
-        box.style.opacity   = '1';
+    requestAnimationFrame(function () {
+        modalBox.style.transform = 'scale(1)';
+        modalBox.style.opacity = '1';
     });
 }
 
 function closeCourseModal() {
     var box = document.getElementById('courseModalBox');
     box.style.transform = 'scale(0.95)';
-    box.style.opacity   = '0';
-    setTimeout(function() {
+    box.style.opacity = '0';
+    setTimeout(function () {
         document.getElementById('courseModal').classList.add('hidden');
         document.body.style.overflow = '';
     }, 280);
 }
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeCourseModal();
 });
 </script>

@@ -7,7 +7,8 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name='home', permanent=False)),
     path('courses/', views.courses, name='courses'),
     path('course_details/<int:course_id>/', views.course_details, name="course_details"),
-    
+    path('course_content/<int:course_id>/', views.course_content_api, name="course_content_api"),
+
     # Inscription cours
     path('enrollment/<int:course_id>/', views.course_enrollment_step1, name='course_enrollment'),
     path('enrollment/payment/<str:payment_method>/', views.course_enrollment_payment, name='course_enrollment_payment'),
