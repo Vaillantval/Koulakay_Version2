@@ -52,6 +52,10 @@ urlpatterns += [
     path('payment/webhook/stripe/', stripe_webhook, name='stripe_webhook'),
 ]
 
+urlpatterns += [
+    path('api/', include('api.urls')),
+]
+
 urlpatterns += i18n_patterns(
     path('', include('pages.urls')),
     path('admin/', admin.site.urls),

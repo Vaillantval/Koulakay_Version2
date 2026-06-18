@@ -110,6 +110,9 @@ INSTALLED_APPS = [
     'courses',
     'payment',
     "anymail",
+    'rest_framework',
+    'rest_framework.authtoken',
+    'api',
 
     # Optional -- requires install using `django-allauth[socialaccount]`.
     # 'allauth.socialaccount',
@@ -264,22 +267,19 @@ MIDDLEWARE = [
 #     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 # ]
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     'PAGE_SIZE': 15,
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+}
 
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.BasicAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-#         'rest_framework.authentication.TokenAuthentication',
-#     ],
-
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAdminUser',
-#     ],
-
-#     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' 
-# }
+FIREBASE_PROJECT_ID = 'examhaiti'
 
 ROOT_URLCONF = 'config.urls'
 
