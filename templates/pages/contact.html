@@ -5,162 +5,29 @@
 {% block title %}{% trans "Contact" %} — {{ site_config.site_name }}{% endblock %}
 
 {% block head %}
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-    body { font-family: 'Lexend', sans-serif; }
-
-    /* ── Hero Carousel Contact ── */
-    .hero-contact-wrap {
-        position: relative;
-        min-height: 240px;
-        margin: 1rem 0.75rem 0;
-        border-radius: 1rem;
-        overflow: hidden;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    .hero-contact {
+        min-height: 280px;
+        background: linear-gradient(160deg,rgba(26,36,102,0.88),rgba(59,75,200,0.6),rgba(109,40,217,0.7)),
+                    url('{% static 'images/background_1.JPG' %}') center/cover;
     }
-    @media (min-width: 640px) {
-        .hero-contact-wrap { min-height: 380px; margin: 1.5rem 1rem 0; }
-    }
-    .hero-contact-wrap .owl-stage-outer { min-height: 240px !important; overflow: hidden; }
-    @media (min-width: 640px) { .hero-contact-wrap .owl-stage-outer { min-height: 380px !important; } }
-    .hero-contact-slide {
-        position: relative;
-        min-height: 240px;
-        overflow: hidden;
-    }
-    @media (min-width: 640px) { .hero-contact-slide { min-height: 380px; } }
-    .hero-contact-bg {
-        position: absolute;
-        inset: 0;
-        background-size: cover;
-        background-position: center;
-        transition: transform 8s ease;
-    }
-    .owl-item.active .hero-contact-bg { transform: scale(1.04); }
-    /* Vignette subtile — photo laisse respirer */
-    .hero-contact-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom,
-            rgba(0,0,0,0) 50%,
-            rgba(0,0,0,0.22) 100%);
-    }
-    /* Dots */
-    .hero-contact-wrap .owl-dots {
-        position: absolute; bottom: 12px; right: 16px;
-        display: flex; gap: 6px; z-index: 10;
-    }
-    .hero-contact-wrap .owl-dot span {
-        width: 7px; height: 7px; border-radius: 50%;
-        background: rgba(255,255,255,0.45); display: block;
-        transition: background 0.3s, transform 0.3s;
-    }
-    .hero-contact-wrap .owl-dot.active span,
-    .hero-contact-wrap .owl-dot:hover span { background: #C4853A; transform: scale(1.3); }
-    html.dark .hero-contact-wrap .owl-dot.active span,
-    html.dark .hero-contact-wrap .owl-dot:hover span { background: #17c5d8; }
-    /* Nav arrows (Owl génère des <div>, pas des <button>) */
-    .hero-contact-wrap .owl-prev,
-    .hero-contact-wrap .owl-next {
-        position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
-        background: rgba(255,255,255,0.15) !important;
-        backdrop-filter: blur(6px);
-        border: 1px solid rgba(255,255,255,0.3) !important;
-        border-radius: 50% !important;
-        width: 36px; height: 36px;
-        display: flex !important; align-items: center; justify-content: center;
-        cursor: pointer;
-        transition: background 0.2s !important;
-    }
-    .hero-contact-wrap .owl-prev:hover,
-    .hero-contact-wrap .owl-next:hover { background: rgba(196,133,58,0.55) !important; }
-    html.dark .hero-contact-wrap .owl-prev:hover,
-    html.dark .hero-contact-wrap .owl-next:hover { background: rgba(23,197,216,0.45) !important; }
-    .hero-contact-wrap .owl-prev span,
-    .hero-contact-wrap .owl-next span { color: #fff; font-size: 18px; line-height: 1; }
-    .hero-contact-wrap .owl-prev { left: 10px; }
-    .hero-contact-wrap .owl-next { right: 10px; }
-
-    /* ── Fond page dark ── */
-    html.dark .contact-page-bg { background: #0a1828; }
-
-    /* ── Titres & textes — dark ── */
-    html.dark .contact-title   { color: #EDF0F7 !important; }
-    html.dark .contact-sub     { color: #8a94a8 !important; }
-    html.dark .contact-label   { color: #C8CDD8 !important; }
-    html.dark .contact-muted   { color: #6b7a8d !important; }
-    html.dark .contact-info    { color: #D1D5E0 !important; }
-    html.dark .contact-link    { color: #9BA3B8 !important; }
-    html.dark .contact-link:hover { color: #17c5d8 !important; }
-
-    /* ── Carte coordonnées — dark ── */
-    html.dark .contact-card {
-        background: #0c1e3d !important;
-        border-color: rgba(23,197,216,0.15) !important;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.35) !important;
-    }
-    html.dark .contact-icon-wrap {
-        background: rgba(23,197,216,0.1) !important;
-    }
-    html.dark .contact-icon { color: #17c5d8 !important; }
-    html.dark hr.contact-divider { border-color: rgba(23,197,216,0.12) !important; }
-
-    /* ── Réseaux sociaux — dark ── */
-    html.dark .social-btn {
-        background: rgba(23,197,216,0.1) !important;
-        color: #17c5d8 !important;
-        border: 1px solid rgba(23,197,216,0.2);
-    }
-    html.dark .social-btn:hover {
-        background: #17c5d8 !important;
-        color: #fff !important;
-        border-color: transparent !important;
-    }
-
-    /* ── Inputs — dark ── */
-    html.dark .contact-input {
-        background: #0c1e3d !important;
-        border-color: rgba(23,197,216,0.25) !important;
-        color: #EDF0F7 !important;
-    }
-    html.dark .contact-input::placeholder { color: rgba(155,163,184,0.4) !important; }
-    html.dark .contact-input:focus {
-        border-color: #17c5d8 !important;
-        box-shadow: 0 0 0 2px rgba(23,197,216,0.18) !important;
-        outline: none !important;
+    html.dark .hero-contact {
+        background: linear-gradient(160deg,rgba(109,40,217,0.6),rgba(76,29,149,0.75)),
+                    url('{% static 'images/background_1.JPG' %}') center/cover;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen contact-page-bg">
+<div class="min-h-screen">
 
-    <!-- Hero Carousel — photos uniquement -->
-    <div class="hero-contact-wrap">
-        <div class="owl-carousel owl-theme" id="heroContactCarousel">
-
-            {% if contact_slides %}
-            {% for slide in contact_slides %}
-            <div class="hero-contact-slide">
-                <div class="hero-contact-bg"
-                     style="background-image: url('{{ slide.image.url }}');"></div>
-                <div class="hero-contact-overlay"></div>
-            </div>
-            {% endfor %}
-            {% else %}
-            {# Fallback statique (env sans migration) #}
-            <div class="hero-contact-slide">
-                <div class="hero-contact-bg"
-                     style="background-image: url('{% static 'images/news_3.jpg' %}');"></div>
-                <div class="hero-contact-overlay"></div>
-            </div>
-            <div class="hero-contact-slide">
-                <div class="hero-contact-bg"
-                     style="background-image: url('{% static 'images/event_2.jpg' %}');"></div>
-                <div class="hero-contact-overlay"></div>
-            </div>
-            {% endif %}
-
+    <!-- Hero -->
+    <div class="hero-contact relative overflow-hidden rounded-xl mx-4 mt-6">
+        <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-12" data-aos="fade-up">
+            <h1 class="text-white text-4xl md:text-5xl font-extrabold tracking-tight">
+                {% trans "Contactez-nous" %}
+            </h1>
+            <p class="text-brand-200 mt-2 text-lg">{% trans "Notre équipe vous répond sous 24h." %}</p>
         </div>
     </div>
 
@@ -170,33 +37,33 @@
 
             <!-- Formulaire -->
             <div class="lg:col-span-3" data-aos="fade-right">
-                <h2 class="text-3xl font-black text-brand-900 contact-title mb-2">{% trans "Envoyez-nous un message" %}</h2>
-                <p class="text-brand-500 contact-sub mb-8">{% trans "Nous sommes là pour répondre à toutes vos questions." %}</p>
+                <h2 class="text-3xl font-black text-brand-900 mb-2">{% trans "Envoyez-nous un message" %}</h2>
+                <p class="text-brand-500 mb-8">{% trans "Nous sommes là pour répondre à toutes vos questions." %}</p>
 
                 <form method="POST" action="" class="space-y-5">
                     {% csrf_token %}
 
                     <div>
-                        <label class="block text-sm font-semibold text-brand-700 contact-label mb-1" for="name">{% trans "Nom complet" %}</label>
+                        <label class="block text-sm font-semibold text-brand-700 mb-1" for="name">{% trans "Nom complet" %}</label>
                         <input id="name" name="name" type="text" required
                                placeholder="{% trans 'Votre nom complet' %}"
-                               class="contact-input w-full h-12 px-4 rounded-xl border border-brand-200 bg-white text-brand-900
+                               class="w-full h-12 px-4 rounded-xl border border-brand-200 bg-white text-brand-900
                                       focus:border-brand-600 focus:ring-2 focus:ring-brand-200 focus:outline-none transition">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-brand-700 contact-label mb-1" for="email">{% trans "Email" %}</label>
+                        <label class="block text-sm font-semibold text-brand-700 mb-1" for="email">{% trans "Email" %}</label>
                         <input id="email" name="email" type="email" required
                                placeholder="votre@email.com"
-                               class="contact-input w-full h-12 px-4 rounded-xl border border-brand-200 bg-white text-brand-900
+                               class="w-full h-12 px-4 rounded-xl border border-brand-200 bg-white text-brand-900
                                       focus:border-brand-600 focus:ring-2 focus:ring-brand-200 focus:outline-none transition">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-brand-700 contact-label mb-1" for="message">{% trans "Message" %}</label>
+                        <label class="block text-sm font-semibold text-brand-700 mb-1" for="message">{% trans "Message" %}</label>
                         <textarea id="message" name="message" rows="6" required
                                   placeholder="{% trans 'Écrivez votre message...' %}"
-                                  class="contact-input w-full px-4 py-3 rounded-xl border border-brand-200 bg-white text-brand-900 resize-none
+                                  class="w-full px-4 py-3 rounded-xl border border-brand-200 bg-white text-brand-900 resize-none
                                          focus:border-brand-600 focus:ring-2 focus:ring-brand-200 focus:outline-none transition"></textarea>
                     </div>
 
@@ -210,35 +77,35 @@
 
             <!-- Coordonnées -->
             <div class="lg:col-span-2" data-aos="fade-left" data-aos-delay="100">
-                <div class="contact-card bg-white rounded-2xl shadow-sm border border-brand-100 p-7">
-                    <h3 class="contact-title text-2xl font-bold text-brand-900 mb-6">{% trans "Nos Coordonnées" %}</h3>
+                <div class="bg-white rounded-2xl shadow-sm border border-brand-100 p-7">
+                    <h3 class="text-2xl font-bold text-brand-900 mb-6">{% trans "Nos Coordonnées" %}</h3>
 
                     <div class="space-y-5">
                         {% if site_config.address %}
                         <div class="flex items-start gap-4">
-                            <div class="contact-icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-brand-50">
-                                <span class="contact-icon material-symbols-outlined text-brand-600" style="font-size:20px;">location_on</span>
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-brand-50">
+                                <span class="material-symbols-outlined text-brand-600" style="font-size:20px;">location_on</span>
                             </div>
                             <div>
-                                <p class="contact-muted text-xs font-bold text-brand-400 uppercase tracking-wider mb-0.5">{% trans "Adresse" %}</p>
-                                <p class="contact-info text-brand-800 font-medium">{{ site_config.address }}</p>
+                                <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-0.5">{% trans "Adresse" %}</p>
+                                <p class="text-brand-800 font-medium">{{ site_config.address }}</p>
                             </div>
                         </div>
                         {% endif %}
 
                         {% if site_config.phone_1 %}
                         <div class="flex items-start gap-4">
-                            <div class="contact-icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-brand-50">
-                                <span class="contact-icon material-symbols-outlined text-brand-600" style="font-size:20px;">call</span>
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-brand-50">
+                                <span class="material-symbols-outlined text-brand-600" style="font-size:20px;">call</span>
                             </div>
                             <div>
-                                <p class="contact-muted text-xs font-bold text-brand-400 uppercase tracking-wider mb-0.5">{% trans "Téléphone" %}</p>
-                                <a href="tel:{{ site_config.phone_1 }}" class="contact-link text-brand-800 font-medium transition">
+                                <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-0.5">{% trans "Téléphone" %}</p>
+                                <a href="tel:{{ site_config.phone_1 }}" class="text-brand-800 font-medium hover:text-brand-600 transition">
                                     {{ site_config.phone_1 }}
                                 </a>
                                 {% if site_config.phone_2 %}
                                 <br>
-                                <a href="tel:{{ site_config.phone_2 }}" class="contact-link text-brand-600 text-sm transition">
+                                <a href="tel:{{ site_config.phone_2 }}" class="text-brand-600 text-sm hover:text-brand-700 transition">
                                     {{ site_config.phone_2 }}
                                 </a>
                                 {% endif %}
@@ -248,17 +115,17 @@
 
                         {% if site_config.email %}
                         <div class="flex items-start gap-4">
-                            <div class="contact-icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-brand-50">
-                                <span class="contact-icon material-symbols-outlined text-brand-600" style="font-size:20px;">mail</span>
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-brand-50">
+                                <span class="material-symbols-outlined text-brand-600" style="font-size:20px;">mail</span>
                             </div>
                             <div>
-                                <p class="contact-muted text-xs font-bold text-brand-400 uppercase tracking-wider mb-0.5">{% trans "Email" %}</p>
-                                <a href="mailto:{{ site_config.email }}" class="contact-link text-brand-800 font-medium transition">
+                                <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-0.5">{% trans "Email" %}</p>
+                                <a href="mailto:{{ site_config.email }}" class="text-brand-800 font-medium hover:text-brand-600 transition">
                                     {{ site_config.email }}
                                 </a>
                                 {% if site_config.email_support %}
                                 <br>
-                                <a href="mailto:{{ site_config.email_support }}" class="contact-link text-brand-500 text-sm transition">
+                                <a href="mailto:{{ site_config.email_support }}" class="text-brand-500 text-sm hover:text-brand-700 transition">
                                     {{ site_config.email_support }}
                                 </a>
                                 {% endif %}
@@ -269,30 +136,30 @@
 
                     <!-- Réseaux sociaux -->
                     {% if site_config.facebook_url or site_config.instagram_url or site_config.twitter_url or site_config.linkedin_url %}
-                    <hr class="contact-divider my-6 border-brand-100">
-                    <p class="contact-muted text-xs font-bold text-brand-400 uppercase tracking-wider mb-3">{% trans "Suivez-nous" %}</p>
+                    <hr class="my-6 border-brand-100">
+                    <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-3">{% trans "Suivez-nous" %}</p>
                     <div class="flex gap-3">
                         {% if site_config.facebook_url %}
                         <a href="{{ site_config.facebook_url }}" target="_blank"
-                           class="social-btn w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
+                           class="w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
                             <i class="fab fa-facebook-f text-sm"></i>
                         </a>
                         {% endif %}
                         {% if site_config.twitter_url %}
                         <a href="{{ site_config.twitter_url }}" target="_blank"
-                           class="social-btn w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
+                           class="w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
                             <i class="fab fa-twitter text-sm"></i>
                         </a>
                         {% endif %}
                         {% if site_config.instagram_url %}
                         <a href="{{ site_config.instagram_url }}" target="_blank"
-                           class="social-btn w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
+                           class="w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
                             <i class="fab fa-instagram text-sm"></i>
                         </a>
                         {% endif %}
                         {% if site_config.linkedin_url %}
                         <a href="{{ site_config.linkedin_url }}" target="_blank"
-                           class="social-btn w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
+                           class="w-9 h-9 rounded-full flex items-center justify-center bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-600 transition">
                             <i class="fab fa-linkedin-in text-sm"></i>
                         </a>
                         {% endif %}
@@ -300,8 +167,8 @@
                     {% endif %}
 
                     <!-- Carte -->
-                    <hr class="contact-divider my-6 border-brand-100">
-                    <p class="contact-muted text-xs font-bold text-brand-400 uppercase tracking-wider mb-3">{% trans "Retrouvez-nous" %}</p>
+                    <hr class="my-6 border-brand-100">
+                    <p class="text-xs font-bold text-brand-400 uppercase tracking-wider mb-3">{% trans "Retrouvez-nous" %}</p>
                     <div class="rounded-xl overflow-hidden">
                         <iframe src="{{ site_config.map_embed_url|default:'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11013.706872402363!2d-72.3370542!3d18.5341787!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eb9dd58037b43b5%3A0xb68f48dfa28783ca!2sTransversal!5e1!3m2!1sfr!2sht!4v1773237176547!5m2!1sfr!2sht' }}"
                                 width="100%" height="220"
@@ -314,26 +181,4 @@
         </div>
     </div>
 </div>
-
-{% endblock content %}
-
-{% block extra_js %}
-<script>
-$(document).ready(function(){
-    $('#heroContactCarousel').owlCarousel({
-        items: 1,
-        loop: true,
-        autoplay: true,
-        autoplayTimeout: 5000,
-        autoplayHoverPause: true,
-        /* animateIn/animateOut supprimés — requièrent animate.css non chargé */
-        nav: true,
-        navText: ['<span>&#8249;</span>','<span>&#8250;</span>'],
-        dots: true,
-        smartSpeed: 800,
-        mouseDrag: true,
-        touchDrag: true,
-    });
-});
-</script>
-{% endblock extra_js %}
+{% endblock %}

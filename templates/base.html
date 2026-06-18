@@ -5,9 +5,9 @@
 
 <!DOCTYPE html>
 {% get_current_language as CURRENT_LANG %}
-<html lang="{{ CURRENT_LANG }}" class="dark">
+<html lang="{{ CURRENT_LANG }}" class="light">
 <head>
-    <script>(function(){if(localStorage.getItem('kl-theme-v2')==='light'){document.documentElement.classList.replace('dark','light');}})();</script>
+    <script>(function(){if(localStorage.getItem('kl-theme')==='dark'){document.documentElement.classList.replace('light','dark');}})();</script>
     <title>{% block title %}KouLakay{% endblock %}</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,20 +28,20 @@
                 extend: {
                     colors: {
                         brand: {
-                            50:  "#FBF7F4",
-                            100: "#F2E8DC",
-                            200: "#E2C9A8",
-                            300: "#CFA472",
-                            400: "#C4853A",
-                            500: "#A0663B",
-                            600: "#7C3D0E",
-                            700: "#5E2D08",
-                            800: "#3D1C04",
-                            900: "#200F02",
+                            50:  "#ECEFFE",
+                            100: "#D5D9FC",
+                            200: "#ABB3F9",
+                            300: "#7B88F5",
+                            400: "#5668F0",
+                            500: "#3B4BC8",
+                            600: "#5035CC",
+                            700: "#6D28D9",
+                            800: "#5B21B6",
+                            900: "#1A2466",
                         },
                         gold: {
-                            400: "#D4A05A",
-                            500: "#B8842A",
+                            400: "#6878F7",
+                            500: "#3B4BC8",
                         }
                     },
                     fontFamily: {
@@ -68,20 +68,20 @@
 
     <style>
         * { font-family: 'Lexend', sans-serif; }
-        body { background-color: #FBF7F4; }
+        body { background-color: #F5F3FF; }
 
         /* ── Scrollbar ── */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #F2E8DC; }
-        ::-webkit-scrollbar-thumb { background: #C4853A; border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: #D5D9FC; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #3B4BC8, #6D28D9); border-radius: 3px; }
 
         /* ── Header ── */
         .kl-header {
-            background: linear-gradient(135deg, #4A2810 0%, #7C3D0E 60%, #9B5116 100%);
-            box-shadow: 0 2px 12px rgba(124,61,14,0.25);
+            background: linear-gradient(135deg, #1A2466 0%, #3B4BC8 55%, #6D28D9 100%);
+            box-shadow: 0 2px 12px rgba(59,75,200,0.3);
         }
         .kl-nav-link {
-            color: #F2E8DC;
+            color: #EDE9FE;
             font-size: 0.9rem;
             font-weight: 500;
             letter-spacing: 0.02em;
@@ -99,60 +99,58 @@
             font-weight: 600;
         }
         .btn-kl-primary {
-            background: #C4853A;
+            background: linear-gradient(135deg, #3B4BC8, #6D28D9);
             color: #ffffff;
             font-weight: 600;
             border-radius: 8px;
             padding: 8px 18px;
             font-size: 0.875rem;
-            transition: background 0.2s, transform 0.15s;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
             border: none;
         }
         .btn-kl-primary:hover {
-            background: #A0663B;
+            background: linear-gradient(135deg, #2E3DA8, #5B21B6);
             transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(59,75,200,0.35);
         }
         .btn-kl-secondary {
             background: transparent;
-            color: #7C3D0E;
+            color: #3B4BC8;
             font-weight: 600;
             border-radius: 8px;
             padding: 8px 18px;
             font-size: 0.875rem;
-            border: 2px solid #C4853A;
+            border: 2px solid #3B4BC8;
             transition: background 0.22s, color 0.22s, transform 0.15s, box-shadow 0.22s;
         }
         .btn-kl-secondary:hover {
-            background: #C4853A;
+            background: linear-gradient(135deg, #3B4BC8, #6D28D9);
             color: #ffffff;
+            border-color: transparent;
             transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(196,133,58,0.35);
+            box-shadow: 0 4px 14px rgba(59,75,200,0.35);
         }
         .btn-kl-outline {
             background: transparent;
-            color: #F2E8DC;
+            color: #EDE9FE;
             font-weight: 500;
             border-radius: 8px;
             padding: 7px 17px;
             font-size: 0.875rem;
-            border: 1.5px solid rgba(242,232,220,0.5);
+            border: 1.5px solid rgba(237,233,254,0.5);
             transition: border-color 0.2s, background 0.2s;
         }
         .btn-kl-outline:hover {
-            border-color: #F2E8DC;
+            border-color: #EDE9FE;
             background: rgba(255,255,255,0.08);
             color: #ffffff;
         }
 
         /* ── Footer ── */
         .kl-footer {
-            background: linear-gradient(135deg, #2D1A0A 0%, #3D1C04 100%);
-            color: #E2C9A8;
+            background: linear-gradient(135deg, #0F1240 0%, #1A2466 60%, #2E1065 100%);
+            color: #D5D9FC;
         }
-        .footer-col-title  { color: #C4853A; }
-        .footer-copyright  { color: #8A6A4A; border-top: 1px solid rgba(255,255,255,0.08); }
-        .kl-footer .footer-social { background: rgba(255,255,255,0.08); }
-        .kl-footer .footer-social:hover { background: rgba(196,133,58,0.45); }
 
         /* ── Modal ── */
         .modal-content { background: #ffffff; border-radius: 12px; border: none; }
@@ -172,10 +170,10 @@
 
         /* ── Bouton CTA principal ("Acheter ce cours", "S inscrire", etc.) ── */
         .kl-btn-cta {
-            background: linear-gradient(135deg, #7C3D0E, #C4853A);
+            background: linear-gradient(135deg, #3B4BC8, #6D28D9);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(124,61,14,0.35);
+            box-shadow: 0 4px 15px rgba(59,75,200,0.4);
             transition: box-shadow 0.3s, transform 0.2s;
         }
         .kl-btn-cta::before {
@@ -189,15 +187,15 @@
         }
         .kl-btn-cta:hover::before { transform: translateX(100%); }
         .kl-btn-cta:hover {
-            box-shadow: 0 8px 25px rgba(124,61,14,0.5);
+            box-shadow: 0 8px 25px rgba(59,75,200,0.55);
             transform: translateY(-2px);
         }
         .kl-btn-cta:active { transform: translateY(0); }
 
         /* ── Pulse discret sur les boutons importants ── */
         @keyframes pulse-brand {
-            0%, 100% { box-shadow: 0 4px 15px rgba(124,61,14,0.35); }
-            50%       { box-shadow: 0 4px 25px rgba(196,133,58,0.6); }
+            0%, 100% { box-shadow: 0 4px 15px rgba(59,75,200,0.4); }
+            50%       { box-shadow: 0 4px 25px rgba(109,40,217,0.65); }
         }
         .kl-btn-cta { animation: pulse-brand 3s ease-in-out infinite; }
         .kl-btn-cta:hover { animation: none; }
@@ -211,7 +209,7 @@
             position: absolute;
             bottom: 2px; left: 50%; right: 50%;
             height: 2px;
-            background: #D4A05A;
+            background: linear-gradient(90deg, #6878F7, #A78BFA);
             border-radius: 2px;
             transition: left 0.25s, right 0.25s;
         }
@@ -227,7 +225,7 @@
 
         /* ── Focus visible accessible ── */
         :focus-visible {
-            outline: 2px solid #C4853A;
+            outline: 2px solid #3B4BC8;
             outline-offset: 3px;
             border-radius: 4px;
         }
@@ -235,12 +233,12 @@
         /* ── Nav : Mon apprentissage — glow + sonar ── */
         @keyframes nav-glow-pulse {
             0%, 100% {
-                box-shadow: 0 0 8px rgba(196,133,58,0.55), 0 0 18px rgba(196,133,58,0.28);
-                background: rgba(196,133,58,0.14);
+                box-shadow: 0 0 8px rgba(59,75,200,0.55), 0 0 18px rgba(109,40,217,0.28);
+                background: rgba(59,75,200,0.14);
             }
             50% {
-                box-shadow: 0 0 20px rgba(255,180,60,1), 0 0 40px rgba(196,133,58,0.75), 0 0 60px rgba(196,133,58,0.35);
-                background: rgba(196,133,58,0.30);
+                box-shadow: 0 0 20px rgba(104,120,247,1), 0 0 40px rgba(109,40,217,0.75), 0 0 60px rgba(59,75,200,0.35);
+                background: rgba(59,75,200,0.30);
             }
         }
         @keyframes sonar-ring {
@@ -253,8 +251,8 @@
             align-items: center;
             padding: 6px 14px;
             border-radius: 9px;
-            border: 1.5px solid rgba(196,133,58,0.6);
-            color: #F2E8DC;
+            border: 1.5px solid rgba(59,75,200,0.65);
+            color: #D5D9FC;
             font-weight: 600;
             font-size: 0.875rem;
             text-decoration: none;
@@ -264,15 +262,15 @@
         .nav-apprentissage:hover {
             color: #fff;
             animation-play-state: paused;
-            background: rgba(196,133,58,0.38) !important;
-            box-shadow: 0 0 22px rgba(255,180,60,1), 0 0 44px rgba(196,133,58,0.8);
+            background: rgba(59,75,200,0.38) !important;
+            box-shadow: 0 0 22px rgba(104,120,247,1), 0 0 44px rgba(109,40,217,0.8);
         }
         .nav-apprentissage::before,
         .nav-apprentissage::after {
             content: '';
             position: absolute;
             inset: -2px;
-            border: 1.5px solid rgba(196,133,58,0.85);
+            border: 1.5px solid rgba(59,75,200,0.85);
             border-radius: 11px;
             pointer-events: none;
             animation: sonar-ring 2.4s ease-out infinite;
@@ -353,7 +351,7 @@
             transition: transform 0.25s cubic-bezier(.22,.68,0,1.3), background 0.25s ease !important;
         }
         .footer-social:hover {
-            background: #C4853A !important;
+            background: linear-gradient(135deg, #3B4BC8, #6D28D9) !important;
             transform: rotate(18deg) scale(1.22) !important;
         }
         @keyframes footer-social-in {
@@ -369,26 +367,26 @@
             transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
         .footer-contact-icon:hover {
-            box-shadow: 0 0 14px rgba(196,133,58,0.6), 0 0 5px rgba(196,133,58,0.35);
+            box-shadow: 0 0 14px rgba(59,75,200,0.6), 0 0 5px rgba(109,40,217,0.4);
             transform: scale(1.12);
         }
 
-        /* ══ Dark mode — Marine + Teal (AIXP) ══ */
-        /* Palette : #0a0e1a body · #0c1e3d cards · #0f2847 elevated
+        /* ══ Dark mode — Graphite Mist ══ */
+        /* Palette : #111216 body · #18191F cards · #1F2130 elevated
            #EDF0F7 text · #9BA3B8 muted · #52586A subtle
-           #17c5d8 teal accent · #0891a8 dark teal · #C4853A gold CTA (brand conservé) */
+           #3B4BC8 blue accent · #6d28d9 dark violet · #7B88F5 light accent */
 
         /* ═══════════════════════════════════════════════════════
-           DARK MODE — KouLakay · Marine Teal Palette (AIXP)
-           Accent : #17c5d8   Dark : #0891a8   Deep : #0bbcd4
+           DARK MODE — KouLakay · Violet Tech Palette
+           Accent : #7c3aed   Dark : #6d28d9   Deep : #5b21b6
         ═══════════════════════════════════════════════════════ */
         html.dark { color-scheme: dark; }
 
         html.dark body {
-            background-color: #ffffff;
-            color: #1a1827;
+            background-color: #0d0b17;
+            color: #EDF0F7;
             /* Dot-grid tech texture */
-            background-image: radial-gradient(rgba(23,197,216,0.07) 1px, transparent 1px);
+            background-image: radial-gradient(rgba(124,58,237,0.07) 1px, transparent 1px);
             background-size: 28px 28px;
         }
 
@@ -397,173 +395,140 @@
             background: rgba(10,8,20,0.88);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(23,197,216,0.2);
-            box-shadow: 0 1px 0 rgba(23,197,216,0.18), 0 4px 24px rgba(0,0,0,0.7);
+            border-bottom: 1px solid rgba(124,58,237,0.2);
+            box-shadow: 0 1px 0 rgba(124,58,237,0.18), 0 4px 24px rgba(0,0,0,0.7);
         }
         html.dark .dropdown-menu {
-            background: #0c1e3d !important;
-            border: 1px solid rgba(23,197,216,0.2) !important;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(23,197,216,0.1) !important;
+            background: #160e2a !important;
+            border: 1px solid rgba(124,58,237,0.2) !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.1) !important;
         }
         html.dark .dropdown-item { color: #9BA3B8 !important; }
         html.dark .dropdown-item:hover, html.dark .dropdown-item:focus {
-            background: rgba(23,197,216,0.12) !important;
+            background: rgba(124,58,237,0.12) !important;
             color: #EDF0F7 !important;
         }
 
         /* ── Buttons ── */
         html.dark .btn-kl-primary {
-            background: linear-gradient(135deg, #0891a8, #17c5d8) !important;
-            box-shadow: 0 4px 14px rgba(23,197,216,0.3);
+            background: linear-gradient(135deg, #5b21b6, #7c3aed) !important;
+            box-shadow: 0 4px 14px rgba(124,58,237,0.3);
         }
         html.dark .btn-kl-primary:hover {
-            background: linear-gradient(135deg, #0bbcd4, #38d9e8) !important;
-            box-shadow: 0 6px 20px rgba(23,197,216,0.45);
+            background: linear-gradient(135deg, #6d28d9, #8b5cf6) !important;
+            box-shadow: 0 6px 20px rgba(124,58,237,0.45);
             transform: translateY(-1px);
         }
         html.dark .btn-kl-secondary {
-            color: #67e8f9;
-            border-color: rgba(23,197,216,0.4);
+            color: #a78bfa;
+            border-color: rgba(124,58,237,0.4);
         }
         html.dark .btn-kl-secondary:hover {
-            background: rgba(23,197,216,0.1);
+            background: rgba(124,58,237,0.1);
             color: #EDF0F7;
-            border-color: rgba(23,197,216,0.65);
+            border-color: rgba(124,58,237,0.65);
             box-shadow: 0 4px 14px rgba(0,0,0,0.35);
         }
 
         /* ── Modal ── */
         html.dark .modal-content {
-            background: #0c1e3d !important;
-            border: 1px solid rgba(23,197,216,0.2) !important;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(23,197,216,0.12) !important;
+            background: #160e2a !important;
+            border: 1px solid rgba(124,58,237,0.2) !important;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(124,58,237,0.12) !important;
         }
         html.dark .modal-backdrop.show { background: rgba(0,0,0,0.8); }
 
         /* ── Forms ── */
         html.dark input, html.dark textarea, html.dark select {
-            background-color: #0c1e3d !important;
-            border-color: rgba(23,197,216,0.2) !important;
+            background-color: #160e2a !important;
+            border-color: rgba(124,58,237,0.2) !important;
             color: #EDF0F7 !important;
         }
         html.dark input::placeholder, html.dark textarea::placeholder {
-            color: rgba(103,232,249,0.35) !important;
+            color: rgba(167,139,250,0.35) !important;
         }
         html.dark input:focus, html.dark textarea:focus {
-            border-color: #17c5d8 !important;
-            box-shadow: 0 0 0 3px rgba(23,197,216,0.2) !important;
+            border-color: #7c3aed !important;
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.2) !important;
         }
 
         /* ── Backgrounds ── */
-        html.dark .bg-white     { background-color: #0c1e3d !important; }
-        html.dark .bg-brand-50  { background-color: #071630 !important; }
-        html.dark .bg-brand-100 { background-color: #0c1e3d !important; }
-        html.dark .bg-brand-200 { background-color: #0f2847 !important; }
-        html.dark .bg-brand-600 { background-color: #0bbcd4 !important; }
-        html.dark .bg-brand-700 { background-color: #0891a8 !important; }
-        html.dark .bg-brand-800 { background-color: #0e7490 !important; }
-        html.dark .bg-brand-800\/80 { background-color: rgba(14,116,144,0.8) !important; }
-        html.dark .bg-brand-900 { background-color: #0c4a6e !important; }
-        html.dark .bg-amber-50  { background-color: #071630 !important; }
+        html.dark .bg-white     { background-color: #160e2a !important; }
+        html.dark .bg-brand-50  { background-color: #120b22 !important; }
+        html.dark .bg-brand-100 { background-color: #160e2a !important; }
+        html.dark .bg-brand-200 { background-color: #1d1235 !important; }
+        html.dark .bg-brand-600 { background-color: #6d28d9 !important; }
+        html.dark .bg-brand-700 { background-color: #5b21b6 !important; }
+        html.dark .bg-brand-800 { background-color: #4c1d95 !important; }
+        html.dark .bg-brand-800\/80 { background-color: rgba(76,29,149,0.8) !important; }
+        html.dark .bg-brand-900 { background-color: #2e1065 !important; }
+        html.dark .bg-amber-50  { background-color: #120b22 !important; }
         html.dark .bg-green-50  { background-color: rgba(34,197,94,0.07) !important; }
         html.dark .bg-green-100 { background-color: rgba(34,197,94,0.12) !important; }
         html.dark .bg-red-50    { background-color: rgba(239,68,68,0.07) !important; }
         html.dark .bg-yellow-50 { background-color: rgba(234,179,8,0.07) !important; }
 
-        /* ── Text — fond body blanc, textes foncés lisibles ── */
+        /* ── Text ── */
         html.dark .text-brand-900,
-        html.dark .text-brand-800 { color: #1a1827 !important; }
-        html.dark .text-brand-700 { color: #2d2a45 !important; }
-        html.dark .text-brand-600 { color: #4a4778 !important; }
-        html.dark .text-brand-500 { color: #5e5b8a !important; }
-        html.dark .text-brand-400 { color: #6b6890 !important; }
-        html.dark .text-brand-300 { color: #7a789e !important; }
+        html.dark .text-brand-800 { color: #EDF0F7 !important; }
+        html.dark .text-brand-700 { color: #C8CDD8 !important; }
+        html.dark .text-brand-600 { color: #9BA3B8 !important; }
+        html.dark .text-brand-500 { color: #9BA3B8 !important; }
+        html.dark .text-brand-400 { color: #52586A !important; }
+        html.dark .text-brand-300 { color: #52586A !important; }
         html.dark .text-amber-700,
         html.dark .text-amber-500,
-        html.dark .text-amber-600 { color: #92400e !important; }
+        html.dark .text-amber-600 { color: #a78bfa !important; }
         html.dark .text-green-600,
-        html.dark .text-green-500 { color: #15803d !important; }
-        html.dark .text-green-800 { color: #14532d !important; }
-        html.dark .text-gray-800  { color: #1a1827 !important; }
-        html.dark .text-gray-600  { color: #4a4778 !important; }
-        html.dark .text-gray-500  { color: #6b6890 !important; }
-        html.dark .text-yellow-700 { color: #a16207 !important; }
-
-        /* ── Texte à l'intérieur des cartes sombres (bg-white → #0c1e3d) ── */
-        html.dark .bg-white .text-brand-900,
-        html.dark .bg-white .text-brand-800 { color: #EDF0F7 !important; }
-        html.dark .bg-white .text-brand-700 { color: #C8CDD8 !important; }
-        html.dark .bg-white .text-brand-600 { color: #9BA3B8 !important; }
-        html.dark .bg-white .text-brand-500 { color: #9BA3B8 !important; }
-        html.dark .bg-white .text-brand-400 { color: #52586A !important; }
-        html.dark .bg-white .text-brand-300 { color: #52586A !important; }
-        html.dark .bg-white .text-green-600,
-        html.dark .bg-white .text-green-500 { color: #4ade80 !important; }
-        html.dark .bg-white .text-green-800 { color: #86efac !important; }
-        html.dark .bg-white .text-amber-700,
-        html.dark .bg-white .text-amber-500,
-        html.dark .bg-white .text-amber-600 { color: #67e8f9 !important; }
-        html.dark .bg-white .text-gray-800  { color: #C8CDD8 !important; }
-        html.dark .bg-white .text-gray-600  { color: #9BA3B8 !important; }
-        html.dark .bg-white .text-yellow-700 { color: #FCD34D !important; }
-        /* bg-brand-50 / bg-brand-100 deviennent aussi sombres */
-        html.dark .bg-brand-50 .text-brand-900,
-        html.dark .bg-brand-50 .text-brand-800,
-        html.dark .bg-brand-100 .text-brand-900,
-        html.dark .bg-brand-100 .text-brand-800 { color: #EDF0F7 !important; }
-        html.dark .bg-brand-50 .text-brand-700,
-        html.dark .bg-brand-100 .text-brand-700 { color: #C8CDD8 !important; }
-        html.dark .bg-brand-50 .text-brand-600,
-        html.dark .bg-brand-50 .text-brand-500,
-        html.dark .bg-brand-100 .text-brand-600,
-        html.dark .bg-brand-100 .text-brand-500 { color: #9BA3B8 !important; }
-        html.dark .bg-brand-50 .text-brand-400,
-        html.dark .bg-brand-100 .text-brand-400 { color: #52586A !important; }
-        html.dark .bg-brand-50 .text-green-600,
-        html.dark .bg-brand-100 .text-green-600 { color: #4ade80 !important; }
+        html.dark .text-green-500 { color: #4ade80 !important; }
+        html.dark .text-green-800 { color: #86efac !important; }
+        html.dark .text-gray-800  { color: #C8CDD8 !important; }
+        html.dark .text-gray-600  { color: #9BA3B8 !important; }
+        html.dark .text-gray-500  { color: #52586A !important; }
+        html.dark .text-yellow-700 { color: #FCD34D !important; }
 
         /* ── Borders ── */
-        html.dark .border-brand-50  { border-color: rgba(23,197,216,0.08) !important; }
-        html.dark .border-brand-100 { border-color: rgba(23,197,216,0.13) !important; }
-        html.dark .border-brand-200 { border-color: rgba(23,197,216,0.2) !important; }
-        html.dark .border-brand-300 { border-color: rgba(23,197,216,0.28) !important; }
-        html.dark .border-brand-700 { border-color: #0891a8 !important; }
-        html.dark .border-amber-100 { border-color: rgba(23,197,216,0.12) !important; }
-        html.dark .border-gray-100  { border-color: rgba(23,197,216,0.12) !important; }
-        html.dark .divide-brand-50 > * + * { border-color: rgba(23,197,216,0.1) !important; }
-        html.dark .border-dashed    { border-color: rgba(23,197,216,0.18) !important; }
-        html.dark .border-b { border-color: rgba(23,197,216,0.12) !important; }
-        html.dark .border-t { border-color: rgba(23,197,216,0.12) !important; }
-        html.dark .border-y { border-color: rgba(23,197,216,0.12) !important; }
+        html.dark .border-brand-50  { border-color: rgba(124,58,237,0.08) !important; }
+        html.dark .border-brand-100 { border-color: rgba(124,58,237,0.13) !important; }
+        html.dark .border-brand-200 { border-color: rgba(124,58,237,0.2) !important; }
+        html.dark .border-brand-300 { border-color: rgba(124,58,237,0.28) !important; }
+        html.dark .border-brand-700 { border-color: #5b21b6 !important; }
+        html.dark .border-amber-100 { border-color: rgba(124,58,237,0.12) !important; }
+        html.dark .border-gray-100  { border-color: rgba(124,58,237,0.12) !important; }
+        html.dark .divide-brand-50 > * + * { border-color: rgba(124,58,237,0.1) !important; }
+        html.dark .border-dashed    { border-color: rgba(124,58,237,0.18) !important; }
+        html.dark .border-b { border-color: rgba(124,58,237,0.12) !important; }
+        html.dark .border-t { border-color: rgba(124,58,237,0.12) !important; }
+        html.dark .border-y { border-color: rgba(124,58,237,0.12) !important; }
 
         /* ── Shadows ── */
-        html.dark .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 0 0 1px rgba(23,197,216,0.06) !important; }
+        html.dark .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 0 0 1px rgba(124,58,237,0.06) !important; }
         html.dark .shadow    { box-shadow: 0 1px 4px rgba(0,0,0,0.65) !important; }
-        html.dark .shadow-md { box-shadow: 0 4px 16px rgba(0,0,0,0.6), 0 0 0 1px rgba(23,197,216,0.08) !important; }
-        html.dark .shadow-lg { box-shadow: 0 8px 32px rgba(0,0,0,0.65), 0 0 0 1px rgba(23,197,216,0.1) !important; }
+        html.dark .shadow-md { box-shadow: 0 4px 16px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.08) !important; }
+        html.dark .shadow-lg { box-shadow: 0 8px 32px rgba(0,0,0,0.65), 0 0 0 1px rgba(124,58,237,0.1) !important; }
         html.dark .shadow-xl { box-shadow: 0 12px 44px rgba(0,0,0,0.7) !important; }
         html.dark .shadow-2xl { box-shadow: 0 20px 60px rgba(0,0,0,0.75) !important; }
 
         /* ── Hover states ── */
-        html.dark .hover\:bg-brand-50:hover  { background-color: #0f2847 !important; }
-        html.dark .hover\:bg-brand-100:hover { background-color: #0f2847 !important; }
-        html.dark .hover\:bg-brand-600:hover { background-color: #0bbcd4 !important; }
-        html.dark .hover\:bg-brand-700:hover { background-color: #0891a8 !important; }
-        html.dark .hover\:bg-brand-800:hover { background-color: #0e7490 !important; }
+        html.dark .hover\:bg-brand-50:hover  { background-color: #1d1235 !important; }
+        html.dark .hover\:bg-brand-100:hover { background-color: #1d1235 !important; }
+        html.dark .hover\:bg-brand-600:hover { background-color: #6d28d9 !important; }
+        html.dark .hover\:bg-brand-700:hover { background-color: #5b21b6 !important; }
+        html.dark .hover\:bg-brand-800:hover { background-color: #4c1d95 !important; }
         html.dark .hover\:bg-red-50:hover    { background-color: rgba(239,68,68,0.1) !important; }
         html.dark .hover\:text-brand-700:hover { color: #EDF0F7 !important; }
-        html.dark .hover\:text-gold-400:hover  { color: #67e8f9 !important; }
+        html.dark .hover\:text-gold-400:hover  { color: #a78bfa !important; }
         html.dark .hover\:text-brand-600:hover { color: #9BA3B8 !important; }
-        html.dark .hover\:bg-amber-50:hover  { background-color: rgba(23,197,216,0.1) !important; }
+        html.dark .hover\:bg-amber-50:hover  { background-color: rgba(124,58,237,0.1) !important; }
 
-        /* ── Scrollbar teal ── */
+        /* ── Scrollbar violet ── */
         html.dark ::-webkit-scrollbar { width: 6px; }
-        html.dark ::-webkit-scrollbar-track { background: #0a0e1a; }
+        html.dark ::-webkit-scrollbar-track { background: #0d0b17; }
         html.dark ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #17c5d8, #0891a8);
+            background: linear-gradient(180deg, #7c3aed, #5b21b6);
             border-radius: 3px;
         }
-        html.dark ::-webkit-scrollbar-thumb:hover { background: #38d9e8; }
+        html.dark ::-webkit-scrollbar-thumb:hover { background: #8b5cf6; }
 
         /* ── Dark mode toggle button ── */
         .kl-dark-btn {
@@ -571,7 +536,7 @@
             border-radius: 50%;
             background: rgba(255,255,255,0.1);
             border: 1.5px solid rgba(255,255,255,0.2);
-            color: #F2E8DC;
+            color: #EDE9FE;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             font-size: 14px; flex-shrink: 0;
@@ -579,132 +544,83 @@
         }
         .kl-dark-btn:hover { background: rgba(255,255,255,0.2); transform: rotate(22deg); }
         html.dark .kl-dark-btn {
-            background: rgba(23,197,216,0.15);
-            border-color: rgba(23,197,216,0.45);
-            color: #67e8f9;
+            background: rgba(124,58,237,0.15);
+            border-color: rgba(124,58,237,0.45);
+            color: #a78bfa;
         }
         html.dark .kl-dark-btn:hover {
-            background: rgba(23,197,216,0.28);
-            box-shadow: 0 0 12px rgba(23,197,216,0.4);
+            background: rgba(124,58,237,0.28);
+            box-shadow: 0 0 12px rgba(124,58,237,0.4);
         }
 
-        /* ── Footer dark — tech/pro ── */
+        /* ── Footer dark ── */
         html.dark .kl-footer {
-            background: #020b18;
-            background-image:
-                radial-gradient(ellipse at 10% 90%, rgba(23,197,216,0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 90% 10%, rgba(15,40,71,0.55) 0%, transparent 50%),
-                repeating-linear-gradient(0deg,   transparent, transparent 47px, rgba(23,197,216,0.022) 48px),
-                repeating-linear-gradient(90deg,  transparent, transparent 47px, rgba(23,197,216,0.022) 48px);
-            border-top: 1px solid rgba(23,197,216,0.2);
+            background: linear-gradient(135deg, #080613 0%, #0d0b17 100%);
+            border-top: 1px solid rgba(124,58,237,0.15);
         }
-        html.dark .footer-stripe-bar {
-            background: linear-gradient(90deg, #0a1f3d, #17c5d8, #38d9e8, #17c5d8, #0a1f3d) !important;
-            box-shadow: 0 0 14px rgba(23,197,216,0.45), 0 0 3px rgba(23,197,216,0.6) !important;
-        }
-        /* Titres de colonnes */
-        html.dark .kl-footer h3,
-        html.dark .footer-col-title { color: #17c5d8 !important; }
-        /* Liens navigation */
-        html.dark .kl-footer .footer-nav-link { color: #7a8a9e !important; }
-        html.dark .kl-footer .footer-nav-link:hover { color: #38d9e8 !important; }
-        html.dark .kl-footer .footer-nav-arrow { color: rgba(23,197,216,0.4) !important; }
-        html.dark .kl-footer .footer-nav-link:hover .footer-nav-arrow { color: #17c5d8 !important; }
-        /* Texte contact (email, tél, adresse) */
-        html.dark .kl-footer .footer-contact-text { color: #7a8a9e !important; }
-        html.dark .kl-footer .footer-contact-text:hover { color: #38d9e8 !important; }
-        /* Icônes de contact */
-        html.dark .footer-contact-icon {
-            background: rgba(23,197,216,0.08) !important;
-            border: 1px solid rgba(23,197,216,0.18) !important;
-        }
-        html.dark .footer-contact-icon i { color: #17c5d8 !important; }
-        /* Réseaux sociaux */
-        html.dark .kl-footer .footer-social {
-            background: rgba(23,197,216,0.07) !important;
-            color: #4ab8cc !important;
-            border: 1px solid rgba(23,197,216,0.16) !important;
-        }
-        html.dark .kl-footer .footer-social:hover {
-            background: #17c5d8 !important;
-            color: #fff !important;
-            border-color: transparent !important;
-            box-shadow: 0 0 18px rgba(23,197,216,0.55), 0 4px 12px rgba(23,197,216,0.3) !important;
-        }
-        /* Tagline partenaires */
-        html.dark .kl-footer .footer-tagline { color: #3d4f65 !important; }
-        /* Séparateur logo */
-        html.dark .footer-logo-row { border-color: rgba(23,197,216,0.1) !important; }
-        /* Copyright */
-        html.dark .footer-copyright {
-            color: #3a4a5c !important;
-            border-color: rgba(23,197,216,0.08) !important;
-        }
-        html.dark .user-modal-header { background: linear-gradient(135deg, #0a0e1a, #0f2847) !important; }
+        html.dark .footer-stripe-bar { background: linear-gradient(90deg, #1d1235, #7c3aed, #8b5cf6, #7c3aed, #1d1235) !important; }
+        html.dark .kl-footer h3 { color: #a78bfa !important; }
+        html.dark .footer-contact-icon { background: rgba(124,58,237,0.12) !important; border: 1px solid rgba(124,58,237,0.2) !important; }
+        html.dark .footer-contact-icon i { color: #a78bfa !important; }
+        html.dark .footer-copyright { color: #52586A !important; }
+        html.dark .footer-social:hover { background: #7c3aed !important; box-shadow: 0 4px 12px rgba(124,58,237,0.4) !important; }
+        html.dark .user-modal-header { background: linear-gradient(135deg, #0d0b17, #1d1235) !important; }
 
         /* ── Focus ring ── */
-        html.dark :focus-visible { outline-color: #17c5d8; outline-offset: 2px; }
+        html.dark :focus-visible { outline-color: #7c3aed; outline-offset: 2px; }
 
-        /* ── Nav apprentissage — teal glow ── */
+        /* ── Nav apprentissage — violet glow ── */
         @keyframes nav-glow-pulse-dark {
             0%, 100% {
-                box-shadow: 0 0 8px rgba(23,197,216,0.55), 0 0 18px rgba(23,197,216,0.28);
-                background: rgba(23,197,216,0.14);
+                box-shadow: 0 0 8px rgba(124,58,237,0.55), 0 0 18px rgba(124,58,237,0.28);
+                background: rgba(124,58,237,0.14);
             }
             50% {
-                box-shadow: 0 0 22px rgba(14,165,193,0.9), 0 0 44px rgba(23,197,216,0.7), 0 0 65px rgba(23,197,216,0.35);
-                background: rgba(23,197,216,0.30);
+                box-shadow: 0 0 22px rgba(139,92,246,0.9), 0 0 44px rgba(124,58,237,0.7), 0 0 65px rgba(124,58,237,0.35);
+                background: rgba(124,58,237,0.30);
             }
         }
-        html.dark .nav-apprentissage { border-color: rgba(23,197,216,0.65) !important; animation-name: nav-glow-pulse-dark; }
-        html.dark .nav-apprentissage::before, html.dark .nav-apprentissage::after { border-color: rgba(23,197,216,0.88) !important; }
+        html.dark .nav-apprentissage { border-color: rgba(124,58,237,0.65) !important; animation-name: nav-glow-pulse-dark; }
+        html.dark .nav-apprentissage::before, html.dark .nav-apprentissage::after { border-color: rgba(124,58,237,0.88) !important; }
         html.dark .nav-apprentissage:hover {
-            background: rgba(23,197,216,0.4) !important;
-            box-shadow: 0 0 24px rgba(14,165,193,0.9), 0 0 48px rgba(23,197,216,0.75) !important;
+            background: rgba(124,58,237,0.4) !important;
+            box-shadow: 0 0 24px rgba(139,92,246,0.9), 0 0 48px rgba(124,58,237,0.75) !important;
         }
 
-        /* ── kl-btn-cta — teal in dark ── */
+        /* ── kl-btn-cta — violet in dark ── */
         @keyframes pulse-brand-dark {
-            0%, 100% { box-shadow: 0 4px 15px rgba(23,197,216,0.4); }
-            50%       { box-shadow: 0 4px 28px rgba(23,197,216,0.7); }
+            0%, 100% { box-shadow: 0 4px 15px rgba(124,58,237,0.4); }
+            50%       { box-shadow: 0 4px 28px rgba(124,58,237,0.7); }
         }
         html.dark .kl-btn-cta {
-            background: linear-gradient(135deg, #0891a8, #17c5d8) !important;
-            box-shadow: 0 4px 15px rgba(23,197,216,0.4);
+            background: linear-gradient(135deg, #5b21b6, #7c3aed) !important;
+            box-shadow: 0 4px 15px rgba(124,58,237,0.4);
             animation-name: pulse-brand-dark;
         }
         html.dark .kl-btn-cta:hover {
-            background: linear-gradient(135deg, #0bbcd4, #38d9e8) !important;
-            box-shadow: 0 8px 28px rgba(23,197,216,0.6) !important;
+            background: linear-gradient(135deg, #6d28d9, #8b5cf6) !important;
+            box-shadow: 0 8px 28px rgba(124,58,237,0.6) !important;
         }
 
-        /* ── Global inline-style brown → teal overrides ── */
-        html.dark [style*="background:#7C3D0E"],
-        html.dark [style*="background: #7C3D0E"] { background: #0891a8 !important; }
-        html.dark [style*="background:#C4853A"],
-        html.dark [style*="background: #C4853A"] { background: rgba(23,197,216,0.2) !important; }
-        html.dark [style*="background:linear-gradient(135deg,#C4853A"],
-        html.dark [style*="background: linear-gradient(135deg,#C4853A"],
-        html.dark [style*="background:linear-gradient(135deg, #C4853A"],
-        html.dark [style*="background: linear-gradient(135deg, #C4853A"] { background: linear-gradient(135deg, #0891a8, #17c5d8) !important; }
-        html.dark [style*="background:linear-gradient(135deg,#7C3D0E"],
-        html.dark [style*="background: linear-gradient(135deg,#7C3D0E"],
-        html.dark [style*="background:linear-gradient(135deg, #7C3D0E"],
-        html.dark [style*="background: linear-gradient(135deg, #7C3D0E"] { background: linear-gradient(135deg, #0891a8, #17c5d8) !important; }
-        html.dark [style*="background:linear-gradient(135deg,#3D1C04"],
-        html.dark [style*="background: linear-gradient(135deg,#3D1C04"],
-        html.dark [style*="background:linear-gradient(135deg, #3D1C04"],
-        html.dark [style*="background: linear-gradient(135deg, #3D1C04"] { background: linear-gradient(135deg, #0a0e1a, #0f2847) !important; }
-        html.dark [style*="background:rgba(196,133,58"],
-        html.dark [style*="background: rgba(196,133,58"] { background: rgba(23,197,216,0.12) !important; }
-        html.dark [style*="color:#7C3D0E"],
-        html.dark [style*="color: #7C3D0E"] { color: #67e8f9 !important; }
-        html.dark [style*="color:#C4853A"],
-        html.dark [style*="color: #C4853A"] { color: #67e8f9 !important; }
-        html.dark [style*="background:#FBF7F4"],
-        html.dark [style*="background: #FBF7F4"] { background: #0a0e1a !important; }
-        html.dark [style*="background:#E2C9A8"],
-        html.dark [style*="background: #E2C9A8"] { background: rgba(23,197,216,0.2) !important; }
+        /* ── Global inline-style → violet overrides (dark mode) ── */
+        html.dark [style*="background:#6D28D9"],
+        html.dark [style*="background: #6D28D9"] { background: #5b21b6 !important; }
+        html.dark [style*="background:#8B5CF6"],
+        html.dark [style*="background: #8B5CF6"] { background: rgba(124,58,237,0.2) !important; }
+        html.dark [style*="background:linear-gradient(135deg,#8B5CF6"],
+        html.dark [style*="background: linear-gradient(135deg,#8B5CF6"],
+        html.dark [style*="background:linear-gradient(135deg, #8B5CF6"],
+        html.dark [style*="background: linear-gradient(135deg, #8B5CF6"] { background: linear-gradient(135deg, #5b21b6, #7c3aed) !important; }
+        html.dark [style*="background:linear-gradient(135deg,#4C1D95"],
+        html.dark [style*="background: linear-gradient(135deg,#4C1D95"],
+        html.dark [style*="background:linear-gradient(135deg, #4C1D95"],
+        html.dark [style*="background: linear-gradient(135deg, #4C1D95"] { background: linear-gradient(135deg, #0d0b17, #1d1235) !important; }
+        html.dark [style*="background:rgba(109,40,217"],
+        html.dark [style*="background: rgba(109,40,217"] { background: rgba(124,58,237,0.12) !important; }
+        html.dark [style*="background:#F5F3FF"],
+        html.dark [style*="background: #F5F3FF"] { background: #0d0b17 !important; }
+        html.dark [style*="background:#DDD6FE"],
+        html.dark [style*="background: #DDD6FE"] { background: rgba(124,58,237,0.2) !important; }
 
         /* ── Smooth transition on toggle ── */
         html.dark-transition, html.dark-transition * {
@@ -727,13 +643,9 @@
                 <div class="flex items-center gap-3 shrink-0">
                     <a href="{% url 'home' %}" class="flex items-center gap-2">
                         {% if site_config.logo_principal %}
-                            <span class="logo-wrap" style="background:#fff;padding:3px 6px;border-radius:8px;">
-                                <img src="{{ site_config.logo_principal.url }}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl">
-                            </span>
+                            <span class="logo-wrap"><img src="{{ site_config.logo_principal.url }}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl"></span>
                         {% else %}
-                            <span class="logo-wrap" style="background:#fff;padding:3px 6px;border-radius:8px;">
-                                <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl">
-                            </span>
+                            <span class="logo-wrap"><img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto drop-shadow-md logo-kl"></span>
                         {% endif %}
                         <span class="hidden sm:block text-xl font-bold tracking-tight text-white drop-shadow">
                             Kou<span class="text-gold-400">Lakay</span>
@@ -747,7 +659,7 @@
                             </span>
                         {% else %}
                             <span class="logo-wrap" style="background:#fff;padding:3px 6px;border-radius:8px;">
-                                <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-11 w-auto drop-shadow-md logo-pt">
+                                <img src="{% static 'logo/examh.png' %}" alt="Exam H" class="h-11 w-auto drop-shadow-md logo-pt">
                             </span>
                         {% endif %}
                     </a>
@@ -799,10 +711,10 @@
                             <i class="fa fa-angle-down text-xs ml-1"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right mt-1 px-1 py-1 rounded-lg shadow-lg"
-                             style="background:#FBF7F4; min-width:180px;">
+                             style="background:#F5F3FF; min-width:180px;">
                             {% for language in languages %}
                                 <a class="dropdown-item rounded-md flex items-center gap-2 py-2 text-sm {% if language.code == LANGUAGE_CODE %}font-bold text-brand-600{% else %}text-brand-800{% endif %}"
-                                   {% if language.code == LANGUAGE_CODE %}style="background:#E2C9A8;"{% endif %}
+                                   {% if language.code == LANGUAGE_CODE %}style="background:#DDD6FE;"{% endif %}
                                    href="/{{ language.code }}{{ request.path|remove_language_prefix }}">
                                     <img src="{% static 'images/flags/'|add:language.code|add:'.png' %}" class="h-4 w-auto">
                                     {{ language.name_local }}
@@ -848,19 +760,19 @@
     </header>
 
     <!-- ══════════ CONTENU ══════════ -->
-    <main class="pt-[72px]">
+    <main class="pt-16">
         {% block content %}{% endblock %}
     </main>
 
     <!-- ══════════ FOOTER ══════════ -->
     <footer class="kl-footer">
         <!-- Bande supérieure décorative -->
-        <div class="footer-stripe-bar" style="height:3px;background:linear-gradient(90deg,#7C3D0E,#C4853A,#D4A05A,#C4853A,#7C3D0E);"></div>
+        <div class="footer-stripe-bar" style="height:3px;background:linear-gradient(90deg,#1A2466,#3B4BC8,#6D28D9,#3B4BC8,#1A2466);"></div>
 
         <div class="max-w-7xl mx-auto px-4 pt-14 pb-10">
 
             <!-- Logos partenaires -->
-            <div class="footer-logo-row flex flex-wrap items-center gap-5 mb-10 pb-8"
+            <div class="flex flex-wrap items-center gap-5 mb-10 pb-8"
                  style="border-bottom:1px solid rgba(255,255,255,0.1);">
                 <span class="logo-wrap"><img src="{% static 'logo/koulakay_white.png' %}" alt="KouLakay"
                      class="h-12 w-auto"
@@ -872,10 +784,10 @@
                     </span>
                 {% else %}
                     <span class="logo-wrap" style="background:#fff;padding:4px 8px;border-radius:8px;">
-                        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-11 w-auto">
+                        <img src="{% static 'logo/examh.png' %}" alt="Exam H" class="h-11 w-auto">
                     </span>
                 {% endif %}
-                <p class="footer-tagline text-sm text-brand-300 leading-relaxed ml-2 max-w-xs">
+                <p class="text-sm text-brand-300 leading-relaxed ml-2 max-w-xs">
                     {% trans "Rendre l'éducation de qualité accessible à tous en Haïti et dans la diaspora." %}
                 </p>
             </div>
@@ -885,37 +797,37 @@
 
                 <!-- Navigation -->
                 <div data-aos="fade-up" data-aos-delay="0">
-                    <h3 class="footer-col-title font-bold uppercase tracking-widest text-xs mb-5"
-                        style="letter-spacing:.12em;">{% trans "Navigation" %}</h3>
+                    <h3 class="font-bold uppercase tracking-widest text-xs mb-5"
+                        style="color:#6878F7;letter-spacing:.12em;">{% trans "Navigation" %}</h3>
                     <ul class="space-y-3 text-sm">
                         <li>
-                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'home' %}">
-                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'home' %}">
+                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Accueil" %}
                             </a>
                         </li>
                         <li>
-                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'courses' %}">
-                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'courses' %}">
+                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Cours" %}
                             </a>
                         </li>
                         <li>
-                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'about' %}">
-                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'about' %}">
+                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "À propos" %}
                             </a>
                         </li>
                         <li>
-                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'contact' %}">
-                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'contact' %}">
+                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Contact" %}
                             </a>
                         </li>
                         {% if user.is_authenticated %}
                         <li>
-                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'mon_apprentissage' %}">
-                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'mon_apprentissage' %}">
+                                <i class="fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Mon apprentissage" %}
                             </a>
                         </li>
@@ -925,25 +837,25 @@
 
                 <!-- Mon compte -->
                 <div data-aos="fade-up" data-aos-delay="100">
-                    <h3 class="footer-col-title font-bold uppercase tracking-widest text-xs mb-5"
-                        style="letter-spacing:.12em;">{% trans "Mon compte" %}</h3>
+                    <h3 class="font-bold uppercase tracking-widest text-xs mb-5"
+                        style="color:#6878F7;letter-spacing:.12em;">{% trans "Mon compte" %}</h3>
                     <ul class="space-y-3 text-sm">
                         {% if user.is_authenticated %}
                         <li>
-                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_logout' %}">
+                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_logout' %}">
                                 <i class="fa fa-sign-out-alt text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Déconnexion" %}
                             </a>
                         </li>
                         {% else %}
                         <li>
-                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_login' %}">
+                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_login' %}">
                                 <i class="fa fa-sign-in-alt text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Connexion" %}
                             </a>
                         </li>
                         <li>
-                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_signup' %}">
+                            <a class="flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'account_signup' %}">
                                 <i class="fa fa-user-plus text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Inscription" %}
                             </a>
@@ -954,44 +866,44 @@
 
                 <!-- Contact + Réseaux -->
                 <div data-aos="fade-up" data-aos-delay="200">
-                    <h3 class="footer-col-title font-bold uppercase tracking-widest text-xs mb-5"
-                        style="letter-spacing:.12em;">{% trans "Contact" %}</h3>
+                    <h3 class="font-bold uppercase tracking-widest text-xs mb-5"
+                        style="color:#6878F7;letter-spacing:.12em;">{% trans "Contact" %}</h3>
                     <ul class="space-y-3 text-sm mb-6">
                         {% if site_config.email %}
                         <li class="flex items-start gap-3">
                             <span class="footer-contact-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                                  style="background:rgba(196,133,58,0.15);">
-                                <i class="fa fa-envelope" style="color:#C4853A;font-size:13px;"></i>
+                                  style="background:rgba(59,75,200,0.15);">
+                                <i class="fa fa-envelope" style="color:#6878F7;font-size:13px;"></i>
                             </span>
                             <a href="mailto:{{ site_config.email }}"
-                               class="footer-contact-text text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.email }}</a>
+                               class="text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.email }}</a>
                         </li>
                         {% endif %}
                         {% if site_config.phone_1 %}
                         <li class="flex items-start gap-3">
                             <span class="footer-contact-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                                  style="background:rgba(196,133,58,0.15);">
-                                <i class="fa fa-phone" style="color:#C4853A;font-size:13px;"></i>
+                                  style="background:rgba(59,75,200,0.15);">
+                                <i class="fa fa-phone" style="color:#6878F7;font-size:13px;"></i>
                             </span>
                             <a href="tel:{{ site_config.phone_1 }}"
-                               class="footer-contact-text text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.phone_1 }}</a>
+                               class="text-brand-200 hover:text-gold-400 transition mt-1">{{ site_config.phone_1 }}</a>
                         </li>
                         {% endif %}
                         {% if site_config.address %}
                         <li class="flex items-start gap-3">
                             <span class="footer-contact-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                                  style="background:rgba(196,133,58,0.15);">
-                                <i class="fa fa-map-marker-alt" style="color:#C4853A;font-size:13px;"></i>
+                                  style="background:rgba(59,75,200,0.15);">
+                                <i class="fa fa-map-marker-alt" style="color:#6878F7;font-size:13px;"></i>
                             </span>
-                            <span class="footer-contact-text text-brand-200 mt-1">{{ site_config.address }}</span>
+                            <span class="text-brand-200 mt-1">{{ site_config.address }}</span>
                         </li>
                         {% else %}
                         <li class="flex items-start gap-3">
                             <span class="footer-contact-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                                  style="background:rgba(196,133,58,0.15);">
-                                <i class="fa fa-map-marker-alt" style="color:#C4853A;font-size:13px;"></i>
+                                  style="background:rgba(59,75,200,0.15);">
+                                <i class="fa fa-map-marker-alt" style="color:#6878F7;font-size:13px;"></i>
                             </span>
-                            <span class="footer-contact-text text-brand-200 mt-1">Port-au-Prince, Haïti</span>
+                            <span class="text-brand-200 mt-1">Port-au-Prince, Haïti</span>
                         </li>
                         {% endif %}
                     </ul>
@@ -1024,7 +936,7 @@
 
             <!-- Barre de copyright -->
             <div class="footer-copyright mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs"
-                 style="border-top:1px solid rgba(255,255,255,0.08);">
+                 style="border-top:1px solid rgba(255,255,255,0.08); color:#8A6A4A;">
                 <p>© <script>document.write(new Date().getFullYear());</script> KouLakay &amp; Exam Haiti — {% trans "Tous droits réservés" %}</p>
                 <p>{{ site_config.footer_text|default:"Fait avec ❤ en Haïti" }}</p>
             </div>
@@ -1038,7 +950,7 @@
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content shadow-2xl overflow-hidden">
             <!-- Header modal -->
-            <div class="px-5 py-4 user-modal-header" style="background: linear-gradient(135deg, #4A2810, #7C3D0E);">
+            <div class="px-5 py-4 user-modal-header" style="background: linear-gradient(135deg, #1A2466, #3B4BC8, #6D28D9);">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
@@ -1092,12 +1004,6 @@
     document.getElementById('mobileMenuBtn')?.addEventListener('click', function() {
         document.getElementById('mobileMenu').classList.toggle('hidden');
     });
-    // Ferme le menu mobile quand on tape un lien
-    document.querySelectorAll('#mobileMenu a').forEach(function(link) {
-        link.addEventListener('click', function() {
-            document.getElementById('mobileMenu').classList.add('hidden');
-        });
-    });
 </script>
 
 
@@ -1139,10 +1045,10 @@
                 html.classList.add('dark-transition');
                 if (isDark()) {
                     html.classList.replace('dark', 'light');
-                    localStorage.setItem('kl-theme-v2', 'light');
+                    localStorage.setItem('kl-theme', 'light');
                 } else {
                     html.classList.replace('light', 'dark');
-                    localStorage.setItem('kl-theme-v2', 'dark');
+                    localStorage.setItem('kl-theme', 'dark');
                 }
                 syncIcons();
                 setTimeout(() => html.classList.remove('dark-transition'), 350);

@@ -11,47 +11,22 @@
     body { font-family: 'Lexend', sans-serif; }
 
     /* ── Hero Carousel ── */
-    /*
-     * .hero-carousel-wrap est le conteneur de référence pour les boutons nav
-     * et l'overlay typewriter. On force une hauteur minimale pour éviter que
-     * Owl ne mesure 0px sur les slides photo-only (enfants tous position:absolute).
-     */
-    .hero-carousel-wrap {
-        position: relative;
-        min-height: 420px;
-    }
-    @media (min-width: 640px) { .hero-carousel-wrap { min-height: 560px; } }
-
-    /* Owl ne doit PAS être le contenant (positioned ancestor) des boutons nav :
-       on le passe en static afin que les boutons se positionnent
-       par rapport au wrap directement. */
-    .hero-carousel-wrap .owl-carousel {
-        position: static !important;
-        min-height: 420px;
-    }
-    @media (min-width: 640px) { .hero-carousel-wrap .owl-carousel { min-height: 560px; } }
-
-    /* Le stage-outer doit maintenir la hauteur pour que les slides soient visibles */
-    .hero-carousel-wrap .owl-stage-outer {
-        min-height: 420px !important;
-        overflow: hidden;
-    }
-    @media (min-width: 640px) { .hero-carousel-wrap .owl-stage-outer { min-height: 560px !important; } }
+    .hero-carousel-wrap { position: relative; }
 
     .hero-slide {
         position: relative;
-        min-height: 420px;
+        min-height: 560px;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
     }
-    @media (min-width: 640px) { .hero-slide { min-height: 560px; } }
     .hero-slide-bg {
         position: absolute;
         inset: 0;
+        background-image: url("{% static 'images/MAIN-BG.png' %}");
         background-size: cover;
-        background-position: center;
+        background-position: center top;
         transition: transform 8s ease;
     }
     .owl-item.active .hero-slide-bg {
@@ -60,101 +35,16 @@
     .hero-slide-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(rgba(30,10,0,0.48), rgba(20,6,0,0.68));
+        background: linear-gradient(rgba(10,15,50,0.5), rgba(15,18,64,0.72));
     }
-    /* Typewriter overlay — fixe au-dessus de tous les slides */
-    .hero-tw-overlay {
-        position: absolute;
-        inset: 0;
-        z-index: 3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        pointer-events: none;
-    }
-    .hero-tw-content {
-        text-align: center;
-        padding: 0 1.5rem;
-        max-width: 52rem;
-        width: 100%;
-    }
-    .hero-tw-content a { pointer-events: auto; }
-
-    /* ── Stats bar (barre marine + teal) ── */
-    .stats-bar {
+    .hero-slide-content {
         position: relative;
-        overflow: hidden;
-        background: linear-gradient(90deg, #071630, #0a1e3d, #17c5d8, #0a1e3d, #071630);
-        background-size: 200% 100%;
-        animation: stats-shimmer 8s linear infinite;
-        padding: 18px 0;
+        z-index: 2;
+        text-align: center;
+        padding: 0 1rem;
+        max-width: 52rem;
+        margin: 0 auto;
         color: #fff;
-    }
-    @keyframes stats-shimmer {
-        0%   { background-position: 0% 50%; }
-        100% { background-position: 200% 50%; }
-    }
-    .stats-bar-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0 2.5rem;
-        min-width: 130px;
-    }
-    .stats-bar-num {
-        font-size: 2rem;
-        font-weight: 800;
-        line-height: 1.1;
-        color: #fff;
-        text-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
-    .stats-bar-label {
-        font-size: 0.68rem;
-        text-transform: uppercase;
-        letter-spacing: 0.13em;
-        font-weight: 600;
-        color: rgba(255,255,255,0.82);
-        margin-top: 3px;
-    }
-    .stats-bar-sep {
-        width: 1px;
-        height: 40px;
-        background: rgba(255,255,255,0.28);
-        align-self: center;
-    }
-
-    /* Dark mode — rayon lumineux teal qui balaie la barre */
-    html.dark .stats-bar {
-        background: #030d1e !important;
-        background-size: unset !important;
-        animation: none !important;
-        border-top: 1px solid rgba(23,197,216,0.25);
-        border-bottom: 1px solid rgba(23,197,216,0.25);
-    }
-    html.dark .stats-bar::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -70%;
-        width: 55%;
-        height: 100%;
-        background: linear-gradient(
-            90deg,
-            transparent 0%,
-            rgba(23,197,216,0.08) 30%,
-            rgba(56,217,232,0.38) 50%,
-            rgba(23,197,216,0.08) 70%,
-            transparent 100%
-        );
-        animation: stats-sweep 4s linear infinite;
-        pointer-events: none;
-        z-index: 1;
-    }
-    /* Le contenu (chiffres) passe au-dessus du rayon */
-    html.dark .stats-bar > * { position: relative; z-index: 2; }
-    @keyframes stats-sweep {
-        0%   { left: -55%; }
-        100% { left: 100%; }
     }
 
     /* Dots Owl Carousel */
@@ -176,13 +66,12 @@
     }
     .hero-carousel-wrap .owl-dot.active span,
     .hero-carousel-wrap .owl-dot:hover span {
-        background: #C4853A;
+        background: linear-gradient(90deg, #3B4BC8, #6D28D9);
         transform: scale(1.3);
     }
 
-    /* ── Flèches nav (Owl génère des <div>, pas des <button>) ── */
-    .hero-carousel-wrap .owl-prev,
-    .hero-carousel-wrap .owl-next {
+    /* Flèches nav */
+    .hero-carousel-wrap .owl-nav button {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -192,18 +81,13 @@
         border: 1px solid rgba(255,255,255,0.3) !important;
         border-radius: 50% !important;
         width: 44px; height: 44px;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
         transition: background 0.2s !important;
     }
-    .hero-carousel-wrap .owl-prev:hover,
-    .hero-carousel-wrap .owl-next:hover {
-        background: rgba(196,133,58,0.6) !important;
+    .hero-carousel-wrap .owl-nav button:hover {
+        background: rgba(59,75,200,0.6) !important;
     }
-    .hero-carousel-wrap .owl-prev span,
-    .hero-carousel-wrap .owl-next span {
+    .hero-carousel-wrap .owl-nav button span {
         color: #fff;
         font-size: 22px;
         line-height: 1;
@@ -213,13 +97,12 @@
 
     /* Fallback si aucun slide admin */
     .hero-section {
-        background: linear-gradient(rgba(30,10,0,0.45), rgba(20,6,0,0.65)),
-                    url("{% static 'images/slider_1.JPG' %}");
+        background: linear-gradient(rgba(10,15,50,0.55), rgba(15,18,64,0.72)),
+                    url("{% static 'images/MAIN-BG.png' %}");
         background-size: cover;
-        background-position: center;
-        min-height: 420px;
+        background-position: center top;
+        min-height: 560px;
     }
-    @media (min-width: 640px) { .hero-section { min-height: 560px; } }
 
     /* ── Cards ── */
     .course-card {
@@ -227,19 +110,19 @@
     }
     .course-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 20px 40px rgba(124,61,14,0.18);
+        box-shadow: 0 20px 40px rgba(109,40,217,0.18);
     }
 
     /* ── Stat icons ── */
-    .stat-icon { background: linear-gradient(135deg,#C4853A,#7C3D0E); }
+    .stat-icon { background: linear-gradient(135deg,#3B4BC8,#6D28D9); }
 
     /* ── Force icons ── */
     .force-icon {
-        background: rgba(196,133,58,0.12);
+        background: rgba(59,75,200,0.12);
         transition: background 0.25s, color 0.25s;
     }
     .force-card:hover .force-icon {
-        background: linear-gradient(135deg,#C4853A,#7C3D0E);
+        background: linear-gradient(135deg,#3B4BC8,#6D28D9);
         color: white;
     }
 
@@ -254,116 +137,23 @@
         100% { background-position: 0% 50%; }
     }
     .cta-section {
-        background: linear-gradient(135deg, #3D1C04, #7C3D0E, #9B5116, #C4853A, #7C3D0E, #3D1C04);
+        background: linear-gradient(135deg, #0F1240, #1A2466, #3B4BC8, #6D28D9, #3B4BC8, #1A2466);
         background-size: 300% 300%;
         animation: gradient-shift 9s ease infinite;
     }
 
-    /* ── DARK MODE HOME ── */
-
-    /* Transitions fluides sur sections et cartes */
-    html.dark section { transition: background-color 0.45s ease; }
-    html.dark .force-card,
-    html.dark .testimonial-card {
-        transition: background-color 0.4s ease, border-color 0.4s ease,
-                    transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s ease;
-    }
-
-    /* Carousel */
-    html.dark .hero-carousel-wrap .owl-dot.active span,
-    html.dark .hero-carousel-wrap .owl-dot:hover span { background: #17c5d8; }
-    html.dark .hero-carousel-wrap .owl-prev:hover,
-    html.dark .hero-carousel-wrap .owl-next:hover { background: rgba(23,197,216,0.5) !important; }
-    html.dark .course-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.55); }
-
-    /* Sections — fonds marins distincts, respirants */
-    html.dark #mission-section { background: #0a1828 !important; }
-    html.dark #cat-section     { background: #071630 !important; }
-    html.dark #forces-section  { background: #0a1828 !important; }
-    html.dark section.py-14.bg-brand-50 { background: #071630 !important; } /* Témoignages */
-
-    /* Stat icons */
-    html.dark .stat-icon { background: linear-gradient(135deg, #0891a8, #17c5d8); }
-
-    /* Textes lisibles dans sections bg-white sombres */
-    html.dark section.bg-white .text-brand-900,
-    html.dark section.bg-white .text-brand-800 { color: #EDF0F7 !important; }
-    html.dark section.bg-white .text-brand-700 { color: #C8CDD8 !important; }
-    html.dark section.bg-white .text-brand-600 { color: #9BA3B8 !important; }
-    html.dark section.bg-white .text-brand-500 { color: #8a94a8 !important; }
-
-    /* Textes section bg-brand-50 (Témoignages) */
-    html.dark section.bg-brand-50 .text-brand-900 { color: #EDF0F7 !important; }
-    html.dark section.bg-brand-50 .text-brand-400 { color: #6b7a8d !important; }
-
-    /* Badges pill dans sections bg-white */
-    html.dark section.bg-white .bg-brand-50 {
-        background: rgba(23,197,216,0.12) !important;
-        border-color: rgba(23,197,216,0.25) !important;
-        color: #67e8f9 !important;
-    }
-
-    /* Lien "En savoir plus" mission */
-    html.dark #mission-section a { transition: color 0.3s ease; }
-    html.dark #mission-section a:hover { color: #67e8f9 !important; }
-
-    /* ── Catégories ── */
-    html.dark #cat-section h2 { color: #EDF0F7 !important; }
-    html.dark #cat-section .bg-brand-50 {
-        background: rgba(23,197,216,0.12) !important;
-        border-color: rgba(23,197,216,0.25) !important;
-        color: #67e8f9 !important;
-    }
-    html.dark #cat-section .cat-card {
-        background: #0f2847 !important;
-        border-color: rgba(23,197,216,0.18) !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.28);
-        transition: background-color 0.35s ease, border-color 0.35s ease,
-                    transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s ease;
-    }
-    html.dark #cat-section .cat-card:hover {
-        border-color: rgba(23,197,216,0.55) !important;
-        box-shadow: 0 8px 28px rgba(23,197,216,0.14), 0 2px 8px rgba(0,0,0,0.4) !important;
-    }
-    html.dark #cat-section .cat-card .text-brand-800 { color: #EDF0F7 !important; }
-    html.dark #cat-section .cat-card .text-brand-400 { color: #8a94a8 !important; }
-
-    /* ── Nos Forces ── */
-    html.dark #forces-section .bg-brand-50 {
-        background: rgba(23,197,216,0.12) !important;
-        border-color: rgba(23,197,216,0.25) !important;
-        color: #67e8f9 !important;
-    }
-    html.dark #forces-section .force-card {
-        background: #0f2847 !important;
-        border-color: rgba(23,197,216,0.15) !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    html.dark #forces-section .force-card h3 { color: #EDF0F7 !important; }
-    html.dark #forces-section .force-card p  { color: #9BA3B8 !important; }
-    html.dark .force-icon { background: rgba(23,197,216,0.12); color: #17c5d8; }
-    html.dark #forces-section .force-icon { color: #17c5d8 !important; }
-    html.dark .force-card:hover .force-icon { background: linear-gradient(135deg, #0891a8, #17c5d8); color: white; }
-
-    /* ── CTA ── */
+    /* dark */
+    html.dark .stat-icon { background: linear-gradient(135deg, #6d28d9, #7c3aed); }
+    html.dark .force-icon { background: rgba(124,58,237,0.12); }
+    html.dark .force-card:hover .force-icon { background: linear-gradient(135deg, #6d28d9, #7c3aed); color: white; }
     html.dark .cta-section {
-        background: linear-gradient(135deg, #060d1a, #0a1a30, #0c1e3d, #0a1a30, #060d1a) !important;
+        background: linear-gradient(135deg, #09071a, #130e29, #1e1033, #130e29, #09071a) !important;
         background-size: 300% 300% !important;
     }
-    html.dark .cta-section a.bg-white {
-        background: rgba(255,255,255,0.1) !important;
-        color: #ffffff !important;
-        border: 2px solid rgba(255,255,255,0.4) !important;
-        transition: background 0.3s ease, border-color 0.3s ease;
-    }
-    html.dark .cta-section a.bg-white:hover {
-        background: rgba(23,197,216,0.2) !important;
-        border-color: rgba(23,197,216,0.65) !important;
-    }
-
-    /* ── Témoignages ── */
-    html.dark .testimonial-card .text-brand-400 { color: #6b7a8d !important; }
-    html.dark .testimonial-card .text-brand-100 { color: rgba(23,197,216,0.1) !important; }
+    html.dark .hero-carousel-wrap .owl-dot.active span,
+    html.dark .hero-carousel-wrap .owl-dot:hover span { background: #7c3aed; }
+    html.dark .hero-carousel-wrap .owl-nav button:hover { background: rgba(124,58,237,0.5) !important; }
+    html.dark .course-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.55); }
 
     /* ── Typewriter cursor ── */
     .tw-cursor {
@@ -378,6 +168,29 @@
     }
     @keyframes blink-caret { 0%,100%{opacity:1} 50%{opacity:0} }
 
+    /* ── Floating particles hero ── */
+    @keyframes float-a {
+        0%,100% { transform: translateY(0)   rotate(0deg); }
+        40%     { transform: translateY(-20px) rotate(6deg); }
+        70%     { transform: translateY(-9px)  rotate(-3deg); }
+    }
+    @keyframes float-b {
+        0%,100% { transform: translateY(0)   rotate(0deg); }
+        35%     { transform: translateY(-24px) rotate(-8deg); }
+        65%     { transform: translateY(-11px) rotate(4deg); }
+    }
+    @keyframes float-c {
+        0%,100% { transform: translateY(0)   rotate(0deg); }
+        50%     { transform: translateY(-16px) rotate(10deg); }
+    }
+    .hero-particle {
+        position: absolute;
+        opacity: 0.12;
+        pointer-events: none;
+        color: white;
+        font-size: 2.4rem;
+        user-select: none;
+    }
 </style>
 {% endblock head %}
 
@@ -385,115 +198,122 @@
 <div class="min-h-screen">
 
     <!-- ── Hero Carousel ── -->
+    {% if hero_slides %}
     <div class="hero-carousel-wrap" id="heroCarouselWrap">
-
-        <!-- Overlay typewriter — fixe sur tous les slides, texte qui se tape lettre par lettre -->
-        <div class="hero-tw-overlay">
-            <div class="hero-tw-content">
-                <p class="text-xs sm:text-sm uppercase tracking-widest text-amber-300 font-semibold mb-3 opacity-90">
-                    {% trans "Plateforme éducative haïtienne" %}
-                </p>
-                <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-5 leading-tight" style="min-height:1.3em;">
-                    <span id="typewriter-text"></span><span class="tw-cursor"></span>
-                </h1>
-                <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                    <a id="hero-main-cta" href="{% url 'courses' %}"
-                       class="kl-btn-cta px-7 py-3 font-bold rounded-xl text-base">
-                        {% trans "Explorer les cours" %}
-                    </a>
-                    {% if not user.is_authenticated %}
-                    <a href="{% url 'account_signup' %}"
-                       class="px-7 py-3 bg-white/15 hover:bg-white/25 border border-white/40 text-white font-bold rounded-xl transition backdrop-blur-sm text-base">
-                        {% trans "Commencer gratuitement" %}
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
-        <!-- Slides : photos uniquement + data-phrase pour le typewriter -->
         <div class="owl-carousel owl-theme" id="heroCarousel">
-
-            {% if hero_slides %}
             {% for slide in hero_slides %}
-            <div class="hero-slide"
-                 data-phrase="{{ slide.title }}"
-                 data-cta-url="{% if slide.cta_url %}{{ slide.cta_url }}{% else %}{% url 'courses' %}{% endif %}"
-                 data-cta-label="{{ slide.cta_label|default:'Explorer les cours' }}">
+            <div class="hero-slide">
                 <div class="hero-slide-bg"
                      style="background-image: url('{{ slide.image.url }}');"></div>
                 <div class="hero-slide-overlay"></div>
+                <div class="hero-slide-content">
+                    <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-3">
+                        {% trans "Plateforme éducative haïtienne" %}
+                    </p>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                        {{ slide.title }}
+                    </h1>
+                    {% if slide.subtitle %}
+                    <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto">
+                        {{ slide.subtitle }}
+                    </p>
+                    {% endif %}
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        {% if slide.cta_label and slide.cta_url %}
+                        <a href="{{ slide.cta_url }}" class="kl-btn-cta px-7 py-3 font-bold rounded-xl text-base">
+                            {{ slide.cta_label }}
+                        </a>
+                        {% endif %}
+                        {% if not user.is_authenticated %}
+                        <a href="{% url 'account_signup' %}"
+                           class="px-7 py-3 bg-white/15 hover:bg-white/25 border border-white/40 text-white font-bold rounded-xl transition backdrop-blur-sm text-base">
+                            {% trans "Commencer gratuitement" %}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             {% endfor %}
-
-            {% else %}
-            <div class="hero-slide"
-                 data-phrase="{% trans "L'éducation est l'arme la plus puissante" %}"
-                 data-cta-url="{% url 'courses' %}"
-                 data-cta-label="{% trans 'Explorer les cours' %}">
-                <div class="hero-slide-bg"
-                     style="background-image: url('{% static 'images/course_2.jpg' %}');"></div>
-                <div class="hero-slide-overlay"></div>
-            </div>
-            <div class="hero-slide"
-                 data-phrase="{% trans "La connaissance forge le leader de demain" %}"
-                 data-cta-url="{% url 'courses' %}"
-                 data-cta-label="{% trans 'Voir les formations' %}">
-                <div class="hero-slide-bg"
-                     style="background-image: url('{% static 'images/slider_1.JPG' %}');"></div>
-                <div class="hero-slide-overlay"></div>
-            </div>
-            <div class="hero-slide"
-                 data-phrase="{% trans "Chaque expert a commencé par une première leçon" %}"
-                 data-cta-url="{% url 'courses' %}"
-                 data-cta-label="{% trans 'Commencer maintenant' %}">
-                <div class="hero-slide-bg"
-                     style="background-image: url('{% static 'images/slider_3.JPG' %}');"></div>
-                <div class="hero-slide-overlay"></div>
-            </div>
-            <div class="hero-slide"
-                 data-phrase="{% trans "Débloquez votre potentiel, construisez votre futur" %}"
-                 data-cta-url="{% url 'courses' %}"
-                 data-cta-label="{% trans 'Rejoindre la communauté' %}">
-                <div class="hero-slide-bg"
-                     style="background-image: url('{% static 'images/slider_background.jpg' %}');"></div>
-                <div class="hero-slide-overlay"></div>
-            </div>
-            {% endif %}
-
         </div>
     </div>
+    {% else %}
+    {# Fallback si aucun slide configuré dans l'admin #}
+    <section class="hero-section flex items-center justify-center text-white px-4 relative overflow-hidden">
+        <!-- Particules flottantes -->
+        <span class="material-symbols-outlined hero-particle" style="top:14%;left:7%;animation:float-a 7s ease-in-out infinite;">school</span>
+        <span class="material-symbols-outlined hero-particle" style="top:68%;left:5%;animation:float-b 9s ease-in-out infinite 1.2s;">menu_book</span>
+        <span class="material-symbols-outlined hero-particle" style="top:18%;right:9%;animation:float-c 8s ease-in-out infinite 0.6s;">workspace_premium</span>
+        <span class="material-symbols-outlined hero-particle" style="top:62%;right:7%;animation:float-a 10s ease-in-out infinite 2.4s;">lightbulb</span>
+        <span class="material-symbols-outlined hero-particle" style="top:40%;left:3%;animation:float-b 6.5s ease-in-out infinite 0.3s;font-size:1.6rem;">lan</span>
+        <span class="material-symbols-outlined hero-particle" style="top:35%;right:4%;animation:float-c 7.5s ease-in-out infinite 1.8s;font-size:1.6rem;">emoji_events</span>
 
-    <!-- ── Barre stats ── -->
-    <div class="stats-bar">
-        <div class="max-w-3xl mx-auto px-4">
-            <div class="flex flex-col sm:flex-row items-center justify-center">
-                <div class="stats-bar-item py-4 sm:py-0">
-                    <span class="stats-bar-num stat-num"
-                          data-target="{{ stats.total_courses|default:20 }}"
-                          data-suffix="+">{{ stats.total_courses|default:20 }}+</span>
-                    <span class="stats-bar-label">{% trans "Cours disponibles" %}</span>
-                </div>
-                <div class="stats-bar-sep hidden sm:block"></div>
-                <div class="stats-bar-item py-4 sm:py-0">
-                    <span class="stats-bar-num stat-num"
-                          data-target="{{ stats.total_users|default:500 }}"
-                          data-suffix="+">{{ stats.total_users|default:500 }}+</span>
-                    <span class="stats-bar-label">{% trans "Étudiants inscrits" %}</span>
-                </div>
-                <div class="stats-bar-sep hidden sm:block"></div>
-                <div class="stats-bar-item py-4 sm:py-0">
-                    <span class="stats-bar-num stat-num"
-                          data-target="{{ stats.local_enrollments|default:136 }}"
-                          data-suffix="+">{{ stats.local_enrollments|default:136 }}+</span>
-                    <span class="stats-bar-label">{% trans "Cours suivis" %}</span>
-                </div>
+        <div class="max-w-3xl text-center relative z-10">
+            <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-3">
+                {% trans "Plateforme éducative haïtienne" %}
+            </p>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                {% trans "Débloquez votre" %}<br>
+                <span class="text-yellow-400">{% trans "Potentiel" %}</span>
+            </h1>
+            <p class="text-xl mb-8 text-gray-200 max-w-xl mx-auto min-h-[2em] flex items-center justify-center gap-0">
+                <span id="typewriter-text"></span><span class="tw-cursor"></span>
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="{% url 'courses' %}" class="kl-btn-cta px-7 py-3 font-bold rounded-xl text-base">
+                    {% trans "Explorer les cours" %}
+                </a>
+                {% if not user.is_authenticated %}
+                <a href="{% url 'account_signup' %}"
+                   class="px-7 py-3 bg-white/15 hover:bg-white/25 border border-white/40 text-white font-bold rounded-xl transition backdrop-blur-sm text-base">
+                    {% trans "Commencer gratuitement" %}
+                </a>
+                {% endif %}
             </div>
         </div>
-    </div>
+    </section>
+    {% endif %}
+
+    <!-- ── Stats ── -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <div class="bg-white rounded-2xl p-6 text-center shadow-md border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="0">
+                    <div class="stat-icon inline-flex items-center justify-center w-14 h-14 rounded-full text-white mb-3">
+                        <span class="material-symbols-outlined text-2xl">school</span>
+                    </div>
+                    <p class="text-4xl font-bold text-brand-800 mb-1 stat-num"
+                       data-target="{{ stats.total_courses|default:20 }}" data-suffix="+">{{ stats.total_courses|default:20 }}+</p>
+                    <p class="text-brand-500 font-medium">{% trans "Cours" %}</p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 text-center shadow-md border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-icon inline-flex items-center justify-center w-14 h-14 rounded-full text-white mb-3">
+                        <span class="material-symbols-outlined text-2xl">group</span>
+                    </div>
+                    <p class="text-4xl font-bold text-brand-800 mb-1 stat-num"
+                       data-target="{{ stats.total_users|default:500 }}" data-suffix="+">{{ stats.total_users|default:500 }}+</p>
+                    <p class="text-brand-500 font-medium">{% trans "Étudiants" %}</p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 text-center shadow-md border border-brand-100"
+                     data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-icon inline-flex items-center justify-center w-14 h-14 rounded-full text-white mb-3">
+                        <span class="material-symbols-outlined text-2xl">emoji_events</span>
+                    </div>
+                    <p class="text-4xl font-bold text-brand-800 mb-1 stat-num"
+                       data-target="{{ stats.local_enrollments|default:136 }}" data-suffix="+">{{ stats.local_enrollments|default:136 }}+</p>
+                    <p class="text-brand-500 font-medium">{% trans "Inscriptions" %}</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <!-- ── À propos bref ── -->
-    <section id="mission-section" class="py-14 bg-white">
+    <section class="py-14 bg-white">
         <div class="max-w-4xl mx-auto px-4 text-center" data-aos="fade-up">
             <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200 mb-4">
                 {% trans "Notre mission" %}
@@ -515,7 +335,7 @@
 
     <!-- ── Catégories ── -->
     {% if categories %}
-    <section id="cat-section" class="py-12 bg-white">
+    <section class="py-12 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8" data-aos="fade-up">
                 <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200 mb-3">
@@ -526,7 +346,7 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
                 {% for cat in categories %}
                 <a href="{% url 'courses' %}?category={{ cat.slug }}"
-                   class="cat-card group flex flex-col rounded-2xl border border-brand-100 bg-white overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-250"
+                   class="group flex flex-col rounded-2xl border border-brand-100 bg-white overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-250"
                    data-aos="zoom-in" data-aos-delay="{{ forloop.counter0 }}0">
 
                     <!-- En-tête : image ou couleur + icône -->
@@ -576,7 +396,7 @@
                      data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
 
                     <!-- Image -->
-                    <div class="relative h-44" style="background: linear-gradient(135deg,#C4853A,#7C3D0E);">
+                    <div class="relative h-44" style="background: linear-gradient(135deg,#3B4BC8,#6D28D9);">
                         {% if c.course_card_image_url %}
                         <img src="{{ c.course_card_image_url }}" alt="{{ c.name }}"
                              class="w-full h-full object-cover">
@@ -586,7 +406,7 @@
                             {% if c.price is None or c.price == 0 %}
                             <span class="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full shadow">{% trans "Gratuit" %}</span>
                             {% else %}
-                            <span class="px-2 py-1 text-white text-xs font-bold rounded-full shadow" style="background:rgba(30,10,0,0.7);backdrop-filter:blur(4px);">{{ c.price }} {{ c.display_currency }}</span>
+                            <span class="px-2 py-1 text-white text-xs font-bold rounded-full shadow" style="background:rgba(30,10,0,0.7);backdrop-filter:blur(4px);">{{ c.price }} {{ site_currency }}</span>
                             {% endif %}
                         </div>
                         {% if c.enrollment_count %}
@@ -608,7 +428,7 @@
                             </a>
                             {% else %}
                             <button type="button"
-                                    onclick="openCourseModal('{% url 'course_enrollment' c.id %}','{% url 'course_details' c.id %}','{{ c.name|escapejs }}','{{ c.description|default:''|escapejs }}','{{ c.price|default:0 }}','{{ c.course_card_image_url|default:'' }}','{{ c.access_duration|default:'' }}','{{ c.display_currency }}')"
+                                    onclick="openCourseModal('{% url 'course_enrollment' c.id %}','{% url 'course_details' c.id %}','{{ c.name|escapejs }}','{{ c.description|default:''|escapejs }}','{{ c.price|default:0 }}','{{ c.course_card_image_url|default:'' }}','{{ c.access_duration|default:'' }}')"
                                     class="flex-1 kl-btn-cta px-4 py-2 text-sm font-semibold rounded-lg">
                                 {% trans "S'inscrire" %}
                             </button>
@@ -631,7 +451,7 @@
     {% endcomment %}
 
     <!-- ── Nos Forces ── -->
-    <section id="forces-section" class="py-14 bg-white">
+    <section class="py-14 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12" data-aos="fade-up">
                 <span class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200 mb-3">
@@ -778,78 +598,57 @@
 <!-- ── Modal Inscription ── -->
 {% include 'components/course_modal.html' %}
 
-{% endblock content %}
-
-{% block extra_js %}
+{% if hero_slides %}
 <script>
-/* ── Typewriter par slide ──────────────────────────────────────── */
-function heroType(phrase) {
-    var el = document.getElementById('typewriter-text');
-    if (!el) return;
-    el.textContent = '';
-    var i = 0;
-    clearInterval(window._heroTwTimer);
-    window._heroTwTimer = setInterval(function () {
-        if (i < phrase.length) {
-            el.textContent += phrase[i++];
-        } else {
-            clearInterval(window._heroTwTimer);
-        }
-    }, 46);
-}
-
-function heroActivateSlide($owl) {
-    /* Récupère le slide actif (filtre les clones Owl en mode loop) */
-    var $slide = $owl.find('.owl-item.active:not(.cloned)').first().find('.hero-slide');
-    if (!$slide.length) {
-        $slide = $owl.find('.owl-item.active').first().find('.hero-slide');
-    }
-    var phrase   = $slide.attr('data-phrase')   || 'Apprenez à votre rythme';
-    var ctaUrl   = $slide.attr('data-cta-url')   || '{% url "courses" %}';
-    var ctaLabel = $slide.attr('data-cta-label') || 'Explorer les cours';
-
-    heroType(phrase);
-
-    var cta = document.getElementById('hero-main-cta');
-    if (cta) {
-        cta.setAttribute('href', ctaUrl);
-        cta.textContent = ctaLabel;
-    }
-}
-
 $(document).ready(function () {
-    var $owl = $('#heroCarousel');
-
-    /* ── Enregistrer changed AVANT owlCarousel() ── */
-    $owl.on('changed.owl.carousel', function () {
-        var $el = $(this);
-        setTimeout(function () { heroActivateSlide($el); }, 60);
-    });
-
-    $owl.owlCarousel({
+    $("#heroCarousel").owlCarousel({
         items: 1,
         loop: true,
         autoplay: true,
-        autoplayTimeout: 5800,
+        autoplayTimeout: 5500,
         autoplayHoverPause: true,
-        smartSpeed: 900,
+        smartSpeed: 800,
         dots: true,
         nav: true,
         navText: [
             '<span class="material-symbols-outlined">chevron_left</span>',
             '<span class="material-symbols-outlined">chevron_right</span>'
         ],
+        animateIn: 'fadeIn',
+        animateOut: 'fadeOut',
     });
-
-    /* ── 1er slide au chargement : initialized se déclenche PENDANT owlCarousel()
-           donc on déclenche manuellement après un court délai ── */
-    setTimeout(function () { heroActivateSlide($owl); }, 250);
 });
 </script>
+{% endif %}
 
 <script>
 (function () {
-    /* ── Compteurs animés (stats bar) ──────────────────────────── */
+    /* ── Typewriter ─────────────────────────────────────────────── */
+    var tw = document.getElementById('typewriter-text');
+    if (tw) {
+        var phrases = [
+            'Apprenez à votre rythme',
+            'Obtenez vos certifications',
+            'Évoluez dans votre carrière',
+            'Rejoignez notre communauté'
+        ];
+        var pi = 0, ci = 0, deleting = false;
+        var SPEED_TYPE = 65, SPEED_DEL = 32, PAUSE = 2200;
+        function tick() {
+            var phrase = phrases[pi];
+            if (!deleting) {
+                tw.textContent = phrase.slice(0, ++ci);
+                if (ci === phrase.length) { deleting = true; setTimeout(tick, PAUSE); return; }
+            } else {
+                tw.textContent = phrase.slice(0, --ci);
+                if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+            }
+            setTimeout(tick, deleting ? SPEED_DEL : SPEED_TYPE);
+        }
+        tick();
+    }
+
+    /* ── Compteurs animés ───────────────────────────────────────── */
     var statEls = Array.from(document.querySelectorAll('.stat-num[data-target]'));
     if (statEls.length && window.IntersectionObserver) {
         statEls.forEach(function (el) { el.textContent = '0' + (el.dataset.suffix || ''); });
@@ -857,11 +656,11 @@ $(document).ready(function () {
             entries.forEach(function (entry) {
                 if (!entry.isIntersecting) return;
                 obs.unobserve(entry.target);
-                var el     = entry.target;
-                var target = parseInt(el.dataset.target, 10);
-                var suffix = el.dataset.suffix || '';
-                var dur    = 1600;
-                var t0     = performance.now();
+                var el      = entry.target;
+                var target  = parseInt(el.dataset.target, 10);
+                var suffix  = el.dataset.suffix || '';
+                var dur     = 1600;
+                var t0      = performance.now();
                 function step(now) {
                     var p = Math.min((now - t0) / dur, 1);
                     var eased = 1 - Math.pow(1 - p, 3);
@@ -875,4 +674,5 @@ $(document).ready(function () {
     }
 })();
 </script>
-{% endblock extra_js %}
+
+{% endblock content %}
