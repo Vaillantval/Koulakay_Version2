@@ -1,16 +1,16 @@
 /*
  * KouLakay Admin — Custom CSS
- * Palette : #FBF7F4 (fond), #3D1C04 (brun foncé), #7C3D0E (brun moyen), #C4853A (ambre)
+ * Palette : #F5F3FF (fond), #1A2466 (bleu foncé), #3B4BC8 (bleu indigo), #6D28D9 (violet)
  */
 
 /* ── Variables ── */
 :root {
-  --kl-dark:   #3D1C04;
-  --kl-mid:    #7C3D0E;
-  --kl-amber:  #C4853A;
-  --kl-light:  #F5EDE3;
-  --kl-bg:     #FBF7F4;
-  --kl-border: #E8D5C0;
+  --kl-dark:   #1A2466;
+  --kl-mid:    #3B4BC8;
+  --kl-amber:  #6D28D9;
+  --kl-light:  #ECEFFE;
+  --kl-bg:     #F5F3FF;
+  --kl-border: #ABB3F9;
 }
 
 /* ── Body & layout ── */
@@ -35,17 +35,17 @@ body,
 
 /* ── Sidebar ── */
 .main-sidebar {
-  background: linear-gradient(180deg, #2A1203 0%, #3D1C04 40%, #5E2D08 100%) !important;
+  background: linear-gradient(180deg, #0F1240 0%, #1A2466 40%, #3B4BC8 100%) !important;
 }
 
 /* Brand (logo area) */
 .brand-link {
   background: rgba(0,0,0,0.25) !important;
-  border-bottom: 1px solid rgba(196,133,58,0.3) !important;
+  border-bottom: 1px solid rgba(59,75,200,0.3) !important;
   color: #fff !important;
 }
 .brand-link:hover {
-  background: rgba(196,133,58,0.15) !important;
+  background: rgba(59,75,200,0.15) !important;
 }
 .brand-text {
   color: #fff !important;
@@ -61,7 +61,7 @@ body,
   transition: background 0.2s, color 0.2s !important;
 }
 .nav-sidebar .nav-item > .nav-link:hover {
-  background: rgba(196,133,58,0.18) !important;
+  background: rgba(59,75,200,0.18) !important;
   color: #fff !important;
 }
 .nav-sidebar .nav-item > .nav-link.active,
@@ -69,7 +69,7 @@ body,
   background: var(--kl-amber) !important;
   color: #fff !important;
   font-weight: 600 !important;
-  box-shadow: 0 2px 8px rgba(124,61,14,0.3) !important;
+  box-shadow: 0 2px 8px rgba(59,75,200,0.3) !important;
 }
 
 /* Sous-menus */
@@ -80,12 +80,12 @@ body,
 .nav-sidebar .nav-treeview > .nav-item > .nav-link:hover,
 .nav-sidebar .nav-treeview > .nav-item > .nav-link.active {
   color: var(--kl-amber) !important;
-  background: rgba(196,133,58,0.12) !important;
+  background: rgba(59,75,200,0.12) !important;
 }
 
 /* User panel */
 .sidebar-dark-warning .user-panel {
-  border-bottom: 1px solid rgba(196,133,58,0.25) !important;
+  border-bottom: 1px solid rgba(59,75,200,0.25) !important;
 }
 .user-panel .info a {
   color: rgba(255,255,255,0.85) !important;
@@ -118,7 +118,7 @@ body,
 .card {
   border: 1px solid var(--kl-border) !important;
   border-radius: 12px !important;
-  box-shadow: 0 2px 8px rgba(61,28,4,0.07) !important;
+  box-shadow: 0 2px 8px rgba(26,36,102,0.07) !important;
 }
 .card-header {
   background: linear-gradient(90deg, var(--kl-dark) 0%, var(--kl-mid) 100%) !important;
@@ -179,7 +179,7 @@ body,
   border-bottom: 2px solid var(--kl-amber) !important;
 }
 .table-hover tbody tr:hover {
-  background: rgba(196,133,58,0.07) !important;
+  background: rgba(59,75,200,0.07) !important;
 }
 .table td, .table th {
   border-color: var(--kl-border) !important;
@@ -187,7 +187,7 @@ body,
 
 /* Checkbox colonne ── */
 #result_list tbody tr.selected {
-  background: rgba(196,133,58,0.12) !important;
+  background: rgba(59,75,200,0.12) !important;
 }
 
 /* ── Formulaires ── */
@@ -195,7 +195,7 @@ body,
 select:focus,
 textarea:focus {
   border-color: var(--kl-amber) !important;
-  box-shadow: 0 0 0 3px rgba(196,133,58,0.18) !important;
+  box-shadow: 0 0 0 3px rgba(59,75,200,0.18) !important;
 }
 
 /* ── Small info boxes ── */

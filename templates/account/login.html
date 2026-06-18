@@ -10,7 +10,7 @@
 <style>
 body {
   font-family: 'Lexend', sans-serif;
-  background: #FBF7F4;
+  background: #F5F3FF;
 }
 
 /* Cache le header et footer de base.html */
@@ -29,7 +29,7 @@ main { padding-top: 0 !important; }
 }
 
 .kl-btn {
-  background: linear-gradient(135deg, #C4853A, #7C3D0E);
+  background: linear-gradient(135deg, #3B4BC8, #6D28D9);
   transition: opacity 0.2s;
 }
 .kl-btn:hover { opacity: 0.88; }
@@ -42,40 +42,40 @@ main { padding-top: 0 !important; }
   padding: 0 1rem 0 3rem;
   font-size: 0.95rem;
   font-family: 'Lexend', sans-serif;
-  color: #3D1C04;
-  background-color: #FBF7F4;
-  border: 1px solid #CFA472;
+  color: #1A2466;
+  background-color: #F5F3FF;
+  border: 1px solid #ABB3F9;
   border-radius: 0.75rem;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 #id_login:focus, #id_password:focus {
-  border-color: #7C3D0E;
-  box-shadow: 0 0 0 3px rgba(124,61,14,0.18);
+  border-color: #3B4BC8;
+  box-shadow: 0 0 0 3px rgba(59,75,200,0.18);
 }
-#id_login::placeholder, #id_password::placeholder { color: #A0663B; }
+#id_login::placeholder, #id_password::placeholder { color: #5668F0; }
 
 #id_password { padding-right: 3rem; }
 
 #id_remember {
   width: 1rem; height: 1rem;
-  accent-color: #7C3D0E;
+  accent-color: #3B4BC8;
   cursor: pointer;
 }
 /* dark */
-html.dark body { background: #0a0e1a; }
+html.dark body { background: #0d0b17; }
 html.dark #id_login, html.dark #id_password {
   color: #EDF0F7;
-  background-color: #0c1e3d;
-  border-color: rgba(23,197,216,0.3);
+  background-color: #160e2a;
+  border-color: rgba(124,58,237,0.3);
 }
 html.dark #id_login:focus, html.dark #id_password:focus {
-  border-color: #17c5d8;
-  box-shadow: 0 0 0 3px rgba(23,197,216,0.18);
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.18);
 }
 html.dark #id_login::placeholder, html.dark #id_password::placeholder { color: rgba(155,163,184,0.45); }
-html.dark #id_remember { accent-color: #17c5d8; }
-html.dark .kl-btn { background: linear-gradient(135deg, #0891a8, #17c5d8); }
+html.dark #id_remember { accent-color: #7c3aed; }
+html.dark .kl-btn { background: linear-gradient(135deg, #3B4BC8, #6D28D9); }
 /* floating particles */
 @keyframes float-a {
     0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.6; }
@@ -116,7 +116,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
       {% if site_config.logo_partenaire %}
         <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;background:#fff;padding:4px;">
       {% else %}
-        <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;background:#fff;padding:4px;">
+        <img src="{% static 'logo/examh.png' %}" alt="Exam H" class="h-16 w-auto drop-shadow-lg" style="border-radius:10px;background:#fff;padding:4px;">
       {% endif %}
     </a>
     <p class="text-sm uppercase tracking-widest text-amber-300 font-semibold mb-2">
@@ -138,7 +138,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
   </div>
 
   <!-- ── Panneau droit — formulaire ── -->
-  <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10" style="background:#FBF7F4;">
+  <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10" style="background:#F5F3FF;">
     <div class="w-full max-w-md">
 
       <!-- Bouton retour -->
@@ -157,12 +157,12 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
             <img src="{% static 'logo/koulakay.png' %}" alt="KouLakay" class="h-12 w-auto">
           {% endif %}
         </a>
-        <span style="width:1px;height:32px;background:#CFA472;display:inline-block;flex-shrink:0;"></span>
+        <span style="width:1px;height:32px;background:#ABB3F9;display:inline-block;flex-shrink:0;"></span>
         <a href="{% url 'home' %}">
           {% if site_config.logo_partenaire %}
             <img src="{{ site_config.logo_partenaire.url }}" alt="Logo partenaire" class="h-12 w-auto" style="border-radius:8px;">
           {% else %}
-            <img src="{% static 'logo/examhaiti.jpeg' %}" alt="Exam Haiti" class="h-12 w-auto" style="border-radius:8px;">
+            <img src="{% static 'logo/examh.png' %}" alt="Exam H" class="h-12 w-auto" style="border-radius:8px;">
           {% endif %}
         </a>
       </div>
@@ -177,13 +177,13 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
         {% if socialaccount_providers %}
         <p class="text-xs text-brand-500 mb-5 text-center">
           {% blocktrans with site.name as site_name %}
-          Connectez-vous avec un compte tiers ou <a style="color:#7C3D0E;font-weight:600;" href="{{ signup_url }}">créez un compte {{ site_name }}</a>.
+          Connectez-vous avec un compte tiers ou <a style="color:#3B4BC8;font-weight:600;" href="{{ signup_url }}">créez un compte {{ site_name }}</a>.
           {% endblocktrans %}
         </p>
         {% else %}
         <p class="text-xs text-brand-500 mb-5">
           {% blocktrans %}
-          Pas encore de compte ? <a style="color:#7C3D0E;font-weight:600;" href="{{ signup_url }}">Inscrivez-vous</a> d'abord.
+          Pas encore de compte ? <a style="color:#3B4BC8;font-weight:600;" href="{{ signup_url }}">Inscrivez-vous</a> d'abord.
           {% endblocktrans %}
         </p>
         {% endif %}
@@ -195,7 +195,7 @@ html.dark .hero-bg { background: linear-gradient(135deg, #09071a 0%, #130e29 60%
           <!-- Email / Username -->
           <div>
             <label class="block text-sm font-medium text-brand-700 mb-1" for="{{ form.login.id_for_label }}">
-              {% trans "Email ou prénom" %}
+              {% trans "Email ou nom d'utilisateur" %}
             </label>
             <div class="relative">
               <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-brand-400 text-xl pointer-events-none">person</span>

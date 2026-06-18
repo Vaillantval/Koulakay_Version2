@@ -46,7 +46,7 @@ if PRODUCTION:
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY","dev")
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'koulakay.ht', 'www.koulakay.ht']
 
 # Railway injecte RAILWAY_PUBLIC_DOMAIN (ex: koulakay-production.up.railway.app)
 _railway_domain = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '')
@@ -69,7 +69,7 @@ if PRODUCTION:
     if _extra_cors:
         CORS_ALLOWED_ORIGINS += [o.strip() for o in _extra_cors.split(',') if o.strip()]
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1', 'https://koulakay.ht', 'https://www.koulakay.ht']
 if _railway_domain:
     CSRF_TRUSTED_ORIGINS.append(f'https://{_railway_domain}')
 _extra_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
@@ -110,6 +110,9 @@ INSTALLED_APPS = [
     'courses',
     'payment',
     "anymail",
+    'rest_framework',
+    'rest_framework.authtoken',
+    'api',
 
     # Optional -- requires install using `django-allauth[socialaccount]`.
     # 'allauth.socialaccount',
@@ -264,22 +267,19 @@ MIDDLEWARE = [
 #     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 # ]
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     'PAGE_SIZE': 15,
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+}
 
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.BasicAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-#         'rest_framework.authentication.TokenAuthentication',
-#     ],
-
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAdminUser',
-#     ],
-
-#     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' 
-# }
+FIREBASE_PROJECT_ID = 'examhaiti'
 
 ROOT_URLCONF = 'config.urls'
 
