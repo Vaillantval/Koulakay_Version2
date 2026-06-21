@@ -111,6 +111,12 @@ INSTALLED_APPS = [
     'payment',
     "anymail",
 
+    # API mobile (Phase 0)
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',  # logout (blacklist refresh) — Phase 2
+    'corsheaders',
+    'drf_spectacular',
+
     # Optional -- requires install using `django-allauth[socialaccount]`.
     # 'allauth.socialaccount',
     # ... include the providers you want to enable:
@@ -236,6 +242,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',   # sert les fichiers statiques sans Nginx
+    'corsheaders.middleware.CorsMiddleware',        # CORS (API mobile) — avant CommonMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -264,22 +271,42 @@ MIDDLEWARE = [
 #     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 # ]
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     'PAGE_SIZE': 15,
+# ─────────────────────────────────────────────
+# API mobile — Django REST Framework (Phase 0)
+# ─────────────────────────────────────────────
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    # Par défaut public ; chaque vue restreint si besoin (catalogue = lecture libre).
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # Throttling : appliqué uniquement aux vues qui le déclarent (auth).
+    'DEFAULT_THROTTLE_RATES': {
+        'auth': '15/min',   # login/register/google par IP
+    },
+}
 
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.BasicAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-#         'rest_framework.authentication.TokenAuthentication',
-#     ],
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'ROTATE_REFRESH_TOKENS': True,
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+}
 
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAdminUser',
-#     ],
-
-#     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' 
-# }
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'KouLakay API',
+    'DESCRIPTION': "API mobile de la plateforme KouLakay (catalogue, auth, inscriptions, paiement).",
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 ROOT_URLCONF = 'config.urls'
 
@@ -517,6 +544,10 @@ PLOPPLOP = {
     'BASE_URL': 'https://plopplop.solutionip.app',
     'RETURN_URL': os.getenv('PLOPPLOP_RETURN_URL', 'https://koulakay.ht/payment/retour/'),
 }
+
+# Firebase Cloud Messaging (push notifications mobile).
+# Variable Railway FIREBASE_CREDENTIALS_JSON = contenu du service account JSON.
+FIREBASE_CREDENTIALS_JSON = os.getenv('FIREBASE_CREDENTIALS_JSON', '')
 
 STRIPE = {
     'PUBLIC_KEY': os.getenv('STRIPE_PUBLIC_KEY', ''),

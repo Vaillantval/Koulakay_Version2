@@ -190,50 +190,57 @@ def sync_thinkific_user(request):
     return redirect('account_profile')
 
 
-@login_required
-def thinkific_sso(request):
+def build_thinkific_sso_url(user, return_to='/enrollments'):
     """
-    SSO JWT vers Thinkific — connecte l'utilisateur sans re-login.
-    Génère un JWT signé avec THINKIFIC_SSO_SECRET et redirige vers
-    https://{site}.thinkific.com/api/sso/v2/sso/jwt?jwt={token}&return_to={path}
+    Construit l'URL SSO Thinkific (JWT signé) pour un utilisateur.
+    Réutilisable par la vue web ET l'API mobile.
+
+    Retourne (url, reason) :
+      - (url, None)          → SSO OK
+      - (fallback_url, 'no_sso_secret') → pas de secret SSO, URL sans SSO
+      - (None, 'not_linked') → l'utilisateur n'est pas lié à Thinkific
     """
     import jwt as pyjwt
     import time
-    from urllib.parse import urlencode, quote
+    from urllib.parse import quote
 
-    user = request.user
     site_id = settings.THINKIFIC['SITE_ID']
     sso_secret = settings.THINKIFIC.get('SSO_SECRET', '')
-    return_to = request.GET.get('return_to', '/enrollments')
     fallback_url = f"https://{site_id}.thinkific.com{return_to}"
 
     if not user.thinkific_user_id:
-        messages.error(request, _("Votre compte n'est pas lié à Thinkific."))
-        return redirect('home')
-
+        return None, 'not_linked'
     if not sso_secret:
-        print("[SSO Thinkific] THINKIFIC_SSO_SECRET absent — fallback sans SSO")
-        return redirect(fallback_url)
+        return fallback_url, 'no_sso_secret'
 
+    now = int(time.time())
+    payload = {
+        'email': user.email,
+        'first_name': user.first_name or '',
+        'last_name': user.last_name or '',
+        'iat': now,
+        'exp': now + 300,  # 5 min — requis par certains validateurs JWT (Safari notamment)
+    }
+    token = pyjwt.encode(payload, sso_secret, algorithm='HS256')
+    # Ne pas double-encoder return_to (urlencode casserait les / pour Thinkific).
+    encoded_return_to = quote(return_to, safe='/-_.')
+    url = (
+        f"https://{site_id}.thinkific.com/api/sso/v2/sso/jwt"
+        f"?jwt={quote(token, safe='')}&return_to={encoded_return_to}"
+    )
+    return url, None
+
+
+@login_required
+def thinkific_sso(request):
+    """SSO JWT vers Thinkific — connecte l'utilisateur sans re-login (vue web)."""
+    return_to = request.GET.get('return_to', '/enrollments')
     try:
-        now = int(time.time())
-        payload = {
-            'email': user.email,
-            'first_name': user.first_name or '',
-            'last_name': user.last_name or '',
-            'iat': now,
-            'exp': now + 300,  # 5 min — requis par certains validateurs JWT (Safari notamment)
-        }
-        token = pyjwt.encode(payload, sso_secret, algorithm='HS256')
-        # Ne pas double-encoder return_to : urlencode encode les / en %2F ce que
-        # Thinkific ne décode pas toujours correctement → on construit l'URL manuellement.
-        encoded_return_to = quote(return_to, safe='/-_.')
-        sso_url = (
-            f"https://{site_id}.thinkific.com/api/sso/v2/sso/jwt"
-            f"?jwt={quote(token, safe='')}&return_to={encoded_return_to}"
-        )
-        return redirect(sso_url)
-
+        url, reason = build_thinkific_sso_url(request.user, return_to)
+        if reason == 'not_linked':
+            messages.error(request, _("Votre compte n'est pas lié à Thinkific."))
+            return redirect('home')
+        return redirect(url)
     except Exception as e:
-        print(f"[SSO Thinkific] Erreur génération JWT user={user.email}: {e}")
-        return redirect(fallback_url)
+        print(f"[SSO Thinkific] Erreur génération JWT user={request.user.email}: {e}")
+        return redirect(f"https://{settings.THINKIFIC['SITE_ID']}.thinkific.com{return_to}")

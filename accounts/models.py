@@ -18,3 +18,23 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.email}'
+
+
+class DeviceToken(models.Model):
+    """Token d'un appareil mobile pour les notifications push (Phase 5 — fondation)."""
+    class Platform(models.TextChoices):
+        IOS = 'ios', 'iOS'
+        ANDROID = 'android', 'Android'
+        WEB = 'web', 'Web'
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='devices')
+    token = models.CharField(max_length=255)
+    platform = models.CharField(max_length=10, choices=Platform.choices, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'token')
+
+    def __str__(self):
+        return f'{self.user.email} · {self.platform or "?"}'

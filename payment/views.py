@@ -201,6 +201,14 @@ def process_successful_payment(transaction, payload):
             except Exception as e:
                 print(f"[KouLakay] Notification admin bundle échouée : {e}")
 
+            try:
+                from accounts.push_service import send_push_to_user
+                send_push_to_user(user, "Inscription confirmée 🎓",
+                                  f"Vous avez accès à « {bundle_name} ».",
+                                  data={'type': 'enrollment', 'route': 'bundle', 'id': str(bundle_id)})
+            except Exception as e:
+                print(f"[KouLakay] Push bundle échouée : {e}")
+
             return {'success': True, 'course_id': None, 'bundle_id': bundle_id, 'enrollment_id': first_enrollment.id}
 
         else:
@@ -265,6 +273,15 @@ def process_successful_payment(transaction, payload):
                 )
             except Exception as e:
                 print(f"[KouLakay] Notification admin cours payant échouée : {e}")
+
+            try:
+                from accounts.push_service import send_push_to_user
+                _cname = course_data.get('course_name') or course_data.get('name') or f'Cours #{course_id}'
+                send_push_to_user(user, "Inscription confirmée 🎓",
+                                  f"Vous avez accès à « {_cname} ».",
+                                  data={'type': 'enrollment', 'route': 'course', 'id': str(course_id)})
+            except Exception as e:
+                print(f"[KouLakay] Push cours payant échouée : {e}")
 
             return {'success': True, 'course_id': course_id, 'bundle_id': None, 'enrollment_id': enrollment.id}
 

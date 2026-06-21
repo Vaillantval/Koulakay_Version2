@@ -2,22 +2,25 @@ import logging
 from django.db import migrations
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth import get_user_model
 logger = logging.getLogger(__name__)
 
 def generate_superuser(apps, schema_editor):
+    # Utiliser le modèle HISTORIQUE (état à cette migration : pas de champ username,
+    # ajouté plus tard en 0005). Évite l'échec sur une DB fraîche (tests, nouveaux envs).
+    User = apps.get_model('accounts', 'User')
 
-    USERNAME = settings.ADMIN_USER
-    PASSWORD = settings.ADMIN_PASSWORD
+    email = settings.ADMIN_USER
+    password = settings.ADMIN_PASSWORD
 
-    user = get_user_model()
-    
-    if not user.objects.filter(email=USERNAME).exists():
+    if not User.objects.filter(email=email).exists():
         logger.info("Creating new superuser")
-        admin = user.objects.create_superuser(
-           email=USERNAME, password=PASSWORD, 
+        User.objects.create(
+            email=email,
+            password=make_password(password),
+            is_staff=True,
+            is_superuser=True,
+            is_active=True,
         )
-        admin.save()
     else:
         logger.info("Superuser already created!")
 
