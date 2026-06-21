@@ -684,6 +684,62 @@
         </div>
     </section>
 
+    {% if site_config.has_payment_videos %}
+    <!-- ── Comment payer (vidéos démo MonCash / NatCash) ── -->
+    <section id="howto-pay-section" class="py-14 bg-brand-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-9" data-aos="fade-up">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-3"
+                      style="background:rgba(196,133,58,0.15); color:#7C3D0E;">
+                    <i class="fa fa-play-circle"></i>{% trans "Tutoriels vidéo" %}
+                </span>
+                <h2 class="text-3xl font-bold text-brand-900">{% trans "Comment payer ?" %}</h2>
+                <p class="text-brand-500 mt-2 max-w-xl mx-auto">
+                    {% trans "Regardez en moins d'une minute comment régler vos cours par MonCash ou NatCash." %}
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {% if site_config.moncash_video.src %}
+                <button type="button" onclick="openPayVideo('moncash')" data-aos="fade-up"
+                        class="howto-card group flex items-center gap-4 text-left bg-white rounded-2xl border border-brand-100 shadow-sm p-5 transition hover:shadow-lg hover:border-brand-300">
+                    <span class="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl overflow-hidden"
+                          style="background:linear-gradient(135deg,#CC0000,#990000);">
+                        <img src="{% static 'images/moncash_logo.jfif' %}" alt="MonCash" class="h-full w-full object-contain">
+                    </span>
+                    <span class="flex-1 min-w-0">
+                        <span class="block font-bold text-brand-900">{% trans "Payer par MonCash" %}</span>
+                        <span class="block text-xs text-brand-500 mt-0.5">{% trans "Digicel · vidéo explicative" %}</span>
+                    </span>
+                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white transition group-hover:scale-110"
+                          style="background:#C4853A;">
+                        <i class="fa fa-play text-sm" style="margin-left:2px;"></i>
+                    </span>
+                </button>
+                {% endif %}
+
+                {% if site_config.natcash_video.src %}
+                <button type="button" onclick="openPayVideo('natcash')" data-aos="fade-up" data-aos-delay="100"
+                        class="howto-card group flex items-center gap-4 text-left bg-white rounded-2xl border border-brand-100 shadow-sm p-5 transition hover:shadow-lg hover:border-brand-300">
+                    <span class="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl overflow-hidden"
+                          style="background:linear-gradient(135deg,#003087,#005BAC);">
+                        <img src="{% static 'images/natcash_logo.jfif' %}" alt="NatCash" class="h-full w-full object-contain">
+                    </span>
+                    <span class="flex-1 min-w-0">
+                        <span class="block font-bold text-brand-900">{% trans "Payer par NatCash" %}</span>
+                        <span class="block text-xs text-brand-500 mt-0.5">{% trans "Natcom · vidéo explicative" %}</span>
+                    </span>
+                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white transition group-hover:scale-110"
+                          style="background:#C4853A;">
+                        <i class="fa fa-play text-sm" style="margin-left:2px;"></i>
+                    </span>
+                </button>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
     <!-- ── CTA ── -->
     <section class="cta-section py-16 text-white">
         <div class="max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in">

@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -108,6 +110,38 @@ class SiteConfig(models.Model):
                               default="info@koulakay.ht")
     email_support = models.EmailField(_("Email support"), blank=True)
 
+    # ── Contact WhatsApp (bouton flottant) ──
+    whatsapp_number = models.CharField(
+        _("Numéro WhatsApp"), max_length=30, blank=True,
+        help_text=_("Format international, ex : +509 3000 0000. Affiché en bouton flottant "
+                    "sur tout le site. Laisser vide pour masquer le bouton."),
+    )
+    whatsapp_message = models.CharField(
+        _("Message WhatsApp pré-rempli"), max_length=255, blank=True,
+        default="Bonjour KouLakay, j'ai une question.",
+        help_text=_("Texte inséré automatiquement dans la conversation quand on clique sur le bouton."),
+    )
+
+    # ── Vidéos démo paiement (MonCash / NatCash) ──
+    payment_video_moncash_url = models.URLField(
+        _("Vidéo MonCash — lien (recommandé)"), blank=True,
+        help_text=_("Lien YouTube ou Vimeo (non-listé) montrant comment payer par MonCash. "
+                    "Recommandé : contrairement à un fichier uploadé, le lien n'est jamais perdu."),
+    )
+    payment_video_moncash_file = models.FileField(
+        _("Vidéo MonCash — fichier (option)"), upload_to="demo_videos/", blank=True,
+        help_text=_("Alternative si vous n'avez pas de lien. ⚠️ Un fichier uploadé peut être perdu "
+                    "lors d'une mise à jour du site — préférez le lien ci-dessus."),
+    )
+    payment_video_natcash_url = models.URLField(
+        _("Vidéo NatCash — lien (recommandé)"), blank=True,
+        help_text=_("Lien YouTube ou Vimeo (non-listé) montrant comment payer par NatCash."),
+    )
+    payment_video_natcash_file = models.FileField(
+        _("Vidéo NatCash — fichier (option)"), upload_to="demo_videos/", blank=True,
+        help_text=_("Alternative si vous n'avez pas de lien. ⚠️ Préférez le lien ci-dessus."),
+    )
+
     # ── Carte Google Maps ──
     map_embed_url = models.TextField(
         _("URL d'intégration Google Maps"),
@@ -152,6 +186,58 @@ class SiteConfig(models.Model):
 
     def __str__(self):
         return f"Configuration — {self.site_name}"
+
+    # ── Helpers WhatsApp ──
+    @property
+    def whatsapp_link(self):
+        """Lien wa.me prêt à l'emploi (numéro nettoyé + message pré-rempli)."""
+        if not self.whatsapp_number:
+            return ""
+        digits = re.sub(r"\D", "", self.whatsapp_number)
+        if not digits:
+            return ""
+        url = f"https://wa.me/{digits}"
+        if self.whatsapp_message:
+            from urllib.parse import quote
+            url += f"?text={quote(self.whatsapp_message)}"
+        return url
+
+    # ── Helpers vidéos paiement ──
+    @staticmethod
+    def _resolve_video(url, file):
+        """
+        Transforme un lien/fichier vidéo en source affichable.
+        Retourne un dict {'kind': 'youtube'|'vimeo'|'file'|'', 'src': str}.
+        - YouTube/Vimeo → URL d'embed (iframe)
+        - lien direct ou fichier uploadé → 'file' (balise <video>)
+        """
+        if url:
+            u = url.strip()
+            m = re.search(r"(?:youtu\.be/|youtube\.com/(?:watch\?v=|embed/|shorts/|v/))([\w-]{11})", u)
+            if m:
+                return {"kind": "youtube", "src": f"https://www.youtube.com/embed/{m.group(1)}"}
+            m = re.search(r"vimeo\.com/(?:video/)?(\d+)", u)
+            if m:
+                return {"kind": "vimeo", "src": f"https://player.vimeo.com/video/{m.group(1)}"}
+            return {"kind": "file", "src": u}
+        if file:
+            try:
+                return {"kind": "file", "src": file.url}
+            except Exception:
+                return {"kind": "", "src": ""}
+        return {"kind": "", "src": ""}
+
+    @property
+    def moncash_video(self):
+        return self._resolve_video(self.payment_video_moncash_url, self.payment_video_moncash_file)
+
+    @property
+    def natcash_video(self):
+        return self._resolve_video(self.payment_video_natcash_url, self.payment_video_natcash_file)
+
+    @property
+    def has_payment_videos(self):
+        return bool(self.moncash_video["src"] or self.natcash_video["src"])
 
     def save(self, *args, **kwargs):
         """Garantit qu'il n'existe qu'une seule instance."""

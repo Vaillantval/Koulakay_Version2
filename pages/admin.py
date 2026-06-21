@@ -91,6 +91,24 @@ class SiteConfigAdmin(TabbedTranslationAdmin):
         (_("📍 Coordonnées"), {
             "fields": ("address", "phone_1", "phone_2", "email", "email_support"),
         }),
+        (_("💬 Bouton WhatsApp"), {
+            "fields": ("whatsapp_number", "whatsapp_message"),
+            "description": _(
+                "Numéro affiché en bouton flottant (coin bas-droite) sur tout le site. "
+                "Laisser le numéro vide pour masquer le bouton."
+            ),
+        }),
+        (_("🎬 Vidéos démo paiement"), {
+            "fields": (
+                "payment_video_moncash_url", "payment_video_moncash_file",
+                "payment_video_natcash_url", "payment_video_natcash_file",
+            ),
+            "description": _(
+                "Vidéos « Comment payer » affichées sur l'accueil et dans le checkout. "
+                "Conseil : collez un lien YouTube/Vimeo (non-listé) plutôt qu'un fichier — "
+                "un fichier uploadé peut être perdu lors d'une mise à jour du site."
+            ),
+        }),
         (_("🗺️ Carte Google Maps"), {
             "fields": ("map_embed_url",),
             "description": _(
