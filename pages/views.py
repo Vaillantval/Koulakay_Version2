@@ -129,6 +129,22 @@ def about(request):
     return render(request, 'pages/about.html', {'about_slides': about_slides})
 
 
+def aide(request):
+    """Page « Aide » : vidéos démo de paiement + contact WhatsApp.
+    site_config (WhatsApp, vidéos) vient du context_processor global ;
+    on prépare ici la liste des vidéos réellement configurées."""
+    from pages.models import SiteConfig
+    cfg = SiteConfig.get()
+    cards = [
+        {'label': 'MonCash', 'sub': 'Digicel', 'logo': 'images/moncash_logo.jfif',
+         'bg': 'linear-gradient(135deg,#CC0000,#990000)', 'video': cfg.moncash_video},
+        {'label': 'NatCash', 'sub': 'Natcom', 'logo': 'images/natcash_logo.jfif',
+         'bg': 'linear-gradient(135deg,#003087,#005BAC)', 'video': cfg.natcash_video},
+    ]
+    payment_videos = [c for c in cards if c['video']['src']]
+    return render(request, 'pages/aide.html', {'payment_videos': payment_videos})
+
+
 def success_page(request):
     ctx = request.session.pop('success_context', {})
     return render(request, 'pages/success.html', {

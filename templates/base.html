@@ -762,6 +762,7 @@
                     {% endif %}
                     <a class="kl-nav-link" href="{% url 'about' %}">{% trans "À propos" %}</a>
                     <a class="kl-nav-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
+                    <a class="kl-nav-link" href="{% url 'aide' %}">{% trans "Aide" %}</a>
                 </nav>
 
                 <!-- Auth + langue -->
@@ -830,6 +831,7 @@
                     {% endif %}
                     <a class="kl-nav-link" href="{% url 'about' %}">{% trans "À propos" %}</a>
                     <a class="kl-nav-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
+                    <a class="kl-nav-link" href="{% url 'aide' %}">{% trans "Aide" %}</a>
                 </nav>
                 {% if not user.is_authenticated %}
                 <div class="mt-3 flex gap-2">
@@ -910,6 +912,12 @@
                             <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'contact' %}">
                                 <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
                                 {% trans "Contact" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="footer-nav-link flex items-center gap-2 text-brand-200 hover:text-gold-400 transition group" href="{% url 'aide' %}">
+                                <i class="footer-nav-arrow fa fa-angle-right text-xs text-brand-500 group-hover:text-gold-400 transition"></i>
+                                {% trans "Aide" %}
                             </a>
                         </li>
                         {% if user.is_authenticated %}
@@ -1064,6 +1072,16 @@
                     <div>
                         <p class="text-sm font-semibold text-gray-800">{% trans "Mon apprentissage" %}</p>
                         <p class="text-xs text-gray-500">{% trans "Mes cours inscrits" %}</p>
+                    </div>
+                </a>
+                <a href="{% url 'account_profile' %}"
+                   class="flex items-center gap-3 px-4 py-3 bg-white hover:bg-brand-50 rounded-lg transition border border-gray-100 group">
+                    <div class="w-9 h-9 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center group-hover:scale-110 transition">
+                        <i class="fa fa-user-edit"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">{% trans "Mon profil" %}</p>
+                        <p class="text-xs text-gray-500">{% trans "Modifier mes informations" %}</p>
                     </div>
                 </a>
                 <a href="{% url 'account_logout' %}"

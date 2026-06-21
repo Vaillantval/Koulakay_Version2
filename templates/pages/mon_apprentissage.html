@@ -76,11 +76,18 @@
                 {% endblocktrans %}
             </p>
         </div>
-        <a href="{% url 'courses' %}"
-           class="btn-kl-primary inline-flex items-center gap-2 self-start sm:self-auto">
-            <i class="fa fa-plus-circle"></i>
-            {% trans "Explorer d'autres cours" %}
-        </a>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+            <a href="{% url 'account_profile' %}"
+               class="btn-kl-secondary inline-flex items-center gap-2">
+                <i class="fa fa-user-edit"></i>
+                {% trans "Mon profil" %}
+            </a>
+            <a href="{% url 'courses' %}"
+               class="btn-kl-primary inline-flex items-center gap-2">
+                <i class="fa fa-plus-circle"></i>
+                {% trans "Explorer d'autres cours" %}
+            </a>
+        </div>
     </div>
 
     <!-- ── Mes Offres Groupées ── -->

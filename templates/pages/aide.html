@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Aide" %} — KouLakay{% endblock %}
+
+{% block content %}
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+  <!-- En-tête -->
+  <div class="text-center mb-12" data-aos="fade-up">
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-3"
+          style="background:rgba(196,133,58,0.15); color:#7C3D0E;">
+      <i class="fa fa-life-ring"></i>{% trans "Centre d'aide" %}
+    </span>
+    <h1 class="text-3xl sm:text-4xl font-bold text-brand-900">{% trans "Besoin d'aide ?" %}</h1>
+    <p class="text-brand-500 mt-3 max-w-2xl mx-auto">
+      {% trans "Regardez nos tutoriels vidéo pour payer vos cours, ou contactez-nous directement sur WhatsApp — on vous répond rapidement." %}
+    </p>
+  </div>
+
+  <!-- ── Vidéos « Comment payer » ── -->
+  <div class="mb-14">
+    <h2 class="text-2xl font-bold text-brand-900 mb-6 flex items-center gap-2">
+      <i class="fa fa-play-circle text-brand-500"></i>{% trans "Comment payer ?" %}
+    </h2>
+
+    {% if site_config.has_payment_videos %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+
+      {% for v in payment_videos %}
+      <div class="bg-white rounded-2xl border border-brand-100 shadow-sm overflow-hidden" data-aos="fade-up">
+        <div class="flex items-center gap-3 px-5 py-4 border-b border-brand-100">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl overflow-hidden"
+                style="background:{{ v.bg }};">
+            <img src="{% static v.logo %}" alt="{{ v.label }}" class="h-full w-full object-contain">
+          </span>
+          <div>
+            <p class="font-bold text-brand-900 leading-tight">{{ v.label }}</p>
+            <p class="text-xs text-brand-500">{{ v.sub }}</p>
+          </div>
+        </div>
+        <div class="p-4">
+          {% if v.video.kind == 'youtube' or v.video.kind == 'vimeo' %}
+            <div style="position:relative;width:100%;padding-top:56.25%;">
+              <iframe src="{{ v.video.src }}" loading="lazy"
+                      style="position:absolute;inset:0;width:100%;height:100%;border-radius:10px;"
+                      frameborder="0" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          {% elif v.video.kind == 'file' %}
+            <video src="{{ v.video.src }}" controls preload="none" playsinline
+                   style="width:100%;border-radius:10px;background:#000;max-height:60vh;"></video>
+          {% else %}
+            <p class="text-sm text-brand-400 py-6 text-center">{% trans "Vidéo bientôt disponible." %}</p>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+    {% else %}
+    <div class="bg-brand-50 border border-brand-100 rounded-2xl p-8 text-center text-brand-500">
+      {% trans "Les tutoriels vidéo seront ajoutés très bientôt." %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- ── Contact WhatsApp ── -->
+  <div class="rounded-2xl p-8 sm:p-10 text-center relative overflow-hidden"
+       style="background:linear-gradient(135deg,#0f3d2e,#128c4a);" data-aos="zoom-in">
+    <div class="relative">
+      <span class="inline-flex h-16 w-16 items-center justify-center rounded-full mb-4"
+            style="background:rgba(255,255,255,0.15);">
+        <i class="fab fa-whatsapp text-white" style="font-size:38px;"></i>
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">{% trans "Une question ? Écrivez-nous sur WhatsApp" %}</h2>
+      <p class="text-white/85 max-w-xl mx-auto mb-7">
+        {% trans "Notre équipe répond à vos questions sur l'inscription, le paiement et l'accès à vos cours, du lundi au samedi." %}
+      </p>
+
+      {% if site_config.whatsapp_link %}
+        <a href="{{ site_config.whatsapp_link }}" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-3 px-7 py-4 rounded-full font-bold text-base shadow-lg transition hover:scale-105"
+           style="background:#fff;color:#0f3d2e;">
+          <i class="fab fa-whatsapp" style="font-size:24px;color:#25D366;"></i>
+          {% trans "Démarrer la discussion" %}
+        </a>
+        {% if site_config.whatsapp_number %}
+        <p class="text-white/70 text-sm mt-4">
+          <i class="fa fa-phone"></i> {{ site_config.whatsapp_number }}
+        </p>
+        {% endif %}
+      {% else %}
+        <p class="text-white/80">
+          {% if site_config.email %}
+            {% trans "Écrivez-nous à" %} <a href="mailto:{{ site_config.email }}" class="underline font-semibold">{{ site_config.email }}</a>
+          {% else %}
+            {% trans "Le contact WhatsApp sera bientôt disponible." %}
+          {% endif %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+</section>
+{% endblock %}

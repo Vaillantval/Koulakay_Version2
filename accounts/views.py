@@ -190,6 +190,30 @@ def sync_thinkific_user(request):
     return redirect('account_profile')
 
 
+@login_required
+def profile(request):
+    """Page « Mon Profil » — édition des infos d'inscription (prénom, nom, numéro)."""
+    from .forms import UserUpdateForm
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            user = form.save()
+            # Répercute prénom/nom sur Thinkific (best-effort, ne bloque pas).
+            try:
+                if user.thinkific_user_id:
+                    thinkific.users.update_user(
+                        id=user.thinkific_user_id,
+                        values={'first_name': user.first_name, 'last_name': user.last_name},
+                    )
+            except Exception as e:
+                print(f"[Profil] Sync Thinkific échouée pour {user.email}: {e}")
+            messages.success(request, _("Profil mis à jour."))
+            return redirect('account_profile')
+    else:
+        form = UserUpdateForm(instance=request.user)
+    return render(request, 'account/profile.html', {'form': form})
+
+
 def build_thinkific_sso_url(user, return_to='/enrollments'):
     """
     Construit l'URL SSO Thinkific (JWT signé) pour un utilisateur.

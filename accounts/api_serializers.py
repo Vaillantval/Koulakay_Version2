@@ -10,14 +10,27 @@ class UserSerializer(serializers.ModelSerializer):
     """Représentation publique d'un utilisateur (réponses)."""
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'first_name', 'last_name', 'thinkific_user_id']
+        fields = ['id', 'email', 'username', 'first_name', 'last_name', 'phone', 'thinkific_user_id']
         read_only_fields = fields
+
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    """Mise à jour du profil (PATCH /auth/me/) — mêmes infos qu'à l'inscription."""
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'phone']
+
+    def validate_first_name(self, v):
+        if not (v or '').strip():
+            raise serializers.ValidationError("Le prénom est requis.")
+        return v
 
 
 class RegisterSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=150)
     last_name = serializers.CharField(max_length=150)
     email = serializers.EmailField()
+    phone = serializers.CharField(max_length=30, required=False, allow_blank=True, default='')
     password = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'})
 
     def validate_email(self, value):

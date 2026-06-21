@@ -9,6 +9,7 @@ class User(AbstractUser):
 
     username = models.CharField(max_length=150, unique=True, null=True, blank=True)
     email = models.EmailField(_("email address"), unique=True)
+    phone = models.CharField(_("Numéro de contact"), max_length=30, blank=True)
     thinkific_user_id = models.IntegerField(null=True, blank=True, db_index=True)
 
     USERNAME_FIELD = "email"

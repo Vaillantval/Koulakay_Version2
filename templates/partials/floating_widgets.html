@@ -59,6 +59,29 @@
     body.has-paybar #wa-fab { bottom: 84px; }
   }
 
+  /* Grand écran : plus gros + animation plus visible (radar + respiration) */
+  @media (min-width: 1024px) {
+    #wa-fab {
+      height: 72px;
+      padding: 0 26px;
+      right: 26px;
+      bottom: 26px;
+      animation: wa-radar 1.8s ease-out infinite, wa-breathe 1.8s ease-in-out infinite;
+    }
+    #wa-fab i { font-size: 34px; }
+    #wa-fab .wa-label { font-size: 1rem; }
+    #wa-fab:hover { transform: translateY(-3px) scale(1.04); animation: none; }
+  }
+  @keyframes wa-radar {
+    0%   { box-shadow: 0 8px 22px rgba(37,211,102,0.45), 0 0 0 0   rgba(37,211,102,0.55); }
+    70%  { box-shadow: 0 8px 22px rgba(37,211,102,0.45), 0 0 0 22px rgba(37,211,102,0); }
+    100% { box-shadow: 0 8px 22px rgba(37,211,102,0.45), 0 0 0 0   rgba(37,211,102,0); }
+  }
+  @keyframes wa-breathe {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.07); }
+  }
+
   /* ── Modale vidéo ── */
   #payVideoModal { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.72);
                    align-items: center; justify-content: center; padding: 16px; }

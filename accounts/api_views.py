@@ -25,7 +25,7 @@ from drf_spectacular.utils import extend_schema
 
 from .api_serializers import (
     RegisterSerializer, LoginSerializer, UserSerializer, GoogleAuthSerializer,
-    TokenResponseSerializer, RefreshRequestSerializer,
+    TokenResponseSerializer, RefreshRequestSerializer, ProfileUpdateSerializer,
 )
 
 User = get_user_model()
@@ -75,6 +75,7 @@ def register(request):
         user = User.objects.create_user(
             email=d['email'], password=d['password'],
             first_name=d['first_name'], last_name=d['last_name'],
+            phone=d.get('phone', ''),
         )
     except IntegrityError:
         return Response({'detail': "Un compte existe déjà avec cet e-mail."},
@@ -147,11 +148,32 @@ def google_auth(request):
     return Response(payload, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
 
 
-@extend_schema(summary="Profil de l'utilisateur connecté", responses=UserSerializer, tags=['Auth'])
-@api_view(['GET'])
+@extend_schema(
+    summary="Profil de l'utilisateur connecté (consulter / modifier)",
+    request=ProfileUpdateSerializer, responses=UserSerializer, tags=['Auth'],
+)
+@api_view(['GET', 'PATCH', 'PUT'])
 @permission_classes([IsAuthenticated])
 def me(request):
-    return Response(UserSerializer(request.user).data)
+    """GET → profil ; PATCH/PUT → met à jour prénom, nom, numéro de contact."""
+    if request.method == 'GET':
+        return Response(UserSerializer(request.user).data)
+
+    partial = request.method == 'PATCH'
+    s = ProfileUpdateSerializer(instance=request.user, data=request.data, partial=partial)
+    s.is_valid(raise_exception=True)
+    user = s.save()
+    # Répercute prénom/nom sur Thinkific (best-effort).
+    try:
+        if user.thinkific_user_id and ('first_name' in s.validated_data or 'last_name' in s.validated_data):
+            from accounts.views import thinkific
+            thinkific.users.update_user(
+                id=user.thinkific_user_id,
+                values={'first_name': user.first_name, 'last_name': user.last_name},
+            )
+    except Exception as e:
+        print(f"[API profil] Sync Thinkific échouée pour {user.email}: {e}")
+    return Response(UserSerializer(user).data)
 
 
 @extend_schema(
