@@ -104,7 +104,37 @@ def confirm(request):
 
 def process_successful_payment(transaction, payload):
     """
-    Traite un paiement réussi (cours ou bundle).
+    Point d'entrée IDEMPOTENT (anti double-traitement / double-e-mail).
+
+    Le retour PlopPlop/MonCash peut être appelé plusieurs fois quasi simultanément
+    (le navigateur rejoue l'URL de retour). On verrouille la ligne de transaction
+    (SELECT … FOR UPDATE) : un seul appel traite réellement le paiement ; les appels
+    concurrents attendent sur le verrou puis, voyant le statut COMPLETED, ressortent
+    sans rien refaire → un seul e-mail, une seule notif admin, une seule push.
+
+    Protège aussi le webhook `confirm` et l'endpoint `payment_verify` de l'API mobile,
+    qui passent tous par ici.
+    """
+    from django.db import transaction as db_transaction
+    with db_transaction.atomic():
+        locked = Transaction.objects.select_for_update().get(pk=transaction.pk)
+        if locked.status == Transaction.Status.COMPLETED:
+            md = locked.meta_data or {}
+            return {
+                'success': True,
+                'already_processed': True,
+                'course_id': (md.get('course') or {}).get('course_id'),
+                'bundle_id': (md.get('bundle') or {}).get('bundle_id'),
+                'enrollment_id': None,
+            }
+        # Traitement sous verrou : les appels concurrents patientent ici.
+        return _process_successful_payment(transaction, payload)
+
+
+def _process_successful_payment(transaction, payload):
+    """
+    Traite un paiement réussi (cours ou bundle). Appelé SOUS VERROU par
+    process_successful_payment — ne pas appeler directement.
     Retourne un dict {'success': bool, 'error': str, 'course_id': int|None, 'bundle_id': int|None}.
     N'interrompt JAMAIS l'enrollment à cause d'un échec de l'External Order.
     """
